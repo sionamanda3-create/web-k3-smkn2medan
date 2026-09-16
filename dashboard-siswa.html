@@ -1,1 +1,895 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dashboard Siswa - Media Pembelajaran K3 SMK Negeri 2 Medan">
+  <title>Dashboard Siswa | Media Pembelajaran K3</title>
 
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ============================================================
+       RESET & VARIABEL
+       ============================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #1e40af;
+      --primary-dark: #1e3a8a;
+      --primary-light: #3b82f6;
+      --accent: #f59e0b;
+      --danger: #dc2626;
+      --success: #16a34a;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --white: #ffffff;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 20px 40px rgba(0,0,0,0.12);
+      --radius: 16px;
+      --radius-sm: 12px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-800);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 5rem;
+    }
+
+    /* ============================================================
+       NAVBAR (Top Bar)
+       ============================================================ */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 0.9rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .navbar-left {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+    }
+
+    .navbar-brand .brand-icon {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1rem;
+      box-shadow: 0 4px 10px rgba(30, 64, 175, 0.3);
+    }
+
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.4rem 0.9rem 0.4rem 0.4rem;
+      background: var(--gray-100);
+      border-radius: 999px;
+      transition: var(--transition);
+    }
+
+    .user-chip:hover {
+      background: var(--gray-200);
+    }
+
+    .user-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+    }
+
+    .user-details {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .user-details .user-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--gray-800);
+    }
+
+    .user-details .user-role {
+      font-size: 0.7rem;
+      color: var(--gray-500);
+      font-weight: 500;
+    }
+
+    .btn-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: 1.5px solid var(--gray-200);
+      background: var(--white);
+      color: var(--gray-600);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.95rem;
+    }
+
+    .btn-icon:hover {
+      background: var(--danger);
+      border-color: var(--danger);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    /* ============================================================
+       CONTAINER
+       ============================================================ */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* ============================================================
+       WELCOME HERO
+       ============================================================ */
+    .welcome-hero {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      border-radius: var(--radius);
+      padding: 2.2rem 2rem;
+      color: white;
+      margin-bottom: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(30, 64, 175, 0.25);
+      animation: slideUp 0.5s ease-out;
+    }
+
+    .welcome-hero::before,
+    .welcome-hero::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .welcome-hero::before {
+      width: 220px;
+      height: 220px;
+      top: -80px;
+      right: -60px;
+    }
+
+    .welcome-hero::after {
+      width: 150px;
+      height: 150px;
+      bottom: -60px;
+      right: 120px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .welcome-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .welcome-greeting {
+      font-size: 0.85rem;
+      font-weight: 500;
+      opacity: 0.9;
+      margin-bottom: 0.35rem;
+      letter-spacing: 0.02em;
+    }
+
+    .welcome-hero h1 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .welcome-hero h1 .highlight {
+      color: #fde68a;
+    }
+
+    .welcome-hero p {
+      font-size: 0.9rem;
+      opacity: 0.92;
+      max-width: 600px;
+      line-height: 1.6;
+    }
+
+    .welcome-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 1.3rem;
+    }
+
+    .meta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(8px);
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* ============================================================
+       STATISTIK CARD
+       ============================================================ */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      padding: 1.3rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-100);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: var(--transition);
+      animation: slideUp 0.5s ease-out backwards;
+    }
+
+    .stat-card:nth-child(1) { animation-delay: 0.05s; }
+    .stat-card:nth-child(2) { animation-delay: 0.10s; }
+    .stat-card:nth-child(3) { animation-delay: 0.15s; }
+    .stat-card:nth-child(4) { animation-delay: 0.20s; }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary-light);
+    }
+
+    .stat-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .stat-icon.blue    { background: #dbeafe; color: #1e40af; }
+    .stat-icon.green   { background: #dcfce7; color: #16a34a; }
+    .stat-icon.orange  { background: #fed7aa; color: #ea580c; }
+    .stat-icon.purple  { background: #e9d5ff; color: #7c3aed; }
+
+    .stat-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--gray-500);
+      font-weight: 500;
+      margin-bottom: 0.15rem;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--gray-800);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .stat-value small {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--gray-500);
+      margin-left: 0.2rem;
+    }
+
+    /* ============================================================
+       INFO BANNER
+       ============================================================ */
+    .info-banner {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border-left: 5px solid var(--accent);
+      border-radius: var(--radius-sm);
+      padding: 1.1rem 1.3rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.9rem;
+      animation: slideUp 0.5s ease-out 0.25s backwards;
+    }
+
+    .info-banner .info-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(245, 158, 11, 0.2);
+      color: #b45309;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .info-banner .info-content h4 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #78350f;
+      margin-bottom: 0.15rem;
+    }
+
+    .info-banner .info-content p {
+      font-size: 0.83rem;
+      color: #92400e;
+      line-height: 1.55;
+    }
+
+    /* ============================================================
+       SECTION HEADER
+       ============================================================ */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      margin-top: 2rem;
+    }
+
+    .section-header h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--gray-800);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .section-header h2 i {
+      color: var(--primary);
+      font-size: 1rem;
+    }
+
+    /* ============================================================
+       MENU GRID
+       ============================================================ */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1rem;
+    }
+
+    .menu-item {
+      background: var(--white);
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius-sm);
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--gray-800);
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      font-family: inherit;
+      text-align: center;
+      animation: slideUp 0.5s ease-out backwards;
+    }
+
+    .menu-item:nth-child(1) { animation-delay: 0.05s; }
+    .menu-item:nth-child(2) { animation-delay: 0.10s; }
+    .menu-item:nth-child(3) { animation-delay: 0.15s; }
+    .menu-item:nth-child(4) { animation-delay: 0.20s; }
+    .menu-item:nth-child(5) { animation-delay: 0.25s; }
+    .menu-item:nth-child(6) { animation-delay: 0.30s; }
+
+    .menu-item::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      opacity: 0;
+      transition: var(--transition);
+      z-index: 0;
+    }
+
+    .menu-item:hover::before {
+      opacity: 1;
+    }
+
+    .menu-item > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .menu-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 28px rgba(30, 64, 175, 0.25);
+      border-color: transparent;
+    }
+
+    .menu-item:hover .menu-icon,
+    .menu-item:hover .menu-label {
+      color: white;
+    }
+
+    .menu-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      transition: var(--transition);
+    }
+
+    .menu-icon.blue    { background: #dbeafe; color: #1e40af; }
+    .menu-icon.red     { background: #fee2e2; color: #dc2626; }
+    .menu-icon.green   { background: #dcfce7; color: #16a34a; }
+    .menu-icon.orange  { background: #fed7aa; color: #ea580c; }
+    .menu-icon.purple  { background: #e9d5ff; color: #7c3aed; }
+    .menu-icon.gray    { background: #f3f4f6; color: #4b5563; }
+
+    .menu-item:hover .menu-icon {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .menu-label {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--gray-800);
+      transition: var(--transition);
+      letter-spacing: -0.01em;
+    }
+
+    .menu-desc {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .menu-item:hover .menu-desc {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    /* ============================================================
+       ACTIVITY FEED
+       ============================================================ */
+    .activity-card {
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      padding: 1.4rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-100);
+      margin-top: 1rem;
+      animation: slideUp 0.5s ease-out 0.4s backwards;
+    }
+
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      padding: 0.75rem;
+      border-radius: 10px;
+      transition: var(--transition);
+    }
+
+    .activity-item:hover {
+      background: var(--gray-50);
+    }
+
+    .activity-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .activity-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .activity-title {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--gray-800);
+      margin-bottom: 0.1rem;
+    }
+
+    .activity-time {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      font-weight: 500;
+    }
+
+    .activity-badge {
+      font-size: 0.7rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      font-weight: 700;
+      background: var(--gray-100);
+      color: var(--gray-600);
+    }
+
+    .activity-badge.done {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .activity-badge.pending {
+      background: #fed7aa;
+      color: #c2410c;
+    }
+
+    /* ============================================================
+       LOADING SKELETON
+       ============================================================ */
+    .skeleton {
+      background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 8px;
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer {
+      text-align: center;
+      padding: 2rem 1rem 1rem;
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      font-weight: 500;
+    }
+
+    /* ============================================================
+       TOAST
+       ============================================================ */
+    .toast {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: white;
+      padding: 1rem 1.3rem;
+      border-radius: 10px;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      z-index: 9999;
+      transform: translateX(400px);
+      transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      max-width: 340px;
+    }
+
+    .toast.show { transform: translateX(0); }
+    .toast i { font-size: 1.2rem; }
+    .toast.error   { border-left: 4px solid var(--danger); }
+    .toast.error i { color: var(--danger); }
+    .toast.success { border-left: 4px solid var(--success); }
+    .toast.success i { color: var(--success); }
+    .toast.info    { border-left: 4px solid var(--primary); }
+    .toast.info i  { color: var(--primary); }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 640px) {
+      .navbar { padding: 0.75rem 1rem; }
+      .container { padding: 1.5rem 1rem; }
+      .welcome-hero { padding: 1.6rem 1.3rem; }
+      .welcome-hero h1 { font-size: 1.35rem; }
+      .stat-value { font-size: 1.3rem; }
+      .user-details { display: none; }
+      .menu-grid { grid-template-columns: repeat(2, 1fr); }
+      .section-header h2 { font-size: 1rem; }
+      .toast { right: 0.75rem; left: 0.75rem; max-width: none; }
+    }
+  </style>
+</head>
+<body data-page="dashboard-siswa">
+
+  <!-- Toast -->
+  <div id="toast" class="toast">
+    <i class="fas fa-info-circle"></i>
+    <span id="toast-message">Pesan</span>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-left">
+      <div class="navbar-brand">
+        <div class="brand-icon">
+          <i class="fas fa-hard-hat"></i>
+        </div>
+        <span>Media K3</span>
+      </div>
+    </div>
+
+    <div class="navbar-right">
+      <div class="user-chip">
+        <div class="user-avatar" id="user-avatar">S</div>
+        <div class="user-details">
+          <span class="user-name" id="user-name">Siswa</span>
+          <span class="user-role" id="user-kelas">Teknik Pemesinan</span>
+        </div>
+      </div>
+      <button class="btn-icon" id="logout-btn" title="Logout" aria-label="Logout">
+        <i class="fas fa-right-from-bracket"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- KONTEN UTAMA -->
+  <main class="container">
+
+    <!-- WELCOME HERO -->
+    <section class="welcome-hero">
+      <div class="welcome-content">
+        <p class="welcome-greeting" id="greeting">Selamat datang kembali,</p>
+        <h1>Halo, <span class="highlight" id="welcome-name">Siswa</span>! 👋</h1>
+        <p>
+          Selamat datang di media pembelajaran interaktif K3. Pelajari materi,
+          tonton video, kerjakan latihan dan kuis untuk meningkatkan pemahaman
+          Keselamatan dan Kesehatan Kerja di bengkel pemesinan.
+        </p>
+
+        <div class="welcome-meta">
+          <div class="meta-badge">
+            <i class="fas fa-calendar-day"></i>
+            <span id="current-date">-</span>
+          </div>
+          <div class="meta-badge">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Teknik Pemesinan</span>
+          </div>
+          <div class="meta-badge">
+            <i class="fas fa-school"></i>
+            <span>SMK Negeri 2 Medan</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATISTIK -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon blue">
+          <i class="fas fa-book-open"></i>
+        </div>
+        <div class="stat-info">
+          <p class="stat-label">Materi Dibaca</p>
+          <p class="stat-value" id="stat-materi">— <small>/ —</small></p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon green">
+          <i class="fas fa-circle-check"></i>
+        </div>
+        <div class="stat-info">
+          <p class="stat-label">Kuis Selesai</p>
+          <p class="stat-value" id="stat-kuis">—</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon orange">
+          <i class="fas fa-star"></i>
+        </div>
+        <div class="stat-info">
+          <p class="stat-label">Rata-rata Nilai</p>
+          <p class="stat-value" id="stat-nilai">—</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon purple">
+          <i class="fas fa-fire"></i>
+        </div>
+        <div class="stat-info">
+          <p class="stat-label">Streak Belajar</p>
+          <p class="stat-value" id="stat-streak">— <small>hari</small></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- INFO BANNER -->
+    <section class="info-banner">
+      <div class="info-icon">
+        <i class="fas fa-lightbulb"></i>
+      </div>
+      <div class="info-content">
+        <h4>Tips Belajar K3</h4>
+        <p>
+          Pelajari materi K3 dengan seksama sebelum melakukan praktik di bengkel
+          pemesinan. Pahami penggunaan APD, prosedur kerja aman, dan identifikasi
+          bahaya di setiap mesin.
+        </p>
+      </div>
+    </section>
+
+    <!-- MENU CEPAT -->
+    <div class="section-header">
+      <h2><i class="fas fa-grip"></i> Menu Pembelajaran</h2>
+    </div>
+
+    <section class="menu-grid">
+      <a href="materi.html" class="menu-item">
+        <div class="menu-icon blue"><i class="fas fa-book"></i></div>
+        <div class="menu-label">Materi</div>
+        <div class="menu-desc">Baca materi K3</div>
+      </a>
+
+      <a href="video.html" class="menu-item">
+        <div class="menu-icon red"><i class="fas fa-video"></i></div>
+        <div class="menu-label">Video</div>
+        <div class="menu-desc">Tonton video</div>
+      </a>
+
+      <a href="latihan.html" class="menu-item">
+        <div class="menu-icon green"><i class="fas fa-pen-to-square"></i></div>
+        <div class="menu-label">Latihan</div>
+        <div class="menu-desc">Kerjakan latihan</div>
+      </a>
+
+      <a href="kuis.html" class="menu-item">
+        <div class="menu-icon orange"><i class="fas fa-clipboard-question"></i></div>
+        <div class="menu-label">Kuis</div>
+        <div class="menu-desc">Uji pemahaman</div>
+      </a>
+
+      <a href="nilai.html" class="menu-item">
+        <div class="menu-icon purple"><i class="fas fa-chart-line"></i></div>
+        <div class="menu-label">Nilai</div>
+        <div class="menu-desc">Lihat hasil</div>
+      </a>
+
+      <button id="logout-btn-2" class="menu-item">
+        <div class="menu-icon gray"><i class="fas fa-right-from-bracket"></i></div>
+        <div class="menu-label">Logout</div>
+        <div class="menu-desc">Keluar akun</div>
+      </button>
+    </section>
+
+    <!-- AKTIVITAS TERBARU -->
+    <div class="section-header">
+      <h2><i class="fas fa-clock-rotate-left"></i> Aktivitas Terbaru</h2>
+    </div>
+
+    <section class="activity-card">
+      <div class="activity-list" id="activity-list">
+        <!-- Skeleton loading -->
+        <div class="activity-item">
+          <div class="skeleton" style="width:38px;height:38px;border-radius:10px;"></div>
+          <div class="activity-body">
+            <div class="skeleton" style="width:60%;height:12px;margin-bottom:6px;"></div>
+            <div class="skeleton" style="width:35%;height:10px;"></div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="skeleton" style="width:38px;height:38px;border-radius:10px;"></div>
+          <div class="activity-body">
+            <div class="skeleton" style="width:70%;height:12px;margin-bottom:6px;"></div>
+            <div class="skeleton" style="width:40%;height:10px;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      © 2026 SMK Negeri 2 Medan — Media Pembelajaran K3
+    </footer>
+  </main>
+
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- App JS -->
+  <script src="js/app.js"></script>
+</body>
+</html>
