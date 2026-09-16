@@ -7,7 +7,7 @@
 // 1. KONFIGURASI SUPABASE
 // ------------------------------------------------------------
 const SUPABASE_URL = 'https://ddnhwcxfktcsyngupdex.supabase.co';
-const SUPABASE_ANON_KEY = 'PASTE_PUBLISHABLE_KEY_LENGKAP_DI_SINI';
+const SUPABASE_ANON_KEY = 'sb_publishable_ogAtXLGklIivo88I41J8ZA_9CWzS8D3';
 
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
