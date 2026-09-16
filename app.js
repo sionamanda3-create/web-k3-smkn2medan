@@ -30,11 +30,6 @@ async function getCurrentProfile() {
   return data;
 }
 
-async function getCurrentRole() {
-  const profile = await getCurrentProfile();
-  return profile?.role || null;
-}
-
 async function requireAuth() {
   const user = await getCurrentUser();
   if (!user) {
@@ -69,10 +64,6 @@ function showToast(message, type = 'info') {
   toast._timer = setTimeout(() => toast.classList.remove('show'), 3500);
 }
 
-// ------------------------------------------------------------
-// HELPER: Generate password siswa (untuk login siswa)
-// Formula: k3-{nama}-{kelas}
-// ------------------------------------------------------------
 function generateStudentPassword(nama, kelas) {
   const namaBersih = nama.toLowerCase().replace(/\s+/g, '');
   const kelasBersih = kelas.replace(/\s+/g, '').toUpperCase();
@@ -80,28 +71,39 @@ function generateStudentPassword(nama, kelas) {
 }
 
 // ------------------------------------------------------------
-// 3. HALAMAN LOGIN (2 TAHAP + REGISTRASI GURU)
+// 3. HALAMAN LOGIN — VERSI 3 STEP
 // ------------------------------------------------------------
 function initLoginPage() {
+  console.log('✅ initLoginPage() dipanggil');
+
+  // ---- Helper: tampilkan step ----
   function showStep(stepId) {
+    console.log('➡️ showStep:', stepId);
     document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
     const target = document.getElementById(stepId);
     if (target) target.classList.add('active');
   }
 
-  // STEP 1: Pilih Peran
-  document.getElementById('choose-siswa')?.addEventListener('click', () => showStep('step-siswa'));
-  document.getElementById('choose-guru')?.addEventListener('click', () => showStep('step-guru'));
+  // ---- STEP 1: Pilih Peran ----
+  const btnSiswa = document.getElementById('choose-siswa');
+  const btnGuru  = document.getElementById('choose-guru');
 
-  // Tombol Kembali
+  if (btnSiswa) {
+    btnSiswa.addEventListener('click', () => showStep('step-siswa'));
+  }
+  if (btnGuru) {
+    btnGuru.addEventListener('click', () => showStep('step-guru'));
+  }
+
+  // ---- Tombol Kembali ----
   document.getElementById('back-from-siswa')?.addEventListener('click', () => showStep('step-role'));
   document.getElementById('back-from-guru')?.addEventListener('click', () => showStep('step-role'));
   document.getElementById('back-from-register')?.addEventListener('click', () => showStep('step-guru'));
 
-  // Link Register
+  // ---- Link Daftar Guru ----
   document.getElementById('link-register-guru')?.addEventListener('click', () => showStep('step-register'));
 
-  // Toggle password login guru
+  // ---- Toggle password login ----
   const toggleLogin = document.getElementById('toggle-password-guru');
   const pwdLogin = document.getElementById('guru-password');
   if (toggleLogin && pwdLogin) {
@@ -113,7 +115,7 @@ function initLoginPage() {
     });
   }
 
-  // Toggle password register
+  // ---- Toggle password register ----
   const toggleReg = document.getElementById('toggle-password-reg');
   const pwdReg = document.getElementById('reg-password');
   if (toggleReg && pwdReg) {
@@ -244,7 +246,7 @@ function initLoginPage() {
   });
 
   // ============================================================
-  // REGISTRASI GURU BARU
+  // REGISTRASI GURU
   // ============================================================
   const formReg = document.getElementById('register-form-guru');
   const btnReg = document.getElementById('btn-register-guru');
@@ -277,7 +279,6 @@ function initLoginPage() {
     if (btnReg) btnReg.disabled = true;
 
     try {
-      // 1. Daftar ke Supabase Auth
       const { data, error } = await supabaseClient.auth.signUp({
         email,
         password,
@@ -300,8 +301,6 @@ function initLoginPage() {
         return;
       }
 
-      // 2. Update profile dengan nis_nip (jika diisi)
-      // Trigger handle_new_user sudah buat baris profiles
       if (nip) {
         await supabaseClient
           .from('profiles')
@@ -310,11 +309,7 @@ function initLoginPage() {
       }
 
       showToast('Registrasi berhasil! Silakan login.', 'success');
-
-      // Reset form
       formReg.reset();
-
-      // Kembali ke halaman login guru setelah 1.5 detik
       setTimeout(() => showStep('step-guru'), 1500);
 
     } catch (err) {
@@ -447,272 +442,91 @@ async function loadDataSiswaGuru() {
 }
 
 // ------------------------------------------------------------
-// 6-10. HALAMAN LAINNYA (Materi, Video, Latihan, Kuis, Nilai)
+// 6-10. HALAMAN LAIN (placeholder)
 // ------------------------------------------------------------
 async function initMateriPage() {
   const user = await requireAuth();
   if (!user) return;
   const profile = await getCurrentProfile();
   const isGuru = profile?.role === 'guru';
-
   const roleEl = document.getElementById('user-role');
   if (roleEl) roleEl.textContent = isGuru ? 'Guru' : 'Siswa';
-
   document.getElementById('back-btn')?.addEventListener('click', (e) => {
     e.preventDefault();
     window.location.href = isGuru ? 'dashboard-guru.html' : 'dashboard-siswa.html';
   });
-
-  if (isGuru) {
-    const addBtn = document.getElementById('btn-add-materi');
-    if (addBtn) addBtn.style.display = 'inline-flex';
-  }
-
-  const { data, error } = await supabaseClient.from('materials').select('*').order('order_index');
-  if (error) return console.error(error);
-
-  const container = document.getElementById('materi-list');
-  if (!container) return;
-
-  if (!data || data.length === 0) {
-    container.innerHTML = `<div class="empty-state"><i class="fas fa-book-open"></i><h3>Belum ada materi</h3><p>Materi akan muncul di sini.</p></div>`;
-    return;
-  }
-
-  container.innerHTML = data.map(m => `
-    <div class="materi-card">
-      <h3>${m.title}</h3>
-      <p>${m.content ? m.content.replace(/<[^>]*>/g, '').substring(0, 120) + '...' : ''}</p>
-      ${isGuru ? `<div class="card-actions"><button onclick="hapusMateri('${m.id}')">🗑️ Hapus</button></div>` : ''}
-    </div>
-  `).join('');
 }
-
-window.hapusMateri = async (id) => {
-  if (!confirm('Yakin ingin menghapus materi ini?')) return;
-  const { error } = await supabaseClient.from('materials').delete().eq('id', id);
-  if (error) showToast('Gagal: ' + error.message, 'error');
-  else { showToast('Materi dihapus', 'success'); initMateriPage(); }
-};
 
 async function initVideoPage() {
   const user = await requireAuth();
   if (!user) return;
   const profile = await getCurrentProfile();
   const isGuru = profile?.role === 'guru';
-
   const roleEl = document.getElementById('user-role');
   if (roleEl) roleEl.textContent = isGuru ? 'Guru' : 'Siswa';
-
   document.getElementById('back-btn')?.addEventListener('click', (e) => {
     e.preventDefault();
     window.location.href = isGuru ? 'dashboard-guru.html' : 'dashboard-siswa.html';
   });
-
-  if (isGuru) {
-    const addBtn = document.getElementById('btn-add-video');
-    if (addBtn) addBtn.style.display = 'inline-flex';
-  }
-
-  const { data, error } = await supabaseClient.from('videos').select('*').order('order_index');
-  if (error) return console.error(error);
-
-  const container = document.getElementById('video-list');
-  if (!container) return;
-
-  if (!data || data.length === 0) {
-    container.innerHTML = `<div class="empty-state"><i class="fas fa-video"></i><h3>Belum ada video</h3><p>Video akan muncul di sini.</p></div>`;
-    return;
-  }
-
-  container.innerHTML = data.map(v => `
-    <div class="video-card">
-      <div class="video-thumb"><iframe src="${v.video_url}" frameborder="0" allowfullscreen style="width:100%;height:100%;"></iframe></div>
-      <div class="video-body">
-        <h4 class="video-title">${v.title}</h4>
-        <p class="video-desc">${v.description || ''}</p>
-        ${isGuru ? `<div class="card-actions"><button onclick="hapusVideo('${v.id}')">🗑️ Hapus</button></div>` : ''}
-      </div>
-    </div>
-  `).join('');
 }
-
-window.hapusVideo = async (id) => {
-  if (!confirm('Yakin ingin menghapus video ini?')) return;
-  const { error } = await supabaseClient.from('videos').delete().eq('id', id);
-  if (error) showToast('Gagal: ' + error.message, 'error');
-  else { showToast('Video dihapus', 'success'); initVideoPage(); }
-};
 
 async function initLatihanPage() {
   const user = await requireAuth();
   if (!user) return;
   const profile = await getCurrentProfile();
   const isGuru = profile?.role === 'guru';
-
   const roleEl = document.getElementById('user-role');
   if (roleEl) roleEl.textContent = isGuru ? 'Guru' : 'Siswa';
-
   document.getElementById('back-btn')?.addEventListener('click', (e) => {
     e.preventDefault();
     window.location.href = isGuru ? 'dashboard-guru.html' : 'dashboard-siswa.html';
   });
-
-  const { data, error } = await supabaseClient.from('exercises').select('*').order('created_at');
-  if (error) return console.error(error);
-
-  const container = document.getElementById('latihan-list');
-  if (!container) return;
-
-  if (!data || data.length === 0) {
-    container.innerHTML = `<div class="empty-state"><i class="fas fa-pen-to-square"></i><h3>Belum ada latihan</h3><p>Latihan akan muncul di sini.</p></div>`;
-    return;
-  }
-
-  container.innerHTML = data.map(l => `
-    <div class="latihan-card">
-      <h3>${l.title}</h3>
-      <p>${l.description || ''}</p>
-      <button onclick="kerjakanLatihan('${l.id}')">Kerjakan</button>
-    </div>
-  `).join('');
 }
-
-window.kerjakanLatihan = (id) => showToast('Fitur latihan akan dikembangkan. ID: ' + id, 'info');
 
 async function initKuisPage() {
   const user = await requireAuth();
   if (!user) return;
   const profile = await getCurrentProfile();
   const isGuru = profile?.role === 'guru';
-
   const roleEl = document.getElementById('user-role');
   if (roleEl) roleEl.textContent = isGuru ? 'Guru' : 'Siswa';
-
   document.getElementById('back-btn')?.addEventListener('click', (e) => {
     e.preventDefault();
     window.location.href = isGuru ? 'dashboard-guru.html' : 'dashboard-siswa.html';
   });
-
-  if (isGuru) {
-    const addBtn = document.getElementById('btn-add-kuis');
-    if (addBtn) addBtn.style.display = 'inline-flex';
-  }
-
-  const { data, error } = await supabaseClient.from('quizzes').select('*').eq('is_active', true);
-  if (error) return console.error(error);
-
-  const container = document.getElementById('kuis-list');
-  if (!container) return;
-
-  if (!data || data.length === 0) {
-    container.innerHTML = `<div class="empty-state"><i class="fas fa-clipboard-question"></i><h3>Belum ada kuis</h3><p>Kuis akan muncul di sini.</p></div>`;
-    return;
-  }
-
-  container.innerHTML = data.map(k => `
-    <div class="kuis-card">
-      <h3>${k.title}</h3>
-      <p>${k.description || ''}</p>
-      <p>⏱️ Durasi: ${k.duration_minutes} menit</p>
-      ${isGuru
-        ? `<button onclick="lihatHasilKuis('${k.id}')">📊 Lihat Hasil</button>`
-        : `<button onclick="mulaiKuis('${k.id}')">Mulai Kuis</button>`}
-    </div>
-  `).join('');
 }
-
-window.mulaiKuis = (id) => showToast('Fitur kuis akan dikembangkan. ID: ' + id, 'info');
-window.lihatHasilKuis = (id) => showToast('Fitur hasil kuis akan dikembangkan. ID: ' + id, 'info');
 
 async function initNilaiPage() {
   const user = await requireAuth();
   if (!user) return;
   const profile = await getCurrentProfile();
   const role = profile?.role;
-
   const roleEl = document.getElementById('user-role');
   if (roleEl) roleEl.textContent = role === 'guru' ? 'Guru' : 'Siswa';
-
   document.getElementById('back-btn')?.addEventListener('click', (e) => {
     e.preventDefault();
     window.location.href = role === 'guru' ? 'dashboard-guru.html' : 'dashboard-siswa.html';
   });
-
-  const viewSiswa = document.getElementById('nilai-siswa-view');
-  const viewGuru = document.getElementById('nilai-guru-view');
-
-  if (role === 'guru') {
-    if (viewSiswa) viewSiswa.style.display = 'none';
-    if (viewGuru) viewGuru.style.display = 'block';
-
-    const { data, error } = await supabaseClient
-      .from('grades')
-      .select('*, profiles(full_name, kelas), courses(title)');
-    if (error) return console.error(error);
-
-    const tbody = document.querySelector('#tabel-nilai-guru tbody');
-    if (!tbody) return;
-
-    if (!data || data.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--gray-500);">Belum ada data nilai</td></tr>';
-      return;
-    }
-
-    tbody.innerHTML = data.map(n => `
-      <tr>
-        <td>${n.profiles?.full_name || '-'}</td>
-        <td>${n.profiles?.kelas || '-'}</td>
-        <td>${n.exercise_score ?? '-'}</td>
-        <td>${n.quiz_score ?? '-'}</td>
-        <td><strong>${n.final_score ?? '-'}</strong></td>
-      </tr>
-    `).join('');
-  } else {
-    if (viewSiswa) viewSiswa.style.display = 'block';
-    if (viewGuru) viewGuru.style.display = 'none';
-
-    const { data, error } = await supabaseClient
-      .from('grades')
-      .select('*, courses(title)')
-      .eq('student_id', user.id);
-    if (error) return console.error(error);
-
-    const tbody = document.querySelector('#tabel-nilai-siswa tbody');
-    if (!tbody) return;
-
-    if (!data || data.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:2rem;color:var(--gray-500);">Belum ada nilai</td></tr>';
-      return;
-    }
-
-    tbody.innerHTML = data.map(n => `
-      <tr>
-        <td>${n.courses?.title || '-'}</td>
-        <td>${n.exercise_score ?? '-'}</td>
-        <td>${n.quiz_score ?? '-'}</td>
-        <td><strong>${n.final_score ?? '-'}</strong></td>
-      </tr>
-    `).join('');
-  }
 }
 
 // ------------------------------------------------------------
 // 11. ROUTER OTOMATIS
 // ------------------------------------------------------------
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
   const page = document.body.dataset.page;
+  console.log('📄 Halaman:', page);
+
   if (!page) return;
 
   switch (page) {
     case 'login':            initLoginPage();                  break;
-    case 'dashboard-siswa':  await initDashboardSiswaPage();   break;
-    case 'dashboard-guru':   await initDashboardGuruPage();    break;
-    case 'materi':           await initMateriPage();           break;
-    case 'video':            await initVideoPage();            break;
-    case 'latihan':          await initLatihanPage();          break;
-    case 'kuis':             await initKuisPage();             break;
-    case 'nilai':            await initNilaiPage();            break;
+    case 'dashboard-siswa':  initDashboardSiswaPage();         break;
+    case 'dashboard-guru':   initDashboardGuruPage();          break;
+    case 'materi':           initMateriPage();                 break;
+    case 'video':            initVideoPage();                  break;
+    case 'latihan':          initLatihanPage();                break;
+    case 'kuis':             initKuisPage();                   break;
+    case 'nilai':            initNilaiPage();                  break;
     default:
       console.warn('Halaman tidak dikenal:', page);
   }
