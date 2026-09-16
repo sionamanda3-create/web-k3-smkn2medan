@@ -74,9 +74,8 @@ function generateStudentPassword(nama, kelas) {
 // 3. HALAMAN LOGIN — VERSI 3 STEP
 // ------------------------------------------------------------
 function initLoginPage() {
-  console.log('✅ initLoginPage() dipanggil');
+  console.log('✅ initLoginPage dipanggil');
 
-  // ---- Helper: tampilkan step ----
   function showStep(stepId) {
     console.log('➡️ showStep:', stepId);
     document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
@@ -84,9 +83,12 @@ function initLoginPage() {
     if (target) target.classList.add('active');
   }
 
-  // ---- STEP 1: Pilih Peran ----
+  // STEP 1: Pilih Peran
   const btnSiswa = document.getElementById('choose-siswa');
   const btnGuru  = document.getElementById('choose-guru');
+
+  console.log('🔘 Tombol Siswa:', btnSiswa);
+  console.log('🔘 Tombol Guru:', btnGuru);
 
   if (btnSiswa) {
     btnSiswa.addEventListener('click', () => showStep('step-siswa'));
@@ -95,15 +97,15 @@ function initLoginPage() {
     btnGuru.addEventListener('click', () => showStep('step-guru'));
   }
 
-  // ---- Tombol Kembali ----
+  // Tombol Kembali
   document.getElementById('back-from-siswa')?.addEventListener('click', () => showStep('step-role'));
   document.getElementById('back-from-guru')?.addEventListener('click', () => showStep('step-role'));
   document.getElementById('back-from-register')?.addEventListener('click', () => showStep('step-guru'));
 
-  // ---- Link Daftar Guru ----
+  // Link Daftar Guru
   document.getElementById('link-register-guru')?.addEventListener('click', () => showStep('step-register'));
 
-  // ---- Toggle password login ----
+  // Toggle password login
   const toggleLogin = document.getElementById('toggle-password-guru');
   const pwdLogin = document.getElementById('guru-password');
   if (toggleLogin && pwdLogin) {
@@ -115,7 +117,7 @@ function initLoginPage() {
     });
   }
 
-  // ---- Toggle password register ----
+  // Toggle password register
   const toggleReg = document.getElementById('toggle-password-reg');
   const pwdReg = document.getElementById('reg-password');
   if (toggleReg && pwdReg) {
@@ -519,14 +521,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!page) return;
 
   switch (page) {
-    case 'login':            initLoginPage();                  break;
-    case 'dashboard-siswa':  initDashboardSiswaPage();         break;
-    case 'dashboard-guru':   initDashboardGuruPage();          break;
-    case 'materi':           initMateriPage();                 break;
-    case 'video':            initVideoPage();                  break;
-    case 'latihan':          initLatihanPage();                break;
-    case 'kuis':             initKuisPage();                   break;
-    case 'nilai':            initNilaiPage();                  break;
+    case 'login':            initLoginPage();              break;
+    case 'dashboard-siswa':  initDashboardSiswaPage();     break;
+    case 'dashboard-guru':   initDashboardGuruPage();      break;
+    case 'materi':           initMateriPage();             break;
+    case 'video':            initVideoPage();              break;
+    case 'latihan':          initLatihanPage();            break;
+    case 'kuis':             initKuisPage();               break;
+    case 'nilai':            initNilaiPage();              break;
     default:
       console.warn('Halaman tidak dikenal:', page);
   }
