@@ -385,15 +385,13 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <!-- ============================================================
-       KONFIGURASI SUPABASE (WAJIB ADA)
+       KONFIGURASI SUPABASE
        ============================================================ -->
   <script>
-    // GANTI dengan URL dan Anon Key project Supabase Anda
     const SUPABASE_URL = 'https://ddnhwcxfktcsyngupdex.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_ogAtXLGklIivo88I41J8ZA_9CWzS8D3';
-
-    // Buat client Supabase global
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log('✅ Supabase client siap');
   </script>
 
   <!-- ============================================================
@@ -462,11 +460,13 @@
       // ============ LOGIN SISWA ============
       document.getElementById('login-form-siswa')?.addEventListener('submit', async (e) => {
         e.preventDefault();
-        console.log('🎓 Login siswa...');
+        console.log('🎓 === LOGIN SISWA DIMULAI ===');
 
         const nama = document.getElementById('siswa-nama').value.trim();
         const kelas = document.getElementById('siswa-kelas').value;
         const btn = document.getElementById('btn-login-siswa');
+
+        console.log('📝 Input:', { nama, kelas });
 
         if (!nama || !kelas) {
           showToast('Nama dan kelas wajib diisi!', 'error');
@@ -482,7 +482,13 @@
         btn.disabled = true;
 
         try {
-          // Cek siswa sudah ada
+          // Debug
+          console.log('🔍 Cek supabaseClient:', typeof supabaseClient);
+          console.log('🔍 URL:', SUPABASE_URL);
+          console.log('🔍 KEY prefix:', SUPABASE_ANON_KEY.substring(0, 20) + '...');
+
+          // 1. Cek existing siswa
+          console.log('📤 STEP 1: SELECT siswa existing...');
           const { data: existing, error: checkErr } = await supabaseClient
             .from('siswa')
             .select('*')
@@ -490,11 +496,18 @@
             .eq('kelas', kelas)
             .maybeSingle();
 
-          if (checkErr && checkErr.code !== 'PGRST116') throw checkErr;
+          console.log('📥 STEP 1 hasil:', { existing, checkErr });
+
+          if (checkErr && checkErr.code !== 'PGRST116') {
+            console.error('❌ SELECT error:', checkErr);
+            throw checkErr;
+          }
 
           let siswaData;
 
           if (existing) {
+            // 2a. Update
+            console.log('📤 STEP 2a: UPDATE siswa existing...');
             const { data: updated, error: updateErr } = await supabaseClient
               .from('siswa')
               .update({
@@ -506,10 +519,16 @@
               .select()
               .single();
 
-            if (updateErr) throw updateErr;
+            console.log('📥 STEP 2a hasil:', { updated, updateErr });
+
+            if (updateErr) {
+              console.error('❌ UPDATE error:', updateErr);
+              throw updateErr;
+            }
             siswaData = updated;
-            console.log('✅ Siswa update:', siswaData);
           } else {
+            // 2b. Insert baru
+            console.log('📤 STEP 2b: INSERT siswa baru...');
             const { data: inserted, error: insertErr } = await supabaseClient
               .from('siswa')
               .insert([{
@@ -522,12 +541,22 @@
               .select()
               .single();
 
-            if (insertErr) throw insertErr;
+            console.log('📥 STEP 2b hasil:', { inserted, insertErr });
+
+            if (insertErr) {
+              console.error('❌ INSERT error:', insertErr);
+              console.error('   Code:', insertErr.code);
+              console.error('   Message:', insertErr.message);
+              console.error('   Details:', insertErr.details);
+              console.error('   Hint:', insertErr.hint);
+              throw insertErr;
+            }
             siswaData = inserted;
-            console.log('✅ Siswa baru:', siswaData);
           }
 
-          // Simpan session ke localStorage
+          console.log('✅ Data siswa:', siswaData);
+
+          // 3. Simpan session
           localStorage.setItem('siswa_session', JSON.stringify({
             id: siswaData.id,
             nama: siswaData.nama,
@@ -542,8 +571,26 @@
           }, 900);
 
         } catch (err) {
-          console.error('❌ Error login siswa:', err);
-          showToast('Gagal login: ' + (err.message || 'Terjadi kesalahan'), 'error');
+          console.error('❌❌❌ ERROR TOTAL:', err);
+          console.error('   Code:', err.code);
+          console.error('   Message:', err.message);
+          console.error('   Details:', err.details);
+          console.error('   Hint:', err.hint);
+
+          let pesanError = err.message || 'Terjadi kesalahan';
+
+          // Pesan custom berdasarkan error code
+          if (err.code === '42501' || pesanError.includes('permission denied')) {
+            pesanError = 'Akses database ditolak. Minta guru setup RLS policy di Supabase.';
+          } else if (err.code === '42P01' || pesanError.includes('does not exist')) {
+            pesanError = 'Tabel "siswa" belum dibuat di Supabase.';
+          } else if (err.code === '42703') {
+            pesanError = 'Kolom tabel tidak sesuai. Cek struktur tabel siswa.';
+          } else if (err.message && err.message.includes('Failed to fetch')) {
+            pesanError = 'Gagal koneksi ke Supabase. Cek internet / URL / Anon Key.';
+          }
+
+          showToast('Gagal login: ' + pesanError, 'error');
           btn.classList.remove('loading');
           btn.disabled = false;
         }
@@ -552,7 +599,7 @@
       // ============ LOGIN GURU ============
       document.getElementById('login-form-guru')?.addEventListener('submit', async (e) => {
         e.preventDefault();
-        console.log('👨‍🏫 Login guru...');
+        console.log('👨‍🏫 === LOGIN GURU DIMULAI ===');
 
         const email = document.getElementById('guru-email').value.trim();
         const password = document.getElementById('guru-password').value;
