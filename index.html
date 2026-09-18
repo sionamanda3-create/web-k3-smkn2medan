@@ -391,7 +391,7 @@
     const SUPABASE_URL = 'https://ddnhwcxfktcsyngupdex.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_ogAtXLGklIivo88I41J8ZA_9CWzS8D3';
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    console.log('✅ Supabase client siap');
+    console.log('✅ Supabase client siap:', SUPABASE_URL);
   </script>
 
   <!-- ============================================================
@@ -482,11 +482,6 @@
         btn.disabled = true;
 
         try {
-          // Debug
-          console.log('🔍 Cek supabaseClient:', typeof supabaseClient);
-          console.log('🔍 URL:', SUPABASE_URL);
-          console.log('🔍 KEY prefix:', SUPABASE_ANON_KEY.substring(0, 20) + '...');
-
           // 1. Cek existing siswa
           console.log('📤 STEP 1: SELECT siswa existing...');
           const { data: existing, error: checkErr } = await supabaseClient
@@ -545,10 +540,6 @@
 
             if (insertErr) {
               console.error('❌ INSERT error:', insertErr);
-              console.error('   Code:', insertErr.code);
-              console.error('   Message:', insertErr.message);
-              console.error('   Details:', insertErr.details);
-              console.error('   Hint:', insertErr.hint);
               throw insertErr;
             }
             siswaData = inserted;
@@ -571,22 +562,17 @@
           }, 900);
 
         } catch (err) {
-          console.error('❌❌❌ ERROR TOTAL:', err);
-          console.error('   Code:', err.code);
-          console.error('   Message:', err.message);
-          console.error('   Details:', err.details);
-          console.error('   Hint:', err.hint);
+          console.error('❌ ERROR LOGIN SISWA:', err);
 
           let pesanError = err.message || 'Terjadi kesalahan';
 
-          // Pesan custom berdasarkan error code
           if (err.code === '42501' || pesanError.includes('permission denied')) {
-            pesanError = 'Akses database ditolak. Minta guru setup RLS policy di Supabase.';
+            pesanError = 'Akses database ditolak. Hubungi guru untuk setup RLS policy.';
           } else if (err.code === '42P01' || pesanError.includes('does not exist')) {
             pesanError = 'Tabel "siswa" belum dibuat di Supabase.';
           } else if (err.code === '42703') {
             pesanError = 'Kolom tabel tidak sesuai. Cek struktur tabel siswa.';
-          } else if (err.message && err.message.includes('Failed to fetch')) {
+          } else if (pesanError.includes('Failed to fetch')) {
             pesanError = 'Gagal koneksi ke Supabase. Cek internet / URL / Anon Key.';
           }
 
