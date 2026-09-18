@@ -565,7 +565,6 @@
     </div>
   </main>
 
-  <!-- MODAL BACA MATERI -->
   <div class="modal-overlay" id="modal-reader">
     <div class="modal-reader">
       <div class="modal-reader-header">
@@ -598,7 +597,6 @@
     </div>
   </div>
 
-  <!-- MODAL FORM MATERI (GURU) -->
   <div class="modal-overlay" id="modal-form">
     <div class="modal-form">
       <div class="modal-form-header">
@@ -700,6 +698,79 @@
       toast.classList.add('show');
       clearTimeout(toast._timer);
       toast._timer = setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    // ============================================================
+    // SEED 5 MATERI PROFESIONAL (kalau tabel kosong)
+    // ============================================================
+    async function seedMateriDefault() {
+      try {
+        const { count, error: countErr } = await supabaseClient
+          .from('materi')
+          .select('*', { count: 'exact', head: true });
+
+        if (countErr) {
+          console.warn('⚠️ Gagal cek count materi:', countErr.message);
+          return;
+        }
+
+        if (count > 0) {
+          console.log('📚 Tabel materi sudah ada isinya (' + count + ' materi), skip seed');
+          return;
+        }
+
+        console.log('📚 Tabel materi kosong, mengisi 5 materi default...');
+
+        const materiDefault = [
+          {
+            judul: 'Pengertian K3',
+            deskripsi: 'Dasar-dasar Keselamatan dan Kesehatan Kerja serta landasan hukumnya di Indonesia',
+            icon: 'fa-book-open',
+            urutan: 1,
+            status: 'aktif',
+            konten: '<h3>Apa itu K3?</h3><p>Keselamatan dan Kesehatan Kerja (K3) adalah <strong>segala upaya untuk menjamin keselamatan dan kesehatan tenaga kerja</strong> serta orang lain yang berada di lingkungan kerja. K3 mencakup seluruh aspek yang berkaitan dengan keselamatan, kesehatan, dan kesejahteraan pekerja.</p><h3>Landasan Hukum K3 di Indonesia</h3><ul><li><strong>UU No. 1 Tahun 1970</strong> — Undang-Undang tentang Keselamatan Kerja</li><li><strong>UU No. 13 Tahun 2003</strong> — Ketenagakerjaan (Pasal 86-87)</li><li><strong>Peraturan Menteri Tenaga Kerja No. 5 Tahun 2018</strong> — tentang K3 Lingkungan Kerja</li><li><strong>Permenaker No. 4 Tahun 1987</strong> — tentang Panitia Pembina K3 (P2K3)</li></ul><h3>Ruang Lingkup K3</h3><ul><li>Keselamatan kerja di tempat kerja</li><li>Kesehatan kerja dan higiene perusahaan</li><li>Pencegahan kecelakaan kerja</li><li>Penanggulangan kebakaran dan peledakan</li><li>Ergonomi dan lingkungan kerja</li><li>Psikologi kerja dan manajemen stres</li></ul><div class="callout">💡 <strong>Tahukah Anda?</strong> Setiap perusahaan wajib menerapkan Sistem Manajemen K3 (SMK3). Pelanggaran dapat dikenai sanksi administratif hingga pidana.</div><h3>Mengapa K3 Penting bagi Siswa SMK?</h3><p>Sebagai calon tenaga kerja di industri teknik pemesinan, pemahaman K3 sejak dini akan:</p><ul><li>Melindungi diri dari risiko cedera saat praktik</li><li>Membiasakan budaya kerja aman dan disiplin</li><li>Mempersiapkan diri masuk dunia industri yang profesional</li></ul>'
+          },
+          {
+            judul: 'Tujuan dan Manfaat K3',
+            deskripsi: 'Memahami tujuan penerapan K3 dan manfaatnya bagi pekerja dan perusahaan',
+            icon: 'fa-bullseye',
+            urutan: 2,
+            status: 'aktif',
+            konten: '<h3>Tujuan Utama K3</h3><ul><li><strong>Melindungi tenaga kerja</strong> dari risiko kecelakaan kerja dan penyakit akibat kerja</li><li><strong>Menjamin keselamatan</strong> orang lain yang berada di tempat kerja</li><li><strong>Meningkatkan produktivitas</strong> dan efisiensi kerja</li><li><strong>Menciptakan lingkungan kerja</strong> yang aman, nyaman, dan sehat</li><li><strong>Mencegah kerugian material</strong> akibat kecelakaan kerja</li></ul><h3>Manfaat Penerapan K3</h3><p><strong>Bagi Pekerja:</strong></p><ul><li>Terhindar dari cedera dan penyakit akibat kerja</li><li>Merasa aman dan nyaman saat bekerja</li><li>Meningkatkan motivasi dan produktivitas</li><li>Meningkatkan kesejahteraan keluarga</li></ul><p><strong>Bagi Perusahaan:</strong></p><ul><li>Mengurangi biaya pengobatan dan kompensasi kecelakaan</li><li>Meningkatkan citra perusahaan di mata publik</li><li>Meningkatkan produktivitas dan kualitas produk</li><li>Mematuhi regulasi pemerintah (menghindari sanksi)</li></ul><div class="callout">🎓 <strong>Manfaat K3 bagi Siswa:</strong> Mencegah cedera saat praktik, membiasakan bekerja aman, mempersiapkan diri ke dunia industri.</div><h3>Kaitan K3 dengan Produktivitas</h3><p>Banyak penelitian membuktikan bahwa <strong>lingkungan kerja yang aman dan sehat</strong> berkorelasi langsung dengan <strong>peningkatan produktivitas</strong> dan <strong>penurunan angka kecelakaan kerja</strong>.</p>'
+          },
+          {
+            judul: 'Alat Pelindung Diri (APD)',
+            deskripsi: 'Jenis, fungsi, dan cara penggunaan APD yang benar di bengkel pemesinan',
+            icon: 'fa-shield-alt',
+            urutan: 3,
+            status: 'aktif',
+            konten: '<h3>Apa itu APD?</h3><p>Alat Pelindung Diri (APD) adalah <strong>perlengkapan wajib</strong> yang harus digunakan saat bekerja di bengkel untuk melindungi diri dari bahaya yang dapat menyebabkan cedera atau penyakit akibat kerja.</p><h3>APD Wajib di Bengkel Pemesinan</h3><ul><li><strong>Safety Helmet (Helm Safety):</strong> Melindungi kepala dari benturan benda keras atau jatuh</li><li><strong>Safety Glasses (Kacamata Safety):</strong> Melindungi mata dari serpihan logam, debu, atau cairan kimia</li><li><strong>Ear Plug / Ear Muff:</strong> Melindungi pendengaran dari kebisingan mesin yang terus-menerus</li><li><strong>Sarung Tangan (Gloves):</strong> Melindungi tangan dari panas, goresan, atau bahan kimia</li><li><strong>Safety Shoes (Sepatu Safety):</strong> Melindungi kaki dari benda berat, panas, dan tertusuk</li><li><strong>Masker (Respirator):</strong> Melindungi pernapasan dari debu, asap, dan uap berbahaya</li><li><strong>Apron / Wearpack:</strong> Melindungi tubuh dari serpihan, cairan, dan panas</li><li><strong>Face Shield:</strong> Melindungi seluruh wajah dari percikan atau serpihan</li></ul><h3>Cara Menggunakan APD yang Benar</h3><ol><li>Periksa kondisi APD sebelum digunakan (tidak rusak/retak)</li><li>Pakai APD secara lengkap sebelum masuk area kerja</li><li>Pastikan APD terpasang dengan pas dan nyaman</li><li>Jangan menggunakan APD yang sudah rusak</li><li>Bersihkan APD setelah digunakan</li><li>Simpan APD di tempat yang bersih dan kering</li></ol><div class="callout warning">⚠️ <strong>Perhatian!</strong> Jangan pernah mengoperasikan mesin bubut, mesin frais, atau mesin gerinda tanpa menggunakan APD lengkap. Kelalaian dapat menyebabkan cedera serius bahkan kematian!</div><h3>Kesalahan Umum dalam Penggunaan APD</h3><ul><li>Memakai APD tapi tidak lengkap</li><li>APD sudah rusak tapi tetap dipakai</li><li>Melepas APD saat bekerja karena alasan tidak nyaman</li><li>Berbagi APD dengan orang lain (terutama masker)</li></ul>'
+          },
+          {
+            judul: 'Bahaya di Bengkel Pemesinan',
+            deskripsi: 'Mengenali potensi bahaya mekanis dan non-mekanis di bengkel serta pencegahannya',
+            icon: 'fa-exclamation-triangle',
+            urutan: 4,
+            status: 'aktif',
+            konten: '<h3>Bahaya Mekanis</h3><p>Bahaya yang berasal dari mesin, alat, atau benda kerja yang bergerak:</p><ul><li><strong>Terjepit putaran mesin bubut</strong> — bagian tubuh terkena putaran mesin</li><li><strong>Tergores pahat atau benda kerja tajam</strong> — menyebabkan luka sayat</li><li><strong>Serpihan logam (swarf) yang beterbangan</strong> — dapat melukai mata/kulit</li><li><strong>Pecahan mata bor atau pahat yang patah</strong> — proyektil berbahaya</li><li><strong>Tertimpa benda kerja berat</strong> — cedera serius</li><li><strong>Terpapar panas</strong> dari geram atau las</li></ul><h3>Bahaya Non-Mekanis</h3><ul><li><strong>Kebisingan mesin</strong> — dapat merusak pendengaran permanen</li><li><strong>Debu dan asap</strong> dari proses pemesinan — gangguan pernapasan</li><li><strong>Bahaya listrik</strong> dari mesin dan panel — sengatan listrik</li><li><strong>Kebakaran</strong> akibat korsleting atau panas berlebih</li><li><strong>Getaran mesin</strong> — menyebabkan kelelahan dan HAVS</li><li><strong>Bahan kimia</strong> seperti coolant, oli, pelarut</li><li><strong>Ergonomi buruk</strong> — cedera otot dan tulang</li></ul><h3>Pencegahan Bahaya</h3><ol><li>Kenali setiap potensi bahaya sebelum bekerja</li><li>Gunakan APD lengkap</li><li>Ikuti SOP pengoperasian mesin dengan benar</li><li>Pastikan mesin dalam kondisi baik</li><li>Jangan bekerja sendiri di area berbahaya</li><li>Laporkan segera jika menemukan bahaya</li><li>Jaga kebersihan area kerja</li><li>Istirahat cukup untuk menghindari kelelahan</li></ol><div class="callout warning">⚠️ <strong>Ingat!</strong> Sebagian besar kecelakaan kerja terjadi karena kelalaian manusia (unsafe action) dan kondisi lingkungan yang tidak aman (unsafe condition).</div><h3>Budaya "Safety First"</h3><p>Terapkan prinsip <strong>"Safety First"</strong> — keselamatan adalah prioritas utama di atas target produksi. Jangan pernah mengorbankan keselamatan demi kecepatan kerja.</p>'
+          },
+          {
+            judul: 'P3K dan Tanggap Darurat',
+            deskripsi: 'Prosedur pertolongan pertama pada kecelakaan kerja dan tanggap darurat di bengkel',
+            icon: 'fa-first-aid',
+            urutan: 5,
+            status: 'aktif',
+            konten: '<h3>Apa itu P3K?</h3><p>Pertolongan Pertama pada Kecelakaan (P3K) adalah <strong>upaya memberikan pertolongan awal</strong> kepada korban kecelakaan sebelum mendapat penanganan medis lebih lanjut.</p><h3>Isi Kotak P3K Standar</h3><ul><li>Perban dan kasa steril</li><li>Plester dan kapas</li><li>Antiseptik (betadine / alkohol 70%)</li><li>Gunting dan pinset</li><li>Sarung tangan medis (handscoon)</li><li>Obat luka bakar (burn ointment)</li><li>Kain kasa dan pembalut elastis</li><li>Obat pereda nyeri</li><li>Kapas dan air bersih</li><li>Masker medis</li></ul><h3>Nomor Darurat Indonesia</h3><ul><li><strong>118:</strong> Ambulans / Darurat Medis</li><li><strong>113:</strong> Pemadam Kebakaran</li><li><strong>110:</strong> Polisi</li><li><strong>115:</strong> Basarnas (SAR)</li><li><strong>119:</strong> Kementerian Kesehatan</li></ul><h3>Langkah Pertolongan Pertama</h3><ol><li><strong>Pastikan keamanan diri sendiri</strong> sebelum menolong korban</li><li><strong>Hubungi guru pembimbing</strong> atau petugas K3</li><li><strong>Cek kondisi korban</strong> (sadar/tidak, luka/apa)</li><li><strong>Beri pertolongan dasar</strong> sesuai jenis cedera:<ul><li>Luka sayat → bersihkan dengan antiseptik, tutup dengan kasa</li><li>Luka bakar → dinginkan dengan air, jangan pakai odol</li><li>Patah tulang → imobilisasi, jangan digerakkan</li><li>Pendarahan → tekan area yang berdarah</li><li>Pingsan → baringkan dengan posisi aman</li></ul></li><li><strong>Bawa korban</strong> ke UKS atau fasilitas kesehatan terdekat</li><li><strong>Dokumentasikan</strong> kejadian untuk laporan</li></ol><div class="callout warning">⚠️ <strong>Jangan lakukan ini!</strong><ul style="margin-top:0.5rem;"><li>Memberi minum pada korban tidak sadar</li><li>Mengoles odol/pasta gigi pada luka bakar</li><li>Menarik paksa benda yang tertancap di tubuh</li><li>Menggerakkan korban patah tulang tanpa imobilisasi</li></ul></div><h3>Prosedur Tanggap Darurat</h3><ol><li><strong>Kenali jalur evakuasi</strong> dan titik kumpul di bengkel</li><li><strong>Hafalkan letak</strong> APAR (Alat Pemadam Api Ringan) dan kotak P3K</li><li><strong>Jika terjadi kebakaran:</strong> matikan listrik, hubungi 113, evakuasi</li><li><strong>Jika terjadi gempa:</strong> berlindung di bawah meja kokoh, keluar setelah aman</li><li><strong>Ikuti instruksi</strong> guru/petugas dengan tenang</li><li><strong>Jangan panik</strong> — tetap tenang dan tertib</li></ol><div class="callout">🚑 <strong>Ingat Rumus P3K:</strong> <strong>A</strong>man (diri sendiri) → <strong>B</strong>antuan (panggil) → <strong>C</strong>ek (korban) → <strong>D</strong>arurat (rujuk ke fasilitas kesehatan).</div><h3>Latihan Tanggap Darurat</h3><p>Simulasi evakuasi dan tanggap darurat wajib dilakukan minimal <strong>1 kali per semester</strong> untuk memastikan seluruh siswa dan guru siap menghadapi situasi darurat.</p>'
+          }
+        ];
+
+        const { error } = await supabaseClient.from('materi').insert(materiDefault);
+        if (error) throw error;
+
+        console.log('✅ Berhasil menambahkan 5 materi default!');
+      } catch (err) {
+        console.warn('⚠️ Gagal seed materi default:', err.message);
+      }
     }
 
     async function cekRole() {
@@ -1044,6 +1115,7 @@
       console.log('📄 Halaman Materi init');
 
       await cekRole();
+      await seedMateriDefault();  // ⚡ AUTO-SEED 5 MATERI
       await loadMateri();
 
       document.getElementById('back-btn').addEventListener('click', (e) => {
