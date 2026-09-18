@@ -1,3 +1,651 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Kuis K3 - Media Pembelajaran K3 SMK Negeri 2 Medan">
+  <title>Kuis K3 | Media Pembelajaran K3</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* RESET & VARIABEL */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #1e40af;
+      --primary-light: #3b82f6;
+      --accent: #f59e0b;
+      --danger: #dc2626;
+      --success: #16a34a;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --white: #ffffff;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 20px 40px rgba(0,0,0,0.12);
+      --radius: 16px;
+      --radius-sm: 12px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-800);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 0.9rem 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .navbar-left { display: flex; align-items: center; gap: 1rem; }
+    .back-btn {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--gray-100); color: var(--gray-700);
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; transition: var(--transition);
+      font-size: 0.95rem;
+    }
+    .back-btn:hover { background: var(--primary); color: white; transform: translateX(-3px); }
+    .navbar-brand {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-weight: 800; font-size: 1.05rem; color: var(--primary);
+    }
+    .navbar-brand .brand-icon {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, #ea580c, #f59e0b);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 1rem;
+      box-shadow: 0 4px 10px rgba(234,88,12,0.3);
+    }
+    .navbar-right { display: flex; align-items: center; gap: 0.9rem; }
+    .user-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.4rem 0.8rem;
+      background: var(--gray-100);
+      border-radius: 999px;
+      font-size: 0.78rem; font-weight: 600; color: var(--gray-600);
+    }
+
+    /* CONTAINER */
+    .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+
+    /* PAGE HEADER */
+    .page-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 1.8rem; gap: 1rem; flex-wrap: wrap;
+    }
+    .page-title h1 {
+      font-size: 1.6rem; font-weight: 800; color: var(--gray-800);
+      letter-spacing: -0.02em; margin-bottom: 0.3rem;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .page-title h1 i { color: #ea580c; }
+    .page-title p { font-size: 0.88rem; color: var(--gray-500); font-weight: 500; }
+
+    /* BUTTONS */
+    .btn {
+      padding: 0.75rem 1.3rem; border-radius: 10px; border: none;
+      font-family: inherit; font-size: 0.88rem; font-weight: 700;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      cursor: pointer; transition: var(--transition); text-decoration: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      box-shadow: 0 4px 12px rgba(30,64,175,0.25);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(30,64,175,0.35); }
+    .btn-orange {
+      background: linear-gradient(135deg, #ea580c, #f59e0b);
+      color: white;
+      box-shadow: 0 4px 12px rgba(234,88,12,0.25);
+    }
+    .btn-orange:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(234,88,12,0.35); }
+    .btn-success {
+      background: linear-gradient(135deg, #15803d, #16a34a);
+      color: white;
+      box-shadow: 0 4px 12px rgba(22,163,74,0.25);
+    }
+    .btn-success:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(22,163,74,0.35); }
+    .btn-ghost { background: var(--gray-100); color: var(--gray-700); }
+    .btn-ghost:hover { background: var(--gray-200); }
+
+    /* KUIS LIST */
+    .kuis-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.2rem;
+    }
+    .kuis-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      border: 1px solid var(--gray-100);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      position: relative; overflow: hidden;
+      animation: slideUp 0.5s ease-out backwards;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .kuis-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, #ea580c, #f59e0b);
+    }
+    .kuis-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary-light);
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .kuis-card-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 0.8rem;
+    }
+    .kuis-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: linear-gradient(135deg, #fed7aa, #f59e0b);
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+      box-shadow: 0 6px 14px rgba(245,158,11,0.3);
+    }
+    .kuis-status {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.3rem 0.7rem; border-radius: 999px;
+      font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.03em;
+    }
+    .kuis-status.baru { background: #dbeafe; color: #1e40af; }
+    .kuis-status.selesai { background: #dcfce7; color: #15803d; }
+    .kuis-status.tersedia { background: #fef3c7; color: #92400e; }
+    .kuis-card h3 {
+      font-size: 1.05rem; font-weight: 700;
+      color: var(--gray-800); line-height: 1.35;
+    }
+    .kuis-card p.desc {
+      font-size: 0.83rem; color: var(--gray-500);
+      line-height: 1.55; flex: 1;
+    }
+    .kuis-meta {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      padding-top: 0.8rem;
+      border-top: 1px dashed var(--gray-200);
+    }
+    .kuis-meta-item {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      font-size: 0.75rem; font-weight: 600;
+      color: var(--gray-600); background: var(--gray-50);
+      padding: 0.35rem 0.65rem; border-radius: 8px;
+    }
+    .kuis-meta-item i { color: var(--primary); font-size: 0.75rem; }
+    .kuis-actions {
+      display: flex; gap: 0.6rem; margin-top: 0.3rem;
+    }
+    .kuis-actions .btn {
+      flex: 1; justify-content: center;
+      padding: 0.75rem; font-size: 0.85rem;
+    }
+
+    /* EMPTY */
+    .empty-state {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 4rem 2rem;
+      text-align: center;
+      border: 2px dashed var(--gray-200);
+      grid-column: 1 / -1;
+    }
+    .empty-state i {
+      font-size: 3.5rem; color: var(--gray-300);
+      margin-bottom: 1rem; display: block;
+    }
+    .empty-state h3 {
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--gray-700); margin-bottom: 0.4rem;
+    }
+    .empty-state p { font-size: 0.88rem; color: var(--gray-500); }
+
+    /* MODE 2: PENGERJAAN KUIS */
+    .quiz-view { display: none; }
+    .quiz-view.active { display: block; }
+    .list-view { display: block; }
+    .list-view.hidden { display: none; }
+
+    .quiz-header-bar {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 1.2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 1rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-100);
+      flex-wrap: wrap;
+    }
+    .quiz-info h2 {
+      font-size: 1.1rem; font-weight: 800;
+      color: var(--gray-800); margin-bottom: 0.25rem;
+    }
+    .quiz-info p {
+      font-size: 0.8rem; color: var(--gray-500); font-weight: 500;
+    }
+    .quiz-timer {
+      display: flex; align-items: center; gap: 0.7rem;
+      padding: 0.7rem 1.2rem;
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border-radius: 999px;
+      font-weight: 800; color: #92400e;
+      font-size: 1rem; letter-spacing: 0.02em;
+    }
+    .quiz-timer.warning {
+      background: linear-gradient(135deg, #fee2e2, #fecaca);
+      color: #b91c1c;
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.05); }
+    }
+
+    .quiz-progress {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-100);
+    }
+    .quiz-progress-info {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 0.6rem;
+      font-size: 0.83rem; font-weight: 600;
+      color: var(--gray-600);
+    }
+    .quiz-progress-info strong { color: var(--primary); font-weight: 800; }
+    .progress-bar-track {
+      height: 8px; background: var(--gray-100);
+      border-radius: 999px; overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      border-radius: 999px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    .question-nav-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .q-nav-btn {
+      aspect-ratio: 1;
+      border-radius: 10px;
+      border: 1.5px solid var(--gray-200);
+      background: white; color: var(--gray-600);
+      font-family: inherit; font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer; transition: var(--transition);
+    }
+    .q-nav-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .q-nav-btn.answered { background: #dbeafe; border-color: var(--primary); color: var(--primary); }
+    .q-nav-btn.current {
+      background: var(--primary); border-color: var(--primary);
+      color: white; transform: scale(1.05);
+    }
+
+    .question-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-100);
+      animation: slideUp 0.4s ease-out;
+    }
+    .question-number {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.4rem 0.9rem;
+      background: #dbeafe; color: #1e40af;
+      border-radius: 999px;
+      font-size: 0.75rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      margin-bottom: 1.2rem;
+    }
+    .question-text {
+      font-size: 1.05rem; font-weight: 600;
+      color: var(--gray-800);
+      line-height: 1.6; margin-bottom: 1.5rem;
+    }
+    .options-list {
+      display: flex; flex-direction: column;
+      gap: 0.7rem; margin-bottom: 1.8rem;
+    }
+    .option-item {
+      display: flex; align-items: center; gap: 0.9rem;
+      padding: 1rem 1.2rem;
+      background: var(--gray-50);
+      border: 2px solid var(--gray-100);
+      border-radius: 12px;
+      cursor: pointer; transition: var(--transition);
+      font-size: 0.92rem; font-weight: 500;
+      color: var(--gray-700);
+      position: relative;
+    }
+    .option-item:hover { background: #eff6ff; border-color: var(--primary-light); }
+    .option-item input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
+    .option-letter {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: white;
+      border: 2px solid var(--gray-200);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; color: var(--gray-600);
+      flex-shrink: 0; transition: var(--transition);
+      font-size: 0.85rem;
+    }
+    .option-item.selected { background: #eff6ff; border-color: var(--primary); }
+    .option-item.selected .option-letter {
+      background: var(--primary); border-color: var(--primary); color: white;
+    }
+
+    .quiz-nav {
+      display: flex; justify-content: space-between; gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+    .quiz-nav .btn { flex: 1; justify-content: center; padding: 0.9rem; font-size: 0.9rem; }
+
+    /* MODE 3: HASIL */
+    .result-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 3rem 2rem;
+      text-align: center;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--gray-100);
+      animation: slideUp 0.5s ease-out;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .result-icon {
+      width: 100px; height: 100px;
+      margin: 0 auto 1.5rem;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.8rem;
+      animation: scaleIn 0.5s ease-out;
+    }
+    @keyframes scaleIn { from { transform: scale(0); } to { transform: scale(1); } }
+    .result-icon.excellent { background: linear-gradient(135deg, #dcfce7, #16a34a); color: white; }
+    .result-icon.good      { background: linear-gradient(135deg, #dbeafe, #3b82f6); color: white; }
+    .result-icon.average   { background: linear-gradient(135deg, #fef3c7, #f59e0b); color: white; }
+    .result-icon.poor      { background: linear-gradient(135deg, #fee2e2, #dc2626); color: white; }
+    .result-card h2 {
+      font-size: 1.5rem; font-weight: 800;
+      color: var(--gray-800); margin-bottom: 0.5rem;
+    }
+    .result-card p.result-desc {
+      font-size: 0.92rem; color: var(--gray-500);
+      margin-bottom: 1.8rem;
+    }
+    .result-score {
+      font-size: 4rem; font-weight: 800;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.3rem;
+    }
+    .result-score-label {
+      font-size: 0.85rem; font-weight: 600;
+      color: var(--gray-500);
+      text-transform: uppercase; letter-spacing: 0.05em;
+      margin-bottom: 2rem;
+    }
+    .result-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1rem; margin-bottom: 2rem;
+    }
+    .result-stat {
+      padding: 1rem; background: var(--gray-50);
+      border-radius: 12px;
+    }
+    .result-stat-value { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.2rem; }
+    .result-stat-value.correct { color: var(--success); }
+    .result-stat-value.wrong   { color: var(--danger); }
+    .result-stat-value.total   { color: var(--primary); }
+    .result-stat-label {
+      font-size: 0.72rem; font-weight: 600;
+      color: var(--gray-500);
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .result-actions {
+      display: flex; gap: 0.8rem;
+      justify-content: center; flex-wrap: wrap;
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed; top: 1.5rem; right: 1.5rem;
+      background: white; padding: 1rem 1.3rem;
+      border-radius: 10px; box-shadow: var(--shadow-lg);
+      display: flex; align-items: center; gap: 0.75rem;
+      font-size: 0.88rem; font-weight: 500;
+      z-index: 9999;
+      transform: translateX(400px);
+      transition: transform 0.4s cubic-bezier(0.68,-0.55,0.27,1.55);
+      max-width: 340px;
+    }
+    .toast.show { transform: translateX(0); }
+    .toast i { font-size: 1.2rem; }
+    .toast.error   { border-left: 4px solid var(--danger); }
+    .toast.error i { color: var(--danger); }
+    .toast.success { border-left: 4px solid var(--success); }
+    .toast.success i { color: var(--success); }
+    .toast.info    { border-left: 4px solid var(--primary); }
+    .toast.info i  { color: var(--primary); }
+
+    /* SKELETON */
+    .skeleton {
+      background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 8px;
+    }
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      .navbar { padding: 0.75rem 1rem; }
+      .container { padding: 1.5rem 1rem 4rem; }
+      .page-title h1 { font-size: 1.3rem; }
+      .kuis-grid { grid-template-columns: 1fr; }
+      .question-card { padding: 1.3rem; }
+      .question-text { font-size: 0.95rem; }
+      .result-score { font-size: 3rem; }
+      .result-stats { grid-template-columns: 1fr; }
+      .toast { right: 0.75rem; left: 0.75rem; max-width: none; }
+    }
+  </style>
+</head>
+<body data-page="kuis">
+
+  <div id="toast" class="toast">
+    <i class="fas fa-info-circle"></i>
+    <span id="toast-message">Pesan</span>
+  </div>
+
+  <nav class="navbar">
+    <div class="navbar-left">
+      <a href="#" id="back-btn" class="back-btn" title="Kembali">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <div class="navbar-brand">
+        <div class="brand-icon"><i class="fas fa-clipboard-question"></i></div>
+        <span>Kuis K3</span>
+      </div>
+    </div>
+    <div class="navbar-right">
+      <div class="user-badge">
+        <i class="fas fa-user-circle"></i>
+        <span id="user-role">Siswa</span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- MODE 1: DAFTAR KUIS -->
+    <div id="list-view" class="list-view">
+      <div class="page-header">
+        <div class="page-title">
+          <h1><i class="fas fa-clipboard-question"></i> Daftar Kuis K3</h1>
+          <p>Pilih kuis yang tersedia dan uji pemahamanmu tentang Keselamatan dan Kesehatan Kerja.</p>
+        </div>
+        <button id="btn-add-kuis" class="btn btn-orange guru-only" style="display:none;">
+          <i class="fas fa-plus"></i> Buat Kuis Baru
+        </button>
+      </div>
+
+      <div id="kuis-list" class="kuis-grid">
+        <div class="kuis-card">
+          <div class="skeleton" style="height:52px;width:52px;border-radius:14px;"></div>
+          <div class="skeleton" style="height:20px;width:80%;"></div>
+          <div class="skeleton" style="height:14px;width:100%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODE 2: PENGERJAAN KUIS -->
+    <div id="quiz-view" class="quiz-view">
+      <div class="quiz-header-bar">
+        <div class="quiz-info">
+          <h2 id="quiz-title">Judul Kuis</h2>
+          <p id="quiz-subtitle">Soal 1 dari 10</p>
+        </div>
+        <div class="quiz-timer" id="quiz-timer">
+          <i class="fas fa-clock"></i>
+          <span id="timer-text">00:00</span>
+        </div>
+      </div>
+
+      <div class="quiz-progress">
+        <div class="quiz-progress-info">
+          <span>Soal <strong id="progress-current">1</strong> dari <strong id="progress-total">10</strong></span>
+          <span><strong id="progress-percent">0%</strong> selesai</span>
+        </div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+        <div class="question-nav-grid" id="question-nav"></div>
+      </div>
+
+      <div class="question-card" id="question-card">
+        <span class="question-number">
+          <i class="fas fa-circle-question"></i>
+          Soal <span id="q-number">1</span>
+        </span>
+        <p class="question-text" id="q-text">Memuat soal...</p>
+        <div class="options-list" id="q-options"></div>
+
+        <div class="quiz-nav">
+          <button class="btn btn-ghost" id="btn-prev">
+            <i class="fas fa-arrow-left"></i> Sebelumnya
+          </button>
+          <button class="btn btn-primary" id="btn-next">
+            Selanjutnya <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <div style="margin-top:1.5rem;text-align:center;">
+        <button class="btn btn-success" id="btn-finish" style="padding:1rem 2rem;">
+          <i class="fas fa-check-circle"></i> Selesai &amp; Kirim Jawaban
+        </button>
+      </div>
+    </div>
+
+    <!-- MODE 3: HASIL KUIS -->
+    <div id="result-view" class="quiz-view">
+      <div class="result-card">
+        <div class="result-icon excellent" id="result-icon">
+          <i class="fas fa-trophy"></i>
+        </div>
+        <h2 id="result-title">Selamat!</h2>
+        <p class="result-desc" id="result-desc">Anda telah menyelesaikan kuis dengan baik.</p>
+
+        <div class="result-score" id="result-score">0</div>
+        <div class="result-score-label">Nilai Akhir</div>
+
+        <div class="result-stats">
+          <div class="result-stat">
+            <div class="result-stat-value correct" id="result-correct">0</div>
+            <div class="result-stat-label">Benar</div>
+          </div>
+          <div class="result-stat">
+            <div class="result-stat-value wrong" id="result-wrong">0</div>
+            <div class="result-stat-label">Salah</div>
+          </div>
+          <div class="result-stat">
+            <div class="result-stat-value total" id="result-total">0</div>
+            <div class="result-stat-label">Total Soal</div>
+          </div>
+        </div>
+
+        <div class="result-actions">
+          <button class="btn btn-primary" id="btn-back-list">
+            <i class="fas fa-list"></i> Kembali ke Daftar
+          </button>
+          <a href="nilai.html" class="btn btn-ghost">
+            <i class="fas fa-chart-line"></i> Lihat Nilai
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ============================================================
+       SUPABASE SDK & KONFIGURASI
+       ============================================================ -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const SUPABASE_URL = 'https://ddnhwcxfktcsyngupdex.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_ogAtXLGklIivo88I41J8ZA_9CWzS8D3';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log('✅ Supabase client siap di kuis.html');
+  </script>
+
   <!-- ============================================================
        SCRIPT KUIS
        ============================================================ -->
@@ -10,10 +658,10 @@
     let daftarKuis = [];
     let kuisAktif = null;
     let soalList = [];
-    let jawabanUser = {};    // { soalId: 'A' | 'B' | 'C' | 'D' }
+    let jawabanUser = {};
     let currentIndex = 0;
     let timerInterval = null;
-    let waktuTersisa = 0;    // dalam detik
+    let waktuTersisa = 0;
 
     // ============================================================
     // TOAST
@@ -98,7 +746,6 @@
           return;
         }
 
-        // Cek kuis yang sudah dikerjakan siswa
         let selesaiSet = new Set();
         if (currentRole === 'siswa' && currentSiswa) {
           const { data: nilaiData } = await supabaseClient
@@ -163,7 +810,6 @@
       jawabanUser = {};
       currentIndex = 0;
 
-      // Load soal dari Supabase
       try {
         const { data, error } = await supabaseClient
           .from('soal')
@@ -179,17 +825,13 @@
         }
 
         soalList = data;
-
-        // Setup timer
         waktuTersisa = (kuis.durasi || 10) * 60;
 
-        // Pindah ke mode quiz
         document.getElementById('list-view').classList.add('hidden');
         document.getElementById('quiz-view').classList.add('active');
         document.getElementById('quiz-title').textContent = kuis.judul;
         document.getElementById('progress-total').textContent = soalList.length;
 
-        // Render soal pertama
         renderSoal();
         renderNavigator();
         startTimer();
@@ -212,7 +854,6 @@
       document.getElementById('q-number').textContent = currentIndex + 1;
       document.getElementById('q-text').textContent = soal.pertanyaan;
 
-      // Options
       const opts = [
         { key: 'A', text: soal.pilihan_a },
         { key: 'B', text: soal.pilihan_b },
@@ -230,7 +871,6 @@
         </label>
       `).join('');
 
-      // Attach event
       document.querySelectorAll('.option-item').forEach(el => {
         el.addEventListener('click', () => {
           const key = el.dataset.key;
@@ -242,19 +882,14 @@
         });
       });
 
-      // Update tombol
       document.getElementById('btn-prev').disabled = (currentIndex === 0);
       const isLast = currentIndex === soalList.length - 1;
       document.getElementById('btn-next').style.display = isLast ? 'none' : 'inline-flex';
 
-      // Update progress
       document.getElementById('progress-current').textContent = currentIndex + 1;
       updateProgress();
     }
 
-    // ============================================================
-    // UPDATE PROGRESS
-    // ============================================================
     function updateProgress() {
       const total = soalList.length;
       const dijawab = Object.keys(jawabanUser).length;
@@ -265,9 +900,6 @@
       document.getElementById('quiz-subtitle').textContent = `Soal ${currentIndex + 1} dari ${total}`;
     }
 
-    // ============================================================
-    // RENDER NAVIGATOR SOAL
-    // ============================================================
     function renderNavigator() {
       const nav = document.getElementById('question-nav');
       nav.innerHTML = soalList.map((s, i) => {
@@ -318,12 +950,11 @@
     }
 
     // ============================================================
-    // SELESAI KUIS — Hitung Skor & Simpan
+    // SELESAI KUIS
     // ============================================================
     async function selesaiKuis() {
       clearInterval(timerInterval);
 
-      // Hitung benar/salah
       let benar = 0;
       soalList.forEach(s => {
         if (jawabanUser[s.id] === s.jawaban_benar) benar++;
@@ -333,7 +964,6 @@
       const salah = total - benar;
       const nilai = total > 0 ? Math.round((benar / total) * 100) : 0;
 
-      // Simpan ke tabel nilai (khusus siswa)
       if (currentRole === 'siswa' && currentSiswa) {
         try {
           await supabaseClient.from('nilai').insert([{
@@ -344,7 +974,6 @@
             created_at: new Date().toISOString()
           }]);
 
-          // Log aktivitas
           await supabaseClient.from('aktivitas').insert([{
             siswa_id: currentSiswa.id,
             tipe: 'kuis',
@@ -357,13 +986,9 @@
         }
       }
 
-      // Tampilkan hasil
       tampilkanHasil(benar, salah, total, nilai);
     }
 
-    // ============================================================
-    // TAMPILKAN HASIL
-    // ============================================================
     function tampilkanHasil(benar, salah, total, nilai) {
       document.getElementById('quiz-view').classList.remove('active');
       document.getElementById('result-view').classList.add('active');
@@ -402,9 +1027,6 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // ============================================================
-    // KEMBALI KE DAFTAR
-    // ============================================================
     function kembaliKeDaftar() {
       clearInterval(timerInterval);
       document.getElementById('result-view').classList.remove('active');
@@ -418,9 +1040,6 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // ============================================================
-    // HAPUS KUIS (GURU)
-    // ============================================================
     async function hapusKuis(id) {
       if (!confirm('Yakin ingin menghapus kuis ini?')) return;
       try {
@@ -435,7 +1054,7 @@
     }
 
     // ============================================================
-    // EVENT LISTENER
+    // INIT
     // ============================================================
     document.addEventListener('DOMContentLoaded', async () => {
       console.log('📄 Halaman Kuis init');
@@ -443,17 +1062,14 @@
       await cekRole();
       await loadKuis();
 
-      // Tombol back
       document.getElementById('back-btn').addEventListener('click', (e) => {
         e.preventDefault();
         window.location.href = currentRole === 'guru' ? 'dashboard-guru.html' : 'dashboard-siswa.html';
       });
 
-      // Navigasi soal
       document.getElementById('btn-prev').addEventListener('click', () => gotoSoal(currentIndex - 1));
       document.getElementById('btn-next').addEventListener('click', () => gotoSoal(currentIndex + 1));
 
-      // Selesai
       document.getElementById('btn-finish').addEventListener('click', () => {
         const dijawab = Object.keys(jawabanUser).length;
         const total = soalList.length;
@@ -465,12 +1081,13 @@
         selesaiKuis();
       });
 
-      // Kembali ke daftar
       document.getElementById('btn-back-list').addEventListener('click', kembaliKeDaftar);
     });
 
-    // Expose
     window.mulaiKuis = mulaiKuis;
     window.gotoSoal = gotoSoal;
     window.hapusKuis = hapusKuis;
   </script>
+
+</body>
+</html>
