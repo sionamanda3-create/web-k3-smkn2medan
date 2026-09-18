@@ -12,15 +12,32 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
-    /* ============================================================
-       RESET & BASE
-       ============================================================ */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    :root {
+      --primary: #1e40af;
+      --primary-light: #3b82f6;
+      --danger: #dc2626;
+      --success: #16a34a;
+      --purple: #7c3aed;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --white: #ffffff;
+      --shadow-lg: 0 20px 40px rgba(0,0,0,0.15);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #3b82f6 100%);
       min-height: 100vh;
       display: flex;
@@ -29,12 +46,9 @@
       padding: 1.5rem;
       overflow: hidden;
       position: relative;
-      -webkit-font-smoothing: antialiased;
     }
 
-    /* ============================================================
-       ANIMASI BACKGROUND
-       ============================================================ */
+    /* Background shapes */
     .bg-shape {
       position: fixed;
       border-radius: 50%;
@@ -53,9 +67,7 @@
       50%      { transform: translate(30px, -30px) scale(1.1); }
     }
 
-    /* ============================================================
-       LOGIN CARD
-       ============================================================ */
+    /* Login Card */
     .login-card {
       background: #ffffff;
       border-radius: 20px;
@@ -73,9 +85,6 @@
       to   { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    /* ============================================================
-       HEADER LOGIN
-       ============================================================ */
     .login-header { text-align: center; margin-bottom: 2rem; }
 
     .brand-icon {
@@ -90,36 +99,15 @@
     }
 
     @keyframes pulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 10px 25px rgba(30,64,175,0.35); }
-      50%      { transform: scale(1.05); box-shadow: 0 15px 35px rgba(30,64,175,0.5); }
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.05); }
     }
 
-    .login-header h1 {
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: #1f2937;
-      margin-bottom: 0.4rem;
-      letter-spacing: -0.02em;
-    }
+    .login-header h1 { font-size: 1.35rem; font-weight: 800; color: #1f2937; margin-bottom: 0.4rem; }
+    .login-header .subtitle { font-size: 0.9rem; color: #4b5563; font-weight: 500; }
+    .login-header .school { font-size: 0.78rem; color: #1e40af; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.3rem; }
 
-    .login-header .subtitle {
-      font-size: 0.9rem;
-      color: #4b5563;
-      font-weight: 500;
-    }
-
-    .login-header .school {
-      font-size: 0.78rem;
-      color: #1e40af;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-top: 0.3rem;
-    }
-
-    /* ============================================================
-       STEP TRANSITION
-       ============================================================ */
+    /* Step */
     .step { display: none; }
     .step.active { display: block; animation: fadeIn 0.4s ease; }
 
@@ -129,20 +117,11 @@
     }
 
     .step-title { text-align: center; margin-bottom: 1.5rem; }
-    .step-title h2 {
-      font-size: 1.1rem; font-weight: 700;
-      color: #1f2937; margin-bottom: 0.3rem;
-    }
-    .step-title p { font-size: 0.85rem; color: #4b5563; }
+    .step-title h2 { font-size: 1.1rem; font-weight: 700; color: #1f2937; margin-bottom: 0.3rem; }
+    .step-title p  { font-size: 0.85rem; color: #4b5563; }
 
-    /* ============================================================
-       PILIHAN PERAN (SISWA / GURU)
-       ============================================================ */
-    .role-choice-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
+    /* Pilih peran */
+    .role-choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
     .role-choice {
       background: #ffffff;
@@ -167,24 +146,16 @@
       transition: opacity 0.35s;
       z-index: 0;
     }
-
     .role-choice.siswa::before { background: linear-gradient(135deg, #1e40af, #3b82f6); }
     .role-choice.guru::before  { background: linear-gradient(135deg, #7c3aed, #a855f7); }
-
     .role-choice:hover::before { opacity: 1; }
-
     .role-choice > * { position: relative; z-index: 1; }
-
     .role-choice:hover {
       transform: translateY(-6px) scale(1.02);
       border-color: transparent;
       box-shadow: 0 15px 30px rgba(30,64,175,0.3);
     }
-
-    .role-choice.guru:hover {
-      box-shadow: 0 15px 30px rgba(124,58,237,0.3);
-    }
-
+    .role-choice.guru:hover { box-shadow: 0 15px 30px rgba(124,58,237,0.3); }
     .role-choice:hover .role-choice-label,
     .role-choice:hover .role-choice-desc { color: white; }
 
@@ -194,41 +165,23 @@
       font-size: 2.2rem;
       transition: all 0.35s;
     }
-
     .role-choice.siswa .role-choice-icon { background: #dbeafe; color: #1e40af; }
     .role-choice.guru .role-choice-icon  { background: #e9d5ff; color: #7c3aed; }
     .role-choice:hover .role-choice-icon { background: rgba(255,255,255,0.25); color: white; }
 
-    .role-choice-label {
-      font-size: 1.1rem; font-weight: 800;
-      color: #1f2937; transition: color 0.3s;
-    }
-    .role-choice-desc {
-      font-size: 0.75rem; color: #4b5563;
-      font-weight: 500; transition: color 0.3s;
-    }
+    .role-choice-label { font-size: 1.1rem; font-weight: 800; color: #1f2937; transition: color 0.3s; }
+    .role-choice-desc  { font-size: 0.75rem; color: #4b5563; font-weight: 500; transition: color 0.3s; }
 
-    /* ============================================================
-       FORM
-       ============================================================ */
+    /* Form */
     .form-group { margin-bottom: 1.1rem; }
-
-    .form-group label {
-      display: block;
-      font-size: 0.82rem; font-weight: 700;
-      color: #1f2937; margin-bottom: 0.45rem;
-      letter-spacing: 0.01em;
-    }
+    .form-group label { display: block; font-size: 0.82rem; font-weight: 700; color: #1f2937; margin-bottom: 0.45rem; }
 
     .input-wrapper { position: relative; }
-
     .input-wrapper i.field-icon {
-      position: absolute;
-      left: 1rem; top: 50%;
+      position: absolute; left: 1rem; top: 50%;
       transform: translateY(-50%);
       color: #9ca3af; font-size: 0.95rem;
       pointer-events: none;
-      transition: color 0.25s;
     }
 
     .input-wrapper input,
@@ -237,15 +190,11 @@
       padding: 0.85rem 1rem 0.85rem 2.75rem;
       border: 1.5px solid #e5e7eb;
       border-radius: 10px;
-      font-family: inherit;
-      font-size: 0.92rem;
-      color: #1f2937;
-      background: white;
+      font-family: inherit; font-size: 0.92rem;
+      color: #1f2937; background: white;
       outline: none;
       transition: all 0.25s;
     }
-
-    .input-wrapper input::placeholder { color: #9ca3af; }
 
     .input-wrapper input:focus,
     .input-wrapper select:focus {
@@ -253,58 +202,38 @@
       box-shadow: 0 0 0 4px rgba(30,64,175,0.1);
     }
 
-    .input-wrapper input:focus ~ i.field-icon,
-    .input-wrapper select:focus ~ i.field-icon {
-      color: #1e40af;
-    }
-
-    .input-wrapper select { cursor: pointer; }
-
-    /* Toggle password */
     .toggle-password {
-      position: absolute;
-      right: 0.9rem; top: 50%;
+      position: absolute; right: 0.9rem; top: 50%;
       transform: translateY(-50%);
       background: none; border: none;
       color: #9ca3af; cursor: pointer;
       font-size: 0.95rem; padding: 0.3rem;
-      transition: color 0.2s;
     }
     .toggle-password:hover { color: #1e40af; }
 
-    /* ============================================================
-       BUTTON
-       ============================================================ */
     .btn-login {
-      width: 100%;
-      padding: 0.9rem 1.5rem;
+      width: 100%; padding: 0.9rem 1.5rem;
       background: linear-gradient(135deg, #1e40af, #3b82f6);
-      color: white;
-      border: none;
-      border-radius: 12px;
-      font-family: inherit;
-      font-size: 0.95rem;
-      font-weight: 700;
+      color: white; border: none; border-radius: 12px;
+      font-family: inherit; font-size: 0.95rem; font-weight: 700;
       cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       gap: 0.6rem;
       margin-top: 0.5rem;
       transition: all 0.3s;
-      letter-spacing: 0.01em;
     }
-
-    .btn-login.guru {
-      background: linear-gradient(135deg, #7c3aed, #a855f7);
-    }
-
-    .btn-login:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(30,64,175,0.35);
-    }
-    .btn-login.guru:hover:not(:disabled) {
-      box-shadow: 0 8px 20px rgba(124,58,237,0.35);
-    }
+    .btn-login.guru { background: linear-gradient(135deg, #7c3aed, #a855f7); }
+    .btn-login:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(30,64,175,0.35); }
+    .btn-login.guru:hover:not(:disabled) { box-shadow: 0 8px 20px rgba(124,58,237,0.35); }
     .btn-login:disabled { opacity: 0.7; cursor: not-allowed; }
+
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: none; border: none;
+      color: #4b5563; font-family: inherit; font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; padding: 0.4rem 0; margin-bottom: 1rem;
+    }
+    .back-btn:hover { color: #1e40af; }
 
     .spinner {
       display: none;
@@ -318,37 +247,11 @@
     .btn-login.loading .spinner { display: inline-block; }
     .btn-login.loading .btn-text { display: none; }
 
-    /* ============================================================
-       BACK BUTTON
-       ============================================================ */
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: none;
-      border: none;
-      color: #4b5563;
-      font-family: inherit;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      padding: 0.4rem 0;
-      margin-bottom: 1rem;
-      transition: color 0.2s;
-    }
-    .back-btn:hover { color: #1e40af; }
-    .back-btn i { font-size: 0.8rem; }
-
-    /* ============================================================
-       TOAST
-       ============================================================ */
+    /* Toast */
     .toast {
-      position: fixed;
-      top: 1.5rem; right: 1.5rem;
-      background: white;
-      padding: 1rem 1.3rem;
-      border-radius: 10px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      position: fixed; top: 1.5rem; right: 1.5rem;
+      background: white; padding: 1rem 1.3rem;
+      border-radius: 10px; box-shadow: 0 20px 40px rgba(0,0,0,0.15);
       display: flex; align-items: center; gap: 0.75rem;
       font-size: 0.88rem; font-weight: 500;
       z-index: 9999;
@@ -365,38 +268,30 @@
     .toast.info    { border-left: 4px solid #1e40af; }
     .toast.info i  { color: #1e40af; }
 
-    /* ============================================================
-       RESPONSIVE
-       ============================================================ */
     @media (max-width: 480px) {
       .login-card { padding: 1.8rem 1.3rem; }
       .brand-icon { width: 64px; height: 64px; font-size: 1.6rem; }
       .login-header h1 { font-size: 1.15rem; }
       .role-choice-icon { width: 60px; height: 60px; font-size: 1.6rem; }
       .role-choice { padding: 1.5rem 0.8rem; }
-      .role-choice-label { font-size: 0.95rem; }
       .toast { right: 0.75rem; left: 0.75rem; max-width: none; }
     }
   </style>
 </head>
 <body data-page="login">
 
-  <!-- Background Shapes -->
   <div class="bg-shape one"></div>
   <div class="bg-shape two"></div>
   <div class="bg-shape three"></div>
   <div class="bg-shape four"></div>
 
-  <!-- Toast -->
   <div id="toast" class="toast">
     <i class="fas fa-info-circle"></i>
     <span id="toast-message">Pesan</span>
   </div>
 
-  <!-- Login Card -->
   <div class="login-card">
 
-    <!-- HEADER -->
     <div class="login-header">
       <div class="brand-icon"><i class="fas fa-hard-hat"></i></div>
       <h1>Media Pembelajaran Interaktif K3</h1>
@@ -404,9 +299,7 @@
       <p class="school">Teknik Pemesinan — SMK Negeri 2 Medan</p>
     </div>
 
-    <!-- ============================================================
-         STEP 1: PILIH PERAN
-         ============================================================ -->
+    <!-- STEP 1: Pilih Peran -->
     <div id="step-role" class="step active">
       <div class="step-title">
         <h2>Pilih Peran Anda</h2>
@@ -428,9 +321,7 @@
       </div>
     </div>
 
-    <!-- ============================================================
-         STEP 2A: LOGIN SISWA
-         ============================================================ -->
+    <!-- STEP 2A: Login Siswa -->
     <div id="step-siswa" class="step">
       <button type="button" class="back-btn" id="back-from-siswa">
         <i class="fas fa-arrow-left"></i> Kembali
@@ -476,9 +367,7 @@
       </form>
     </div>
 
-    <!-- ============================================================
-         STEP 2B: LOGIN GURU
-         ============================================================ -->
+    <!-- STEP 2B: Login Guru -->
     <div id="step-guru" class="step">
       <button type="button" class="back-btn" id="back-from-guru">
         <i class="fas fa-arrow-left"></i> Kembali
@@ -523,6 +412,254 @@
        ============================================================ -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/app.js"></script>
+
+  <!-- ============================================================
+       SCRIPT LOGIN (INLINE — WAJIB ADA!)
+       ============================================================ -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('📄 Login page siap');
+
+      // ============================================================
+      // STEP NAVIGATION
+      // ============================================================
+      function showStep(stepId) {
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(stepId);
+        if (target) {
+          target.classList.add('active');
+          console.log('➡️ Step:', stepId);
+        }
+      }
+
+      // Tombol pilih peran
+      const btnSiswa = document.getElementById('choose-siswa');
+      const btnGuru  = document.getElementById('choose-guru');
+
+      if (btnSiswa) {
+        btnSiswa.addEventListener('click', (e) => {
+          e.preventDefault();
+          showStep('step-siswa');
+          setTimeout(() => document.getElementById('siswa-nama')?.focus(), 300);
+        });
+      }
+
+      if (btnGuru) {
+        btnGuru.addEventListener('click', (e) => {
+          e.preventDefault();
+          showStep('step-guru');
+          setTimeout(() => document.getElementById('guru-email')?.focus(), 300);
+        });
+      }
+
+      // Tombol kembali
+      document.getElementById('back-from-siswa')?.addEventListener('click', () => showStep('step-role'));
+      document.getElementById('back-from-guru')?.addEventListener('click', () => showStep('step-role'));
+
+      // ============================================================
+      // TOGGLE PASSWORD
+      // ============================================================
+      const togglePwd = document.getElementById('toggle-password-guru');
+      const pwdInput = document.getElementById('guru-password');
+      if (togglePwd && pwdInput) {
+        togglePwd.addEventListener('click', () => {
+          const isPwd = pwdInput.type === 'password';
+          pwdInput.type = isPwd ? 'text' : 'password';
+          const icon = togglePwd.querySelector('i');
+          if (icon) icon.className = isPwd ? 'fas fa-eye-slash' : 'fas fa-eye';
+        });
+      }
+
+      // ============================================================
+      // TOAST
+      // ============================================================
+      function showToast(message, type = 'info') {
+        const toast = document.getElementById('toast');
+        const msg = document.getElementById('toast-message');
+        if (!toast || !msg) { alert(message); return; }
+        const icon = toast.querySelector('i');
+        toast.className = 'toast ' + type;
+        msg.textContent = message;
+        const icons = {
+          error:   'fa-circle-exclamation',
+          success: 'fa-circle-check',
+          info:    'fa-circle-info'
+        };
+        if (icon) icon.className = 'fas ' + (icons[type] || icons.info);
+        toast.classList.add('show');
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(() => toast.classList.remove('show'), 3500);
+      }
+
+      // ============================================================
+      // LOGIN SISWA
+      // ============================================================
+      const formSiswa = document.getElementById('login-form-siswa');
+      if (formSiswa) {
+        formSiswa.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          console.log('🎓 Login siswa...');
+
+          const nama = document.getElementById('siswa-nama').value.trim();
+          const kelas = document.getElementById('siswa-kelas').value;
+          const btn = document.getElementById('btn-login-siswa');
+
+          if (!nama || !kelas) {
+            showToast('Nama dan kelas wajib diisi!', 'error');
+            return;
+          }
+
+          if (nama.length < 3) {
+            showToast('Nama minimal 3 karakter!', 'error');
+            return;
+          }
+
+          btn.classList.add('loading');
+          btn.disabled = true;
+
+          try {
+            // Cek apakah siswa sudah ada
+            const { data: existing, error: checkErr } = await supabaseClient
+              .from('siswa')
+              .select('*')
+              .eq('nama', nama)
+              .eq('kelas', kelas)
+              .maybeSingle();
+
+            if (checkErr && checkErr.code !== 'PGRST116') throw checkErr;
+
+            let siswaData;
+
+            if (existing) {
+              // Update login count
+              const { data: updated, error: updateErr } = await supabaseClient
+                .from('siswa')
+                .update({
+                  last_login: new Date().toISOString(),
+                  login_count: (existing.login_count || 0) + 1,
+                  status: 'aktif'
+                })
+                .eq('id', existing.id)
+                .select()
+                .single();
+
+              if (updateErr) throw updateErr;
+              siswaData = updated;
+              console.log('✅ Siswa update:', siswaData);
+            } else {
+              // Insert siswa baru
+              const { data: inserted, error: insertErr } = await supabaseClient
+                .from('siswa')
+                .insert([{
+                  nama: nama,
+                  kelas: kelas,
+                  last_login: new Date().toISOString(),
+                  login_count: 1,
+                  status: 'aktif'
+                }])
+                .select()
+                .single();
+
+              if (insertErr) throw insertErr;
+              siswaData = inserted;
+              console.log('✅ Siswa baru:', siswaData);
+            }
+
+            // Simpan session
+            localStorage.setItem('siswa_session', JSON.stringify({
+              id: siswaData.id,
+              nama: siswaData.nama,
+              kelas: siswaData.kelas,
+              login_at: new Date().toISOString()
+            }));
+
+            showToast('Login berhasil! Selamat belajar, ' + nama, 'success');
+
+            setTimeout(() => {
+              window.location.href = 'dashboard-siswa.html';
+            }, 900);
+
+          } catch (err) {
+            console.error('❌ Error login siswa:', err);
+            showToast('Gagal login: ' + (err.message || 'Terjadi kesalahan'), 'error');
+            btn.classList.remove('loading');
+            btn.disabled = false;
+          }
+        });
+      }
+
+      // ============================================================
+      // LOGIN GURU
+      // ============================================================
+      const formGuru = document.getElementById('login-form-guru');
+      if (formGuru) {
+        formGuru.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          console.log('👨‍🏫 Login guru...');
+
+          const email = document.getElementById('guru-email').value.trim();
+          const password = document.getElementById('guru-password').value;
+          const btn = document.getElementById('btn-login-guru');
+
+          if (!email || !password) {
+            showToast('Email dan password wajib diisi!', 'error');
+            return;
+          }
+
+          btn.classList.add('loading');
+          btn.disabled = true;
+
+          try {
+            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
+            if (error) {
+              showToast('Login gagal: ' + error.message, 'error');
+              btn.classList.remove('loading');
+              btn.disabled = false;
+              return;
+            }
+
+            // Cek role
+            const { data: profile } = await supabaseClient
+              .from('profiles')
+              .select('role, full_name')
+              .eq('id', data.user.id)
+              .single();
+
+            if (profile?.role !== 'guru') {
+              showToast('Akun ini bukan akun guru!', 'error');
+              await supabaseClient.auth.signOut();
+              btn.classList.remove('loading');
+              btn.disabled = false;
+              return;
+            }
+
+            showToast('Login berhasil! Halo ' + (profile.full_name || 'Guru'), 'success');
+
+            setTimeout(() => {
+              window.location.href = 'dashboard-guru.html';
+            }, 900);
+
+          } catch (err) {
+            console.error('❌ Error login guru:', err);
+            showToast('Error: ' + (err.message || 'Terjadi kesalahan'), 'error');
+            btn.classList.remove('loading');
+            btn.disabled = false;
+          }
+        });
+      }
+
+      // ENTER di nama siswa → fokus ke kelas
+      document.getElementById('siswa-nama')?.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          document.getElementById('siswa-kelas')?.focus();
+        }
+      });
+
+      console.log('✅ Login page initialized');
+    });
+  </script>
 
 </body>
 </html>
