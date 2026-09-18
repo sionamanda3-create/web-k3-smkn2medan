@@ -12,7 +12,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
-    /* ============ RESET & VARIABEL ============ */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
@@ -48,7 +47,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ============ NAVBAR ============ */
+    /* NAVBAR */
     .navbar {
       position: sticky; top: 0; z-index: 100;
       background: rgba(255,255,255,0.95);
@@ -89,10 +88,10 @@
       font-size: 0.78rem; font-weight: 600; color: var(--gray-600);
     }
 
-    /* ============ CONTAINER ============ */
+    /* CONTAINER */
     .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
 
-    /* ============ PAGE HEADER ============ */
+    /* PAGE HEADER */
     .page-header {
       display: flex; justify-content: space-between; align-items: flex-start;
       margin-bottom: 1.8rem; gap: 1rem; flex-wrap: wrap;
@@ -105,7 +104,7 @@
     .page-title h1 i { color: var(--primary); }
     .page-title p { font-size: 0.88rem; color: var(--gray-500); font-weight: 500; }
 
-    /* ============ BUTTONS ============ */
+    /* BUTTONS */
     .btn {
       padding: 0.75rem 1.3rem; border-radius: 10px; border: none;
       font-family: inherit; font-size: 0.88rem; font-weight: 700;
@@ -130,7 +129,7 @@
     .btn-danger:hover { background: #fecaca; }
     .btn-sm { padding: 0.55rem 0.9rem; font-size: 0.8rem; border-radius: 8px; }
 
-    /* ============ TOOLBAR ============ */
+    /* TOOLBAR */
     .toolbar {
       background: var(--white);
       border-radius: var(--radius);
@@ -174,7 +173,7 @@
       box-shadow: var(--shadow-sm);
     }
 
-    /* ============ MATERI GRID ============ */
+    /* MATERI GRID */
     .materi-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -287,7 +286,7 @@
     .materi-grid.list-view-mode .materi-thumb { width: 140px; height: auto; flex-shrink: 0; }
     .materi-grid.list-view-mode .materi-body { padding: 1.2rem 1.5rem; }
 
-    /* ============ EMPTY STATE ============ */
+    /* EMPTY STATE */
     .empty-state {
       background: var(--white);
       border-radius: var(--radius);
@@ -306,7 +305,7 @@
     }
     .empty-state p { font-size: 0.88rem; color: var(--gray-500); }
 
-    /* ============ SKELETON ============ */
+    /* SKELETON */
     .skeleton {
       background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
       background-size: 200% 100%;
@@ -318,7 +317,7 @@
       100% { background-position: -200% 0; }
     }
 
-    /* ============ MODAL ============ */
+    /* MODAL */
     .modal-overlay {
       position: fixed; inset: 0;
       background: rgba(15, 23, 42, 0.7);
@@ -342,7 +341,6 @@
     }
     .modal-form { max-width: 620px; }
 
-    /* Reader modal */
     .modal-reader-header {
       padding: 1.5rem 2rem;
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
@@ -412,7 +410,6 @@
       display: flex; gap: 0.6rem; margin-left: auto;
     }
 
-    /* Form modal */
     .modal-form-header {
       padding: 1.5rem 1.8rem;
       border-bottom: 1px solid var(--gray-100);
@@ -465,7 +462,7 @@
       background: var(--gray-50); flex-shrink: 0;
     }
 
-    /* ============ TOAST ============ */
+    /* TOAST */
     .toast {
       position: fixed; top: 1.5rem; right: 1.5rem;
       background: white; padding: 1rem 1.3rem;
@@ -486,7 +483,6 @@
     .toast.info    { border-left: 4px solid var(--primary); }
     .toast.info i  { color: var(--primary); }
 
-    /* ============ RESPONSIVE ============ */
     @media (max-width: 640px) {
       .navbar { padding: 0.75rem 1rem; }
       .container { padding: 1.5rem 1rem 4rem; }
@@ -505,13 +501,11 @@
 </head>
 <body data-page="materi">
 
-  <!-- TOAST -->
   <div id="toast" class="toast">
     <i class="fas fa-info-circle"></i>
     <span id="toast-message">Pesan</span>
   </div>
 
-  <!-- NAVBAR -->
   <nav class="navbar">
     <div class="navbar-left">
       <a href="dashboard-siswa.html" id="back-btn" class="back-btn" title="Kembali">
@@ -530,7 +524,6 @@
     </div>
   </nav>
 
-  <!-- KONTEN -->
   <main class="container">
 
     <div class="page-header">
@@ -567,15 +560,6 @@
         <div class="materi-body">
           <div class="skeleton" style="height:18px;width:80%;"></div>
           <div class="skeleton" style="height:12px;width:100%;"></div>
-          <div class="skeleton" style="height:12px;width:70%;"></div>
-        </div>
-      </div>
-      <div class="materi-card">
-        <div class="skeleton" style="height:120px;border-radius:0;"></div>
-        <div class="materi-body">
-          <div class="skeleton" style="height:18px;width:80%;"></div>
-          <div class="skeleton" style="height:12px;width:100%;"></div>
-          <div class="skeleton" style="height:12px;width:70%;"></div>
         </div>
       </div>
     </div>
@@ -678,13 +662,24 @@
     </div>
   </div>
 
+  <!-- ============================================================
+       SUPABASE SDK & KONFIGURASI
+       ============================================================ -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/app.js"></script>
 
   <script>
-    // ============================================================
-    // STATE
-    // ============================================================
+    const SUPABASE_URL = 'https://ddnhwcxfktcsyngupdex.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_ogAtXLGklIivo88I41J8ZA_9CWzS8D3';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log('✅ Supabase client siap di materi.html');
+  </script>
+
+  <script src="js/app.js"></script>
+
+  <!-- ============================================================
+       SCRIPT MATERI
+       ============================================================ -->
+  <script>
     let semuaMateri = [];
     let filterKata = '';
     let currentIndex = -1;
@@ -693,9 +688,6 @@
     let editId = null;
     let materiSelesaiSet = new Set();
 
-    // ============================================================
-    // TOAST
-    // ============================================================
     function showToast(message, type = 'info') {
       const toast = document.getElementById('toast');
       const msg = document.getElementById('toast-message');
@@ -710,11 +702,7 @@
       toast._timer = setTimeout(() => toast.classList.remove('show'), 3500);
     }
 
-    // ============================================================
-    // CEK ROLE (SISWA / GURU)
-    // ============================================================
     async function cekRole() {
-      // Cek session siswa dulu
       const sessionSiswa = localStorage.getItem('siswa_session');
       if (sessionSiswa) {
         try {
@@ -726,7 +714,6 @@
         } catch (e) { /* lanjut */ }
       }
 
-      // Cek session guru via Supabase
       const { data: { user } } = await supabaseClient.auth.getUser();
       if (user) {
         const { data: profile } = await supabaseClient
@@ -741,13 +728,9 @@
         }
       }
 
-      // Tidak ada session
       window.location.href = 'index.html';
     }
 
-    // ============================================================
-    // LOAD MATERI DARI SUPABASE
-    // ============================================================
     async function loadMateri() {
       const list = document.getElementById('materi-list');
       list.innerHTML = `
@@ -767,12 +750,10 @@
 
         if (error) throw error;
 
-        // Filter: guru lihat semua, siswa hanya aktif
         semuaMateri = (data || []).filter(m =>
           currentRole === 'guru' || m.status === 'aktif'
         );
 
-        // Load materi selesai (khusus siswa)
         if (currentRole === 'siswa' && currentSiswa) {
           await loadMateriSelesai();
         }
@@ -790,9 +771,6 @@
       }
     }
 
-    // ============================================================
-    // LOAD MATERI YANG SUDAH SELESAI DIBACA
-    // ============================================================
     async function loadMateriSelesai() {
       if (!currentSiswa) return;
       try {
@@ -810,13 +788,9 @@
       }
     }
 
-    // ============================================================
-    // RENDER MATERI
-    // ============================================================
     function renderMateri() {
       const list = document.getElementById('materi-list');
 
-      // Filter berdasarkan pencarian
       const q = filterKata.toLowerCase().trim();
       const filtered = q
         ? semuaMateri.filter(m =>
@@ -878,7 +852,6 @@
         `;
       }).join('');
 
-      // Attach click event ke card
       list.querySelectorAll('.materi-card').forEach(card => {
         card.addEventListener('click', (e) => {
           if (e.target.closest('.icon-btn')) return;
@@ -887,26 +860,20 @@
       });
     }
 
-    // ============================================================
-    // BUKA MATERI (MODAL READER)
-    // ============================================================
     function bukaMateri(id) {
       const m = semuaMateri.find(x => x.id === id);
       if (!m) return;
 
       currentIndex = semuaMateri.indexOf(m);
 
-      // Update header
       document.getElementById('reader-title').textContent = m.judul;
 
       const jumlahKata = (m.konten || '').split(/\s+/).length;
       const estimasiBaca = Math.max(1, Math.ceil(jumlahKata / 200));
       document.getElementById('reader-time').textContent = `${estimasiBaca} menit baca`;
 
-      // Update body
       document.getElementById('reader-body').innerHTML = m.konten || '<p>Konten belum tersedia.</p>';
 
-      // Update status
       const selesai = materiSelesaiSet.has(m.judul);
       const statusEl = document.getElementById('reader-status');
       const btnMark = document.getElementById('btn-mark-read');
@@ -925,7 +892,6 @@
         btnMark.classList.remove('btn-ghost');
       }
 
-      // Tampilkan modal
       document.getElementById('modal-reader').classList.add('show');
       document.body.style.overflow = 'hidden';
       setTimeout(() => document.getElementById('reader-body').scrollTop = 0, 100);
@@ -936,9 +902,6 @@
       document.body.style.overflow = '';
     }
 
-    // ============================================================
-    // TANDAI SELESAI
-    // ============================================================
     async function tandaiSelesai() {
       if (currentIndex < 0 || !currentSiswa) {
         showToast('Hanya siswa yang bisa menandai materi.', 'info');
@@ -987,9 +950,6 @@
       }
     }
 
-    // ============================================================
-    // NAVIGASI MATERI
-    // ============================================================
     function nextMateri() {
       if (currentIndex < semuaMateri.length - 1) {
         bukaMateri(semuaMateri[currentIndex + 1].id);
@@ -998,9 +958,6 @@
       }
     }
 
-    // ============================================================
-    // CRUD MATERI (GURU)
-    // ============================================================
     function bukaFormModal(materi = null) {
       editId = materi?.id || null;
       document.getElementById('form-title').innerHTML = materi
@@ -1083,52 +1040,37 @@
       }
     }
 
-    // ============================================================
-    // EVENT LISTENER
-    // ============================================================
     document.addEventListener('DOMContentLoaded', async () => {
       console.log('📄 Halaman Materi init');
 
-      // Cek role
       await cekRole();
-
-      // Load materi
       await loadMateri();
 
-      // Tombol back
       document.getElementById('back-btn').addEventListener('click', (e) => {
         e.preventDefault();
         window.location.href = currentRole === 'guru' ? 'dashboard-guru.html' : 'dashboard-siswa.html';
       });
 
-      // Tombol tambah materi (guru)
       document.getElementById('btn-add-materi')?.addEventListener('click', () => bukaFormModal());
 
-      // Close reader
       document.getElementById('close-reader').addEventListener('click', closeReader);
       document.getElementById('modal-reader').addEventListener('click', (e) => {
         if (e.target.id === 'modal-reader') closeReader();
       });
 
-      // Tombol tandai selesai
       document.getElementById('btn-mark-read').addEventListener('click', tandaiSelesai);
-
-      // Tombol next materi
       document.getElementById('btn-reader-next').addEventListener('click', nextMateri);
 
-      // Close form modal
       document.getElementById('close-form').addEventListener('click', closeFormModal);
       document.getElementById('modal-form').addEventListener('click', (e) => {
         if (e.target.id === 'modal-form') closeFormModal();
       });
 
-      // Search
       document.getElementById('filter-materi').addEventListener('input', (e) => {
         filterKata = e.target.value;
         renderMateri();
       });
 
-      // View toggle
       document.getElementById('view-grid').addEventListener('click', () => {
         document.getElementById('materi-list').classList.remove('list-view-mode');
         document.getElementById('view-grid').classList.add('active');
@@ -1140,13 +1082,11 @@
         document.getElementById('view-grid').classList.remove('active');
       });
 
-      // Refresh
       document.getElementById('btn-refresh').addEventListener('click', () => {
         loadMateri();
         showToast('Data dimuat ulang', 'info');
       });
 
-      // ESC untuk close
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
           closeReader();
@@ -1155,7 +1095,6 @@
       });
     });
 
-    // Expose
     window.bukaMateri = bukaMateri;
     window.editMateri = editMateri;
     window.hapusMateri = hapusMateri;
