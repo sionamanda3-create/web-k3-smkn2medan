@@ -14,28 +14,6 @@
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-    :root {
-      --primary: #1e40af;
-      --primary-light: #3b82f6;
-      --danger: #dc2626;
-      --success: #16a34a;
-      --purple: #7c3aed;
-      --gray-50: #f9fafb;
-      --gray-100: #f3f4f6;
-      --gray-200: #e5e7eb;
-      --gray-300: #d1d5db;
-      --gray-400: #9ca3af;
-      --gray-500: #6b7280;
-      --gray-600: #4b5563;
-      --gray-700: #374151;
-      --gray-800: #1f2937;
-      --white: #ffffff;
-      --shadow-lg: 0 20px 40px rgba(0,0,0,0.15);
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    html { scroll-behavior: smooth; }
-
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #3b82f6 100%);
@@ -48,7 +26,6 @@
       position: relative;
     }
 
-    /* Background shapes */
     .bg-shape {
       position: fixed;
       border-radius: 50%;
@@ -67,7 +44,6 @@
       50%      { transform: translate(30px, -30px) scale(1.1); }
     }
 
-    /* Login Card */
     .login-card {
       background: #ffffff;
       border-radius: 20px;
@@ -107,7 +83,6 @@
     .login-header .subtitle { font-size: 0.9rem; color: #4b5563; font-weight: 500; }
     .login-header .school { font-size: 0.78rem; color: #1e40af; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.3rem; }
 
-    /* Step */
     .step { display: none; }
     .step.active { display: block; animation: fadeIn 0.4s ease; }
 
@@ -120,7 +95,6 @@
     .step-title h2 { font-size: 1.1rem; font-weight: 700; color: #1f2937; margin-bottom: 0.3rem; }
     .step-title p  { font-size: 0.85rem; color: #4b5563; }
 
-    /* Pilih peran */
     .role-choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
     .role-choice {
@@ -172,7 +146,6 @@
     .role-choice-label { font-size: 1.1rem; font-weight: 800; color: #1f2937; transition: color 0.3s; }
     .role-choice-desc  { font-size: 0.75rem; color: #4b5563; font-weight: 500; transition: color 0.3s; }
 
-    /* Form */
     .form-group { margin-bottom: 1.1rem; }
     .form-group label { display: block; font-size: 0.82rem; font-weight: 700; color: #1f2937; margin-bottom: 0.45rem; }
 
@@ -247,7 +220,6 @@
     .btn-login.loading .spinner { display: inline-block; }
     .btn-login.loading .btn-text { display: none; }
 
-    /* Toast */
     .toast {
       position: fixed; top: 1.5rem; right: 1.5rem;
       background: white; padding: 1rem 1.3rem;
@@ -299,7 +271,7 @@
       <p class="school">Teknik Pemesinan — SMK Negeri 2 Medan</p>
     </div>
 
-    <!-- STEP 1: Pilih Peran -->
+    <!-- STEP 1 -->
     <div id="step-role" class="step active">
       <div class="step-title">
         <h2>Pilih Peran Anda</h2>
@@ -321,7 +293,7 @@
       </div>
     </div>
 
-    <!-- STEP 2A: Login Siswa -->
+    <!-- STEP 2A: SISWA -->
     <div id="step-siswa" class="step">
       <button type="button" class="back-btn" id="back-from-siswa">
         <i class="fas fa-arrow-left"></i> Kembali
@@ -367,7 +339,7 @@
       </form>
     </div>
 
-    <!-- STEP 2B: Login Guru -->
+    <!-- STEP 2B: GURU -->
     <div id="step-guru" class="step">
       <button type="button" class="back-btn" id="back-from-guru">
         <i class="fas fa-arrow-left"></i> Kembali
@@ -408,21 +380,30 @@
   </div>
 
   <!-- ============================================================
-       SUPABASE & APP.JS
+       SUPABASE SDK
        ============================================================ -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/app.js"></script>
 
   <!-- ============================================================
-       SCRIPT LOGIN (INLINE — WAJIB ADA!)
+       KONFIGURASI SUPABASE (WAJIB ADA)
+       ============================================================ -->
+  <script>
+    // GANTI dengan URL dan Anon Key project Supabase Anda
+    const SUPABASE_URL = 'https://ddnhwcxfktcsyngupdex.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_ogAtXLGklIivo88I41J8ZA_9CWzS8D3';
+
+    // Buat client Supabase global
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  </script>
+
+  <!-- ============================================================
+       LOGIC LOGIN
        ============================================================ -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       console.log('📄 Login page siap');
 
-      // ============================================================
-      // STEP NAVIGATION
-      // ============================================================
+      // ============ NAVIGASI STEP ============
       function showStep(stepId) {
         document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
         const target = document.getElementById(stepId);
@@ -432,33 +413,22 @@
         }
       }
 
-      // Tombol pilih peran
-      const btnSiswa = document.getElementById('choose-siswa');
-      const btnGuru  = document.getElementById('choose-guru');
+      document.getElementById('choose-siswa')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        showStep('step-siswa');
+        setTimeout(() => document.getElementById('siswa-nama')?.focus(), 300);
+      });
 
-      if (btnSiswa) {
-        btnSiswa.addEventListener('click', (e) => {
-          e.preventDefault();
-          showStep('step-siswa');
-          setTimeout(() => document.getElementById('siswa-nama')?.focus(), 300);
-        });
-      }
+      document.getElementById('choose-guru')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        showStep('step-guru');
+        setTimeout(() => document.getElementById('guru-email')?.focus(), 300);
+      });
 
-      if (btnGuru) {
-        btnGuru.addEventListener('click', (e) => {
-          e.preventDefault();
-          showStep('step-guru');
-          setTimeout(() => document.getElementById('guru-email')?.focus(), 300);
-        });
-      }
-
-      // Tombol kembali
       document.getElementById('back-from-siswa')?.addEventListener('click', () => showStep('step-role'));
       document.getElementById('back-from-guru')?.addEventListener('click', () => showStep('step-role'));
 
-      // ============================================================
-      // TOGGLE PASSWORD
-      // ============================================================
+      // ============ TOGGLE PASSWORD ============
       const togglePwd = document.getElementById('toggle-password-guru');
       const pwdInput = document.getElementById('guru-password');
       if (togglePwd && pwdInput) {
@@ -470,9 +440,7 @@
         });
       }
 
-      // ============================================================
-      // TOAST
-      // ============================================================
+      // ============ TOAST ============
       function showToast(message, type = 'info') {
         const toast = document.getElementById('toast');
         const msg = document.getElementById('toast-message');
@@ -491,165 +459,152 @@
         toast._timer = setTimeout(() => toast.classList.remove('show'), 3500);
       }
 
-      // ============================================================
-      // LOGIN SISWA
-      // ============================================================
-      const formSiswa = document.getElementById('login-form-siswa');
-      if (formSiswa) {
-        formSiswa.addEventListener('submit', async (e) => {
-          e.preventDefault();
-          console.log('🎓 Login siswa...');
+      // ============ LOGIN SISWA ============
+      document.getElementById('login-form-siswa')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        console.log('🎓 Login siswa...');
 
-          const nama = document.getElementById('siswa-nama').value.trim();
-          const kelas = document.getElementById('siswa-kelas').value;
-          const btn = document.getElementById('btn-login-siswa');
+        const nama = document.getElementById('siswa-nama').value.trim();
+        const kelas = document.getElementById('siswa-kelas').value;
+        const btn = document.getElementById('btn-login-siswa');
 
-          if (!nama || !kelas) {
-            showToast('Nama dan kelas wajib diisi!', 'error');
-            return;
-          }
+        if (!nama || !kelas) {
+          showToast('Nama dan kelas wajib diisi!', 'error');
+          return;
+        }
 
-          if (nama.length < 3) {
-            showToast('Nama minimal 3 karakter!', 'error');
-            return;
-          }
+        if (nama.length < 3) {
+          showToast('Nama minimal 3 karakter!', 'error');
+          return;
+        }
 
-          btn.classList.add('loading');
-          btn.disabled = true;
+        btn.classList.add('loading');
+        btn.disabled = true;
 
-          try {
-            // Cek apakah siswa sudah ada
-            const { data: existing, error: checkErr } = await supabaseClient
+        try {
+          // Cek siswa sudah ada
+          const { data: existing, error: checkErr } = await supabaseClient
+            .from('siswa')
+            .select('*')
+            .eq('nama', nama)
+            .eq('kelas', kelas)
+            .maybeSingle();
+
+          if (checkErr && checkErr.code !== 'PGRST116') throw checkErr;
+
+          let siswaData;
+
+          if (existing) {
+            const { data: updated, error: updateErr } = await supabaseClient
               .from('siswa')
-              .select('*')
-              .eq('nama', nama)
-              .eq('kelas', kelas)
-              .maybeSingle();
-
-            if (checkErr && checkErr.code !== 'PGRST116') throw checkErr;
-
-            let siswaData;
-
-            if (existing) {
-              // Update login count
-              const { data: updated, error: updateErr } = await supabaseClient
-                .from('siswa')
-                .update({
-                  last_login: new Date().toISOString(),
-                  login_count: (existing.login_count || 0) + 1,
-                  status: 'aktif'
-                })
-                .eq('id', existing.id)
-                .select()
-                .single();
-
-              if (updateErr) throw updateErr;
-              siswaData = updated;
-              console.log('✅ Siswa update:', siswaData);
-            } else {
-              // Insert siswa baru
-              const { data: inserted, error: insertErr } = await supabaseClient
-                .from('siswa')
-                .insert([{
-                  nama: nama,
-                  kelas: kelas,
-                  last_login: new Date().toISOString(),
-                  login_count: 1,
-                  status: 'aktif'
-                }])
-                .select()
-                .single();
-
-              if (insertErr) throw insertErr;
-              siswaData = inserted;
-              console.log('✅ Siswa baru:', siswaData);
-            }
-
-            // Simpan session
-            localStorage.setItem('siswa_session', JSON.stringify({
-              id: siswaData.id,
-              nama: siswaData.nama,
-              kelas: siswaData.kelas,
-              login_at: new Date().toISOString()
-            }));
-
-            showToast('Login berhasil! Selamat belajar, ' + nama, 'success');
-
-            setTimeout(() => {
-              window.location.href = 'dashboard-siswa.html';
-            }, 900);
-
-          } catch (err) {
-            console.error('❌ Error login siswa:', err);
-            showToast('Gagal login: ' + (err.message || 'Terjadi kesalahan'), 'error');
-            btn.classList.remove('loading');
-            btn.disabled = false;
-          }
-        });
-      }
-
-      // ============================================================
-      // LOGIN GURU
-      // ============================================================
-      const formGuru = document.getElementById('login-form-guru');
-      if (formGuru) {
-        formGuru.addEventListener('submit', async (e) => {
-          e.preventDefault();
-          console.log('👨‍🏫 Login guru...');
-
-          const email = document.getElementById('guru-email').value.trim();
-          const password = document.getElementById('guru-password').value;
-          const btn = document.getElementById('btn-login-guru');
-
-          if (!email || !password) {
-            showToast('Email dan password wajib diisi!', 'error');
-            return;
-          }
-
-          btn.classList.add('loading');
-          btn.disabled = true;
-
-          try {
-            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-
-            if (error) {
-              showToast('Login gagal: ' + error.message, 'error');
-              btn.classList.remove('loading');
-              btn.disabled = false;
-              return;
-            }
-
-            // Cek role
-            const { data: profile } = await supabaseClient
-              .from('profiles')
-              .select('role, full_name')
-              .eq('id', data.user.id)
+              .update({
+                last_login: new Date().toISOString(),
+                login_count: (existing.login_count || 0) + 1,
+                status: 'aktif'
+              })
+              .eq('id', existing.id)
+              .select()
               .single();
 
-            if (profile?.role !== 'guru') {
-              showToast('Akun ini bukan akun guru!', 'error');
-              await supabaseClient.auth.signOut();
-              btn.classList.remove('loading');
-              btn.disabled = false;
-              return;
-            }
+            if (updateErr) throw updateErr;
+            siswaData = updated;
+            console.log('✅ Siswa update:', siswaData);
+          } else {
+            const { data: inserted, error: insertErr } = await supabaseClient
+              .from('siswa')
+              .insert([{
+                nama: nama,
+                kelas: kelas,
+                last_login: new Date().toISOString(),
+                login_count: 1,
+                status: 'aktif'
+              }])
+              .select()
+              .single();
 
-            showToast('Login berhasil! Halo ' + (profile.full_name || 'Guru'), 'success');
+            if (insertErr) throw insertErr;
+            siswaData = inserted;
+            console.log('✅ Siswa baru:', siswaData);
+          }
 
-            setTimeout(() => {
-              window.location.href = 'dashboard-guru.html';
-            }, 900);
+          // Simpan session ke localStorage
+          localStorage.setItem('siswa_session', JSON.stringify({
+            id: siswaData.id,
+            nama: siswaData.nama,
+            kelas: siswaData.kelas,
+            login_at: new Date().toISOString()
+          }));
 
-          } catch (err) {
-            console.error('❌ Error login guru:', err);
-            showToast('Error: ' + (err.message || 'Terjadi kesalahan'), 'error');
+          showToast('Login berhasil! Selamat belajar, ' + nama, 'success');
+
+          setTimeout(() => {
+            window.location.href = 'dashboard-siswa.html';
+          }, 900);
+
+        } catch (err) {
+          console.error('❌ Error login siswa:', err);
+          showToast('Gagal login: ' + (err.message || 'Terjadi kesalahan'), 'error');
+          btn.classList.remove('loading');
+          btn.disabled = false;
+        }
+      });
+
+      // ============ LOGIN GURU ============
+      document.getElementById('login-form-guru')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        console.log('👨‍🏫 Login guru...');
+
+        const email = document.getElementById('guru-email').value.trim();
+        const password = document.getElementById('guru-password').value;
+        const btn = document.getElementById('btn-login-guru');
+
+        if (!email || !password) {
+          showToast('Email dan password wajib diisi!', 'error');
+          return;
+        }
+
+        btn.classList.add('loading');
+        btn.disabled = true;
+
+        try {
+          const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
+          if (error) {
+            showToast('Login gagal: ' + error.message, 'error');
             btn.classList.remove('loading');
             btn.disabled = false;
+            return;
           }
-        });
-      }
 
-      // ENTER di nama siswa → fokus ke kelas
+          const { data: profile } = await supabaseClient
+            .from('profiles')
+            .select('role, full_name')
+            .eq('id', data.user.id)
+            .single();
+
+          if (profile?.role !== 'guru') {
+            showToast('Akun ini bukan akun guru!', 'error');
+            await supabaseClient.auth.signOut();
+            btn.classList.remove('loading');
+            btn.disabled = false;
+            return;
+          }
+
+          showToast('Login berhasil! Halo ' + (profile.full_name || 'Guru'), 'success');
+
+          setTimeout(() => {
+            window.location.href = 'dashboard-guru.html';
+          }, 900);
+
+        } catch (err) {
+          console.error('❌ Error login guru:', err);
+          showToast('Error: ' + (err.message || 'Terjadi kesalahan'), 'error');
+          btn.classList.remove('loading');
+          btn.disabled = false;
+        }
+      });
+
+      // ENTER di nama siswa → fokus kelas
       document.getElementById('siswa-nama')?.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
           e.preventDefault();
