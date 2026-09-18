@@ -240,6 +240,29 @@
     .toast.info    { border-left: 4px solid #1e40af; }
     .toast.info i  { color: #1e40af; }
 
+    /* Error panel (tanpa F12) */
+    .error-panel {
+      position: fixed; bottom: 1rem; left: 1rem; right: 1rem;
+      background: #fee2e2; color: #991b1b;
+      padding: 1rem 1.2rem;
+      border-radius: 10px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.78rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      max-height: 40vh; overflow-y: auto;
+      z-index: 99999;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      border-left: 4px solid #dc2626;
+      animation: slideUp 0.3s ease;
+    }
+    .error-panel strong { color: #7f1d1d; }
+    .error-panel .close-hint {
+      display: block; margin-top: 0.5rem;
+      font-size: 0.7rem; color: #7f1d1d;
+      font-style: italic;
+    }
+
     @media (max-width: 480px) {
       .login-card { padding: 1.8rem 1.3rem; }
       .brand-icon { width: 64px; height: 64px; font-size: 1.6rem; }
@@ -400,6 +423,37 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       console.log('📄 Login page siap');
+
+      // ============ ERROR PANEL (tanpa F12) ============
+      function showErrorPanel(title, data) {
+        const old = document.getElementById('error-panel');
+        if (old) old.remove();
+
+        const panel = document.createElement('div');
+        panel.id = 'error-panel';
+        panel.className = 'error-panel';
+
+        let text = `<strong>${title}</strong>\n\n`;
+        if (typeof data === 'string') {
+          text += data;
+        } else {
+          text += `Code: ${data.code || '-'}\n`;
+          text += `Message: ${data.message || '-'}\n`;
+          text += `Details: ${data.details || '-'}\n`;
+          text += `Hint: ${data.hint || '-'}\n`;
+          if (data.status) text += `Status: ${data.status}\n`;
+        }
+        text += '\n(Klik panel ini untuk menutup)';
+
+        panel.textContent = '';
+        panel.innerHTML = text.replace(/\n/g, '<br>');
+
+        document.body.appendChild(panel);
+
+        panel.onclick = () => panel.remove();
+        setTimeout(() => { if (panel.parentNode) panel.remove(); }, 30000);
+      }
+      window.showErrorPanel = showErrorPanel;
 
       // ============ NAVIGASI STEP ============
       function showStep(stepId) {
@@ -567,14 +621,17 @@
           let pesanError = err.message || 'Terjadi kesalahan';
 
           if (err.code === '42501' || pesanError.includes('permission denied')) {
-            pesanError = 'Akses database ditolak. Hubungi guru untuk setup RLS policy.';
+            pesanError = 'Akses database ditolak (RLS Policy). Setup di Supabase.';
           } else if (err.code === '42P01' || pesanError.includes('does not exist')) {
             pesanError = 'Tabel "siswa" belum dibuat di Supabase.';
           } else if (err.code === '42703') {
-            pesanError = 'Kolom tabel tidak sesuai. Cek struktur tabel siswa.';
+            pesanError = 'Kolom tabel tidak sesuai.';
           } else if (pesanError.includes('Failed to fetch')) {
-            pesanError = 'Gagal koneksi ke Supabase. Cek internet / URL / Anon Key.';
+            pesanError = 'Gagal koneksi ke Supabase.';
           }
+
+          // Tampilkan panel error di halaman
+          showErrorPanel('❌ GAGAL LOGIN SISWA', err);
 
           showToast('Gagal login: ' + pesanError, 'error');
           btn.classList.remove('loading');
@@ -604,6 +661,7 @@
 
           if (error) {
             showToast('Login gagal: ' + error.message, 'error');
+            showErrorPanel('❌ GAGAL LOGIN GURU', error);
             btn.classList.remove('loading');
             btn.disabled = false;
             return;
@@ -631,6 +689,7 @@
 
         } catch (err) {
           console.error('❌ Error login guru:', err);
+          showErrorPanel('❌ ERROR LOGIN GURU', err);
           showToast('Error: ' + (err.message || 'Terjadi kesalahan'), 'error');
           btn.classList.remove('loading');
           btn.disabled = false;
