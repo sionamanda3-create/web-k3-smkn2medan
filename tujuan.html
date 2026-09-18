@@ -12,9 +12,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
-    /* ============================================================
-       RESET & VARIABEL
-       ============================================================ */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
@@ -92,7 +89,6 @@
       font-size: 0.78rem; font-weight: 600; color: var(--gray-600);
     }
 
-    /* CONTAINER */
     .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
 
     /* HERO */
@@ -140,7 +136,7 @@
       max-width: 640px; line-height: 1.65;
     }
 
-    /* PROGRESS BAR */
+    /* PROGRESS */
     .progress-wrapper {
       background: white;
       border-radius: var(--radius-sm);
@@ -203,7 +199,6 @@
     }
     .section-header h2 i { color: var(--primary); }
 
-    /* TUJUAN UMUM */
     .tujuan-umum-card {
       background: white;
       border-radius: var(--radius);
@@ -229,7 +224,6 @@
     }
     .tujuan-umum-card p strong { color: var(--gray-800); }
 
-    /* TUJUAN SPESIFIK */
     .tujuan-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -283,7 +277,6 @@
     .tujuan-num.green  { background: linear-gradient(135deg, #dcfce7, #16a34a); box-shadow: 0 4px 10px rgba(22,163,74,0.25); }
     .tujuan-num.orange { background: linear-gradient(135deg, #fed7aa, #ea580c); box-shadow: 0 4px 10px rgba(234,88,12,0.25); }
     .tujuan-num.purple { background: linear-gradient(135deg, #e9d5ff, #7c3aed); box-shadow: 0 4px 10px rgba(124,58,237,0.25); }
-    .tujuan-num.red    { background: linear-gradient(135deg, #fee2e2, #dc2626); box-shadow: 0 4px 10px rgba(220,38,38,0.25); }
 
     .tujuan-card h3 {
       font-size: 0.98rem;
@@ -299,14 +292,12 @@
       text-transform: uppercase;
       letter-spacing: 0.03em;
     }
-
     .tujuan-card p.desc {
       font-size: 0.85rem;
       color: var(--gray-600);
       line-height: 1.65;
     }
 
-    /* CHECKLIST */
     .checklist {
       display: flex;
       flex-direction: column;
@@ -404,7 +395,7 @@
       line-height: 1.55;
     }
 
-    /* HIGHLIGHT BOX */
+    /* HIGHLIGHT */
     .highlight-box {
       background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
       border-left: 5px solid var(--accent);
@@ -456,7 +447,6 @@
     .toast.info    { border-left: 4px solid var(--primary); }
     .toast.info i  { color: var(--primary); }
 
-    /* RESPONSIVE */
     @media (max-width: 640px) {
       .navbar { padding: 0.75rem 1rem; }
       .container { padding: 1.5rem 1rem 4rem; }
@@ -477,7 +467,6 @@
     <span id="toast-message">Pesan</span>
   </div>
 
-  <!-- NAVBAR -->
   <nav class="navbar">
     <div class="navbar-left">
       <a href="dashboard-siswa.html" class="back-btn" title="Kembali">
@@ -498,7 +487,6 @@
 
   <main class="container">
 
-    <!-- HERO -->
     <section class="hero">
       <div class="hero-content">
         <span class="hero-badge"><i class="fas fa-graduation-cap"></i> Capaian Pembelajaran</span>
@@ -507,7 +495,6 @@
       </div>
     </section>
 
-    <!-- PROGRESS -->
     <div class="progress-wrapper">
       <div class="progress-icon"><i class="fas fa-list-check"></i></div>
       <div class="progress-info">
@@ -521,7 +508,6 @@
       </div>
     </div>
 
-    <!-- TUJUAN UMUM -->
     <section class="section">
       <div class="section-header">
         <h2><i class="fas fa-bullseye"></i> Tujuan Umum</h2>
@@ -535,13 +521,12 @@
       </div>
     </section>
 
-    <!-- TUJUAN SPESIFIK -->
     <section class="section">
       <div class="section-header">
         <h2><i class="fas fa-list-check"></i> Tujuan Spesifik</h2>
       </div>
 
-      <div class="tujuan-grid" id="tujuan-grid">
+      <div class="tujuan-grid">
 
         <div class="tujuan-card">
           <div class="tujuan-card-header">
@@ -552,7 +537,7 @@
             </div>
           </div>
           <p class="desc">Siswa dapat menjelaskan pengertian, ruang lingkup, dan dasar hukum penerapan K3 di Indonesia.</p>
-          <div class="checklist" data-tujuan="1">
+          <div class="checklist">
             <label class="checklist-item">
               <input type="checkbox" data-key="t1-1">
               <span>Menjelaskan definisi K3</span>
@@ -577,7 +562,7 @@
             </div>
           </div>
           <p class="desc">Siswa dapat mengidentifikasi jenis APD dan menggunakannya dengan benar saat praktik di bengkel.</p>
-          <div class="checklist" data-tujuan="2">
+          <div class="checklist">
             <label class="checklist-item">
               <input type="checkbox" data-key="t2-1">
               <span>Menyebutkan jenis APD</span>
@@ -602,7 +587,7 @@
             </div>
           </div>
           <p class="desc">Siswa dapat mengenali potensi bahaya mekanis dan non-mekanis di bengkel pemesinan serta cara pencegahannya.</p>
-          <div class="checklist" data-tujuan="3">
+          <div class="checklist">
             <label class="checklist-item">
               <input type="checkbox" data-key="t3-1">
               <span>Mengenali bahaya mekanis</span>
@@ -627,7 +612,7 @@
             </div>
           </div>
           <p class="desc">Siswa dapat melakukan pertolongan pertama pada kecelakaan kerja dan menerapkan prosedur tanggap darurat.</p>
-          <div class="checklist" data-tujuan="4">
+          <div class="checklist">
             <label class="checklist-item">
               <input type="checkbox" data-key="t4-1">
               <span>Memahami isi kotak P3K</span>
@@ -646,7 +631,6 @@
       </div>
     </section>
 
-    <!-- MANFAAT -->
     <section class="section">
       <div class="section-header">
         <h2><i class="fas fa-star"></i> Manfaat Belajar K3</h2>
@@ -705,7 +689,6 @@
       </div>
     </section>
 
-    <!-- HIGHLIGHT -->
     <div class="highlight-box">
       <div class="icon"><i class="fas fa-lightbulb"></i></div>
       <div>
@@ -716,21 +699,28 @@
 
   </main>
 
+  <!-- ============================================================
+       SUPABASE SDK & KONFIGURASI
+       ============================================================ -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/app.js"></script>
 
   <script>
-    // ============================================================
-    // STATE
-    // ============================================================
+    const SUPABASE_URL = 'https://ddnhwcxfktcsyngupdex.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_ogAtXLGklIivo88I41J8ZA_9CWzS8D3';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log('✅ Supabase client siap di tujuan.html');
+  </script>
+
+  <script src="js/app.js"></script>
+
+  <!-- ============================================================
+       SCRIPT TUJUAN
+       ============================================================ -->
+  <script>
     let currentSiswa = null;
     let checkedSet = new Set();
-
     const STORAGE_KEY = 'tujuan_checked';
 
-    // ============================================================
-    // TOAST
-    // ============================================================
     function showToast(message, type = 'info') {
       const toast = document.getElementById('toast');
       const msg = document.getElementById('toast-message');
@@ -745,9 +735,6 @@
       toast._timer = setTimeout(() => toast.classList.remove('show'), 3500);
     }
 
-    // ============================================================
-    // CEK ROLE
-    // ============================================================
     async function cekRole() {
       const sessionSiswa = localStorage.getItem('siswa_session');
       if (sessionSiswa) {
@@ -773,30 +760,19 @@
       window.location.href = 'index.html';
     }
 
-    // ============================================================
-    // LOAD STATE DARI LOCALSTORAGE
-    // ============================================================
     function loadChecklistState() {
       try {
         const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) {
-          checkedSet = new Set(JSON.parse(saved));
-        }
+        if (saved) checkedSet = new Set(JSON.parse(saved));
       } catch (e) { /* ignore */ }
 
       document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(cb => {
-        const key = cb.dataset.key;
-        if (checkedSet.has(key)) {
-          cb.checked = true;
-        }
+        if (checkedSet.has(cb.dataset.key)) cb.checked = true;
       });
 
       updateProgress();
     }
 
-    // ============================================================
-    // UPDATE PROGRESS
-    // ============================================================
     function updateProgress() {
       const total = document.querySelectorAll('.checklist-item input[type="checkbox"]').length;
       const checked = checkedSet.size;
@@ -804,14 +780,10 @@
 
       const fill = document.getElementById('progress-fill');
       const percent = document.getElementById('progress-percent');
-
       if (fill) fill.style.width = persen + '%';
       if (percent) percent.textContent = persen + '%';
     }
 
-    // ============================================================
-    // HANDLE CHECKBOX CHANGE
-    // ============================================================
     function setupCheckboxes() {
       document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(cb => {
         cb.addEventListener('change', (e) => {
@@ -823,12 +795,9 @@
             checkedSet.delete(key);
           }
 
-          // Simpan ke localStorage
           localStorage.setItem(STORAGE_KEY, JSON.stringify([...checkedSet]));
-
           updateProgress();
 
-          // Kirim ke Supabase kalau siswa login (opsional)
           if (currentSiswa) {
             supabaseClient.from('aktivitas').insert([{
               siswa_id: currentSiswa.id,
@@ -842,12 +811,8 @@
       });
     }
 
-    // ============================================================
-    // INIT
-    // ============================================================
     document.addEventListener('DOMContentLoaded', async () => {
       console.log('📄 Halaman Tujuan init');
-
       await cekRole();
       loadChecklistState();
       setupCheckboxes();
