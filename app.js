@@ -1,471 +1,382 @@
-// ============================================================
-// MEDIA PEMBELAJARAN K3 — SMK NEGERI 2 MEDAN
-// File: js/app.js
-// ============================================================
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Guru | Media Pembelajaran K3</title>
 
-const SUPABASE_URL = 'https://ddnhwcxfktcsyngupdex.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_ogAtXLGklIivo88I41J8ZA_9CWzS8D3';
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  <!-- Style System Utama -->
+  <link rel="stylesheet" href="css/style.css">
 
-// ---------- Helper ----------
-async function getCurrentUser() {
-  const { data: { user } } = await supabaseClient.auth.getUser();
-  return user;
-}
-
-async function getCurrentProfile() {
-  const user = await getCurrentUser();
-  if (!user) return null;
-  const { data } = await supabaseClient
-    .from('profiles').select('*').eq('id', user.id).single();
-  return data;
-}
-
-async function requireAuth() {
-  const user = await getCurrentUser();
-  if (!user) { window.location.href = 'index.html'; return null; }
-  return user;
-}
-
-async function handleLogout() {
-  await supabaseClient.auth.signOut();
-  window.location.href = 'index.html';
-}
-
-function showToast(message, type = 'info') {
-  const toast = document.getElementById('toast');
-  const msg = document.getElementById('toast-message');
-  if (!toast || !msg) { alert(message); return; }
-  const icon = toast.querySelector('i');
-  toast.className = 'toast ' + type;
-  msg.textContent = message;
-  const icons = { error:'fa-circle-exclamation', success:'fa-circle-check', info:'fa-circle-info' };
-  if (icon) icon.className = 'fas ' + (icons[type] || icons.info);
-  toast.classList.add('show');
-  clearTimeout(toast._timer);
-  toast._timer = setTimeout(() => toast.classList.remove('show'), 3500);
-}
-
-function generateStudentPassword(nama, kelas) {
-  const namaBersih = nama.toLowerCase().replace(/\s+/g, '');
-  const kelasBersih = kelas.replace(/\s+/g, '').toUpperCase();
-  return `k3-${namaBersih}-${kelasBersih}`;
-}
-
-// ============================================================
-// LOGIN PAGE
-// ============================================================
-function initLoginPage() {
-  console.log('✅ initLoginPage jalan');
-
-  function showStep(stepId) {
-    console.log('➡️ showStep:', stepId);
-    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-    const target = document.getElementById(stepId);
-    if (target) target.classList.add('active');
-  }
-
-  // Tombol pilih peran
-  const btnSiswa = document.getElementById('choose-siswa');
-  const btnGuru  = document.getElementById('choose-guru');
-
-  if (btnSiswa) {
-    btnSiswa.onclick = function(e) {
-      e.preventDefault();
-      console.log('👆 Klik Siswa');
-      muatDaftarSiswa();
-      showStep('step-siswa');
-    };
-  }
-
-  if (btnGuru) {
-    btnGuru.onclick = function(e) {
-      e.preventDefault();
-      console.log('👆 Klik Guru');
-      showStep('step-guru');
-    };
-  }
-
-  // Tombol kembali
-  const backSiswa = document.getElementById('back-from-siswa');
-  const backGuru  = document.getElementById('back-from-guru');
-  const backReg   = document.getElementById('back-from-register');
-  if (backSiswa) backSiswa.onclick = () => showStep('step-role');
-  if (backGuru)  backGuru.onclick  = () => showStep('step-role');
-  if (backReg)   backReg.onclick   = () => showStep('step-guru');
-
-  // Link daftar guru
-  const linkReg = document.getElementById('link-register-guru');
-  if (linkReg) linkReg.onclick = () => showStep('step-register');
-
-  // Toggle password guru
-  const togglePwd = document.getElementById('toggle-password-guru');
-  const pwdInput = document.getElementById('guru-password');
-  if (togglePwd && pwdInput) {
-    togglePwd.onclick = () => {
-      const isPwd = pwdInput.type === 'password';
-      pwdInput.type = isPwd ? 'text' : 'password';
-      const icon = togglePwd.querySelector('i');
-      if (icon) icon.className = isPwd ? 'fas fa-eye-slash' : 'fas fa-eye';
-    };
-  }
-
-  // LOGIN SISWA
-  const formSiswa = document.getElementById('login-form-siswa');
-  if (formSiswa) {
-    formSiswa.onsubmit = async function(e) {
-      e.preventDefault();
-      const nama = document.getElementById('siswa-nama').value;
-      const kelas = document.getElementById('siswa-kelas').value;
-      const btn = document.getElementById('btn-login-siswa');
-
-      if (!nama || !kelas) {
-        showToast('Nama dan kelas wajib diisi!', 'error');
-        return;
-      }
-
-      if (btn) { btn.classList.add('loading'); btn.disabled = true; }
-
-      try {
-        const { data: siswa, error } = await supabaseClient
-          .from('profiles').select('*')
-          .eq('full_name', nama)
-          .eq('kelas', kelas)
-          .eq('role', 'siswa')
-          .maybeSingle();
-
-        if (error || !siswa) {
-          showToast('Data siswa tidak ditemukan.', 'error');
-          return;
-        }
-
-        const password = generateStudentPassword(nama, kelas);
-        console.log('🔑 Password siswa:', password);
-
-        const { error: authErr } = await supabaseClient.auth.signInWithPassword({
-          email: siswa.email,
-          password: password
-        });
-
-        if (authErr) {
-          showToast('Login gagal: ' + authErr.message, 'error');
-          return;
-        }
-
-        showToast('Login berhasil!', 'success');
-        setTimeout(() => { window.location.href = 'dashboard-siswa.html'; }, 700);
-      } catch (err) {
-        showToast('Error: ' + err.message, 'error');
-      } finally {
-        if (btn) { btn.classList.remove('loading'); btn.disabled = false; }
-      }
-    };
-  }
-
-  // LOGIN GURU
-  const formGuru = document.getElementById('login-form-guru');
-  if (formGuru) {
-    formGuru.onsubmit = async function(e) {
-      e.preventDefault();
-      const email = document.getElementById('guru-email').value.trim();
-      const password = document.getElementById('guru-password').value;
-      const btn = document.getElementById('btn-login-guru');
-
-      if (btn) { btn.classList.add('loading'); btn.disabled = true; }
-
-      try {
-        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-        if (error) {
-          showToast('Login gagal: ' + error.message, 'error');
-          return;
-        }
-
-        const { data: profile } = await supabaseClient
-          .from('profiles').select('role, full_name').eq('id', data.user.id).single();
-
-        if (profile?.role !== 'guru') {
-          showToast('Akun ini bukan akun guru!', 'error');
-          await supabaseClient.auth.signOut();
-          return;
-        }
-
-        showToast('Login berhasil! Halo ' + profile.full_name, 'success');
-        setTimeout(() => { window.location.href = 'dashboard-guru.html'; }, 700);
-      } catch (err) {
-        showToast('Error: ' + err.message, 'error');
-      } finally {
-        if (btn) { btn.classList.remove('loading'); btn.disabled = false; }
-      }
-    };
-  }
-
-  // REGISTRASI GURU
-  const formReg = document.getElementById('register-form-guru');
-  if (formReg) {
-    formReg.onsubmit = async function(e) {
-      e.preventDefault();
-      const nama = document.getElementById('reg-nama').value.trim();
-      const nip = document.getElementById('reg-nip').value.trim();
-      const email = document.getElementById('reg-email').value.trim();
-      const password = document.getElementById('reg-password').value;
-      const konfirmasi = document.getElementById('reg-password-confirm').value;
-      const btn = document.getElementById('btn-register-guru');
-
-      if (!nama || !email || !password) {
-        showToast('Nama, email, dan password wajib diisi!', 'error'); return;
-      }
-      if (password.length < 6) {
-        showToast('Password minimal 6 karakter!', 'error'); return;
-      }
-      if (password !== konfirmasi) {
-        showToast('Konfirmasi password tidak cocok!', 'error'); return;
-      }
-
-      if (btn) { btn.classList.add('loading'); btn.disabled = true; }
-
-      try {
-        const { data, error } = await supabaseClient.auth.signUp({
-          email, password,
-          options: { data: { full_name: nama, role: 'guru', nis_nip: nip || null } }
-        });
-
-        if (error) { showToast('Gagal daftar: ' + error.message, 'error'); return; }
-        if (!data.user) { showToast('Gagal daftar.', 'error'); return; }
-
-        if (nip) {
-          await supabaseClient.from('profiles').update({ nis_nip: nip }).eq('id', data.user.id);
-        }
-
-        showToast('Registrasi berhasil! Silakan login.', 'success');
-        formReg.reset();
-        setTimeout(() => showStep('step-guru'), 1500);
-      } catch (err) {
-        showToast('Error: ' + err.message, 'error');
-      } finally {
-        if (btn) { btn.classList.remove('loading'); btn.disabled = false; }
-      }
-    };
-  }
-}
-
-// ============================================================
-// MUAT DAFTAR SISWA (dropdown login siswa)
-// ============================================================
-async function muatDaftarSiswa() {
-  const selectNama = document.getElementById('siswa-nama');
-  if (!selectNama) return;
-
-  selectNama.innerHTML = '<option value="">-- Memuat... --</option>';
-
-  const { data, error } = await supabaseClient
-    .from('profiles')
-    .select('full_name, kelas')
-    .eq('role', 'siswa')
-    .order('full_name');
-
-  if (error || !data || data.length === 0) {
-    selectNama.innerHTML = '<option value="">-- Belum ada siswa --</option>';
-    return;
-  }
-
-  selectNama.innerHTML = '<option value="">-- Pilih Nama --</option>';
-  data.forEach(s => {
-    const opt = document.createElement('option');
-    opt.value = s.full_name;
-    opt.textContent = s.full_name + (s.kelas ? ' (' + s.kelas + ')' : '');
-    opt.dataset.kelas = s.kelas || '';
-    selectNama.appendChild(opt);
-  });
-
-  selectNama.onchange = function() {
-    const selected = this.options[this.selectedIndex];
-    const kelas = selected.dataset.kelas;
-    if (kelas) {
-      const selectKelas = document.getElementById('siswa-kelas');
-      if (selectKelas) selectKelas.value = kelas;
+  <!-- CSS Tambahan khusus dashboard -->
+  <style>
+    .progress-bar-custom {
+      height: 8px;
+      background: var(--gray-100);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      margin-top: 0.4rem;
     }
-  };
-}
-
-// ============================================================
-// DASHBOARD SISWA
-// ============================================================
-async function initDashboardSiswaPage() {
-  const user = await requireAuth();
-  if (!user) return;
-
-  const profile = await getCurrentProfile();
-  if (!profile) return;
-
-  if (profile.role === 'guru') {
-    window.location.href = 'dashboard-guru.html';
-    return;
-  }
-
-  const initial = (profile.full_name || 'S').charAt(0).toUpperCase();
-  const avatarEl = document.getElementById('user-avatar');
-  const nameEl = document.getElementById('user-name');
-  const kelasEl = document.getElementById('user-kelas');
-  const welcomeEl = document.getElementById('welcome-name');
-
-  if (avatarEl) avatarEl.textContent = initial;
-  if (nameEl) nameEl.textContent = profile.full_name || 'Siswa';
-  if (kelasEl) kelasEl.textContent = profile.kelas || 'Teknik Pemesinan';
-  if (welcomeEl) welcomeEl.textContent = (profile.full_name || 'Siswa').split(' ')[0];
-
-  const hour = new Date().getHours();
-  let greeting = 'Selamat datang kembali,';
-  if (hour < 11) greeting = 'Selamat pagi,';
-  else if (hour < 15) greeting = 'Selamat siang,';
-  else if (hour < 18) greeting = 'Selamat sore,';
-  else greeting = 'Selamat malam,';
-  const greetingEl = document.getElementById('greeting');
-  if (greetingEl) greetingEl.textContent = greeting;
-
-  ['logout-btn', 'logout-btn-2'].forEach(id => {
-    const btn = document.getElementById(id);
-    if (btn) btn.onclick = handleLogout;
-  });
-}
-
-// ============================================================
-// DASHBOARD GURU
-// ============================================================
-async function initDashboardGuruPage() {
-  const user = await requireAuth();
-  if (!user) return;
-
-  const profile = await getCurrentProfile();
-  if (!profile) return;
-
-  if (profile.role !== 'guru') {
-    window.location.href = 'dashboard-siswa.html';
-    return;
-  }
-
-  const initial = (profile.full_name || 'G').charAt(0).toUpperCase();
-  const avatarEl = document.getElementById('user-avatar');
-  const nameEl = document.getElementById('user-name');
-  const nipEl = document.getElementById('user-nip');
-  const welcomeEl = document.getElementById('welcome-name');
-
-  if (avatarEl) avatarEl.textContent = initial;
-  if (nameEl) nameEl.textContent = profile.full_name || 'Guru';
-  if (nipEl) nipEl.textContent = profile.nis_nip ? 'NIP: ' + profile.nis_nip : 'Pengajar K3';
-  if (welcomeEl) welcomeEl.textContent = (profile.full_name || 'Guru').split(' ')[0];
-
-  ['logout-btn', 'logout-btn-2'].forEach(id => {
-    const btn = document.getElementById(id);
-    if (btn) btn.onclick = handleLogout;
-  });
-
-  await loadDataSiswaGuru();
-}
-
-async function loadDataSiswaGuru() {
-  const { data: siswaList, error } = await supabaseClient
-    .from('profiles')
-    .select('*')
-    .eq('role', 'siswa')
-    .order('full_name');
-
-  if (error) { console.error(error); return; }
-
-  const tbody = document.querySelector('#tabel-siswa tbody');
-  if (!tbody) return;
-
-  const render = (list) => {
-    if (list.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:2rem;">Belum ada data siswa</td></tr>';
-      return;
+    .progress-bar-custom > div {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      border-radius: var(--radius-pill);
+      transition: var(--transition-slow);
     }
-    tbody.innerHTML = list.map(s => `
-      <tr>
-        <td>${s.full_name || '-'}</td>
-        <td>${s.nis_nip || '-'}</td>
-        <td>${s.kelas || '-'}</td>
-        <td>${s.email || '-'}</td>
-        <td>-</td>
-      </tr>
-    `).join('');
-  };
+    .empty-state {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      color: var(--gray-500);
+    }
+    .empty-state i {
+      font-size: 2.2rem;
+      color: var(--gray-300);
+      display: block;
+      margin-bottom: 0.75rem;
+    }
+    .empty-state p { font-size: 0.88rem; }
+    .empty-state .sub { font-size: 0.78rem; margin-top: 0.3rem; color: var(--gray-400); }
+  </style>
+</head>
+<body data-page="dashboard-guru" data-role="guru">
 
-  render(siswaList);
+  <!-- Toast (untuk notifikasi dari app.js) -->
+  <div id="toast" class="toast">
+    <i class="fas fa-info-circle"></i>
+    <span id="toast-message">Pesan</span>
+  </div>
 
-  const filterInput = document.getElementById('filter-siswa');
-  if (filterInput) {
-    filterInput.addEventListener('input', (e) => {
-      const q = e.target.value.toLowerCase();
-      render(siswaList.filter(s =>
-        (s.full_name || '').toLowerCase().includes(q) ||
-        (s.kelas || '').toLowerCase().includes(q) ||
-        (s.nis_nip || '').toLowerCase().includes(q)
-      ));
+  <!-- ================= NAVBAR ================= -->
+  <nav class="navbar">
+    <div class="navbar-left">
+      <a href="dashboard-guru.html" class="navbar-brand">
+        <div class="brand-icon"><i class="fas fa-hard-hat"></i></div>
+        <span>Media K3</span>
+      </a>
+      <span class="role-badge">Guru</span>
+    </div>
+
+    <div class="navbar-right">
+      <div class="search-box" style="max-width:260px;">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Cari data...">
+      </div>
+      <div class="user-chip">
+        <div class="user-avatar guru" id="user-avatar">--</div>
+        <div class="user-details">
+          <span class="user-name" id="user-name">Memuat...</span>
+          <span class="user-role" id="user-nip">-</span>
+        </div>
+      </div>
+      <button class="btn-icon" id="logout-btn" title="Keluar">
+        <i class="fas fa-right-from-bracket"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ================= CONTAINER ================= -->
+  <div class="container">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-content">
+        <div class="hero-greeting">Selamat datang kembali,</div>
+        <h1>Dashboard <span class="highlight">Guru K3</span></h1>
+        <p>Kelola data siswa, materi, dan nilai pembelajaran Keselamatan &amp; Kesehatan Kerja untuk Teknik Pemesinan SMK Negeri 2 Medan.</p>
+        <div class="hero-meta">
+          <span class="meta-badge"><i class="fas fa-calendar"></i> <span id="heroDate">-</span></span>
+          <span class="meta-badge"><i class="fas fa-clock"></i> <span id="heroTime">-</span></span>
+          <span class="meta-badge"><i class="fas fa-user-tie"></i> <span id="welcome-name">Guru</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= STATISTIK ================= -->
+    <div class="section-header">
+      <h2><i class="fas fa-chart-pie"></i> Ringkasan Data</h2>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon blue"><i class="fas fa-user-graduate"></i></div>
+        <div class="stat-info">
+          <div class="stat-label">Total Siswa</div>
+          <div class="stat-value" id="stat-siswa">0</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon purple"><i class="fas fa-chalkboard-user"></i></div>
+        <div class="stat-info">
+          <div class="stat-label">Total Guru</div>
+          <div class="stat-value" id="stat-guru">0</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon green"><i class="fas fa-book"></i></div>
+        <div class="stat-info">
+          <div class="stat-label">Materi K3</div>
+          <div class="stat-value" id="stat-materi">0</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon orange"><i class="fas fa-clipboard-check"></i></div>
+        <div class="stat-info">
+          <div class="stat-label">Rata-rata Nilai</div>
+          <div class="stat-value" id="stat-nilai">0<small>%</small></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= MENU CEPAT ================= -->
+    <div class="section-header">
+      <h2><i class="fas fa-bolt"></i> Menu Cepat</h2>
+    </div>
+
+    <div class="menu-grid">
+      <a href="data-siswa.html" class="menu-item">
+        <div class="menu-icon blue"><i class="fas fa-user-graduate"></i></div>
+        <div class="menu-label">Data Siswa</div>
+        <div class="menu-desc">Kelola siswa</div>
+      </a>
+
+      <a href="data-guru.html" class="menu-item">
+        <div class="menu-icon purple"><i class="fas fa-chalkboard-user"></i></div>
+        <div class="menu-label">Data Guru</div>
+        <div class="menu-desc">Kelola guru</div>
+      </a>
+
+      <a href="materi.html" class="menu-item">
+        <div class="menu-icon green"><i class="fas fa-book"></i></div>
+        <div class="menu-label">Materi K3</div>
+        <div class="menu-desc">Kelola materi</div>
+      </a>
+
+      <a href="nilai.html" class="menu-item">
+        <div class="menu-icon orange"><i class="fas fa-clipboard-check"></i></div>
+        <div class="menu-label">Nilai Siswa</div>
+        <div class="menu-desc">Rekap nilai</div>
+      </a>
+    </div>
+
+    <!-- ================= PROGRES PEMBELAJARAN ================= -->
+    <div class="section-header">
+      <h2><i class="fas fa-chart-line"></i> Progres Pembelajaran</h2>
+    </div>
+
+    <div class="card">
+      <div class="card-body" id="progress-container">
+        <div class="empty-state">
+          <i class="fas fa-chart-simple"></i>
+          <p>Belum ada data progres.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= AKTIVITAS TERBARU ================= -->
+    <div class="section-header">
+      <h2><i class="fas fa-clock-rotate-left"></i> Aktivitas Terbaru</h2>
+    </div>
+
+    <div class="card">
+      <div class="card-body" id="activity-container">
+        <div class="empty-state">
+          <i class="fas fa-inbox"></i>
+          <p>Belum ada aktivitas pembelajaran.</p>
+          <p class="sub">Data akan muncul setelah siswa mulai mengerjakan materi.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ================= SUPABASE & APP.JS ================= -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/app.js"></script>
+
+  <!-- ================= SCRIPT KHUSUS DASHBOARD ================= -->
+  <script>
+    // ============================================================
+    // DASHBOARD GURU — Load data tambahan setelah initDashboardGuruPage()
+    // ============================================================
+
+    // Update tanggal & waktu di hero
+    function updateDateTime() {
+      const now = new Date();
+      const opsi = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+      const dateEl = document.getElementById('heroDate');
+      const timeEl = document.getElementById('heroTime');
+      if (dateEl) dateEl.textContent = now.toLocaleDateString('id-ID', opsi);
+      if (timeEl) timeEl.textContent = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    // Muat statistik dari database
+    async function muatStatistik() {
+      try {
+        const [siswa, guru, materi] = await Promise.all([
+          supabaseClient.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'siswa'),
+          supabaseClient.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'guru'),
+          supabaseClient.from('materi').select('*', { count: 'exact', head: true })
+        ]);
+
+        const setText = (id, val) => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = val;
+        };
+
+        setText('stat-siswa', siswa.count || 0);
+        setText('stat-guru', guru.count || 0);
+        setText('stat-materi', materi.count || 0);
+
+        // Rata-rata nilai
+        const { data: nilaiData } = await supabaseClient.from('nilai').select('nilai');
+        const nilaiEl = document.getElementById('stat-nilai');
+        if (nilaiEl) {
+          if (nilaiData && nilaiData.length > 0) {
+            const rata = nilaiData.reduce((a, b) => a + (b.nilai || 0), 0) / nilaiData.length;
+            nilaiEl.innerHTML = rata.toFixed(0) + '<small>%</small>';
+          } else {
+            nilaiEl.innerHTML = '0<small>%</small>';
+          }
+        }
+      } catch (err) {
+        console.error('Gagal memuat statistik:', err);
+      }
+    }
+
+    // Muat progres pembelajaran
+    async function muatProgres() {
+      const container = document.getElementById('progress-container');
+      if (!container) return;
+
+      try {
+        const { data, error } = await supabaseClient
+          .from('materi')
+          .select('judul, progres')
+          .order('urutan');
+
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+          container.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-chart-simple"></i>
+              <p>Belum ada data progres.</p>
+            </div>`;
+          return;
+        }
+
+        container.innerHTML = data.map(m => `
+          <div style="margin-bottom:1.2rem;">
+            <div class="d-flex justify-between align-center mb-1" style="font-size:0.85rem;font-weight:600;color:var(--gray-700);">
+              <span>${m.judul}</span>
+              <span>${m.progres || 0}%</span>
+            </div>
+            <div class="progress-bar-custom">
+              <div style="width:${m.progres || 0}%"></div>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        console.error('Gagal memuat progres:', err);
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>Gagal memuat data progres.</p>
+          </div>`;
+      }
+    }
+
+    // Muat aktivitas terbaru
+    async function muatAktivitas() {
+      const container = document.getElementById('activity-container');
+      if (!container) return;
+
+      try {
+        const { data, error } = await supabaseClient
+          .from('aktivitas')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(5);
+
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+          container.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-inbox"></i>
+              <p>Belum ada aktivitas pembelajaran.</p>
+              <p class="sub">Data akan muncul setelah siswa mulai mengerjakan materi.</p>
+            </div>`;
+          return;
+        }
+
+        container.innerHTML = `
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Siswa</th>
+                  <th>Materi</th>
+                  <th>Status</th>
+                  <th>Waktu</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${data.map(a => `
+                  <tr>
+                    <td>
+                      <div class="d-flex align-center gap-1">
+                        <div class="user-avatar" style="width:32px;height:32px;font-size:0.75rem;">
+                          ${(a.nama_siswa || '?').substring(0,2).toUpperCase()}
+                        </div>
+                        <span style="font-weight:600;">${a.nama_siswa || '-'}</span>
+                      </div>
+                    </td>
+                    <td>${a.materi || '-'}</td>
+                    <td>
+                      <span class="badge ${a.status === 'selesai' ? 'success' : 'warning'}">
+                        ${a.status === 'selesai' ? 'Selesai' : 'Proses'}
+                      </span>
+                    </td>
+                    <td class="text-muted" style="font-size:0.82rem;">
+                      ${new Date(a.created_at).toLocaleString('id-ID', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' })}
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>`;
+      } catch (err) {
+        console.error('Gagal memuat aktivitas:', err);
+      }
+    }
+
+    // ============================================================
+    // JALANKAN SETELAH app.js selesai init
+    // ============================================================
+    window.addEventListener('load', async () => {
+      // Tunggu app.js selesai cek auth & render
+      setTimeout(async () => {
+        updateDateTime();
+        setInterval(updateDateTime, 60000);
+
+        // Pastikan user adalah guru
+        const profile = await getCurrentProfile();
+        if (profile?.role !== 'guru') return;
+
+        await muatStatistik();
+        await muatProgres();
+        await muatAktivitas();
+      }, 300);
     });
-  }
-}
+  </script>
 
-// ============================================================
-// PLACEHOLDER HALAMAN LAIN
-// ============================================================
-async function initMateriPage() {
-  const user = await requireAuth(); if (!user) return;
-  const profile = await getCurrentProfile();
-  const isGuru = profile?.role === 'guru';
-  const roleEl = document.getElementById('user-role');
-  if (roleEl) roleEl.textContent = isGuru ? 'Guru' : 'Siswa';
-}
-
-async function initVideoPage() {
-  const user = await requireAuth(); if (!user) return;
-  const profile = await getCurrentProfile();
-  const isGuru = profile?.role === 'guru';
-  const roleEl = document.getElementById('user-role');
-  if (roleEl) roleEl.textContent = isGuru ? 'Guru' : 'Siswa';
-}
-
-async function initLatihanPage() {
-  const user = await requireAuth(); if (!user) return;
-  const profile = await getCurrentProfile();
-  const isGuru = profile?.role === 'guru';
-  const roleEl = document.getElementById('user-role');
-  if (roleEl) roleEl.textContent = isGuru ? 'Guru' : 'Siswa';
-}
-
-async function initKuisPage() {
-  const user = await requireAuth(); if (!user) return;
-  const profile = await getCurrentProfile();
-  const isGuru = profile?.role === 'guru';
-  const roleEl = document.getElementById('user-role');
-  if (roleEl) roleEl.textContent = isGuru ? 'Guru' : 'Siswa';
-}
-
-async function initNilaiPage() {
-  const user = await requireAuth(); if (!user) return;
-  const profile = await getCurrentProfile();
-  const role = profile?.role;
-  const roleEl = document.getElementById('user-role');
-  if (roleEl) roleEl.textContent = role === 'guru' ? 'Guru' : 'Siswa';
-}
-
-// ============================================================
-// ROUTER OTOMATIS
-// ============================================================
-document.addEventListener('DOMContentLoaded', () => {
-  const page = document.body.dataset.page;
-  console.log('📄 Halaman:', page);
-  if (!page) return;
-
-  switch (page) {
-    case 'login':            initLoginPage();              break;
-    case 'dashboard-siswa':  initDashboardSiswaPage();     break;
-    case 'dashboard-guru':   initDashboardGuruPage();      break;
-    case 'materi':           initMateriPage();             break;
-    case 'video':            initVideoPage();              break;
-    case 'latihan':          initLatihanPage();            break;
-    case 'kuis':             initKuisPage();               break;
-    case 'nilai':            initNilaiPage();              break;
-    default: console.warn('Halaman tidak dikenal:', page);
-  }
-});
+</body>
+</html>
