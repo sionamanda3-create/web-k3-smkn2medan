@@ -3,1127 +3,772 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard | Media Pembelajaran K3</title>
+  <meta name="description" content="Login Media Pembelajaran K3 - SMK Negeri 2 Medan">
+  <title>Login | Media Pembelajaran K3</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
   <style>
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
     body {
-      font-family: 'Inter', sans-serif;
-      background: #f1f5f9;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #3b82f6 100%);
       min-height: 100vh;
       display: flex;
-    }
-
-    /* ================= SIDEBAR ================= */
-    .sidebar {
-      width: 260px;
-      background: linear-gradient(180deg, #0f172a 0%, #1e3a8a 100%);
-      color: white;
-      display: flex;
-      flex-direction: column;
-      padding: 1.5rem 1rem;
-      position: fixed;
-      top: 0; left: 0; bottom: 0;
-      overflow-y: auto;
-      z-index: 100;
-      transition: transform 0.3s ease;
-    }
-
-    .brand-area {
-      display: flex;
+      justify-content: center;
       align-items: center;
-      gap: 0.75rem;
-      padding: 0 0.5rem 1.5rem;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      margin-bottom: 1.5rem;
+      padding: 1.5rem;
+      overflow: hidden;
+      position: relative;
+      -webkit-font-smoothing: antialiased;
     }
+
+    /* ============================================================
+       ANIMASI BACKGROUND
+       ============================================================ */
+    .bg-shape {
+      position: fixed;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      animation: float 8s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bg-shape.one   { width: 300px; height: 300px; top: -80px; right: -60px; }
+    .bg-shape.two   { width: 200px; height: 200px; bottom: -50px; left: -50px; animation-delay: 2s; }
+    .bg-shape.three { width: 150px; height: 150px; top: 40%; left: 10%; animation-delay: 4s; }
+    .bg-shape.four  { width: 100px; height: 100px; bottom: 20%; right: 15%; animation-delay: 1s; background: rgba(255,255,255,0.03); }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50%      { transform: translate(30px, -30px) scale(1.1); }
+    }
+
+    /* ============================================================
+       LOGIN CARD
+       ============================================================ */
+    .login-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 2.5rem 2.2rem;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+      width: 100%;
+      max-width: 520px;
+      position: relative;
+      z-index: 1;
+      animation: slideUp 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(40px) scale(0.95); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ============================================================
+       HEADER LOGIN
+       ============================================================ */
+    .login-header { text-align: center; margin-bottom: 2rem; }
 
     .brand-icon {
-      width: 44px; height: 44px;
-      background: linear-gradient(135deg, #3b82f6, #60a5fa);
-      border-radius: 12px;
+      width: 76px; height: 76px;
+      margin: 0 auto 1rem;
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      border-radius: 22px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem;
-      flex-shrink: 0;
+      color: white; font-size: 2rem;
+      box-shadow: 0 10px 25px rgba(30,64,175,0.35);
+      animation: pulse 2s ease-in-out infinite;
     }
 
-    .brand-text h1 { font-size: 0.95rem; font-weight: 800; line-height: 1.2; }
-    .brand-text p { font-size: 0.7rem; color: #93c5fd; font-weight: 500; }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 10px 25px rgba(30,64,175,0.35); }
+      50%      { transform: scale(1.05); box-shadow: 0 15px 35px rgba(30,64,175,0.5); }
+    }
 
-    .nav-title {
-      font-size: 0.65rem;
+    .login-header h1 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #1f2937;
+      margin-bottom: 0.4rem;
+      letter-spacing: -0.02em;
+    }
+
+    .login-header .subtitle {
+      font-size: 0.9rem;
+      color: #4b5563;
+      font-weight: 500;
+    }
+
+    .login-header .school {
+      font-size: 0.78rem;
+      color: #1e40af;
       font-weight: 700;
-      color: #64748b;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      padding: 0 0.75rem;
-      margin-bottom: 0.6rem;
+      letter-spacing: 0.05em;
+      margin-top: 0.3rem;
     }
 
-    .nav-menu {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-      padding: 0.75rem 0.9rem;
-      border-radius: 10px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: #cbd5e1;
-      cursor: pointer;
-      transition: all 0.2s;
-      border: none;
-      background: none;
-      font-family: inherit;
-      text-align: left;
-      width: 100%;
-    }
-
-    .nav-item i { width: 20px; text-align: center; font-size: 1rem; }
-
-    .nav-item:hover {
-      background: rgba(59,130,246,0.15);
-      color: white;
-    }
-
-    .nav-item.active {
-      background: linear-gradient(135deg, #3b82f6, #2563eb);
-      color: white;
-      box-shadow: 0 4px 12px rgba(59,130,246,0.4);
-    }
-
-    .nav-item .badge {
-      margin-left: auto;
-      background: rgba(255,255,255,0.2);
-      font-size: 0.65rem;
-      padding: 0.15rem 0.5rem;
-      border-radius: 999px;
-      font-weight: 700;
-    }
-
-    .nav-item.active .badge { background: rgba(255,255,255,0.3); }
-
-    .sidebar-footer {
-      margin-top: auto;
-      padding-top: 1.5rem;
-      border-top: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .user-card {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.75rem;
-      background: rgba(255,255,255,0.08);
-      border-radius: 10px;
-    }
-
-    .user-avatar {
-      width: 38px; height: 38px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #a855f7, #7c3aed);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700;
-      font-size: 0.85rem;
-      flex-shrink: 0;
-    }
-
-    .user-info { flex: 1; min-width: 0; }
-    .user-info .name { font-size: 0.8rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .user-info .role { font-size: 0.68rem; color: #93c5fd; }
-
-    /* ================= MAIN ================= */
-    .main-wrapper {
-      flex: 1;
-      margin-left: 260px;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    .topbar {
-      background: white;
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid #e2e8f0;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
-
-    .topbar-left { display: flex; align-items: center; gap: 1rem; }
-
-    .menu-toggle {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 1.2rem;
-      color: #1e293b;
-      cursor: pointer;
-    }
-
-    .topbar-title h2 { font-size: 1.1rem; font-weight: 700; color: #1e293b; }
-    .topbar-title p { font-size: 0.75rem; color: #64748b; }
-
-    .topbar-right { display: flex; align-items: center; gap: 1rem; }
-
-    .search-box { position: relative; display: flex; align-items: center; }
-    .search-box i { position: absolute; left: 0.9rem; color: #94a3b8; font-size: 0.85rem; }
-    .search-box input {
-      padding: 0.55rem 1rem 0.55rem 2.4rem;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 10px;
-      font-family: inherit;
-      font-size: 0.85rem;
-      width: 240px;
-      outline: none;
-      transition: all 0.2s;
-    }
-    .search-box input:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
-
-    .icon-btn {
-      width: 38px; height: 38px;
-      border-radius: 10px;
-      border: 1.5px solid #e2e8f0;
-      background: white;
-      display: flex; align-items: center; justify-content: center;
-      color: #64748b;
-      cursor: pointer;
-      position: relative;
-      transition: all 0.2s;
-    }
-    .icon-btn:hover { background: #f1f5f9; color: #1e40af; }
-    .icon-btn .dot {
-      position: absolute; top: 8px; right: 9px;
-      width: 8px; height: 8px;
-      background: #ef4444;
-      border-radius: 50%;
-      border: 2px solid white;
-    }
-
-    .content { padding: 2rem; flex: 1; }
-
-    .page { display: none; }
-    .page.active { display: block; animation: fadeIn 0.35s ease; }
+    /* ============================================================
+       STEP TRANSITION
+       ============================================================ */
+    .step { display: none; }
+    .step.active { display: block; animation: fadeIn 0.4s ease; }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* Stats */
-    .stats-grid {
+    .step-title { text-align: center; margin-bottom: 1.5rem; }
+    .step-title h2 {
+      font-size: 1.1rem; font-weight: 700;
+      color: #1f2937; margin-bottom: 0.3rem;
+    }
+    .step-title p { font-size: 0.85rem; color: #4b5563; }
+
+    /* ============================================================
+       PILIHAN PERAN (SISWA / GURU)
+       ============================================================ */
+    .role-choice-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.25rem;
-      margin-bottom: 1.75rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
     }
 
-    .stat-card {
+    .role-choice {
+      background: #ffffff;
+      border: 2px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 2rem 1rem;
+      cursor: pointer;
+      text-align: center;
+      font-family: inherit;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 0.8rem;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .role-choice::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.35s;
+      z-index: 0;
+    }
+
+    .role-choice.siswa::before { background: linear-gradient(135deg, #1e40af, #3b82f6); }
+    .role-choice.guru::before  { background: linear-gradient(135deg, #7c3aed, #a855f7); }
+
+    .role-choice:hover::before { opacity: 1; }
+
+    .role-choice > * { position: relative; z-index: 1; }
+
+    .role-choice:hover {
+      transform: translateY(-6px) scale(1.02);
+      border-color: transparent;
+      box-shadow: 0 15px 30px rgba(30,64,175,0.3);
+    }
+
+    .role-choice.guru:hover {
+      box-shadow: 0 15px 30px rgba(124,58,237,0.3);
+    }
+
+    .role-choice:hover .role-choice-label,
+    .role-choice:hover .role-choice-desc { color: white; }
+
+    .role-choice-icon {
+      width: 80px; height: 80px; border-radius: 20px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem;
+      transition: all 0.35s;
+    }
+
+    .role-choice.siswa .role-choice-icon { background: #dbeafe; color: #1e40af; }
+    .role-choice.guru .role-choice-icon  { background: #e9d5ff; color: #7c3aed; }
+    .role-choice:hover .role-choice-icon { background: rgba(255,255,255,0.25); color: white; }
+
+    .role-choice-label {
+      font-size: 1.1rem; font-weight: 800;
+      color: #1f2937; transition: color 0.3s;
+    }
+    .role-choice-desc {
+      font-size: 0.75rem; color: #4b5563;
+      font-weight: 500; transition: color 0.3s;
+    }
+
+    /* ============================================================
+       FORM
+       ============================================================ */
+    .form-group { margin-bottom: 1.1rem; }
+
+    .form-group label {
+      display: block;
+      font-size: 0.82rem; font-weight: 700;
+      color: #1f2937; margin-bottom: 0.45rem;
+      letter-spacing: 0.01em;
+    }
+
+    .input-wrapper { position: relative; }
+
+    .input-wrapper i.field-icon {
+      position: absolute;
+      left: 1rem; top: 50%;
+      transform: translateY(-50%);
+      color: #9ca3af; font-size: 0.95rem;
+      pointer-events: none;
+      transition: color 0.25s;
+    }
+
+    .input-wrapper input,
+    .input-wrapper select {
+      width: 100%;
+      padding: 0.85rem 1rem 0.85rem 2.75rem;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.92rem;
+      color: #1f2937;
       background: white;
-      border-radius: 14px;
-      padding: 1.4rem;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-      border: 1px solid #e2e8f0;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+      outline: none;
       transition: all 0.25s;
     }
 
-    .stat-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
+    .input-wrapper input::placeholder { color: #9ca3af; }
 
-    .stat-icon {
-      width: 52px; height: 52px;
-      border-radius: 14px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem;
-      flex-shrink: 0;
+    .input-wrapper input:focus,
+    .input-wrapper select:focus {
+      border-color: #1e40af;
+      box-shadow: 0 0 0 4px rgba(30,64,175,0.1);
     }
 
-    .stat-icon.blue { background: #dbeafe; color: #1e40af; }
-    .stat-icon.purple { background: #e9d5ff; color: #7c3aed; }
-    .stat-icon.green { background: #dcfce7; color: #16a34a; }
-    .stat-icon.orange { background: #ffedd5; color: #ea580c; }
-
-    .stat-info h3 { font-size: 1.6rem; font-weight: 800; color: #1e293b; line-height: 1; }
-    .stat-info p { font-size: 0.8rem; color: #64748b; margin-top: 0.3rem; font-weight: 500; }
-
-    .card {
-      background: white;
-      border-radius: 14px;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-      overflow: hidden;
-      margin-bottom: 1.5rem;
+    .input-wrapper input:focus ~ i.field-icon,
+    .input-wrapper select:focus ~ i.field-icon {
+      color: #1e40af;
     }
 
-    .card-header {
-      padding: 1.2rem 1.5rem;
-      border-bottom: 1px solid #f1f5f9;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
+    .input-wrapper select { cursor: pointer; }
 
-    .card-header h3 {
-      font-size: 1rem;
+    /* Toggle password */
+    .toggle-password {
+      position: absolute;
+      right: 0.9rem; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none;
+      color: #9ca3af; cursor: pointer;
+      font-size: 0.95rem; padding: 0.3rem;
+      transition: color 0.2s;
+    }
+    .toggle-password:hover { color: #1e40af; }
+
+    /* ============================================================
+       BUTTON
+       ============================================================ */
+    .btn-login {
+      width: 100%;
+      padding: 0.9rem 1.5rem;
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 0.95rem;
       font-weight: 700;
-      color: #1e293b;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+      transition: all 0.3s;
+      letter-spacing: 0.01em;
     }
 
-    .card-header h3 i { color: #3b82f6; }
-    .card-body { padding: 1.5rem; }
+    .btn-login.guru {
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+    }
 
-    .btn {
+    .btn-login:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(30,64,175,0.35);
+    }
+    .btn-login.guru:hover:not(:disabled) {
+      box-shadow: 0 8px 20px rgba(124,58,237,0.35);
+    }
+    .btn-login:disabled { opacity: 0.7; cursor: not-allowed; }
+
+    .spinner {
+      display: none;
+      width: 18px; height: 18px;
+      border: 2.5px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .btn-login.loading .spinner { display: inline-block; }
+    .btn-login.loading .btn-text { display: none; }
+
+    /* ============================================================
+       BACK BUTTON
+       ============================================================ */
+    .back-btn {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.55rem 1.1rem;
-      border-radius: 9px;
+      gap: 0.4rem;
+      background: none;
+      border: none;
+      color: #4b5563;
       font-family: inherit;
-      font-size: 0.82rem;
-      font-weight: 700;
+      font-size: 0.85rem;
+      font-weight: 600;
       cursor: pointer;
-      border: none;
-      transition: all 0.2s;
+      padding: 0.4rem 0;
+      margin-bottom: 1rem;
+      transition: color 0.2s;
     }
+    .back-btn:hover { color: #1e40af; }
+    .back-btn i { font-size: 0.8rem; }
 
-    .btn-primary { background: linear-gradient(135deg, #1e40af, #3b82f6); color: white; }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(30,64,175,0.3); }
-    .btn-outline { background: white; color: #4b5563; border: 1.5px solid #e2e8f0; }
-    .btn-outline:hover { border-color: #3b82f6; color: #1e40af; }
-
-    .table-wrap { overflow-x: auto; }
-
-    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-
-    thead th {
-      text-align: left;
-      padding: 0.85rem 1rem;
-      background: #f8fafc;
-      color: #64748b;
-      font-weight: 700;
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      border-bottom: 1px solid #e2e8f0;
-    }
-
-    tbody td {
-      padding: 0.9rem 1rem;
-      border-bottom: 1px solid #f1f5f9;
-      color: #334155;
-      vertical-align: middle;
-    }
-
-    tbody tr:hover { background: #f8fafc; }
-    tbody tr:last-child td { border-bottom: none; }
-
-    .cell-user { display: flex; align-items: center; gap: 0.7rem; }
-
-    .avatar-sm {
-      width: 34px; height: 34px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: white;
-      flex-shrink: 0;
-    }
-
-    .avatar-sm.blue { background: linear-gradient(135deg, #3b82f6, #1e40af); }
-    .avatar-sm.purple { background: linear-gradient(135deg, #a855f7, #7c3aed); }
-    .avatar-sm.green { background: linear-gradient(135deg, #22c55e, #16a34a); }
-    .avatar-sm.orange { background: linear-gradient(135deg, #f97316, #ea580c); }
-
-    .pill {
-      display: inline-block;
-      padding: 0.25rem 0.65rem;
-      border-radius: 999px;
-      font-size: 0.7rem;
-      font-weight: 700;
-    }
-
-    .pill.green { background: #dcfce7; color: #16a34a; }
-    .pill.yellow { background: #fef9c3; color: #ca8a04; }
-    .pill.red { background: #fee2e2; color: #dc2626; }
-    .pill.blue { background: #dbeafe; color: #1e40af; }
-
-    .action-btns { display: flex; gap: 0.4rem; }
-
-    .action-btn {
-      width: 30px; height: 30px;
-      border-radius: 8px;
-      border: none;
-      background: #f1f5f9;
-      color: #64748b;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.75rem;
-      transition: all 0.2s;
-    }
-
-    .action-btn:hover { background: #dbeafe; color: #1e40af; }
-    .action-btn.delete:hover { background: #fee2e2; color: #dc2626; }
-
-    .material-list { display: flex; flex-direction: column; gap: 0.75rem; }
-
-    .material-item {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 1rem 1.25rem;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 12px;
-      transition: all 0.2s;
-    }
-
-    .material-item:hover { border-color: #3b82f6; background: #f8fafc; }
-
-    .material-icon {
-      width: 44px; height: 44px;
-      border-radius: 12px;
-      background: #dbeafe;
-      color: #1e40af;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem;
-      flex-shrink: 0;
-    }
-
-    .material-info { flex: 1; }
-    .material-info h4 { font-size: 0.9rem; font-weight: 700; color: #1e293b; }
-    .material-info p { font-size: 0.75rem; color: #64748b; margin-top: 0.15rem; }
-
-    .progress-bar {
-      height: 8px;
-      background: #f1f5f9;
-      border-radius: 999px;
-      overflow: hidden;
-      margin-top: 0.4rem;
-    }
-
-    .progress-fill {
-      height: 100%;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #3b82f6, #60a5fa);
-      transition: width 0.5s ease;
-    }
-
-    .empty {
-      text-align: center;
-      padding: 3rem 1rem;
-      color: #94a3b8;
-    }
-    .empty i { font-size: 2.5rem; margin-bottom: 0.75rem; color: #cbd5e1; }
-    .empty p { font-size: 0.88rem; }
-
-    .overlay {
-      display: none;
+    /* ============================================================
+       TOAST
+       ============================================================ */
+    .toast {
       position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 99;
+      top: 1.5rem; right: 1.5rem;
+      background: white;
+      padding: 1rem 1.3rem;
+      border-radius: 10px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      display: flex; align-items: center; gap: 0.75rem;
+      font-size: 0.88rem; font-weight: 500;
+      z-index: 9999;
+      transform: translateX(400px);
+      transition: transform 0.4s cubic-bezier(0.68,-0.55,0.27,1.55);
+      max-width: 340px;
     }
-    .overlay.show { display: block; }
+    .toast.show { transform: translateX(0); }
+    .toast i { font-size: 1.2rem; }
+    .toast.error   { border-left: 4px solid #dc2626; }
+    .toast.error i { color: #dc2626; }
+    .toast.success { border-left: 4px solid #16a34a; }
+    .toast.success i { color: #16a34a; }
+    .toast.info    { border-left: 4px solid #1e40af; }
+    .toast.info i  { color: #1e40af; }
 
-    @media (max-width: 900px) {
-      .sidebar { transform: translateX(-100%); }
-      .sidebar.open { transform: translateX(0); }
-      .main-wrapper { margin-left: 0; }
-      .menu-toggle { display: flex; }
-      .search-box input { width: 160px; }
-    }
-
-    @media (max-width: 600px) {
-      .content { padding: 1rem; }
-      .topbar { padding: 0.85rem 1rem; }
-      .search-box { display: none; }
-      .topbar-title h2 { font-size: 0.95rem; }
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 480px) {
+      .login-card { padding: 1.8rem 1.3rem; }
+      .brand-icon { width: 64px; height: 64px; font-size: 1.6rem; }
+      .login-header h1 { font-size: 1.15rem; }
+      .role-choice-icon { width: 60px; height: 60px; font-size: 1.6rem; }
+      .role-choice { padding: 1.5rem 0.8rem; }
+      .role-choice-label { font-size: 0.95rem; }
+      .toast { right: 0.75rem; left: 0.75rem; max-width: none; }
     }
   </style>
 </head>
-<body>
+<body data-page="login">
 
-  <div class="overlay" id="overlay"></div>
+  <!-- Background Shapes -->
+  <div class="bg-shape one"></div>
+  <div class="bg-shape two"></div>
+  <div class="bg-shape three"></div>
+  <div class="bg-shape four"></div>
 
-  <!-- ================= SIDEBAR ================= -->
-  <aside class="sidebar" id="sidebar">
-    <div class="brand-area">
-      <div class="brand-icon"><i class="fas fa-hard-hat"></i></div>
-      <div class="brand-text">
-        <h1>Media K3</h1>
-        <p>SMK Negeri 2 Medan</p>
-      </div>
-    </div>
-
-    <div class="nav-title">Menu Utama</div>
-    <ul class="nav-menu">
-      <li>
-        <button class="nav-item active" data-page="dashboard">
-          <i class="fas fa-home"></i> Dashboard
-        </button>
-      </li>
-      <li>
-        <button class="nav-item" data-page="siswa">
-          <i class="fas fa-user-graduate"></i> Data Siswa
-          <span class="badge" id="badge-siswa">0</span>
-        </button>
-      </li>
-      <li>
-        <button class="nav-item" data-page="guru">
-          <i class="fas fa-chalkboard-user"></i> Data Guru
-          <span class="badge" id="badge-guru">0</span>
-        </button>
-      </li>
-      <li>
-        <button class="nav-item" data-page="materi">
-          <i class="fas fa-book"></i> Materi K3
-          <span class="badge" id="badge-materi">0</span>
-        </button>
-      </li>
-      <li>
-        <button class="nav-item" data-page="nilai">
-          <i class="fas fa-clipboard-check"></i> Nilai Siswa
-        </button>
-      </li>
-    </ul>
-
-    <div class="nav-title">Lainnya</div>
-    <ul class="nav-menu">
-      <li>
-        <button class="nav-item" data-page="pengaturan">
-          <i class="fas fa-gear"></i> Pengaturan
-        </button>
-      </li>
-      <li>
-        <button class="nav-item" onclick="logout()">
-          <i class="fas fa-right-from-bracket"></i> Keluar
-        </button>
-      </li>
-    </ul>
-
-    <div class="sidebar-footer">
-      <div class="user-card">
-        <div class="user-avatar" id="user-avatar">--</div>
-        <div class="user-info">
-          <div class="name" id="user-name">Memuat...</div>
-          <div class="role" id="user-role">-</div>
-        </div>
-      </div>
-    </div>
-  </aside>
-
-  <!-- ================= MAIN ================= -->
-  <div class="main-wrapper">
-
-    <header class="topbar">
-      <div class="topbar-left">
-        <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
-        <div class="topbar-title">
-          <h2 id="pageTitle">Dashboard</h2>
-          <p id="pageSubtitle">Ringkasan aktivitas pembelajaran K3</p>
-        </div>
-      </div>
-
-      <div class="topbar-right">
-        <div class="search-box">
-          <i class="fas fa-search"></i>
-          <input type="text" placeholder="Cari data...">
-        </div>
-        <button class="icon-btn">
-          <i class="fas fa-bell"></i>
-          <span class="dot"></span>
-        </button>
-        <button class="icon-btn"><i class="fas fa-envelope"></i></button>
-      </div>
-    </header>
-
-    <main class="content">
-
-      <!-- ========== PAGE: DASHBOARD ========== -->
-      <section id="page-dashboard" class="page active">
-        
-        <!-- STATISTIK: Angka diambil dari database, default 0 -->
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-icon blue"><i class="fas fa-user-graduate"></i></div>
-            <div class="stat-info">
-              <h3 id="stat-siswa">0</h3>
-              <p>Total Siswa</p>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon purple"><i class="fas fa-chalkboard-user"></i></div>
-            <div class="stat-info">
-              <h3 id="stat-guru">0</h3>
-              <p>Total Guru</p>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon green"><i class="fas fa-book"></i></div>
-            <div class="stat-info">
-              <h3 id="stat-materi">0</h3>
-              <p>Materi K3</p>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon orange"><i class="fas fa-clipboard-check"></i></div>
-            <div class="stat-info">
-              <h3 id="stat-nilai">0%</h3>
-              <p>Rata-rata Nilai</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- PROGRES: Diambil dari database -->
-        <div class="card">
-          <div class="card-header">
-            <h3><i class="fas fa-chart-line"></i> Progres Pembelajaran</h3>
-          </div>
-          <div class="card-body" id="progress-container">
-            <!-- Akan diisi oleh JavaScript -->
-            <div class="empty">
-              <i class="fas fa-chart-simple"></i>
-              <p>Belum ada data progres.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- AKTIVITAS: Diambil dari database -->
-        <div class="card">
-          <div class="card-header">
-            <h3><i class="fas fa-clock-rotate-left"></i> Aktivitas Terbaru</h3>
-          </div>
-          <div class="card-body" id="activity-container">
-            <div class="empty">
-              <i class="fas fa-inbox"></i>
-              <p>Belum ada aktivitas pembelajaran.</p>
-              <p style="font-size:0.78rem;margin-top:0.3rem;">Data akan muncul setelah siswa mulai mengerjakan materi.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========== PAGE: SISWA ========== -->
-      <section id="page-siswa" class="page">
-        <div class="card">
-          <div class="card-header">
-            <h3><i class="fas fa-user-graduate"></i> Data Siswa</h3>
-            <button class="btn btn-primary" onclick="tambahSiswa()"><i class="fas fa-plus"></i> Tambah Siswa</button>
-          </div>
-          <div class="card-body">
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr><th>Nama</th><th>Kelas</th><th>NIS</th><th>Status</th><th>Aksi</th></tr>
-                </thead>
-                <tbody id="tbody-siswa">
-                  <tr><td colspan="5"><div class="empty"><i class="fas fa-inbox"></i><p>Belum ada data siswa.</p></div></td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========== PAGE: GURU ========== -->
-      <section id="page-guru" class="page">
-        <div class="card">
-          <div class="card-header">
-            <h3><i class="fas fa-chalkboard-user"></i> Data Guru</h3>
-            <button class="btn btn-primary" onclick="tambahGuru()"><i class="fas fa-plus"></i> Tambah Guru</button>
-          </div>
-          <div class="card-body">
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr><th>Nama</th><th>NIP</th><th>Email</th><th>Mata Pelajaran</th><th>Aksi</th></tr>
-                </thead>
-                <tbody id="tbody-guru">
-                  <tr><td colspan="5"><div class="empty"><i class="fas fa-inbox"></i><p>Belum ada data guru.</p></div></td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========== PAGE: MATERI ========== -->
-      <section id="page-materi" class="page">
-        <div class="card">
-          <div class="card-header">
-            <h3><i class="fas fa-book"></i> Daftar Materi K3</h3>
-            <button class="btn btn-primary" onclick="tambahMateri()"><i class="fas fa-plus"></i> Tambah Materi</button>
-          </div>
-          <div class="card-body">
-            <div class="material-list" id="materi-list">
-              <div class="empty">
-                <i class="fas fa-inbox"></i>
-                <p>Belum ada materi.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========== PAGE: NILAI ========== -->
-      <section id="page-nilai" class="page">
-        <div class="card">
-          <div class="card-header">
-            <h3><i class="fas fa-clipboard-check"></i> Nilai Siswa</h3>
-            <button class="btn btn-outline"><i class="fas fa-file-export"></i> Export Excel</button>
-          </div>
-          <div class="card-body">
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr><th>Nama Siswa</th><th>Kelas</th><th>Pengertian K3</th><th>APD</th><th>Bahaya</th><th>Rata-rata</th></tr>
-                </thead>
-                <tbody id="tbody-nilai">
-                  <tr><td colspan="6"><div class="empty"><i class="fas fa-inbox"></i><p>Belum ada data nilai.</p></div></td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========== PAGE: PENGATURAN ========== -->
-      <section id="page-pengaturan" class="page">
-        <div class="card">
-          <div class="card-header">
-            <h3><i class="fas fa-gear"></i> Pengaturan Akun</h3>
-          </div>
-          <div class="card-body">
-            <div style="max-width:480px;">
-              <div style="margin-bottom:1.2rem;">
-                <label style="display:block;font-size:0.82rem;font-weight:600;color:#334155;margin-bottom:0.4rem;">Nama Lengkap</label>
-                <input type="text" id="setting-nama" value="" style="width:100%;padding:0.75rem 1rem;border:1.5px solid #e2e8f0;border-radius:10px;font-family:inherit;font-size:0.88rem;outline:none;">
-              </div>
-              <div style="margin-bottom:1.2rem;">
-                <label style="display:block;font-size:0.82rem;font-weight:600;color:#334155;margin-bottom:0.4rem;">Email</label>
-                <input type="email" id="setting-email" value="" style="width:100%;padding:0.75rem 1rem;border:1.5px solid #e2e8f0;border-radius:10px;font-family:inherit;font-size:0.88rem;outline:none;">
-              </div>
-              <div style="margin-bottom:1.5rem;">
-                <label style="display:block;font-size:0.82rem;font-weight:600;color:#334155;margin-bottom:0.4rem;">NIP</label>
-                <input type="text" id="setting-nip" value="" style="width:100%;padding:0.75rem 1rem;border:1.5px solid #e2e8f0;border-radius:10px;font-family:inherit;font-size:0.88rem;outline:none;">
-              </div>
-              <button class="btn btn-primary" onclick="simpanPengaturan()"><i class="fas fa-save"></i> Simpan Perubahan</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </main>
+  <!-- Toast -->
+  <div id="toast" class="toast">
+    <i class="fas fa-info-circle"></i>
+    <span id="toast-message">Pesan</span>
   </div>
 
-  <!-- ================= SUPABASE ================= -->
+  <!-- Login Card -->
+  <div class="login-card">
+
+    <!-- HEADER -->
+    <div class="login-header">
+      <div class="brand-icon"><i class="fas fa-hard-hat"></i></div>
+      <h1>Media Pembelajaran Interaktif K3</h1>
+      <p class="subtitle">Keselamatan &amp; Kesehatan Kerja</p>
+      <p class="school">Teknik Pemesinan — SMK Negeri 2 Medan</p>
+    </div>
+
+    <!-- ============================================================
+         STEP 1: PILIH PERAN
+         ============================================================ -->
+    <div id="step-role" class="step active">
+      <div class="step-title">
+        <h2>Pilih Peran Anda</h2>
+        <p>Masuk sebagai Siswa atau Guru</p>
+      </div>
+
+      <div class="role-choice-grid">
+        <button type="button" class="role-choice siswa" id="choose-siswa">
+          <div class="role-choice-icon"><i class="fas fa-user-graduate"></i></div>
+          <div class="role-choice-label">Siswa</div>
+          <div class="role-choice-desc">Nama &amp; Kelas</div>
+        </button>
+
+        <button type="button" class="role-choice guru" id="choose-guru">
+          <div class="role-choice-icon"><i class="fas fa-chalkboard-user"></i></div>
+          <div class="role-choice-label">Guru</div>
+          <div class="role-choice-desc">Email &amp; Password</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         STEP 2A: LOGIN SISWA
+         ============================================================ -->
+    <div id="step-siswa" class="step">
+      <button type="button" class="back-btn" id="back-from-siswa">
+        <i class="fas fa-arrow-left"></i> Kembali
+      </button>
+
+      <div class="step-title">
+        <h2>Masuk sebagai Siswa</h2>
+        <p>Isi nama dan pilih kelas Anda</p>
+      </div>
+
+      <form id="login-form-siswa" autocomplete="off">
+        <div class="form-group">
+          <label for="siswa-nama">Nama Lengkap</label>
+          <div class="input-wrapper">
+            <input type="text" id="siswa-nama" placeholder="Contoh: Ahmad Rizki" required>
+            <i class="fas fa-user field-icon"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="siswa-kelas">Kelas</label>
+          <div class="input-wrapper">
+            <select id="siswa-kelas" required>
+              <option value="">-- Pilih Kelas --</option>
+              <option value="X TP 1">X TP 1</option>
+              <option value="X TP 2">X TP 2</option>
+              <option value="X TP 3">X TP 3</option>
+              <option value="XI TP 1">XI TP 1</option>
+              <option value="XI TP 2">XI TP 2</option>
+              <option value="XI TP 3">XI TP 3</option>
+              <option value="XII TP 1">XII TP 1</option>
+              <option value="XII TP 2">XII TP 2</option>
+              <option value="XII TP 3">XII TP 3</option>
+            </select>
+            <i class="fas fa-school field-icon"></i>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-login" id="btn-login-siswa">
+          <span class="spinner"></span>
+          <span class="btn-text"><i class="fas fa-sign-in-alt"></i> Masuk</span>
+        </button>
+      </form>
+    </div>
+
+    <!-- ============================================================
+         STEP 2B: LOGIN GURU
+         ============================================================ -->
+    <div id="step-guru" class="step">
+      <button type="button" class="back-btn" id="back-from-guru">
+        <i class="fas fa-arrow-left"></i> Kembali
+      </button>
+
+      <div class="step-title">
+        <h2>Masuk sebagai Guru</h2>
+        <p>Gunakan akun yang terdaftar</p>
+      </div>
+
+      <form id="login-form-guru" autocomplete="off">
+        <div class="form-group">
+          <label for="guru-email">Email</label>
+          <div class="input-wrapper">
+            <input type="email" id="guru-email" placeholder="guru@k3medan.com" required>
+            <i class="fas fa-envelope field-icon"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="guru-password">Password</label>
+          <div class="input-wrapper">
+            <input type="password" id="guru-password" placeholder="Masukkan password" required>
+            <i class="fas fa-lock field-icon"></i>
+            <button type="button" class="toggle-password" id="toggle-password-guru">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-login guru" id="btn-login-guru">
+          <span class="spinner"></span>
+          <span class="btn-text"><i class="fas fa-sign-in-alt"></i> Masuk</span>
+        </button>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- ============================================================
+       SUPABASE & APP.JS
+       ============================================================ -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/app.js"></script>
+
+  <!-- ============================================================
+       SCRIPT KHUSUS LOGIN PAGE
+       ============================================================ -->
   <script>
-    // ========== KONFIGURASI SUPABASE ==========
-    // Ganti dengan URL dan Anon Key milik Anda
-    const SUPABASE_URL = 'https://xxxxxxxxxxxx.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.xxxxxxxx';
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('📄 Halaman Login siap');
 
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    // ========== STATE GLOBAL ==========
-    let currentUser = null;
-
-    // ========== INISIALISASI ==========
-    async function init() {
-      await cekSesi();
-      await muatSemuaData();
-    }
-
-    // ========== CEK SESI LOGIN ==========
-    async function cekSesi() {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (session) {
-        currentUser = session.user;
-        document.getElementById('user-name').textContent = currentUser.email;
-        document.getElementById('user-role').textContent = 'Guru';
-        document.getElementById('user-avatar').textContent = currentUser.email.substring(0, 2).toUpperCase();
-        
-        // Isi form pengaturan
-        document.getElementById('setting-nama').value = currentUser.user_metadata?.nama || '';
-        document.getElementById('setting-email').value = currentUser.email || '';
-        document.getElementById('setting-nip').value = currentUser.user_metadata?.nip || '';
-      } else {
-        // Jika belum login, arahkan ke halaman login
-        window.location.href = 'login.html';
+      // ============================================================
+      // STEP NAVIGATION
+      // ============================================================
+      function showStep(stepId) {
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(stepId);
+        if (target) target.classList.add('active');
       }
-    }
 
-    // ========== MUAT SEMUA DATA DARI DATABASE ==========
-    async function muatSemuaData() {
-      await muatStatistik();
-      await muatProgres();
-      await muatAktivitas();
-      await muatSiswa();
-      await muatGuru();
-      await muatMateri();
-      await muatNilai();
-    }
+      // Tombol pilih peran
+      const btnSiswa = document.getElementById('choose-siswa');
+      const btnGuru  = document.getElementById('choose-guru');
 
-    // ========== STATISTIK ==========
-    async function muatStatistik() {
-      try {
-        // Total Siswa
-        const { count: countSiswa } = await supabase
-          .from('siswa')
-          .select('*', { count: 'exact', head: true });
-        document.getElementById('stat-siswa').textContent = countSiswa || 0;
-        document.getElementById('badge-siswa').textContent = countSiswa || 0;
+      if (btnSiswa) {
+        btnSiswa.onclick = (e) => {
+          e.preventDefault();
+          showStep('step-siswa');
+          setTimeout(() => document.getElementById('siswa-nama')?.focus(), 300);
+        };
+      }
 
-        // Total Guru
-        const { count: countGuru } = await supabase
-          .from('guru')
-          .select('*', { count: 'exact', head: true });
-        document.getElementById('stat-guru').textContent = countGuru || 0;
-        document.getElementById('badge-guru').textContent = countGuru || 0;
+      if (btnGuru) {
+        btnGuru.onclick = (e) => {
+          e.preventDefault();
+          showStep('step-guru');
+          setTimeout(() => document.getElementById('guru-email')?.focus(), 300);
+        };
+      }
 
-        // Total Materi
-        const { count: countMateri } = await supabase
-          .from('materi')
-          .select('*', { count: 'exact', head: true });
-        document.getElementById('stat-materi').textContent = countMateri || 0;
-        document.getElementById('badge-materi').textContent = countMateri || 0;
+      // Tombol kembali
+      document.getElementById('back-from-siswa')?.addEventListener('click', () => showStep('step-role'));
+      document.getElementById('back-from-guru')?.addEventListener('click', () => showStep('step-role'));
 
-        // Rata-rata Nilai
-        const { data: nilaiData } = await supabase
-          .from('nilai')
-          .select('nilai');
-        
-        if (nilaiData && nilaiData.length > 0) {
-          const rata = nilaiData.reduce((a, b) => a + b.nilai, 0) / nilaiData.length;
-          document.getElementById('stat-nilai').textContent = rata.toFixed(0) + '%';
-        } else {
-          document.getElementById('stat-nilai').textContent = '0%';
+      // ============================================================
+      // TOGGLE PASSWORD
+      // ============================================================
+      const togglePwd = document.getElementById('toggle-password-guru');
+      const pwdInput = document.getElementById('guru-password');
+      if (togglePwd && pwdInput) {
+        togglePwd.onclick = () => {
+          const isPwd = pwdInput.type === 'password';
+          pwdInput.type = isPwd ? 'text' : 'password';
+          const icon = togglePwd.querySelector('i');
+          if (icon) icon.className = isPwd ? 'fas fa-eye-slash' : 'fas fa-eye';
+        };
+      }
+
+      // ============================================================
+      // TOAST HELPER
+      // ============================================================
+      function showToast(message, type = 'info') {
+        const toast = document.getElementById('toast');
+        const msg = document.getElementById('toast-message');
+        if (!toast || !msg) { alert(message); return; }
+        const icon = toast.querySelector('i');
+        toast.className = 'toast ' + type;
+        msg.textContent = message;
+        const icons = {
+          error:   'fa-circle-exclamation',
+          success: 'fa-circle-check',
+          info:    'fa-circle-info'
+        };
+        if (icon) icon.className = 'fas ' + (icons[type] || icons.info);
+        toast.classList.add('show');
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(() => toast.classList.remove('show'), 3500);
+      }
+
+      // ============================================================
+      // LOGIN SISWA — Simpan ke tabel `siswa` di Supabase
+      // ============================================================
+      const formSiswa = document.getElementById('login-form-siswa');
+      if (formSiswa) {
+        formSiswa.onsubmit = async function(e) {
+          e.preventDefault();
+
+          const nama = document.getElementById('siswa-nama').value.trim();
+          const kelas = document.getElementById('siswa-kelas').value;
+          const btn = document.getElementById('btn-login-siswa');
+
+          if (!nama || !kelas) {
+            showToast('Nama dan kelas wajib diisi!', 'error');
+            return;
+          }
+
+          if (nama.length < 3) {
+            showToast('Nama minimal 3 karakter!', 'error');
+            return;
+          }
+
+          if (btn) { btn.classList.add('loading'); btn.disabled = true; }
+
+          try {
+            // Cek apakah siswa sudah pernah login
+            const { data: existing, error: checkErr } = await supabaseClient
+              .from('siswa')
+              .select('*')
+              .eq('nama', nama)
+              .eq('kelas', kelas)
+              .maybeSingle();
+
+            if (checkErr && checkErr.code !== 'PGRST116') {
+              throw checkErr;
+            }
+
+            let siswaData;
+
+            if (existing) {
+              // Update login count & last login
+              const { data: updated, error: updateErr } = await supabaseClient
+                .from('siswa')
+                .update({
+                  last_login: new Date().toISOString(),
+                  login_count: (existing.login_count || 0) + 1,
+                  status: 'aktif'
+                })
+                .eq('id', existing.id)
+                .select()
+                .single();
+
+              if (updateErr) throw updateErr;
+              siswaData = updated;
+              console.log('✅ Siswa existing diupdate:', siswaData);
+            } else {
+              // Insert siswa baru
+              const { data: inserted, error: insertErr } = await supabaseClient
+                .from('siswa')
+                .insert([{
+                  nama: nama,
+                  kelas: kelas,
+                  last_login: new Date().toISOString(),
+                  login_count: 1,
+                  status: 'aktif'
+                }])
+                .select()
+                .single();
+
+              if (insertErr) throw insertErr;
+              siswaData = inserted;
+              console.log('✅ Siswa baru ditambahkan:', siswaData);
+            }
+
+            // Simpan session ke localStorage
+            localStorage.setItem('siswa_session', JSON.stringify({
+              id: siswaData.id,
+              nama: siswaData.nama,
+              kelas: siswaData.kelas,
+              login_at: new Date().toISOString()
+            }));
+
+            showToast('Login berhasil! Selamat belajar, ' + nama, 'success');
+
+            setTimeout(() => {
+              window.location.href = 'dashboard-siswa.html';
+            }, 900);
+
+          } catch (err) {
+            console.error('❌ Error login siswa:', err);
+            showToast('Gagal login: ' + (err.message || 'Terjadi kesalahan'), 'error');
+          } finally {
+            if (btn) { btn.classList.remove('loading'); btn.disabled = false; }
+          }
+        };
+      }
+
+      // ============================================================
+      // LOGIN GURU — Supabase Auth
+      // ============================================================
+      const formGuru = document.getElementById('login-form-guru');
+      if (formGuru) {
+        formGuru.onsubmit = async function(e) {
+          e.preventDefault();
+
+          const email = document.getElementById('guru-email').value.trim();
+          const password = document.getElementById('guru-password').value;
+          const btn = document.getElementById('btn-login-guru');
+
+          if (!email || !password) {
+            showToast('Email dan password wajib diisi!', 'error');
+            return;
+          }
+
+          if (btn) { btn.classList.add('loading'); btn.disabled = true; }
+
+          try {
+            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
+            if (error) {
+              showToast('Login gagal: ' + error.message, 'error');
+              return;
+            }
+
+            // Cek role dari tabel profiles
+            const { data: profile, error: profileErr } = await supabaseClient
+              .from('profiles')
+              .select('role, full_name')
+              .eq('id', data.user.id)
+              .single();
+
+            if (profileErr || !profile) {
+              showToast('Profil tidak ditemukan!', 'error');
+              await supabaseClient.auth.signOut();
+              return;
+            }
+
+            if (profile.role !== 'guru') {
+              showToast('Akun ini bukan akun guru!', 'error');
+              await supabaseClient.auth.signOut();
+              return;
+            }
+
+            showToast('Login berhasil! Halo ' + (profile.full_name || 'Guru'), 'success');
+
+            setTimeout(() => {
+              window.location.href = 'dashboard-guru.html';
+            }, 900);
+
+          } catch (err) {
+            console.error('❌ Error login guru:', err);
+            showToast('Error: ' + (err.message || 'Terjadi kesalahan'), 'error');
+          } finally {
+            if (btn) { btn.classList.remove('loading'); btn.disabled = false; }
+          }
+        };
+      }
+
+      // ============================================================
+      // ENTER KEY NAVIGATION
+      // ============================================================
+      document.getElementById('siswa-nama')?.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          document.getElementById('siswa-kelas')?.focus();
         }
-      } catch (err) {
-        console.error('Gagal memuat statistik:', err);
-      }
-    }
-
-    // ========== PROGRES PEMBELAJARAN ==========
-    async function muatProgres() {
-      const container = document.getElementById('progress-container');
-      
-      try {
-        const { data, error } = await supabase
-          .from('materi')
-          .select('judul, progres');
-
-        if (error) throw error;
-
-        if (!data || data.length === 0) {
-          container.innerHTML = `
-            <div class="empty">
-              <i class="fas fa-chart-simple"></i>
-              <p>Belum ada data progres.</p>
-            </div>`;
-          return;
-        }
-
-        container.innerHTML = data.map(m => `
-          <div style="margin-bottom:1.2rem;">
-            <div style="display:flex;justify-content:space-between;font-size:0.82rem;font-weight:600;color:#334155;">
-              <span>${m.judul}</span><span>${m.progres || 0}%</span>
-            </div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width:${m.progres || 0}%"></div>
-            </div>
-          </div>
-        `).join('');
-      } catch (err) {
-        console.error('Gagal memuat progres:', err);
-        container.innerHTML = `
-          <div class="empty">
-            <i class="fas fa-exclamation-triangle"></i>
-            <p>Gagal memuat data progres.</p>
-          </div>`;
-      }
-    }
-
-    // ========== AKTIVITAS TERBARU ==========
-    async function muatAktivitas() {
-      const container = document.getElementById('activity-container');
-      
-      try {
-        const { data, error } = await supabase
-          .from('aktivitas')
-          .select('*')
-          .order('created_at', { ascending: false })
-          .limit(5);
-
-        if (error) throw error;
-
-        if (!data || data.length === 0) {
-          container.innerHTML = `
-            <div class="empty">
-              <i class="fas fa-inbox"></i>
-              <p>Belum ada aktivitas pembelajaran.</p>
-              <p style="font-size:0.78rem;margin-top:0.3rem;">Data akan muncul setelah siswa mulai mengerjakan materi.</p>
-            </div>`;
-          return;
-        }
-
-        // Tampilkan tabel aktivitas
-        container.innerHTML = `
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr><th>Siswa</th><th>Materi</th><th>Status</th><th>Waktu</th></tr>
-              </thead>
-              <tbody>
-                ${data.map(a => `
-                  <tr>
-                    <td><div class="cell-user"><div class="avatar-sm blue">${(a.nama_siswa || '?').substring(0,2).toUpperCase()}</div> ${a.nama_siswa || '-'}</div></td>
-                    <td>${a.materi || '-'}</td>
-                    <td><span class="pill ${a.status === 'selesai' ? 'green' : 'yellow'}">${a.status || '-'}</span></td>
-                    <td>${new Date(a.created_at).toLocaleString('id-ID')}</td>
-                  </tr>
-                `).join('')}
-              </tbody>
-            </table>
-          </div>`;
-      } catch (err) {
-        console.error('Gagal memuat aktivitas:', err);
-      }
-    }
-
-    // ========== DATA SISWA ==========
-    async function muatSiswa() {
-      const tbody = document.getElementById('tbody-siswa');
-      
-      try {
-        const { data, error } = await supabase
-          .from('siswa')
-          .select('*')
-          .order('nama');
-
-        if (error) throw error;
-
-        if (!data || data.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="5"><div class="empty"><i class="fas fa-inbox"></i><p>Belum ada data siswa.</p></div></td></tr>`;
-          return;
-        }
-
-        tbody.innerHTML = data.map(s => `
-          <tr>
-            <td><div class="cell-user"><div class="avatar-sm blue">${(s.nama || '?').substring(0,2).toUpperCase()}</div> ${s.nama}</div></td>
-            <td>${s.kelas || '-'}</td>
-            <td>${s.nis || '-'}</td>
-            <td><span class="pill ${s.status === 'aktif' ? 'green' : 'yellow'}">${s.status || 'aktif'}</span></td>
-            <td><div class="action-btns">
-              <button class="action-btn" onclick="editSiswa('${s.id}')"><i class="fas fa-pen"></i></button>
-              <button class="action-btn delete" onclick="hapusSiswa('${s.id}')"><i class="fas fa-trash"></i></button>
-            </div></td>
-          </tr>
-        `).join('');
-      } catch (err) {
-        console.error('Gagal memuat siswa:', err);
-      }
-    }
-
-    // ========== DATA GURU ==========
-    async function muatGuru() {
-      const tbody = document.getElementById('tbody-guru');
-      
-      try {
-        const { data, error } = await supabase
-          .from('guru')
-          .select('*')
-          .order('nama');
-
-        if (error) throw error;
-
-        if (!data || data.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="5"><div class="empty"><i class="fas fa-inbox"></i><p>Belum ada data guru.</p></div></td></tr>`;
-          return;
-        }
-
-        tbody.innerHTML = data.map(g => `
-          <tr>
-            <td><div class="cell-user"><div class="avatar-sm purple">${(g.nama || '?').substring(0,2).toUpperCase()}</div> ${g.nama}</div></td>
-            <td>${g.nip || '-'}</td>
-            <td>${g.email || '-'}</td>
-            <td>${g.mapel || '-'}</td>
-            <td><div class="action-btns">
-              <button class="action-btn" onclick="editGuru('${g.id}')"><i class="fas fa-pen"></i></button>
-            </div></td>
-          </tr>
-        `).join('');
-      } catch (err) {
-        console.error('Gagal memuat guru:', err);
-      }
-    }
-
-    // ========== DATA MATERI ==========
-    async function muatMateri() {
-      const container = document.getElementById('materi-list');
-      
-      try {
-        const { data, error } = await supabase
-          .from('materi')
-          .select('*')
-          .order('urutan');
-
-        if (error) throw error;
-
-        if (!data || data.length === 0) {
-          container.innerHTML = `<div class="empty"><i class="fas fa-inbox"></i><p>Belum ada materi.</p></div>`;
-          return;
-        }
-
-        container.innerHTML = data.map(m => `
-          <div class="material-item">
-            <div class="material-icon"><i class="fas ${m.icon || 'fa-book'}"></i></div>
-            <div class="material-info">
-              <h4>${m.judul}</h4>
-              <p>${m.deskripsi || ''}</p>
-            </div>
-            <span class="pill ${m.status === 'aktif' ? 'blue' : 'yellow'}">${m.status || 'draft'}</span>
-          </div>
-        `).join('');
-      } catch (err) {
-        console.error('Gagal memuat materi:', err);
-      }
-    }
-
-    // ========== DATA NILAI ==========
-    async function muatNilai() {
-      const tbody = document.getElementById('tbody-nilai');
-      
-      try {
-        const { data, error } = await supabase
-          .from('nilai')
-          .select('*')
-          .order('nama_siswa');
-
-        if (error) throw error;
-
-        if (!data || data.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="6"><div class="empty"><i class="fas fa-inbox"></i><p>Belum ada data nilai.</p></div></td></tr>`;
-          return;
-        }
-
-        tbody.innerHTML = data.map(n => {
-          const rata = ((n.pengertian_k3 + n.apd + n.bahaya) / 3).toFixed(1);
-          return `
-            <tr>
-              <td><div class="cell-user"><div class="avatar-sm blue">${(n.nama_siswa || '?').substring(0,2).toUpperCase()}</div> ${n.nama_siswa}</div></td>
-              <td>${n.kelas || '-'}</td>
-              <td>${n.pengertian_k3 || 0}</td>
-              <td>${n.apd || 0}</td>
-              <td>${n.bahaya || 0}</td>
-              <td><span class="pill ${rata >= 80 ? 'green' : 'yellow'}">${rata}</span></td>
-            </tr>
-          `;
-        }).join('');
-      } catch (err) {
-        console.error('Gagal memuat nilai:', err);
-      }
-    }
-
-    // ========== FUNGSI CRUD (PLACEHOLDER) ==========
-    function tambahSiswa() { alert('Fitur tambah siswa akan segera hadir.'); }
-    function editSiswa(id) { alert('Edit siswa: ' + id); }
-    function hapusSiswa(id) { if (confirm('Yakin hapus?')) alert('Hapus: ' + id); }
-    function tambahGuru() { alert('Fitur tambah guru akan segera hadir.'); }
-    function editGuru(id) { alert('Edit guru: ' + id); }
-    function tambahMateri() { alert('Fitur tambah materi akan segera hadir.'); }
-
-    async function simpanPengaturan() {
-      const nama = document.getElementById('setting-nama').value;
-      const nip = document.getElementById('setting-nip').value;
-      
-      const { error } = await supabase.auth.updateUser({
-        data: { nama, nip }
       });
 
-      if (error) {
-        alert('Gagal menyimpan: ' + error.message);
-      } else {
-        alert('Pengaturan berhasil disimpan!');
-      }
-    }
-
-    async function logout() {
-      await supabase.auth.signOut();
-      window.location.href = 'login.html';
-    }
-
-    // ========== NAVIGASI ==========
-    const navItems = document.querySelectorAll('.nav-item[data-page]');
-    const pages = document.querySelectorAll('.page');
-    const pageTitle = document.getElementById('pageTitle');
-    const pageSubtitle = document.getElementById('pageSubtitle');
-
-    const pageMeta = {
-      dashboard: { title: 'Dashboard', subtitle: 'Ringkasan aktivitas pembelajaran K3' },
-      siswa: { title: 'Data Siswa', subtitle: 'Kelola data siswa teknik pemesinan' },
-      guru: { title: 'Data Guru', subtitle: 'Kelola data guru dan pengajar' },
-      materi: { title: 'Materi K3', subtitle: 'Kelola materi pembelajaran K3' },
-      nilai: { title: 'Nilai Siswa', subtitle: 'Rekap nilai dan hasil belajar siswa' },
-      pengaturan: { title: 'Pengaturan', subtitle: 'Kelola profil dan preferensi akun' }
-    };
-
-    navItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const target = item.getAttribute('data-page');
-        navItems.forEach(nav => nav.classList.remove('active'));
-        item.classList.add('active');
-        pages.forEach(page => page.classList.remove('active'));
-        document.getElementById('page-' + target).classList.add('active');
-        if (pageMeta[target]) {
-          pageTitle.textContent = pageMeta[target].title;
-          pageSubtitle.textContent = pageMeta[target].subtitle;
-        }
-        if (window.innerWidth <= 900) {
-          sidebar.classList.remove('open');
-          overlay.classList.remove('show');
-        }
-        document.querySelector('.content').scrollTop = 0;
-      });
+      console.log('✅ Login page initialized');
     });
-
-    // ========== SIDEBAR MOBILE ==========
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const menuToggle = document.getElementById('menuToggle');
-
-    menuToggle.addEventListener('click', () => {
-      sidebar.classList.toggle('open');
-      overlay.classList.toggle('show');
-    });
-
-    overlay.addEventListener('click', () => {
-      sidebar.classList.remove('open');
-      overlay.classList.remove('show');
-    });
-
-    // ========== JALANKAN ==========
-    init();
   </script>
 
 </body>
