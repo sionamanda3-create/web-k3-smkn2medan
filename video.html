@@ -12,9 +12,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
-    /* ============================================================
-       RESET & VARIABEL
-       ============================================================ */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
@@ -192,7 +189,6 @@
     .video-card:nth-child(2) { animation-delay: 0.10s; }
     .video-card:nth-child(3) { animation-delay: 0.15s; }
     .video-card:nth-child(4) { animation-delay: 0.20s; }
-    .video-card:nth-child(5) { animation-delay: 0.25s; }
     .video-card:hover {
       transform: translateY(-5px);
       box-shadow: var(--shadow-md);
@@ -285,7 +281,7 @@
     .icon-btn:hover { background: var(--primary); border-color: var(--primary); color: white; }
     .icon-btn.danger:hover { background: var(--danger); border-color: var(--danger); }
 
-    /* EMPTY STATE */
+    /* EMPTY */
     .empty-state {
       background: var(--white);
       border-radius: var(--radius);
@@ -385,9 +381,7 @@
       padding-bottom: 1rem;
       border-bottom: 1px solid var(--gray-100);
     }
-    .video-meta-info span {
-      display: inline-flex; align-items: center; gap: 0.35rem;
-    }
+    .video-meta-info span { display: inline-flex; align-items: center; gap: 0.35rem; }
     .video-meta-info i { color: var(--primary); }
     .modal-player-info p.description {
       font-size: 0.9rem; color: var(--gray-600); line-height: 1.7;
@@ -450,28 +444,6 @@
       background: var(--gray-50); flex-shrink: 0;
     }
 
-    /* Preview thumbnail */
-    .video-preview {
-      margin-top: 0.8rem; padding: 0.8rem;
-      background: var(--gray-50); border-radius: 10px;
-      display: none; gap: 0.8rem; align-items: center;
-    }
-    .video-preview.show { display: flex; }
-    .video-preview img {
-      width: 120px; height: 68px;
-      object-fit: cover; border-radius: 8px; flex-shrink: 0;
-    }
-    .video-preview-info { flex: 1; min-width: 0; }
-    .video-preview-info .title {
-      font-size: 0.82rem; font-weight: 700; color: var(--gray-800);
-      margin-bottom: 0.2rem;
-      display: -webkit-box; -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical; overflow: hidden;
-    }
-    .video-preview-info .source {
-      font-size: 0.72rem; color: var(--gray-500); font-weight: 600;
-    }
-
     /* TOAST */
     .toast {
       position: fixed; top: 1.5rem; right: 1.5rem;
@@ -493,7 +465,6 @@
     .toast.info    { border-left: 4px solid var(--primary); }
     .toast.info i  { color: var(--primary); }
 
-    /* RESPONSIVE */
     @media (max-width: 640px) {
       .navbar { padding: 0.75rem 1rem; }
       .container { padding: 1.5rem 1rem 4rem; }
@@ -509,13 +480,11 @@
 </head>
 <body data-page="video">
 
-  <!-- TOAST -->
   <div id="toast" class="toast">
     <i class="fas fa-info-circle"></i>
     <span id="toast-message">Pesan</span>
   </div>
 
-  <!-- NAVBAR -->
   <nav class="navbar">
     <div class="navbar-left">
       <a href="#" id="back-btn" class="back-btn" title="Kembali">
@@ -657,13 +626,24 @@
     </div>
   </div>
 
+  <!-- ============================================================
+       SUPABASE SDK & KONFIGURASI
+       ============================================================ -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/app.js"></script>
 
   <script>
-    // ============================================================
-    // STATE
-    // ============================================================
+    const SUPABASE_URL = 'https://ddnhwcxfktcsyngupdex.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_ogAtXLGklIivo88I41J8ZA_9CWzS8D3';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log('✅ Supabase client siap di video.html');
+  </script>
+
+  <script src="js/app.js"></script>
+
+  <!-- ============================================================
+       SCRIPT VIDEO
+       ============================================================ -->
+  <script>
     let currentRole = 'siswa';
     let currentSiswa = null;
     let semuaVideo = [];
@@ -671,9 +651,6 @@
     let filterKategori = '';
     let editId = null;
 
-    // ============================================================
-    // TOAST
-    // ============================================================
     function showToast(message, type = 'info') {
       const toast = document.getElementById('toast');
       const msg = document.getElementById('toast-message');
@@ -688,9 +665,6 @@
       toast._timer = setTimeout(() => toast.classList.remove('show'), 3500);
     }
 
-    // ============================================================
-    // EXTRACT YOUTUBE ID
-    // ============================================================
     function extractYouTubeId(url) {
       if (!url) return null;
       const patterns = [
@@ -716,9 +690,6 @@
       return id ? `https://www.youtube.com/embed/${id}?autoplay=1&rel=0` : '';
     }
 
-    // ============================================================
-    // CEK ROLE
-    // ============================================================
     async function cekRole() {
       const sessionSiswa = localStorage.getItem('siswa_session');
       if (sessionSiswa) {
@@ -748,9 +719,6 @@
       window.location.href = 'index.html';
     }
 
-    // ============================================================
-    // LOAD VIDEO
-    // ============================================================
     async function loadVideo() {
       const list = document.getElementById('video-list');
       list.innerHTML = `
@@ -786,9 +754,6 @@
       }
     }
 
-    // ============================================================
-    // RENDER VIDEO
-    // ============================================================
     function renderVideo() {
       const list = document.getElementById('video-list');
 
@@ -843,7 +808,6 @@
         `;
       }).join('');
 
-      // Attach click
       list.querySelectorAll('.video-card').forEach(card => {
         card.addEventListener('click', (e) => {
           if (e.target.closest('.icon-btn')) return;
@@ -852,9 +816,6 @@
       });
     }
 
-    // ============================================================
-    // PLAY VIDEO
-    // ============================================================
     function playVideo(id) {
       const v = semuaVideo.find(x => x.id === id);
       if (!v) return;
@@ -874,7 +835,6 @@
       document.getElementById('modal-player').classList.add('show');
       document.body.style.overflow = 'hidden';
 
-      // Log aktivitas siswa
       if (currentRole === 'siswa' && currentSiswa) {
         supabaseClient.from('aktivitas').insert([{
           siswa_id: currentSiswa.id,
@@ -892,9 +852,6 @@
       document.body.style.overflow = '';
     }
 
-    // ============================================================
-    // FORM VIDEO (Guru)
-    // ============================================================
     function openForm(video = null) {
       editId = video?.id || null;
       document.getElementById('form-title').innerHTML = video
@@ -976,9 +933,6 @@
       }
     }
 
-    // ============================================================
-    // INIT
-    // ============================================================
     document.addEventListener('DOMContentLoaded', async () => {
       console.log('📄 Halaman Video init');
 
@@ -1021,7 +975,6 @@
       });
     });
 
-    // Expose
     window.editVideo = editVideo;
     window.hapusVideo = hapusVideo;
   </script>
