@@ -1,313 +1,292 @@
-  <!-- ================= SUPABASE & APP.JS ================= -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+// ============================================================
+// MEDIA PEMBELAJARAN K3 — SMK NEGERI 2 MEDAN
+// File: js/app.js
+// ============================================================
+// CATATAN:
+// - `supabaseClient` didefinisikan di masing-masing file HTML
+//   (index.html, dashboard-guru.html, dashboard-siswa.html, dll).
+// - File ini HANYA menyediakan helper functions.
+// - JANGAN deklarasikan `supabaseClient` lagi di sini agar tidak
+//   terjadi error "Identifier 'supabaseClient' has already been declared".
+// ============================================================
 
-  <!-- ================= KONFIGURASI SUPABASE ================= -->
-  <script>
-    // ============================================================
-    // KONFIGURASI SUPABASE (GANTI DENGAN MILIK ANDA)
-    // ============================================================
-    const SUPABASE_URL = 'https://ddnhwcxfktcsyngupdex.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_ogAtXLGklIivo88I41J8ZA_9CWzS8D3';
+// ============================================================
+// CEK APAKAH SUPABASE CLIENT SIAP
+// ============================================================
+function ensureSupabaseClient() {
+  if (typeof supabaseClient === 'undefined' || !supabaseClient) {
+    console.error('❌ supabaseClient belum didefinisikan. Pastikan HTML sudah membuatnya.');
+    return false;
+  }
+  return true;
+}
 
+// ============================================================
+// HELPER: GET CURRENT USER (Supabase Auth)
+// ============================================================
+async function getCurrentUser() {
+  if (!ensureSupabaseClient()) return null;
+  try {
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    return user || null;
+  } catch (err) {
+    console.error('Gagal getCurrentUser:', err);
+    return null;
+  }
+}
 
-  <!-- ================= APP.JS (OPSIONAL, JIKA ADA) ================= -->
-  <script src="js/app.js"></script>
+// ============================================================
+// HELPER: GET CURRENT PROFILE (tabel `profiles`)
+// ============================================================
+async function getCurrentProfile() {
+  if (!ensureSupabaseClient()) return null;
+  const user = await getCurrentUser();
+  if (!user) return null;
 
-  <!-- ================= SCRIPT DASHBOARD GURU ================= -->
-  <script>
-    // ============================================================
-    // UPDATE TANGGAL & WAKTU
-    // ============================================================
-    function updateDateTime() {
-      const now = new Date();
-      const opsi = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-      const dateEl = document.getElementById('heroDate');
-      const timeEl = document.getElementById('heroTime');
-      if (dateEl) dateEl.textContent = now.toLocaleDateString('id-ID', opsi);
-      if (timeEl) timeEl.textContent = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+  try {
+    const { data, error } = await supabaseClient
+      .from('profiles')
+      .select('*')
+      .eq('id', user.id)
+      .single();
+
+    if (error) {
+      console.warn('Profile tidak ditemukan:', error.message);
+      return null;
     }
+    return data;
+  } catch (err) {
+    console.error('Gagal getCurrentProfile:', err);
+    return null;
+  }
+}
 
-    // ============================================================
-    // CEK LOGIN GURU (dari Supabase Auth)
-    // ============================================================
-    async function cekLoginGuru() {
-      const { data: { user } } = await supabaseClient.auth.getUser();
+// ============================================================
+// HELPER: GET CURRENT SISWA (dari localStorage)
+// ============================================================
+function getCurrentSiswa() {
+  try {
+    const session = localStorage.getItem('siswa_session');
+    return session ? JSON.parse(session) : null;
+  } catch (e) {
+    return null;
+  }
+}
 
-      if (!user) {
-        console.warn('⚠️ Belum login, redirect ke index');
-        window.location.href = 'index.html';
-        return null;
-      }
+// ============================================================
+// HELPER: REQUIRE AUTH (redirect kalau belum login)
+// ============================================================
+async function requireAuth() {
+  const user = await getCurrentUser();
+  if (!user) {
+    console.warn('⚠️ Belum login, redirect ke index.html');
+    window.location.href = 'index.html';
+    return null;
+  }
+  return user;
+}
 
-      const { data: profile, error } = await supabaseClient
-        .from('profiles')
-        .select('*')
-        .eq('id', user.id)
-        .single();
+// ============================================================
+// HELPER: LOGOUT (Supabase Auth + localStorage)
+// ============================================================
+async function handleLogout() {
+  if (!confirm('Yakin ingin keluar?')) return;
 
-      if (error || !profile || profile.role !== 'guru') {
-        console.warn('⚠️ Bukan guru, redirect');
-        await supabaseClient.auth.signOut();
-        window.location.href = 'index.html';
-        return null;
-      }
-
-      return profile;
-    }
-
-    // ============================================================
-    // MUAT STATISTIK
-    // ============================================================
-    async function muatStatistik() {
-      try {
-        const [siswa, guru, materi] = await Promise.all([
-          supabaseClient.from('siswa').select('*', { count: 'exact', head: true }),
-          supabaseClient.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'guru'),
-          supabaseClient.from('materi').select('*', { count: 'exact', head: true })
-        ]);
-
-        const setText = (id, val) => {
-          const el = document.getElementById(id);
-          if (el) el.textContent = val;
-        };
-
-        setText('stat-siswa', siswa.count || 0);
-        setText('stat-guru', guru.count || 0);
-        setText('stat-materi', materi.count || 0);
-
-        const { data: nilaiData } = await supabaseClient.from('nilai').select('nilai');
-        const nilaiEl = document.getElementById('stat-nilai');
-        if (nilaiEl) {
-          if (nilaiData && nilaiData.length > 0) {
-            const rata = nilaiData.reduce((a, b) => a + (b.nilai || 0), 0) / nilaiData.length;
-            nilaiEl.innerHTML = rata.toFixed(0) + '<small>%</small>';
-          } else {
-            nilaiEl.innerHTML = '0<small>%</small>';
-          }
-        }
-      } catch (err) {
-        console.error('Gagal memuat statistik:', err);
-      }
-    }
-
-    // ============================================================
-    // MONITORING SISWA LOGIN (dari tabel `siswa`)
-    // ============================================================
-    async function loadMonitoring() {
-      const tbody = document.getElementById('tbody-monitoring');
-      tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat data...</p></div></td></tr>';
-
-      try {
-        const { data, error } = await supabaseClient
-          .from('siswa')
-          .select('*')
-          .order('last_login', { ascending: false });
-
-        if (error) throw error;
-
-        if (!data || data.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-inbox"></i><p>Belum ada siswa yang login.</p></div></td></tr>';
-          return;
-        }
-
-        const kelasSet = new Set(data.map(s => s.kelas).filter(Boolean));
-        const filterKelas = document.getElementById('filter-monitoring-kelas');
-        filterKelas.innerHTML = '<option value="">Semua Kelas</option>' +
-          [...kelasSet].map(k => `<option value="${k}">${k}</option>`).join('');
-
-        const render = (list) => {
-          if (list.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-inbox"></i><p>Tidak ada data yang cocok.</p></div></td></tr>';
-            return;
-          }
-          tbody.innerHTML = list.map(s => `
-            <tr>
-              <td>
-                <div style="display:flex;align-items:center;gap:0.7rem;">
-                  <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#1e40af);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;flex-shrink:0;">
-                    ${(s.nama || '?').charAt(0).toUpperCase()}
-                  </div>
-                  <div>
-                    <div style="font-weight:600;color:var(--gray-800);">${s.nama || '-'}</div>
-                    <div style="font-size:0.78rem;color:var(--gray-500);">${s.nis || '-'}</div>
-                  </div>
-                </div>
-              </td>
-              <td><span class="badge primary">${s.kelas || '-'}</span></td>
-              <td>${s.last_login ? new Date(s.last_login).toLocaleString('id-ID') : '-'}</td>
-              <td><strong>${s.login_count || 0}x</strong></td>
-              <td><span class="badge success">Aktif</span></td>
-            </tr>
-          `).join('');
-        };
-
-        render(data);
-
-        const filterInput = document.getElementById('filter-monitoring');
-        const filterKelasEl = document.getElementById('filter-monitoring-kelas');
-
-        const applyFilter = () => {
-          const q = filterInput.value.toLowerCase();
-          const kls = filterKelasEl.value;
-          render(data.filter(s =>
-            ((s.nama || '').toLowerCase().includes(q)) &&
-            (!kls || s.kelas === kls)
-          ));
-        };
-
-        filterInput.addEventListener('input', applyFilter);
-        filterKelasEl.addEventListener('change', applyFilter);
-      } catch (err) {
-        console.error('Gagal load monitoring:', err);
-        tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Gagal memuat data.</p></div></td></tr>';
-      }
-    }
-
-    // ============================================================
-    // LOAD NILAI SISWA
-    // ============================================================
-    async function loadNilai() {
-      const tbody = document.getElementById('tbody-nilai');
-      tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat data...</p></div></td></tr>';
-
-      try {
-        const { data, error } = await supabaseClient
-          .from('nilai')
-          .select('*')
-          .order('created_at', { ascending: false });
-
-        if (error) throw error;
-
-        if (!data || data.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-inbox"></i><p>Belum ada data nilai siswa.</p></div></td></tr>';
-          return;
-        }
-
-        tbody.innerHTML = data.map(n => `
-          <tr>
-            <td><strong>${n.nama_siswa || '-'}</strong></td>
-            <td><span class="badge primary">${n.kelas || '-'}</span></td>
-            <td>${n.materi || '-'}</td>
-            <td><strong style="color:${(n.nilai >= 75) ? 'var(--success)' : 'var(--danger)'};">${n.nilai || 0}</strong></td>
-            <td>${n.created_at ? new Date(n.created_at).toLocaleDateString('id-ID') : '-'}</td>
-          </tr>
-        `).join('');
-      } catch (err) {
-        console.error('Gagal load nilai:', err);
-        tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Gagal memuat data nilai.</p></div></td></tr>';
-      }
-    }
-
-    // ============================================================
-    // MUAT AKTIVITAS
-    // ============================================================
-    async function muatAktivitas() {
-      const container = document.getElementById('activity-container');
-      if (!container) return;
-
-      try {
-        const { data, error } = await supabaseClient
-          .from('aktivitas')
-          .select('*')
-          .order('created_at', { ascending: false })
-          .limit(8);
-
-        if (error) throw error;
-
-        if (!data || data.length === 0) {
-          container.innerHTML = `
-            <div class="empty-state">
-              <i class="fas fa-inbox"></i>
-              <p>Belum ada aktivitas pembelajaran.</p>
-            </div>`;
-          return;
-        }
-
-        container.innerHTML = `
-          <div class="table-wrapper">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Siswa</th>
-                  <th>Tipe</th>
-                  <th>Judul</th>
-                  <th>Status</th>
-                  <th>Waktu</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${data.map(a => `
-                  <tr>
-                    <td>
-                      <div style="display:flex;align-items:center;gap:0.6rem;">
-                        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#1e40af);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem;">
-                          ${(a.nama_siswa || '?').substring(0,2).toUpperCase()}
-                        </div>
-                        <span style="font-weight:600;">${a.nama_siswa || '-'}</span>
-                      </div>
-                    </td>
-                    <td><span class="badge primary">${a.tipe || '-'}</span></td>
-                    <td>${a.judul || '-'}</td>
-                    <td>
-                      <span class="badge ${a.status === 'selesai' ? 'success' : 'warning'}">
-                        ${a.status === 'selesai' ? 'Selesai' : 'Proses'}
-                      </span>
-                    </td>
-                    <td class="text-muted" style="font-size:0.82rem;">
-                      ${a.created_at ? new Date(a.created_at).toLocaleString('id-ID', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }) : '-'}
-                    </td>
-                  </tr>
-                `).join('')}
-              </tbody>
-            </table>
-          </div>`;
-      } catch (err) {
-        console.error('Gagal memuat aktivitas:', err);
-        container.innerHTML = `
-          <div class="empty-state">
-            <i class="fas fa-exclamation-triangle"></i>
-            <p>Gagal memuat aktivitas.</p>
-          </div>`;
-      }
-    }
-
-    // ============================================================
-    // LOGOUT
-    // ============================================================
-    async function logout() {
-      if (!confirm('Yakin ingin keluar dari akun guru?')) return;
+  try {
+    if (ensureSupabaseClient()) {
       await supabaseClient.auth.signOut();
-      window.location.href = 'index.html';
     }
+  } catch (err) {
+    console.warn('Error signOut:', err);
+  }
 
-    // ============================================================
-    // JALANKAN SETELAH PAGE LOAD
-    // ============================================================
-    document.addEventListener('DOMContentLoaded', async () => {
-      console.log('📄 Dashboard Guru init');
+  localStorage.removeItem('siswa_session');
+  window.location.href = 'index.html';
+}
 
-      updateDateTime();
-      setInterval(updateDateTime, 60000);
+// ============================================================
+// HELPER: TOAST NOTIFICATION
+// ============================================================
+function showToast(message, type = 'info') {
+  const toast = document.getElementById('toast');
+  const msg = document.getElementById('toast-message');
 
-      const profile = await cekLoginGuru();
-      if (!profile) return;
+  if (!toast || !msg) {
+    // Fallback kalau elemen toast tidak ada
+    console.log(`[${type.toUpperCase()}] ${message}`);
+    return;
+  }
 
-      const initial = (profile.full_name || 'G').charAt(0).toUpperCase();
-      document.getElementById('user-avatar').textContent = initial;
-      document.getElementById('user-name').textContent = profile.full_name || 'Guru';
-      document.getElementById('user-nip').textContent = profile.nis_nip ? 'NIP: ' + profile.nis_nip : 'Pengajar K3';
-      document.getElementById('welcome-name').textContent = (profile.full_name || 'Guru').split(' ')[0];
+  const icon = toast.querySelector('i');
+  toast.className = 'toast ' + type;
+  msg.textContent = message;
 
-      document.getElementById('logout-btn').addEventListener('click', logout);
+  const icons = {
+    error:   'fa-circle-exclamation',
+    success: 'fa-circle-check',
+    info:    'fa-circle-info',
+    warning: 'fa-triangle-exclamation'
+  };
 
-      await muatStatistik();
-      await loadMonitoring();
-      await loadNilai();
-      await muatAktivitas();
+  if (icon) icon.className = 'fas ' + (icons[type] || icons.info);
+
+  toast.classList.add('show');
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => toast.classList.remove('show'), 3500);
+}
+
+// ============================================================
+// HELPER: FORMAT TANGGAL (Bahasa Indonesia)
+// ============================================================
+function formatTanggal(dateStr) {
+  if (!dateStr) return '-';
+  try {
+    return new Date(dateStr).toLocaleDateString('id-ID', {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
     });
+  } catch (e) {
+    return '-';
+  }
+}
 
-    // Expose ke global
-    window.loadMonitoring = loadMonitoring;
-    window.loadNilai = loadNilai;
-    window.logout = logout;
-  </script>
+function formatTanggalSingkat(dateStr) {
+  if (!dateStr) return '-';
+  try {
+    return new Date(dateStr).toLocaleString('id-ID', {
+      day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+    });
+  } catch (e) {
+    return '-';
+  }
+}
+
+// ============================================================
+// HELPER: GENERATE PASSWORD SISWA (kalau pakai sistem lama)
+// ============================================================
+function generateStudentPassword(nama, kelas) {
+  const namaBersih = (nama || '').toLowerCase().replace(/\s+/g, '');
+  const kelasBersih = (kelas || '').replace(/\s+/g, '').toUpperCase();
+  return `k3-${namaBersih}-${kelasBersih}`;
+}
+
+// ============================================================
+// HELPER: EXTRACT YOUTUBE ID
+// ============================================================
+function extractYouTubeId(url) {
+  if (!url) return null;
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=)([^&\n?#]+)/,
+    /(?:youtu\.be\/)([^&\n?#]+)/,
+    /(?:youtube\.com\/embed\/)([^&\n?#]+)/,
+    /(?:youtube\.com\/shorts\/)([^&\n?#]+)/
+  ];
+  for (const p of patterns) {
+    const match = url.match(p);
+    if (match && match[1]) return match[1];
+  }
+  return null;
+}
+
+function getYouTubeThumbnail(url) {
+  const id = extractYouTubeId(url);
+  return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : '';
+}
+
+function getYouTubeEmbed(url) {
+  const id = extractYouTubeId(url);
+  return id ? `https://www.youtube.com/embed/${id}?autoplay=1&rel=0` : '';
+}
+
+// ============================================================
+// HELPER: GET PREDIKAT NILAI
+// ============================================================
+function getPredikat(nilai) {
+  if (nilai === null || nilai === undefined || isNaN(nilai)) {
+    return { label: '—', class: 'empty' };
+  }
+  if (nilai >= 90) return { label: 'A', class: 'a' };
+  if (nilai >= 80) return { label: 'B', class: 'b' };
+  if (nilai >= 70) return { label: 'C', class: 'c' };
+  return { label: 'D', class: 'd' };
+}
+
+function getScoreClass(nilai) {
+  if (nilai === null || nilai === undefined || isNaN(nilai)) return 'empty';
+  if (nilai >= 90) return 'excellent';
+  if (nilai >= 80) return 'good';
+  if (nilai >= 70) return 'average';
+  return 'poor';
+}
+
+// ============================================================
+// ROUTER OTOMATIS (dipanggil kalau halaman punya data-page)
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  const page = document.body.dataset.page;
+  if (!page) return;
+
+  console.log('📄 app.js — Halaman terdeteksi:', page);
+
+  // Router hanya untuk memicu fungsi init khusus per halaman.
+  // Sebagian besar logika ada di masing-masing HTML.
+  switch (page) {
+    case 'login':
+      console.log('   → Login page (logic di index.html)');
+      break;
+
+    case 'dashboard-siswa':
+      console.log('   → Dashboard Siswa (logic di dashboard-siswa.html)');
+      break;
+
+    case 'dashboard-guru':
+      console.log('   → Dashboard Guru (logic di dashboard-guru.html)');
+      break;
+
+    case 'materi':
+      console.log('   → Materi (logic di materi.html)');
+      break;
+
+    case 'video':
+      console.log('   → Video (logic di video.html)');
+      break;
+
+    case 'kuis':
+      console.log('   → Kuis (logic di kuis.html)');
+      break;
+
+    case 'latihan':
+      console.log('   → Latihan (logic di latihan.html)');
+      break;
+
+    case 'nilai':
+      console.log('   → Nilai (logic di nilai.html)');
+      break;
+
+    case 'tujuan':
+      console.log('   → Tujuan (logic di tujuan.html)');
+      break;
+
+    default:
+      console.warn('   → Halaman tidak dikenal:', page);
+  }
+});
+
+// ============================================================
+// EXPOSE KE GLOBAL (agar bisa diakses dari HTML)
+// ============================================================
+window.getCurrentUser = getCurrentUser;
+window.getCurrentProfile = getCurrentProfile;
+window.getCurrentSiswa = getCurrentSiswa;
+window.requireAuth = requireAuth;
+window.handleLogout = handleLogout;
+window.showToast = showToast;
+window.formatTanggal = formatTanggal;
+window.formatTanggalSingkat = formatTanggalSingkat;
+window.generateStudentPassword = generateStudentPassword;
+window.extractYouTubeId = extractYouTubeId;
+window.getYouTubeThumbnail = getYouTubeThumbnail;
+window.getYouTubeEmbed = getYouTubeEmbed;
+window.getPredikat = getPredikat;
+window.getScoreClass = getScoreClass;
+
+console.log('✅ js/app.js loaded — Helper functions ready');
