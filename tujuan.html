@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Tujuan Pembelajaran K3 - Media Pembelajaran K3 SMK Negeri 2 Medan">
+  <title>Tujuan Pembelajaran K3 | Media Pembelajaran K3</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ============================================================
+       RESET & VARIABEL
+       ============================================================ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #1e40af;
+      --primary-dark: #1e3a8a;
+      --primary-light: #3b82f6;
+      --accent: #f59e0b;
+      --danger: #dc2626;
+      --success: #16a34a;
+      --purple: #7c3aed;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --white: #ffffff;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 20px 40px rgba(0,0,0,0.12);
+      --radius: 16px;
+      --radius-sm: 12px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-800);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 0.9rem 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .navbar-left { display: flex; align-items: center; gap: 1rem; }
+    .back-btn {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--gray-100); color: var(--gray-700);
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; transition: var(--transition);
+      font-size: 0.95rem;
+    }
+    .back-btn:hover { background: var(--primary); color: white; transform: translateX(-3px); }
+    .navbar-brand {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-weight: 800; font-size: 1.05rem; color: var(--primary);
+      letter-spacing: -0.02em;
+    }
+    .navbar-brand .brand-icon {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 1rem;
+      box-shadow: 0 4px 10px rgba(30,64,175,0.3);
+    }
+    .navbar-right { display: flex; align-items: center; gap: 0.9rem; }
+    .user-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.4rem 0.8rem;
+      background: var(--gray-100);
+      border-radius: 999px;
+      font-size: 0.78rem; font-weight: 600; color: var(--gray-600);
+    }
+
+    /* CONTAINER */
+    .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      border-radius: var(--radius);
+      padding: 2.2rem 2rem;
+      color: white;
+      margin-bottom: 1.8rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(30,64,175,0.25);
+      animation: slideUp 0.5s ease-out;
+    }
+    .hero::before, .hero::after {
+      content: ''; position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+    }
+    .hero::before { width: 220px; height: 220px; top: -80px; right: -60px; }
+    .hero::after { width: 150px; height: 150px; bottom: -60px; right: 120px; background: rgba(255,255,255,0.06); }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(8px);
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      margin-bottom: 0.9rem;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+    .hero h1 {
+      font-size: 1.75rem; font-weight: 800;
+      line-height: 1.25; margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .hero h1 .highlight { color: #fde68a; }
+    .hero p {
+      font-size: 0.92rem; opacity: 0.95;
+      max-width: 640px; line-height: 1.65;
+    }
+
+    /* PROGRESS BAR */
+    .progress-wrapper {
+      background: white;
+      border-radius: var(--radius-sm);
+      padding: 1.2rem 1.5rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-100);
+      margin-bottom: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      animation: slideUp 0.5s ease-out 0.1s backwards;
+    }
+    .progress-icon {
+      width: 48px; height: 48px;
+      background: linear-gradient(135deg, #dbeafe, #3b82f6);
+      color: white;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .progress-info { flex: 1; }
+    .progress-info .label {
+      display: flex; justify-content: space-between;
+      font-size: 0.82rem; font-weight: 700;
+      color: var(--gray-700);
+      margin-bottom: 0.5rem;
+    }
+    .progress-info .percent { color: var(--primary); }
+    .progress-bar-track {
+      height: 10px;
+      background: var(--gray-100);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      border-radius: 999px;
+      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 0%;
+    }
+
+    /* SECTION */
+    .section {
+      margin-bottom: 2rem;
+      animation: slideUp 0.5s ease-out 0.15s backwards;
+    }
+    .section-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 1.2rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .section-header h2 {
+      font-size: 1.2rem; font-weight: 800;
+      color: var(--gray-800);
+      display: flex; align-items: center; gap: 0.6rem;
+      letter-spacing: -0.01em;
+    }
+    .section-header h2 i { color: var(--primary); }
+
+    /* TUJUAN UMUM */
+    .tujuan-umum-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 1.8rem 2rem;
+      border: 1px solid var(--gray-100);
+      box-shadow: var(--shadow-sm);
+      border-left: 5px solid var(--primary);
+      position: relative;
+    }
+    .tujuan-umum-card .quote-icon {
+      position: absolute;
+      top: 1.2rem; right: 1.5rem;
+      font-size: 2.5rem;
+      color: var(--gray-100);
+      z-index: 0;
+    }
+    .tujuan-umum-card p {
+      font-size: 0.95rem;
+      color: var(--gray-700);
+      line-height: 1.75;
+      position: relative;
+      z-index: 1;
+    }
+    .tujuan-umum-card p strong { color: var(--gray-800); }
+
+    /* TUJUAN SPESIFIK */
+    .tujuan-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.1rem;
+    }
+    .tujuan-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 1.4rem;
+      border: 1px solid var(--gray-100);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+    .tujuan-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary-light);
+    }
+    .tujuan-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      opacity: 0;
+      transition: var(--transition);
+    }
+    .tujuan-card:hover::before { opacity: 1; }
+
+    .tujuan-card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.9rem;
+    }
+    .tujuan-num {
+      width: 42px; height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #dbeafe, #3b82f6);
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800;
+      font-size: 1rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(59,130,246,0.25);
+    }
+    .tujuan-num.green  { background: linear-gradient(135deg, #dcfce7, #16a34a); box-shadow: 0 4px 10px rgba(22,163,74,0.25); }
+    .tujuan-num.orange { background: linear-gradient(135deg, #fed7aa, #ea580c); box-shadow: 0 4px 10px rgba(234,88,12,0.25); }
+    .tujuan-num.purple { background: linear-gradient(135deg, #e9d5ff, #7c3aed); box-shadow: 0 4px 10px rgba(124,58,237,0.25); }
+    .tujuan-num.red    { background: linear-gradient(135deg, #fee2e2, #dc2626); box-shadow: 0 4px 10px rgba(220,38,38,0.25); }
+
+    .tujuan-card h3 {
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: var(--gray-800);
+      line-height: 1.35;
+      margin-bottom: 0.2rem;
+    }
+    .tujuan-card .sub {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .tujuan-card p.desc {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      line-height: 1.65;
+    }
+
+    /* CHECKLIST */
+    .checklist {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 0.4rem;
+      padding-top: 0.9rem;
+      border-top: 1px dashed var(--gray-200);
+    }
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-size: 0.83rem;
+      color: var(--gray-700);
+      line-height: 1.5;
+      cursor: pointer;
+      padding: 0.35rem 0;
+      transition: var(--transition);
+    }
+    .checklist-item:hover { color: var(--primary); }
+
+    .checklist-item input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 18px; height: 18px;
+      border: 2px solid var(--gray-300);
+      border-radius: 5px;
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-top: 2px;
+      position: relative;
+      transition: var(--transition);
+    }
+    .checklist-item input[type="checkbox"]:checked {
+      background: var(--success);
+      border-color: var(--success);
+    }
+    .checklist-item input[type="checkbox"]:checked::after {
+      content: '\f00c';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      color: white;
+      font-size: 0.65rem;
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .checklist-item input[type="checkbox"]:checked ~ span {
+      text-decoration: line-through;
+      color: var(--gray-400);
+    }
+
+    /* MANFAAT */
+    .manfaat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .manfaat-item {
+      background: white;
+      border-radius: var(--radius-sm);
+      padding: 1.3rem;
+      border: 1px solid var(--gray-100);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.9rem;
+      transition: var(--transition);
+    }
+    .manfaat-item:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .manfaat-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .manfaat-icon.blue   { background: #dbeafe; color: #1e40af; }
+    .manfaat-icon.green  { background: #dcfce7; color: #16a34a; }
+    .manfaat-icon.orange { background: #fed7aa; color: #ea580c; }
+    .manfaat-icon.purple { background: #e9d5ff; color: #7c3aed; }
+    .manfaat-icon.red    { background: #fee2e2; color: #dc2626; }
+    .manfaat-icon.yellow { background: #fef3c7; color: #92400e; }
+
+    .manfaat-content h4 {
+      font-size: 0.9rem; font-weight: 800;
+      color: var(--gray-800);
+      margin-bottom: 0.25rem;
+    }
+    .manfaat-content p {
+      font-size: 0.8rem; color: var(--gray-500);
+      line-height: 1.55;
+    }
+
+    /* HIGHLIGHT BOX */
+    .highlight-box {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border-left: 5px solid var(--accent);
+      border-radius: var(--radius-sm);
+      padding: 1.3rem 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      animation: slideUp 0.5s ease-out 0.3s backwards;
+    }
+    .highlight-box .icon {
+      width: 44px; height: 44px;
+      background: rgba(245,158,11,0.25);
+      color: #b45309;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .highlight-box h4 {
+      font-size: 0.92rem; font-weight: 800;
+      color: #78350f;
+      margin-bottom: 0.3rem;
+    }
+    .highlight-box p {
+      font-size: 0.85rem; color: #92400e;
+      line-height: 1.6;
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed; top: 1.5rem; right: 1.5rem;
+      background: white; padding: 1rem 1.3rem;
+      border-radius: 10px; box-shadow: var(--shadow-lg);
+      display: flex; align-items: center; gap: 0.75rem;
+      font-size: 0.88rem; font-weight: 500;
+      z-index: 9999;
+      transform: translateX(400px);
+      transition: transform 0.4s cubic-bezier(0.68,-0.55,0.27,1.55);
+      max-width: 340px;
+    }
+    .toast.show { transform: translateX(0); }
+    .toast i { font-size: 1.2rem; }
+    .toast.error   { border-left: 4px solid var(--danger); }
+    .toast.error i { color: var(--danger); }
+    .toast.success { border-left: 4px solid var(--success); }
+    .toast.success i { color: var(--success); }
+    .toast.info    { border-left: 4px solid var(--primary); }
+    .toast.info i  { color: var(--primary); }
+
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      .navbar { padding: 0.75rem 1rem; }
+      .container { padding: 1.5rem 1rem 4rem; }
+      .hero { padding: 1.6rem 1.4rem; }
+      .hero h1 { font-size: 1.35rem; }
+      .progress-wrapper { flex-direction: column; align-items: stretch; }
+      .progress-icon { align-self: center; }
+      .tujuan-grid { grid-template-columns: 1fr; }
+      .manfaat-grid { grid-template-columns: 1fr; }
+      .toast { right: 0.75rem; left: 0.75rem; max-width: none; }
+    }
+  </style>
+</head>
+<body data-page="tujuan">
+
+  <div id="toast" class="toast">
+    <i class="fas fa-info-circle"></i>
+    <span id="toast-message">Pesan</span>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-left">
+      <a href="dashboard-siswa.html" class="back-btn" title="Kembali">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <div class="navbar-brand">
+        <div class="brand-icon"><i class="fas fa-bullseye"></i></div>
+        <span>Tujuan Pembelajaran</span>
+      </div>
+    </div>
+    <div class="navbar-right">
+      <div class="user-badge">
+        <i class="fas fa-user-circle"></i>
+        <span id="user-role">Siswa</span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-content">
+        <span class="hero-badge"><i class="fas fa-graduation-cap"></i> Capaian Pembelajaran</span>
+        <h1>Tujuan Pembelajaran <span class="highlight">K3</span></h1>
+        <p>Memahami tujuan, capaian, dan manfaat pembelajaran Keselamatan & Kesehatan Kerja untuk mempersiapkan diri memasuki dunia industri teknik pemesinan yang aman dan profesional.</p>
+      </div>
+    </section>
+
+    <!-- PROGRESS -->
+    <div class="progress-wrapper">
+      <div class="progress-icon"><i class="fas fa-list-check"></i></div>
+      <div class="progress-info">
+        <div class="label">
+          <span>Progres Pemahaman</span>
+          <span class="percent" id="progress-percent">0%</span>
+        </div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TUJUAN UMUM -->
+    <section class="section">
+      <div class="section-header">
+        <h2><i class="fas fa-bullseye"></i> Tujuan Umum</h2>
+      </div>
+
+      <div class="tujuan-umum-card">
+        <i class="fas fa-quote-right quote-icon"></i>
+        <p>
+          Setelah mengikuti pembelajaran ini, siswa diharapkan mampu <strong>memahami dan menerapkan prinsip-prinsip Keselamatan dan Kesehatan Kerja (K3)</strong> dalam setiap aktivitas praktik di bengkel pemesinan, sehingga dapat bekerja dengan aman, produktif, dan profesional sesuai standar industri.
+        </p>
+      </div>
+    </section>
+
+    <!-- TUJUAN SPESIFIK -->
+    <section class="section">
+      <div class="section-header">
+        <h2><i class="fas fa-list-check"></i> Tujuan Spesifik</h2>
+      </div>
+
+      <div class="tujuan-grid" id="tujuan-grid">
+
+        <div class="tujuan-card">
+          <div class="tujuan-card-header">
+            <div class="tujuan-num">1</div>
+            <div>
+              <h3>Memahami Konsep Dasar K3</h3>
+              <div class="sub">Materi 1</div>
+            </div>
+          </div>
+          <p class="desc">Siswa dapat menjelaskan pengertian, ruang lingkup, dan dasar hukum penerapan K3 di Indonesia.</p>
+          <div class="checklist" data-tujuan="1">
+            <label class="checklist-item">
+              <input type="checkbox" data-key="t1-1">
+              <span>Menjelaskan definisi K3</span>
+            </label>
+            <label class="checklist-item">
+              <input type="checkbox" data-key="t1-2">
+              <span>Menyebutkan dasar hukum K3</span>
+            </label>
+            <label class="checklist-item">
+              <input type="checkbox" data-key="t1-3">
+              <span>Menyebutkan ruang lingkup K3</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="tujuan-card">
+          <div class="tujuan-card-header">
+            <div class="tujuan-num green">2</div>
+            <div>
+              <h3>Menerapkan Penggunaan APD</h3>
+              <div class="sub">Materi 2</div>
+            </div>
+          </div>
+          <p class="desc">Siswa dapat mengidentifikasi jenis APD dan menggunakannya dengan benar saat praktik di bengkel.</p>
+          <div class="checklist" data-tujuan="2">
+            <label class="checklist-item">
+              <input type="checkbox" data-key="t2-1">
+              <span>Menyebutkan jenis APD</span>
+            </label>
+            <label class="checklist-item">
+              <input type="checkbox" data-key="t2-2">
+              <span>Memahami fungsi tiap APD</span>
+            </label>
+            <label class="checklist-item">
+              <input type="checkbox" data-key="t2-3">
+              <span>Memakai APD dengan benar</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="tujuan-card">
+          <div class="tujuan-card-header">
+            <div class="tujuan-num orange">3</div>
+            <div>
+              <h3>Mengidentifikasi Bahaya Kerja</h3>
+              <div class="sub">Materi 3</div>
+            </div>
+          </div>
+          <p class="desc">Siswa dapat mengenali potensi bahaya mekanis dan non-mekanis di bengkel pemesinan serta cara pencegahannya.</p>
+          <div class="checklist" data-tujuan="3">
+            <label class="checklist-item">
+              <input type="checkbox" data-key="t3-1">
+              <span>Mengenali bahaya mekanis</span>
+            </label>
+            <label class="checklist-item">
+              <input type="checkbox" data-key="t3-2">
+              <span>Mengenali bahaya non-mekanis</span>
+            </label>
+            <label class="checklist-item">
+              <input type="checkbox" data-key="t3-3">
+              <span>Melakukan pencegahan bahaya</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="tujuan-card">
+          <div class="tujuan-card-header">
+            <div class="tujuan-num purple">4</div>
+            <div>
+              <h3>Melakukan P3K & Tanggap Darurat</h3>
+              <div class="sub">Materi 4</div>
+            </div>
+          </div>
+          <p class="desc">Siswa dapat melakukan pertolongan pertama pada kecelakaan kerja dan menerapkan prosedur tanggap darurat.</p>
+          <div class="checklist" data-tujuan="4">
+            <label class="checklist-item">
+              <input type="checkbox" data-key="t4-1">
+              <span>Memahami isi kotak P3K</span>
+            </label>
+            <label class="checklist-item">
+              <input type="checkbox" data-key="t4-2">
+              <span>Mengetahui nomor darurat</span>
+            </label>
+            <label class="checklist-item">
+              <input type="checkbox" data-key="t4-3">
+              <span>Melakukan pertolongan dasar</span>
+            </label>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- MANFAAT -->
+    <section class="section">
+      <div class="section-header">
+        <h2><i class="fas fa-star"></i> Manfaat Belajar K3</h2>
+      </div>
+
+      <div class="manfaat-grid">
+
+        <div class="manfaat-item">
+          <div class="manfaat-icon blue"><i class="fas fa-shield-halved"></i></div>
+          <div class="manfaat-content">
+            <h4>Aman Saat Praktik</h4>
+            <p>Terhindar dari risiko cedera dan kecelakaan saat praktik di bengkel.</p>
+          </div>
+        </div>
+
+        <div class="manfaat-item">
+          <div class="manfaat-icon green"><i class="fas fa-briefcase"></i></div>
+          <div class="manfaat-content">
+            <h4>Siap Kerja di Industri</h4>
+            <p>Membiasakan budaya K3 yang menjadi syarat utama di dunia industri.</p>
+          </div>
+        </div>
+
+        <div class="manfaat-item">
+          <div class="manfaat-icon orange"><i class="fas fa-heart-pulse"></i></div>
+          <div class="manfaat-content">
+            <h4>Kesehatan Terjaga</h4>
+            <p>Terhindar dari penyakit akibat kerja dan kelelahan yang berlebihan.</p>
+          </div>
+        </div>
+
+        <div class="manfaat-item">
+          <div class="manfaat-icon purple"><i class="fas fa-brain"></i></div>
+          <div class="manfaat-content">
+            <h4>Disiplin & Tanggung Jawab</h4>
+            <p>Melatih kedisiplinan, ketelitian, dan tanggung jawab dalam bekerja.</p>
+          </div>
+        </div>
+
+        <div class="manfaat-item">
+          <div class="manfaat-icon red"><i class="fas fa-triangle-exclamation"></i></div>
+          <div class="manfaat-content">
+            <h4>Waspada Bahaya</h4>
+            <p>Terlatih mengenali dan mencegah bahaya sebelum terjadi kecelakaan.</p>
+          </div>
+        </div>
+
+        <div class="manfaat-item">
+          <div class="manfaat-icon yellow"><i class="fas fa-trophy"></i></div>
+          <div class="manfaat-content">
+            <h4>Produktif & Profesional</h4>
+            <p>Bekerja lebih efisien karena lingkungan kerja aman dan nyaman.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- HIGHLIGHT -->
+    <div class="highlight-box">
+      <div class="icon"><i class="fas fa-lightbulb"></i></div>
+      <div>
+        <h4>Ingat!</h4>
+        <p>Keselamatan bukan hanya kewajiban, tapi <strong>kebutuhan</strong>. Budayakan K3 sejak dini agar menjadi kebiasaan saat bekerja di industri nanti.</p>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/app.js"></script>
+
+  <script>
+    // ============================================================
+    // STATE
+    // ============================================================
+    let currentSiswa = null;
+    let checkedSet = new Set();
+
+    const STORAGE_KEY = 'tujuan_checked';
+
+    // ============================================================
+    // TOAST
+    // ============================================================
+    function showToast(message, type = 'info') {
+      const toast = document.getElementById('toast');
+      const msg = document.getElementById('toast-message');
+      if (!toast || !msg) return;
+      const icon = toast.querySelector('i');
+      toast.className = 'toast ' + type;
+      msg.textContent = message;
+      const icons = { error: 'fa-circle-exclamation', success: 'fa-circle-check', info: 'fa-circle-info' };
+      if (icon) icon.className = 'fas ' + (icons[type] || icons.info);
+      toast.classList.add('show');
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    // ============================================================
+    // CEK ROLE
+    // ============================================================
+    async function cekRole() {
+      const sessionSiswa = localStorage.getItem('siswa_session');
+      if (sessionSiswa) {
+        try {
+          currentSiswa = JSON.parse(sessionSiswa);
+          document.getElementById('user-role').textContent = currentSiswa.nama || 'Siswa';
+          return;
+        } catch (e) { /* lanjut */ }
+      }
+
+      const { data: { user } } = await supabaseClient.auth.getUser();
+      if (user) {
+        const { data: profile } = await supabaseClient
+          .from('profiles').select('*').eq('id', user.id).single();
+
+        if (profile?.role === 'guru') {
+          document.getElementById('user-role').textContent = profile.full_name || 'Guru';
+          document.querySelector('.back-btn').href = 'dashboard-guru.html';
+          return;
+        }
+      }
+
+      window.location.href = 'index.html';
+    }
+
+    // ============================================================
+    // LOAD STATE DARI LOCALSTORAGE
+    // ============================================================
+    function loadChecklistState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          checkedSet = new Set(JSON.parse(saved));
+        }
+      } catch (e) { /* ignore */ }
+
+      document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(cb => {
+        const key = cb.dataset.key;
+        if (checkedSet.has(key)) {
+          cb.checked = true;
+        }
+      });
+
+      updateProgress();
+    }
+
+    // ============================================================
+    // UPDATE PROGRESS
+    // ============================================================
+    function updateProgress() {
+      const total = document.querySelectorAll('.checklist-item input[type="checkbox"]').length;
+      const checked = checkedSet.size;
+      const persen = total > 0 ? Math.round((checked / total) * 100) : 0;
+
+      const fill = document.getElementById('progress-fill');
+      const percent = document.getElementById('progress-percent');
+
+      if (fill) fill.style.width = persen + '%';
+      if (percent) percent.textContent = persen + '%';
+    }
+
+    // ============================================================
+    // HANDLE CHECKBOX CHANGE
+    // ============================================================
+    function setupCheckboxes() {
+      document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(cb => {
+        cb.addEventListener('change', (e) => {
+          const key = e.target.dataset.key;
+          if (e.target.checked) {
+            checkedSet.add(key);
+            showToast('Bagus! Terus semangat belajar 🎉', 'success');
+          } else {
+            checkedSet.delete(key);
+          }
+
+          // Simpan ke localStorage
+          localStorage.setItem(STORAGE_KEY, JSON.stringify([...checkedSet]));
+
+          updateProgress();
+
+          // Kirim ke Supabase kalau siswa login (opsional)
+          if (currentSiswa) {
+            supabaseClient.from('aktivitas').insert([{
+              siswa_id: currentSiswa.id,
+              tipe: 'tujuan',
+              judul: 'Tujuan ' + key,
+              status: e.target.checked ? 'selesai' : 'proses',
+              created_at: new Date().toISOString()
+            }]).then(() => {}).catch(() => {});
+          }
+        });
+      });
+    }
+
+    // ============================================================
+    // INIT
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', async () => {
+      console.log('📄 Halaman Tujuan init');
+
+      await cekRole();
+      loadChecklistState();
+      setupCheckboxes();
+    });
+  </script>
+
+</body>
+</html>
