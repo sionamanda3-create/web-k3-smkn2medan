@@ -1,4 +1,50 @@
-<!DOCTYPE html>
+// ============================================================
+// SEED 2 LATIHAN DEFAULT (10 soal per latihan: PG + Essay)
+// ============================================================
+async function seedLatihanDefault() {
+  try {
+    const { count, error: countErr } = await supabaseClient
+      .from('latihan').select('*', { count: 'exact', head: true });
+
+    if (countErr) { console.warn('⚠️', countErr.message); return; }
+    if (count > 0) { console.log('📚 Latihan sudah ada (' + count + ')'); return; }
+
+    console.log('📚 Seed 2 latihan default...');
+
+    // LATIHAN 1
+    const { data: l1 } = await supabaseClient.from('latihan').insert([{
+      judul: 'Latihan Konsep Dasar K3',
+      deskripsi: 'Latihan soal tentang pengertian, tujuan, dan manfaat K3.',
+      jumlah_soal: 10, status: 'aktif'
+    }]).select().single();
+
+    const soalL1 = [
+      { latihan_id: l1.id, tipe: 'pilihan_ganda', pertanyaan: 'K3 adalah singkatan dari...', pilihan_a: 'Keselamatan dan Kesehatan Kerja', pilihan_b: 'Keamanan dan Ketertiban Kerja', pilihan_c: 'Kualitas dan Kuantitas Kerja', pilihan_d: 'Kesejahteraan dan Kemakmuran Kerja', jawaban_benar: 'A', urutan: 1 },
+      { latihan_id: l1.id, tipe: 'pilihan_ganda', pertanyaan: 'UU yang mengatur Keselamatan Kerja di Indonesia adalah...', pilihan_a: 'UU No. 1 Tahun 1970', pilihan_b: 'UU No. 2 Tahun 1980', pilihan_c: 'UU No. 3 Tahun 1990', pilihan_d: 'UU No. 4 Tahun 2000', jawaban_benar: 'A', urutan: 2 },
+      { latihan_id: l1.id, tipe: 'pilihan_ganda', pertanyaan: 'Tujuan utama penerapan K3 adalah...', pilihan_a: 'Meningkatkan biaya produksi', pilihan_b: 'Melindungi tenaga kerja dari risiko kecelakaan', pilihan_c: 'Mempercepat pekerjaan', pilihan_d: 'Mengurangi pekerja', jawaban_benar: 'B', urutan: 3 },
+      { latihan_id: l1.id, tipe: 'essay', pertanyaan: 'Jelaskan secara singkat apa itu K3!', jawaban_essay: 'K3 adalah upaya menjamin keselamatan & kesehatan tenaga kerja.', urutan: 4 },
+      { latihan_id: l1.id, tipe: 'pilihan_ganda', pertanyaan: 'Sistem Manajemen K3 disebut...', pilihan_a: 'SMK3', pilihan_b: 'ISO 9001', pilihan_c: 'P2K3', pilihan_d: 'K3L', jawaban_benar: 'A', urutan: 5 },
+      { latihan_id: l1.id, tipe: 'essay', pertanyaan: 'Sebutkan 3 manfaat K3 bagi perusahaan!', jawaban_essay: 'Mengurangi biaya, meningkatkan citra, produktivitas naik.', urutan: 6 },
+      { latihan_id: l1.id, tipe: 'pilihan_ganda', pertanyaan: 'Berikut yang BUKAN ruang lingkup K3 adalah...', pilihan_a: 'Keselamatan kerja', pilihan_b: 'Kesehatan kerja', pilihan_c: 'Ergonomi', pilihan_d: 'Pemasaran', jawaban_benar: 'D', urutan: 7 },
+      { latihan_id: l1.id, tipe: 'pilihan_ganda', pertanyaan: 'UU Ketenagakerjaan yang mengatur K3 adalah...', pilihan_a: 'UU No. 13 Tahun 2003', pilihan_b: 'UU No. 20 Tahun 2003', pilihan_c: 'UU No. 22 Tahun 2009', pilihan_d: 'UU No. 44 Tahun 2009', jawaban_benar: 'A', urutan: 8 },
+      { latihan_id: l1.id, tipe: 'essay', pertanyaan: 'Mengapa K3 penting bagi siswa SMK?', jawaban_essay: 'Agar terhindar dari cedera & siap masuk industri.', urutan: 9 },
+      { latihan_id: l1.id, tipe: 'pilihan_ganda', pertanyaan: 'Prinsip utama K3 adalah...', pilihan_a: 'Safety First', pilihan_b: 'Profit First', pilihan_c: 'Speed First', pilihan_d: 'Quantity First', jawaban_benar: 'A', urutan: 10 }
+    ];
+    await supabaseClient.from('soal_latihan').insert(soalL1);
+
+    // LATIHAN 2
+    const { data: l2 } = await supabaseClient.from('latihan').insert([{
+      judul: 'Latihan APD & Bahaya Bengkel',
+      deskripsi: 'Latihan soal tentang APD, bahaya bengkel, dan P3K.',
+      jumlah_soal: 10, status: 'aktif'
+    }]).select().single();
+
+    const soalL2 = [
+      { latihan_id: l2.id, tipe: 'pilihan_ganda', pertanyaan: 'APD wajib saat mengoperasikan mesin gerinda adalah...', pilihan_a: 'Helm saja', pilihan_b: 'Safety glasses dan masker', pilihan_c: 'Sarung tangan kain', pilihan_d: 'Topi biasa', jawaban_benar: 'B', urutan: 1 },
+      { latihan_id: l2.id, tipe: 'pilihan_ganda', pertanyaan: 'Fungsi safety helmet adalah...', pilihan_a: 'Melindungi kepala', pilihan_b: 'Melindungi mata', pilihan_c: 'Melindungi tangan', pilihan_d: 'Melindungi kaki', jawaban_benar: 'A', urutan: 2 },
+      { latihan_id: l2.id, tipe: 'essay', pertanyaan: 'Sebutkan 5 jenis APD di bengkel pemesinan!', jawaban_essay: 'Safety helmet, safety glasses, ear plug, sarung tangan, safety shoes.', urutan: 3 },
+      { latihan_id: l2.id, tipe: 'pilihan_ganda', pertanyaan: 'APD pelindung pendengaran adalah...', pilihan_a: 'Masker', pilihan_b: 'Ear plug', pilihan_c: 'Safety glasses', pilihan_d: 'Sarung tangan', jawaban_benar: 'B', urutan: 4 },
+      { latihan_id: l2.id, tipe: 'pilihan_ganda', pertanyaan: 'Yang BUKAN APD<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
