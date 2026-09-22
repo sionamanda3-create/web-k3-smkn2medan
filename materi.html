@@ -47,6 +47,993 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    .navbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 0.9rem 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .navbar-left { display: flex; align-items: center; gap: 1rem; }
+    .back-btn {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--gray-100); color: var(--gray-700);
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; transition: var(--transition);
+      font-size: 0.95rem;
+    }
+    .back-btn:hover { background: var(--primary); color: white; transform: translateX(-3px); }
+    .navbar-brand {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-weight: 800; font-size: 1.05rem; color: var(--primary);
+      letter-spacing: -0.02em;
+    }
+    .navbar-brand .brand-icon {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 1rem;
+      box-shadow: 0 4px 10px rgba(30,64,175,0.3);
+    }
+    .navbar-right { display: flex; align-items: center; gap: 0.9rem; }
+    .user-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.4rem 0.8rem;
+      background: var(--gray-100);
+      border-radius: 999px;
+      font-size: 0.78rem; font-weight: 600; color: var(--gray-600);
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+
+    .page-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 1.8rem; gap: 1rem; flex-wrap: wrap;
+    }
+    .page-title h1 {
+      font-size: 1.6rem; font-weight: 800; color: var(--gray-800);
+      letter-spacing: -0.02em; margin-bottom: 0.3rem;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .page-title h1 i { color: var(--primary); }
+    .page-title p { font-size: 0.88rem; color: var(--gray-500); font-weight: 500; }
+
+    .btn {
+      padding: 0.75rem 1.3rem; border-radius: 10px; border: none;
+      font-family: inherit; font-size: 0.88rem; font-weight: 700;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      cursor: pointer; transition: var(--transition); text-decoration: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      box-shadow: 0 4px 12px rgba(30,64,175,0.25);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(30,64,175,0.35); }
+    .btn-ghost { background: var(--gray-100); color: var(--gray-700); }
+    .btn-ghost:hover { background: var(--gray-200); }
+    .btn-success {
+      background: linear-gradient(135deg, #15803d, var(--success));
+      color: white;
+      box-shadow: 0 4px 12px rgba(22,163,74,0.25);
+    }
+    .btn-success:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(22,163,74,0.35); }
+    .btn-danger { background: #fee2e2; color: #b91c1c; }
+    .btn-danger:hover { background: #fecaca; }
+    .btn-sm { padding: 0.55rem 0.9rem; font-size: 0.8rem; border-radius: 8px; }
+
+    /* TOOLBAR */
+    .toolbar {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+      margin-bottom: 1.5rem;
+      display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-100);
+    }
+    .search-box { position: relative; flex: 1; min-width: 220px; }
+    .search-box i {
+      position: absolute; left: 1rem; top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400); font-size: 0.9rem;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.6rem;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 10px;
+      font-family: inherit; font-size: 0.88rem;
+      color: var(--gray-800); background: var(--white);
+      transition: var(--transition); outline: none;
+    }
+    .search-box input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(30,64,175,0.1);
+    }
+    .view-toggle {
+      display: flex; background: var(--gray-100);
+      border-radius: 10px; padding: 0.25rem; gap: 0.2rem;
+    }
+    .view-toggle button {
+      border: none; background: transparent;
+      padding: 0.55rem 0.85rem; border-radius: 8px;
+      color: var(--gray-500); cursor: pointer;
+      transition: var(--transition); font-size: 0.85rem;
+    }
+    .view-toggle button.active {
+      background: white; color: var(--primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* MATERI GRID */
+    .materi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.2rem;
+    }
+    .materi-grid.list-view-mode { grid-template-columns: 1fr; }
+
+    .materi-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--gray-100);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      animation: slideUp 0.5s ease-out backwards;
+      display: flex; flex-direction: column;
+      position: relative; cursor: pointer;
+    }
+    .materi-card:nth-child(1) { animation-delay: 0.05s; }
+    .materi-card:nth-child(2) { animation-delay: 0.10s; }
+    .materi-card:nth-child(3) { animation-delay: 0.15s; }
+    .materi-card:nth-child(4) { animation-delay: 0.20s; }
+    .materi-card:nth-child(5) { animation-delay: 0.25s; }
+    .materi-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary-light);
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .materi-thumb {
+      height: 120px;
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .materi-thumb-icon {
+      width: 60px; height: 60px;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(8px);
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 1.6rem;
+      position: relative; z-index: 1;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .materi-order-badge {
+      position: absolute; top: 0.8rem; left: 0.8rem;
+      background: rgba(255,255,255,0.9); color: var(--primary);
+      font-size: 0.7rem; font-weight: 800;
+      padding: 0.3rem 0.65rem; border-radius: 999px; z-index: 2;
+    }
+    .materi-read-badge {
+      position: absolute; top: 0.8rem; right: 0.8rem;
+      background: rgba(22,163,74,0.95); color: white;
+      font-size: 0.65rem; font-weight: 800;
+      padding: 0.3rem 0.6rem; border-radius: 999px;
+      z-index: 2; display: none; align-items: center; gap: 0.3rem;
+      text-transform: uppercase; letter-spacing: 0.03em;
+    }
+    .materi-read-badge.show { display: inline-flex; }
+
+    .materi-body {
+      padding: 1.2rem; flex: 1;
+      display: flex; flex-direction: column; gap: 0.6rem;
+    }
+    .materi-title {
+      font-size: 1rem; font-weight: 700; color: var(--gray-800);
+      line-height: 1.35; letter-spacing: -0.01em;
+    }
+    .materi-excerpt {
+      font-size: 0.83rem; color: var(--gray-500); line-height: 1.55;
+      flex: 1;
+      display: -webkit-box; -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .materi-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 0.8rem;
+      border-top: 1px dashed var(--gray-200);
+      margin-top: 0.4rem;
+    }
+    .materi-meta {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      font-size: 0.72rem; font-weight: 600; color: var(--gray-500);
+    }
+    .materi-meta i { color: var(--primary); font-size: 0.72rem; }
+    .materi-actions {
+      display: flex; gap: 0.35rem;
+      opacity: 0; transition: var(--transition);
+    }
+    .materi-card:hover .materi-actions { opacity: 1; }
+
+    .icon-btn {
+      width: 32px; height: 32px; border-radius: 8px;
+      border: 1.5px solid var(--gray-200);
+      background: white; color: var(--gray-600);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: var(--transition); font-size: 0.78rem;
+    }
+    .icon-btn:hover { background: var(--primary); border-color: var(--primary); color: white; }
+    .icon-btn.danger:hover { background: var(--danger); border-color: var(--danger); }
+
+    .materi-grid.list-view-mode .materi-card { flex-direction: row; }
+    .materi-grid.list-view-mode .materi-thumb { width: 140px; height: auto; flex-shrink: 0; }
+    .materi-grid.list-view-mode .materi-body { padding: 1.2rem 1.5rem; }
+
+    .empty-state {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 4rem 2rem;
+      text-align: center;
+      border: 2px dashed var(--gray-200);
+      grid-column: 1 / -1;
+    }
+    .empty-state i { font-size: 3.5rem; color: var(--gray-300); margin-bottom: 1rem; display: block; }
+    .empty-state h3 { font-size: 1.1rem; font-weight: 700; color: var(--gray-700); margin-bottom: 0.4rem; }
+    .empty-state p { font-size: 0.88rem; color: var(--gray-500); }
+
+    .skeleton {
+      background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 8px;
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(4px);
+      display: none; align-items: center; justify-content: center;
+      z-index: 9998; padding: 1rem;
+      animation: fadeIn 0.2s ease;
+    }
+    .modal-overlay.show { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .modal-reader, .modal-form {
+      background: white; border-radius: var(--radius);
+      width: 100%; max-width: 780px; max-height: 92vh;
+      display: flex; flex-direction: column;
+      box-shadow: var(--shadow-lg);
+      animation: slideUp 0.35s ease; overflow: hidden;
+    }
+    .modal-form { max-width: 620px; }
+
+    .modal-reader-header {
+      padding: 1.5rem 2rem;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 1rem; flex-shrink: 0;
+    }
+    .modal-reader-title h2 { font-size: 1.3rem; font-weight: 800; line-height: 1.3; margin-bottom: 0.35rem; }
+    .modal-reader-title .meta {
+      display: flex; flex-wrap: wrap; gap: 0.7rem;
+      font-size: 0.75rem; font-weight: 500; opacity: 0.9;
+    }
+    .modal-reader-title .meta span { display: inline-flex; align-items: center; gap: 0.35rem; }
+    .btn-close-modal {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: var(--transition);
+      flex-shrink: 0; font-size: 0.9rem;
+    }
+    .btn-close-modal:hover { background: rgba(255,255,255,0.35); transform: rotate(90deg); }
+    .modal-reader-body {
+      padding: 2rem; overflow-y: auto;
+      line-height: 1.75; font-size: 0.95rem;
+      color: var(--gray-700); flex: 1;
+    }
+    .modal-reader-body h3 { font-size: 1.05rem; font-weight: 700; color: var(--gray-800); margin: 1.5rem 0 0.6rem; }
+    .modal-reader-body h3:first-child { margin-top: 0; }
+    .modal-reader-body p { margin-bottom: 1rem; }
+    .modal-reader-body ul, .modal-reader-body ol { margin: 0 0 1rem 1.5rem; padding-left: 0.5rem; }
+    .modal-reader-body li { margin-bottom: 0.4rem; }
+    .modal-reader-body strong { color: var(--gray-800); font-weight: 700; }
+    .modal-reader-body .callout {
+      background: #eff6ff;
+      border-left: 4px solid var(--primary);
+      padding: 1rem 1.2rem; border-radius: 8px;
+      margin: 1.2rem 0; font-size: 0.9rem; color: #1e3a8a;
+    }
+    .modal-reader-body .callout.warning {
+      background: #fef3c7; border-color: var(--accent); color: #92400e;
+    }
+    .modal-reader-footer {
+      padding: 1.2rem 2rem;
+      border-top: 1px solid var(--gray-100);
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 0.8rem; flex-shrink: 0;
+      background: var(--gray-50); flex-wrap: wrap;
+    }
+    .progress-read {
+      font-size: 0.8rem; font-weight: 600; color: var(--gray-500);
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .modal-reader-footer .actions { display: flex; gap: 0.6rem; margin-left: auto; }
+
+    .modal-form-header {
+      padding: 1.5rem 1.8rem;
+      border-bottom: 1px solid var(--gray-100);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .modal-form-header h2 {
+      font-size: 1.15rem; font-weight: 800; color: var(--gray-800);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .modal-form-header h2 i { color: var(--primary); }
+    .btn-close-x {
+      width: 34px; height: 34px; border-radius: 10px;
+      background: var(--gray-100); border: none; color: var(--gray-600);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: var(--transition); font-size: 0.85rem;
+    }
+    .btn-close-x:hover { background: var(--danger); color: white; transform: rotate(90deg); }
+    .modal-form-body { padding: 1.8rem; overflow-y: auto; flex: 1; }
+    .form-group { margin-bottom: 1.2rem; }
+    .form-group label { display: block; font-size: 0.82rem; font-weight: 700; color: var(--gray-700); margin-bottom: 0.45rem; }
+    .form-group label .req { color: var(--danger); }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; padding: 0.8rem 1rem;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 10px;
+      font-family: inherit; font-size: 0.9rem;
+      color: var(--gray-800); transition: var(--transition);
+      outline: none; background: white;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(30,64,175,0.1);
+    }
+    .form-group textarea { min-height: 180px; resize: vertical; line-height: 1.6; font-family: 'Courier New', monospace; }
+    .form-hint {
+      font-size: 0.75rem; color: var(--gray-500);
+      margin-top: 0.35rem;
+      display: flex; align-items: center; gap: 0.35rem;
+    }
+    .modal-form-footer {
+      padding: 1.2rem 1.8rem;
+      border-top: 1px solid var(--gray-100);
+      display: flex; justify-content: flex-end; gap: 0.7rem;
+      background: var(--gray-50); flex-shrink: 0;
+    }
+
+    .toast {
+      position: fixed; top: 1.5rem; right: 1.5rem;
+      background: white; padding: 1rem 1.3rem;
+      border-radius: 10px; box-shadow: var(--shadow-lg);
+      display: flex; align-items: center; gap: 0.75rem;
+      font-size: 0.88rem; font-weight: 500;
+      z-index: 9999;
+      transform: translateX(400px);
+      transition: transform 0.4s cubic-bezier(0.68,-0.55,0.27,1.55);
+      max-width: 340px;
+    }
+    .toast.show { transform: translateX(0); }
+    .toast i { font-size: 1.2rem; }
+    .toast.error   { border-left: 4px solid var(--danger); }
+    .toast.error i { color: var(--danger); }
+    .toast.success { border-left: 4px solid var(--success); }
+    .toast.success i { color: var(--success); }
+    .toast.info    { border-left: 4px solid var(--primary); }
+    .toast.info i  { color: var(--primary); }
+
+    @media (max-width: 640px) {
+      .navbar { padding: 0.75rem 1rem; }
+      .container { padding: 1.5rem 1rem 4rem; }
+      .page-title h1 { font-size: 1.3rem; }
+      .materi-grid { grid-template-columns: 1fr; }
+      .materi-grid.list-view-mode .materi-card { flex-direction: column; }
+      .materi-grid.list-view-mode .materi-thumb { width: 100%; height: 120px; }
+      .toolbar { flex-direction: column; align-items: stretch; }
+      .modal-reader-body { padding: 1.5rem 1.2rem; }
+      .modal-reader-header { padding: 1.2rem 1.4rem; }
+      .modal-reader-footer { padding: 1rem 1.4rem; }
+      .modal-form-body { padding: 1.4rem; }
+      .toast { right: 0.75rem; left: 0.75rem; max-width: none; }
+    }
+  </style>
+</head>
+<body data-page="materi">
+
+  <div id="toast" class="toast">
+    <i class="fas fa-info-circle"></i>
+    <span id="toast-message">Pesan</span>
+  </div>
+
+  <nav class="navbar">
+    <div class="navbar-left">
+      <a href="dashboard-siswa.html" id="back-btn" class="back-btn" title="Kembali">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <div class="navbar-brand">
+        <div class="brand-icon"><i class="fas fa-book-open"></i></div>
+        <span>Materi K3</span>
+      </div>
+    </div>
+    <div class="navbar-right">
+      <div class="user-badge">
+        <i class="fas fa-user-circle"></i>
+        <span id="user-role">Siswa</span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <div class="page-header">
+      <div class="page-title">
+        <h1><i class="fas fa-book-open"></i> Materi Pembelajaran K3</h1>
+        <p>Baca materi Keselamatan dan Kesehatan Kerja untuk menunjang praktik di bengkel pemesinan.</p>
+      </div>
+      <button id="btn-add-materi" class="btn btn-primary" style="display:none;">
+        <i class="fas fa-plus"></i> Tambah Materi
+      </button>
+    </div>
+
+    <div class="toolbar">
+      <div class="search-box">
+        <i class="fas fa-magnifying-glass"></i>
+        <input type="text" id="filter-materi" placeholder="Cari materi...">
+      </div>
+      <div class="view-toggle">
+        <button id="view-grid" class="active" title="Tampilan Grid">
+          <i class="fas fa-th-large"></i>
+        </button>
+        <button id="view-list" title="Tampilan List">
+          <i class="fas fa-list"></i>
+        </button>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="btn-refresh">
+        <i class="fas fa-rotate"></i> Muat Ulang
+      </button>
+    </div>
+
+    <div id="materi-list" class="materi-grid">
+      <div class="materi-card">
+        <div class="skeleton" style="height:120px;border-radius:0;"></div>
+        <div class="materi-body">
+          <div class="skeleton" style="height:18px;width:80%;"></div>
+          <div class="skeleton" style="height:12px;width:100%;"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL BACA MATERI -->
+  <div class="modal-overlay" id="modal-reader">
+    <div class="modal-reader">
+      <div class="modal-reader-header">
+        <div class="modal-reader-title">
+          <h2 id="reader-title">Judul Materi</h2>
+          <div class="meta">
+            <span><i class="fas fa-book"></i> Materi K3</span>
+            <span><i class="fas fa-clock"></i> <span id="reader-time">5 menit baca</span></span>
+          </div>
+        </div>
+        <button class="btn-close-modal" id="close-reader" aria-label="Tutup">
+          <i class="fas fa-xmark"></i>
+        </button>
+      </div>
+      <div class="modal-reader-body" id="reader-body"></div>
+      <div class="modal-reader-footer">
+        <span class="progress-read">
+          <i class="fas fa-circle-check" style="color:var(--success);"></i>
+          <span id="reader-status">Belum dibaca</span>
+        </span>
+        <div class="actions">
+          <button class="btn btn-ghost btn-sm" id="btn-mark-read">
+            <i class="fas fa-check"></i> Tandai Selesai
+          </button>
+          <button class="btn btn-primary btn-sm" id="btn-reader-next">
+            Materi Selanjutnya <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL FORM MATERI -->
+  <div class="modal-overlay" id="modal-form">
+    <div class="modal-form">
+      <div class="modal-form-header">
+        <h2 id="form-title"><i class="fas fa-plus-circle"></i> Tambah Materi</h2>
+        <button class="btn-close-x" id="close-form" aria-label="Tutup">
+          <i class="fas fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="form-materi" onsubmit="handleFormSubmit(event)">
+        <div class="modal-form-body">
+          <div class="form-group">
+            <label for="form-judul">Judul Materi <span class="req">*</span></label>
+            <input type="text" id="form-judul" name="judul" placeholder="Contoh: Pengertian K3" required>
+          </div>
+
+          <div class="form-group">
+            <label for="form-deskripsi">Deskripsi Singkat <span class="req">*</span></label>
+            <input type="text" id="form-deskripsi" name="deskripsi" placeholder="Dasar-dasar Keselamatan dan Kesehatan Kerja" required>
+          </div>
+
+          <div class="form-group">
+            <label for="form-konten">Isi Materi (HTML) <span class="req">*</span></label>
+            <textarea id="form-konten" name="konten" placeholder="<h3>Sub Judul</h3>&#10;<p>Isi paragraf materi...</p>" required></textarea>
+            <div class="form-hint">
+              <i class="fas fa-info-circle"></i>
+              Gunakan tag HTML: &lt;h3&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;strong&gt;, &lt;div class="callout"&gt;
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+            <div class="form-group">
+              <label for="form-icon">Icon (Font Awesome)</label>
+              <input type="text" id="form-icon" name="icon" placeholder="fa-book" value="fa-book">
+            </div>
+            <div class="form-group">
+              <label for="form-urutan">Urutan</label>
+              <input type="number" id="form-urutan" name="urutan" placeholder="1" value="1" min="1">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="form-status">Status</label>
+            <select id="form-status" name="status">
+              <option value="aktif">Aktif</option>
+              <option value="draft">Draft</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-form-footer">
+          <button type="button" class="btn btn-ghost" onclick="closeFormModal()">
+            <i class="fas fa-xmark"></i> Batal
+          </button>
+          <button type="submit" class="btn btn-primary" id="btn-submit-form">
+            <i class="fas fa-save"></i> Simpan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- SUPABASE SDK & KONFIGURASI -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://ddnhwcxfktcsyngupdex.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_ogAtXLGklIivo88I41J8ZA_9CWzS8D3';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log('✅ Supabase client siap di materi.html');
+  </script>
+
+  <script>
+    let semuaMateri = [];
+    let filterKata = '';
+    let currentIndex = -1;
+    let currentRole = 'siswa';
+    let currentSiswa = null;
+    let editId = null;
+    let materiSelesaiSet = new Set();
+
+    function showToast(message, type = 'info') {
+      const toast = document.getElementById('toast');
+      const msg = document.getElementById('toast-message');
+      if (!toast || !msg) return;
+      const icon = toast.querySelector('i');
+      toast.className = 'toast ' + type;
+      msg.textContent = message;
+      const icons = { error: 'fa-circle-exclamation', success: 'fa-circle-check', info: 'fa-circle-info' };
+      if (icon) icon.className = 'fas ' + (icons[type] || icons.info);
+      toast.classList.add('show');
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    // ============ SEED 8 MATERI K3 PROFESIONAL ============
+    async function seedMateriDefault() {
+      try {
+        const { count, error: countErr } = await supabaseClient
+          .from('materi').select('*', { count: 'exact', head: true });
+
+        if (countErr) { console.warn('⚠️ Gagal cek count:', countErr.message); return; }
+        if (count > 0) { console.log('📚 Materi sudah ada (' + count + '), skip seed'); return; }
+
+        console.log('📚 Seed 8 materi K3...');
+
+        const materiDefault = [
+          { judul: 'Pengertian K3', deskripsi: 'Dasar-dasar Keselamatan dan Kesehatan Kerja serta landasan hukumnya', icon: 'fa-book-open', urutan: 1, status: 'aktif', konten: '<h3>Apa itu K3?</h3><p>K3 adalah <strong>Keselamatan dan Kesehatan Kerja</strong>, yaitu segala upaya untuk menjamin keselamatan dan kesehatan tenaga kerja serta orang lain di lingkungan kerja.</p><h3>Dasar Hukum</h3><ul><li><strong>UU No. 1 Tahun 1970</strong> — Keselamatan Kerja</li><li><strong>UU No. 13 Tahun 2003</strong> — Ketenagakerjaan</li><li><strong>Permenaker No. 5 Tahun 2018</strong> — K3 Lingkungan Kerja</li></ul><h3>Ruang Lingkup</h3><ul><li>Keselamatan kerja</li><li>Kesehatan kerja</li><li>Higiene perusahaan</li><li>Ergonomi</li><li>Psikologi kerja</li></ul><div class="callout">💡 K3 wajib diterapkan di setiap tempat kerja.</div>' },
+          { judul: 'Tujuan dan Manfaat K3', deskripsi: 'Tujuan penerapan K3 dan manfaatnya bagi pekerja dan perusahaan', icon: 'fa-bullseye', urutan: 2, status: 'aktif', konten: '<h3>Tujuan K3</h3><ul><li>Melindungi tenaga kerja dari risiko kecelakaan</li><li>Mencegah penyakit akibat kerja</li><li>Meningkatkan produktivitas kerja</li><li>Menciptakan lingkungan kerja aman</li></ul><h3>Manfaat</h3><p><strong>Bagi Pekerja:</strong></p><ul><li>Terhindar dari cedera</li><li>Merasa aman dan nyaman</li><li>Produktif</li></ul><p><strong>Bagi Perusahaan:</strong></p><ul><li>Mengurangi biaya kompensasi</li><li>Meningkatkan citra</li><li>Mematuhi regulasi</li></ul><div class="callout">🎓 K3 penting untuk mempersiapkan diri masuk dunia industri.</div>' },
+          { judul: 'Alat Pelindung Diri (APD)', deskripsi: 'Jenis, fungsi, dan cara penggunaan APD di bengkel pemesinan', icon: 'fa-shield-alt', urutan: 3, status: 'aktif', konten: '<h3>Apa itu APD?</h3><p>APD adalah <strong>perlengkapan wajib</strong> yang harus digunakan saat bekerja di bengkel untuk melindungi diri dari bahaya.</p><h3>APD Wajib di Bengkel</h3><ul><li><strong>Safety Helmet:</strong> Melindungi kepala</li><li><strong>Safety Glasses:</strong> Melindungi mata</li><li><strong>Ear Plug / Ear Muff:</strong> Melindungi pendengaran</li><li><strong>Sarung Tangan:</strong> Melindungi tangan</li><li><strong>Safety Shoes:</strong> Melindungi kaki</li><li><strong>Masker:</strong> Melindungi pernapasan</li><li><strong>Apron/Wearpack:</strong> Melindungi tubuh</li><li><strong>Face Shield:</strong> Melindungi wajah</li></ul><h3>Cara Pakai APD</h3><ol><li>Periksa kondisi APD sebelum digunakan</li><li>Pakai APD lengkap sebelum masuk area kerja</li><li>Pastikan APD terpasang pas dan nyaman</li><li>Bersihkan dan simpan setelah digunakan</li></ol><div class="callout warning">⚠️ Jangan mengoperasikan mesin tanpa APD lengkap!</div>' },
+          { judul: 'Bahaya di Bengkel Pemesinan', deskripsi: 'Mengenali bahaya mekanis dan non-mekanis serta pencegahannya', icon: 'fa-exclamation-triangle', urutan: 4, status: 'aktif', konten: '<h3>Bahaya Mekanis</h3><ul><li>Terjepit putaran mesin bubut</li><li>Tergores pahat atau benda kerja tajam</li><li>Serpihan logam (swarf) beterbangan</li><li>Pecahan mata bor atau pahat patah</li><li>Tertimpa benda kerja berat</li><li>Terpapar panas</li></ul><h3>Bahaya Non-Mekanis</h3><ul><li>Kebisingan mesin</li><li>Debu dan asap</li><li>Bahaya listrik</li><li>Kebakaran</li><li>Getaran mesin</li><li>Bahan kimia</li><li>Ergonomi buruk</li></ul><h3>Pencegahan</h3><ol><li>Kenali potensi bahaya</li><li>Gunakan APD lengkap</li><li>Ikuti SOP pengoperasian mesin</li><li>Pastikan mesin dalam kondisi baik</li><li>Jaga kebersihan area kerja</li></ol><div class="callout warning">⚠️ Kecelakaan terjadi karena unsafe action & unsafe condition.</div>' },
+          { judul: 'P3K dan Tanggap Darurat', deskripsi: 'Prosedur pertolongan pertama dan tanggap darurat di bengkel', icon: 'fa-first-aid', urutan: 5, status: 'aktif', konten: '<h3>Apa itu P3K?</h3><p>P3K adalah <strong>upaya pertolongan awal</strong> kepada korban kecelakaan sebelum mendapat penanganan medis.</p><h3>Isi Kotak P3K</h3><ul><li>Perban dan kasa steril</li><li>Plester dan kapas</li><li>Antiseptik (betadine)</li><li>Gunting dan pinset</li><li>Sarung tangan medis</li><li>Obat luka bakar</li><li>Masker medis</li></ul><h3>Nomor Darurat Indonesia</h3><ul><li><strong>118:</strong> Ambulans</li><li><strong>113:</strong> Pemadam Kebakaran</li><li><strong>110:</strong> Polisi</li><li><strong>115:</strong> Basarnas</li></ul><h3>Langkah P3K</h3><ol><li>Pastikan keamanan diri sendiri</li><li>Hubungi guru/petugas K3</li><li>Cek kondisi korban</li><li>Beri pertolongan dasar</li><li>Bawa ke UKS/fasilitas kesehatan</li></ol><div class="callout warning">⚠️ Jangan memberi minum korban tidak sadar. Jangan oles odol pada luka bakar.</div>' },
+          { judul: 'Budaya Kerja 5R/5S', deskripsi: 'Menerapkan prinsip 5R (Ringkas, Rapi, Resik, Rawat, Rajin) di bengkel', icon: 'fa-broom', urutan: 6, status: 'aktif', konten: '<h3>Apa itu 5R/5S?</h3><p>5R adalah budaya kerja dari Jepang (5S) yang diterapkan untuk menciptakan lingkungan kerja yang tertata, bersih, dan efisien.</p><h3>Prinsip 5R</h3><ul><li><strong>Ringkas (Seiri):</strong> Pisahkan yang perlu dan tidak perlu</li><li><strong>Rapi (Seiton):</strong> Susun alat sesuai tempatnya</li><li><strong>Resik (Seiso):</strong> Bersihkan area kerja secara rutin</li><li><strong>Rawat (Seiketsu):</strong> Pertahankan standar kebersihan</li><li><strong>Rajin (Shitsuke):</strong> Disiplin menjalankan 5R</li></ul><h3>Manfaat 5R</h3><ul><li>Lingkungan kerja lebih aman</li><li>Meningkatkan efisiensi kerja</li><li>Mengurangi risiko kecelakaan</li><li>Meningkatkan kualitas produk</li></ul><div class="callout">💡 Budayakan 5R mulai dari hal kecil di bengkel.</div>' },
+          { judul: 'Rambu dan Simbol K3', deskripsi: 'Mengenali rambu keselamatan dan simbol bahaya di bengkel', icon: 'fa-traffic-light', urutan: 7, status: 'aktif', konten: '<h3>Fungsi Rambu K3</h3><p>Rambu K3 berfungsi untuk memberikan <strong>peringatan, larangan, perintah, dan informasi</strong> terkait keselamatan di area kerja.</p><h3>Jenis Rambu K3</h3><ul><li><strong>Rambu Larangan (Merah):</strong> Dilarang merokok, dilarang masuk</li><li><strong>Rambu Peringatan (Kuning):</strong> Awas listrik tegangan tinggi, bahan mudah terbakar</li><li><strong>Rambu Perintah (Biru):</strong> Wajib pakai APD, wajib pakai helm</li><li><strong>Rambu Informasi (Hijau):</strong> Jalur evakuasi, kotak P3K, titik kumpul</li></ul><h3>Simbol Bahan Kimia (MSDS)</h3><ul><li>☠️ Toxic (Beracun)</li><li>🔥 Flammable (Mudah terbakar)</li><li>⚡ Corrosive (Korosif)</li><li>💥 Explosive (Mudah meledak)</li></ul><div class="callout">💡 Kenali rambu sebelum masuk area kerja.</div>' },
+          { judul: 'Kerja Tim yang Aman', deskripsi: 'Menerapkan komunikasi dan kerja sama yang aman di bengkel', icon: 'fa-users', urutan: 8, status: 'aktif', konten: '<h3>Pentingnya Kerja Tim</h3><p>Di bengkel pemesinan, kerja tim yang aman sangat penting karena banyak pekerjaan yang melibatkan lebih dari satu orang.</p><h3>Prinsip Komunikasi Kerja Aman</h3><ul><li>Gunakan bahasa isyarat/hand signal yang jelas</li><li>Konfirmasi sebelum memulai tindakan berbahaya</li><li>Beri tahu rekan sebelum menyalakan mesin</li><li>Jangan bercanda saat bekerja dengan mesin</li><li>Selalu awasi area sekitar</li></ul><h3>SOP Kerja Tim</h3><ol><li>Briefing sebelum memulai pekerjaan</li><li>Tentukan peran masing-masing</li><li>Gunakan APD lengkap</li><li>Ikuti protokol komunikasi</li><li>Evaluasi setelah pekerjaan selesai</li></ol><div class="callout">💡 Keselamatan diri dan rekan kerja adalah prioritas utama.</div>' }
+        ];
+
+        const { error } = await supabaseClient.from('materi').insert(materiDefault);
+        if (error) throw error;
+        console.log('✅ Berhasil menambahkan 8 materi default!');
+      } catch (err) {
+        console.warn('⚠️ Gagal seed materi:', err.message);
+      }
+    }
+
+    async function cekRole() {
+      const sessionSiswa = localStorage.getItem('siswa_session');
+      if (sessionSiswa) {
+        try {
+          currentSiswa = JSON.parse(sessionSiswa);
+          currentRole = 'siswa';
+          document.getElementById('user-role').textContent = currentSiswa.nama || 'Siswa';
+          document.getElementById('back-btn').href = 'dashboard-siswa.html';
+          return;
+        } catch (e) {}
+      }
+
+      const sessionGuru = localStorage.getItem('guru_session');
+      if (sessionGuru) {
+        try {
+          const guru = JSON.parse(sessionGuru);
+          currentRole = 'guru';
+          document.getElementById('user-role').textContent = guru.nama || 'Guru';
+          document.getElementById('back-btn').href = 'dashboard-guru.html';
+          document.getElementById('btn-add-materi').style.display = 'inline-flex';
+          return;
+        } catch (e) {}
+      }
+
+      window.location.href = 'index.html';
+    }
+
+    async function loadMateri() {
+      const list = document.getElementById('materi-list');
+      list.innerHTML = `
+        <div class="materi-card">
+          <div class="skeleton" style="height:120px;border-radius:0;"></div>
+          <div class="materi-body">
+            <div class="skeleton" style="height:18px;width:80%;"></div>
+            <div class="skeleton" style="height:12px;width:100%;"></div>
+          </div>
+        </div>`;
+
+      try {
+        const { data, error } = await supabaseClient.from('materi').select('*').order('urutan', { ascending: true });
+        if (error) throw error;
+
+        semuaMateri = (data || []).filter(m => currentRole === 'guru' || m.status === 'aktif');
+
+        if (currentRole === 'siswa' && currentSiswa) await loadMateriSelesai();
+
+        renderMateri();
+      } catch (err) {
+        console.error('Gagal load materi:', err);
+        list.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Gagal Memuat Materi</h3><p>Terjadi kesalahan saat memuat data.</p></div>`;
+      }
+    }
+
+    async function loadMateriSelesai() {
+      if (!currentSiswa) return;
+      try {
+        const { data, error } = await supabaseClient
+          .from('aktivitas').select('judul')
+          .eq('siswa_id', currentSiswa.id).eq('tipe', 'materi').eq('status', 'selesai');
+        if (error) throw error;
+        materiSelesaiSet = new Set((data || []).map(d => d.judul));
+      } catch (err) { console.error(err); }
+    }
+
+    function renderMateri() {
+      const list = document.getElementById('materi-list');
+
+      const q = filterKata.toLowerCase().trim();
+      const filtered = q
+        ? semuaMateri.filter(m => (m.judul || '').toLowerCase().includes(q) || (m.deskripsi || '').toLowerCase().includes(q))
+        : semuaMateri;
+
+      if (filtered.length === 0) {
+        list.innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><h3>Belum Ada Materi</h3><p>${q ? 'Tidak ada materi yang cocok.' : 'Materi akan muncul di sini setelah ditambahkan oleh guru.'}</p></div>`;
+        return;
+      }
+
+      list.innerHTML = filtered.map((m, i) => {
+        const selesai = materiSelesaiSet.has(m.judul);
+        const icon = m.icon || 'fa-book';
+        const jumlahKata = (m.konten || '').split(/\s+/).length;
+        const estimasiBaca = Math.max(1, Math.ceil(jumlahKata / 200));
+        const isGuru = currentRole === 'guru';
+
+        return `
+          <div class="materi-card" data-id="${m.id}" data-index="${i}">
+            <div class="materi-thumb">
+              <span class="materi-order-badge">Materi ${m.urutan || i + 1}</span>
+              <span class="materi-read-badge ${selesai ? 'show' : ''}"><i class="fas fa-check-circle"></i> Selesai</span>
+              <div class="materi-thumb-icon"><i class="fas ${icon}"></i></div>
+            </div>
+            <div class="materi-body">
+              <h3 class="materi-title">${m.judul}</h3>
+              <p class="materi-excerpt">${m.deskripsi || 'Klik untuk membaca.'}</p>
+              <div class="materi-footer">
+                <span class="materi-meta"><i class="fas fa-clock"></i> ${estimasiBaca} menit</span>
+                <div class="materi-actions">
+                  ${isGuru ? `<button class="icon-btn" onclick="event.stopPropagation();editMateri('${m.id}')" title="Edit"><i class="fas fa-pen"></i></button>
+                  <button class="icon-btn danger" onclick="event.stopPropagation();hapusMateri('${m.id}')" title="Hapus"><i class="fas fa-trash"></i></button>` : ''}
+                  <button class="icon-btn" onclick="event.stopPropagation();bukaMateri('${m.id}')" title="Baca"><i class="fas fa-book-open"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+
+      list.querySelectorAll('.materi-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('.icon-btn')) return;
+          bukaMateri(card.dataset.id);
+        });
+      });
+    }
+
+    function bukaMateri(id) {
+      const m = semuaMateri.find(x => x.id === id);
+      if (!m) return;
+      currentIndex = semuaMateri.indexOf(m);
+
+      document.getElementById('reader-title').textContent = m.judul;
+      const jumlahKata = (m.konten || '').split(/\s+/).length;
+      const estimasiBaca = Math.max(1, Math.ceil(jumlahKata / 200));
+      document.getElementById('reader-time').textContent = `${estimasiBaca} menit baca`;
+      document.getElementById('reader-body').innerHTML = m.konten || '<p>Konten belum tersedia.</p>';
+
+      const selesai = materiSelesaiSet.has(m.judul);
+      const statusEl = document.getElementById('reader-status');
+      const btnMark = document.getElementById('btn-mark-read');
+
+      if (selesai) {
+        statusEl.textContent = 'Sudah dibaca';
+        btnMark.innerHTML = '<i class="fas fa-check-circle"></i> Sudah Selesai';
+        btnMark.disabled = true;
+        btnMark.classList.remove('btn-success');
+        btnMark.classList.add('btn-ghost');
+      } else {
+        statusEl.textContent = 'Belum dibaca';
+        btnMark.innerHTML = '<i class="fas fa-check"></i> Tandai Selesai';
+        btnMark.disabled = false;
+        btnMark.classList.add('btn-success');
+        btnMark.classList.remove('btn-ghost');
+      }
+
+      document.getElementById('modal-reader').classList.add('show');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => document.getElementById('reader-body').scrollTop = 0, 100);
+    }
+
+    function closeReader() {
+      document.getElementById('modal-reader').classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    async function tandaiSelesai() {
+      if (currentIndex < 0 || !currentSiswa) { showToast('Hanya siswa yang bisa menandai.', 'info'); return; }
+      const m = semuaMateri[currentIndex];
+      if (!m || materiSelesaiSet.has(m.judul)) { showToast('Sudah ditandai.', 'info'); return; }
+
+      const btn = document.getElementById('btn-mark-read');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+
+      try {
+        const { error } = await supabaseClient.from('aktivitas').insert([{
+          siswa_id: currentSiswa.id, tipe: 'materi', judul: m.judul,
+          status: 'selesai', created_at: new Date().toISOString()
+        }]);
+        if (error) throw error;
+
+        materiSelesaiSet.add(m.judul);
+        renderMateri();
+        document.getElementById('reader-status').textContent = 'Sudah dibaca';
+        btn.innerHTML = '<i class="fas fa-check-circle"></i> Sudah Selesai';
+        btn.classList.remove('btn-success');
+        btn.classList.add('btn-ghost');
+        showToast('Materi selesai dibaca! 🎉', 'success');
+      } catch (err) {
+        showToast('Gagal menyimpan: ' + err.message, 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-check"></i> Tandai Selesai';
+      }
+    }
+
+    function nextMateri() {
+      if (currentIndex < semuaMateri.length - 1) bukaMateri(semuaMateri[currentIndex + 1].id);
+      else showToast('Ini materi terakhir.', 'info');
+    }
+
+    function bukaFormModal(materi = null) {
+      editId = materi?.id || null;
+      document.getElementById('form-title').innerHTML = materi ? '<i class="fas fa-edit"></i> Edit Materi' : '<i class="fas fa-plus-circle"></i> Tambah Materi';
+      document.getElementById('form-judul').value = materi?.judul || '';
+      document.getElementById('form-deskripsi').value = materi?.deskripsi || '';
+      document.getElementById('form-konten').value = materi?.konten || '';
+      document.getElementById('form-icon').value = materi?.icon || 'fa-book';
+      document.getElementById('form-urutan').value = materi?.urutan || (semuaMateri.length + 1);
+      document.getElementById('form-status').value = materi?.status || 'aktif';
+      document.getElementById('modal-form').classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeFormModal() {
+      document.getElementById('modal-form').classList.remove('show');
+      document.body.style.overflow = '';
+      document.getElementById('form-materi').reset();
+      editId = null;
+    }
+
+    async function handleFormSubmit(e) {
+      e.preventDefault();
+      const data = {
+        judul: document.getElementById('form-judul').value.trim(),
+        deskripsi: document.getElementById('form-deskripsi').value.trim(),
+        konten: document.getElementById('form-konten').value,
+        icon: document.getElementById('form-icon').value.trim() || 'fa-book',
+        urutan: parseInt(document.getElementById('form-urutan').value) || 1,
+        status: document.getElementById('form-status').value
+      };
+
+      const btn = document.getElementById('btn-submit-form');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+
+      try {
+        let result;
+        if (editId) result = await supabaseClient.from('materi').update(data).eq('id', editId);
+        else result = await supabaseClient.from('materi').insert([data]);
+        if (result.error) throw result.error;
+
+        showToast(editId ? 'Materi diperbarui!' : 'Materi ditambahkan!', 'success');
+        closeFormModal();
+        await loadMateri();
+      } catch (err) {
+        showToast('Gagal: ' + err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-save"></i> Simpan';
+      }
+    }
+
+    async function editMateri(id) {
+      const m = semuaMateri.find(x => x.id === id);
+      if (m) bukaFormModal(m);
+    }
+
+    async function hapusMateri(id) {
+      if (!confirm('Yakin ingin menghapus materi ini?')) return;
+      try {
+        const { error } = await supabaseClient.from('materi').delete().eq('id', id);
+        if (error) throw error;
+        showToast('Materi dihapus!', 'success');
+        await loadMateri();
+      } catch (err) { showToast('Gagal: ' + err.message, 'error'); }
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      console.log('📄 Halaman Materi init');
+      await cekRole();
+      await seedMateriDefault();
+      await loadMateri();
+
+      document.getElementById('back-btn').addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = currentRole === 'guru' ? 'dashboard-guru.html' : 'dashboard-siswa.html';
+      });
+
+      document.getElementById('btn-add-materi')?.addEventListener('click', () => bukaFormModal());
+      document.getElementById('close-reader').addEventListener('click', closeReader);
+      document.getElementById('modal-reader').addEventListener('click', (e) => { if (e.target.id === 'modal-reader') closeReader(); });
+      document.getElementById('btn-mark-read').addEventListener('click', tandaiSelesai);
+      document.getElementById('btn-reader-next').addEventListener('click', nextMateri);
+      document.getElementById('close-form').addEventListener('click', closeFormModal);
+      document.getElementById('modal-form').addEventListener('click', (e) => { if (e.target.id === 'modal-form') closeFormModal(); });
+
+      document.getElementById('filter-materi').addEventListener('input', (e) => {
+        filterKata = e.target.value;
+        renderMateri();
+      });
+
+      document.getElementById('view-grid').addEventListener('click', () => {
+        document.getElementById('materi-list').classList.remove('list-view-mode');
+        document.getElementById('view-grid').classList.add('active');
+        document.getElementById('view-list').classList.remove('active');
+      });
+      document.getElementById('view-list').addEventListener('click', () => {
+        document.getElementById('materi-list').classList.add('list-view-mode');
+        document.getElementById('view-list').classList.add('active');
+        document.getElementById('view-grid').classList.remove('active');
+      });
+
+      document.getElementById('btn-refresh').addEventListener('click', () => { loadMateri(); showToast('Data dimuat ulang', 'info'); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeReader(); closeFormModal(); } });
+    });
+
+    window.bukaMateri = bukaMateri;
+    window.editMateri = editMateri;
+    window.hapusMateri = hapusMateri;
+    window.handleFormSubmit = handleFormSubmit;
+    window.closeFormModal = closeFormModal;
+  </script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Materi K3 - Media Pembelajaran K3 SMK Negeri 2 Medan">
+  <title>Materi K3 | Media Pembelajaran K3</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #1e40af;
+      --primary-dark: #1e3a8a;
+      --primary-light: #3b82f6;
+      --accent: #f59e0b;
+      --danger: #dc2626;
+      --success: #16a34a;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --white: #ffffff;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 20px 40px rgba(0,0,0,0.12);
+      --radius: 16px;
+      --radius-sm: 12px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-800);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
     /* NAVBAR */
     .navbar {
       position: sticky; top: 0; z-index: 100;
