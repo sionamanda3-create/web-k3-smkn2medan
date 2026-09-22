@@ -16,7 +16,6 @@
 
     :root {
       --primary: #1e40af;
-      --primary-dark: #1e3a8a;
       --primary-light: #3b82f6;
       --accent: #f59e0b;
       --danger: #dc2626;
@@ -199,6 +198,7 @@
     }
     .section-header h2 i { color: var(--primary); }
 
+    /* TUJUAN UMUM */
     .tujuan-umum-card {
       background: white;
       border-radius: var(--radius);
@@ -224,9 +224,78 @@
     }
     .tujuan-umum-card p strong { color: var(--gray-800); }
 
+    /* CAPAIAN PEMBELAJARAN (3 ELEMEN) */
+    .capaian-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.1rem;
+    }
+    .capaian-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      border: 1px solid var(--gray-100);
+      box-shadow: var(--shadow-sm);
+      border-top: 4px solid var(--primary);
+      transition: var(--transition);
+    }
+    .capaian-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    .capaian-card.sikap { border-top-color: var(--success); }
+    .capaian-card.pengetahuan { border-top-color: var(--primary); }
+    .capaian-card.keterampilan { border-top-color: var(--accent); }
+
+    .capaian-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+    .capaian-card.sikap .capaian-icon { background: #dcfce7; color: #15803d; }
+    .capaian-card.pengetahuan .capaian-icon { background: #dbeafe; color: #1e40af; }
+    .capaian-card.keterampilan .capaian-icon { background: #fed7aa; color: #ea580c; }
+
+    .capaian-card h3 {
+      font-size: 1rem; font-weight: 800;
+      color: var(--gray-800);
+      margin-bottom: 0.5rem;
+    }
+    .capaian-card .sub {
+      font-size: 0.72rem; font-weight: 700;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.8rem;
+    }
+    .capaian-card ul {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 0.4rem;
+    }
+    .capaian-card ul li {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      line-height: 1.55;
+      padding-left: 1.2rem;
+      position: relative;
+    }
+    .capaian-card ul li::before {
+      content: '\f00c';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      left: 0;
+      color: var(--success);
+      font-size: 0.75rem;
+      top: 0.15rem;
+    }
+
+    /* TUJUAN SPESIFIK (8 CARD) */
     .tujuan-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 1.1rem;
     }
     .tujuan-card {
@@ -277,6 +346,10 @@
     .tujuan-num.green  { background: linear-gradient(135deg, #dcfce7, #16a34a); box-shadow: 0 4px 10px rgba(22,163,74,0.25); }
     .tujuan-num.orange { background: linear-gradient(135deg, #fed7aa, #ea580c); box-shadow: 0 4px 10px rgba(234,88,12,0.25); }
     .tujuan-num.purple { background: linear-gradient(135deg, #e9d5ff, #7c3aed); box-shadow: 0 4px 10px rgba(124,58,237,0.25); }
+    .tujuan-num.red    { background: linear-gradient(135deg, #fee2e2, #dc2626); box-shadow: 0 4px 10px rgba(220,38,38,0.25); }
+    .tujuan-num.teal   { background: linear-gradient(135deg, #ccfbf1, #0d9488); box-shadow: 0 4px 10px rgba(13,148,136,0.25); }
+    .tujuan-num.pink   { background: linear-gradient(135deg, #fce7f3, #db2777); box-shadow: 0 4px 10px rgba(219,39,119,0.25); }
+    .tujuan-num.indigo { background: linear-gradient(135deg, #e0e7ff, #4f46e5); box-shadow: 0 4px 10px rgba(79,70,229,0.25); }
 
     .tujuan-card h3 {
       font-size: 0.98rem;
@@ -292,6 +365,7 @@
       text-transform: uppercase;
       letter-spacing: 0.03em;
     }
+
     .tujuan-card p.desc {
       font-size: 0.85rem;
       color: var(--gray-600);
@@ -348,6 +422,96 @@
     .checklist-item input[type="checkbox"]:checked ~ span {
       text-decoration: line-through;
       color: var(--gray-400);
+    }
+
+    /* ALUR PEMBELAJARAN */
+    .alur-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      justify-content: center;
+    }
+    .alur-step {
+      flex: 1;
+      min-width: 140px;
+      max-width: 200px;
+      background: white;
+      border-radius: var(--radius-sm);
+      padding: 1.2rem 1rem;
+      text-align: center;
+      border: 1px solid var(--gray-100);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      position: relative;
+    }
+    .alur-step:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary);
+    }
+    .alur-num {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800;
+      font-size: 0.85rem;
+      margin: 0 auto 0.7rem;
+    }
+    .alur-step h4 {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--gray-800);
+      margin-bottom: 0.25rem;
+    }
+    .alur-step p {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      line-height: 1.5;
+    }
+    .alur-step i.alur-icon {
+      font-size: 1.3rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    /* INDIKATOR KETERCAPAIAN */
+    .indikator-list {
+      background: white;
+      border-radius: var(--radius);
+      padding: 1.5rem 1.8rem;
+      border: 1px solid var(--gray-100);
+      box-shadow: var(--shadow-sm);
+    }
+    .indikator-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.9rem;
+      padding: 0.8rem 0;
+      border-bottom: 1px dashed var(--gray-200);
+    }
+    .indikator-item:last-child { border-bottom: none; }
+    .indikator-icon {
+      width: 34px; height: 34px;
+      border-radius: 10px;
+      background: #dcfce7;
+      color: #15803d;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .indikator-content h4 {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--gray-800);
+      margin-bottom: 0.2rem;
+    }
+    .indikator-content p {
+      font-size: 0.8rem;
+      color: var(--gray-500);
+      line-height: 1.55;
     }
 
     /* MANFAAT */
@@ -456,6 +620,7 @@
       .progress-icon { align-self: center; }
       .tujuan-grid { grid-template-columns: 1fr; }
       .manfaat-grid { grid-template-columns: 1fr; }
+      .capaian-grid { grid-template-columns: 1fr; }
       .toast { right: 0.75rem; left: 0.75rem; max-width: none; }
     }
   </style>
@@ -487,6 +652,7 @@
 
   <main class="container">
 
+    <!-- HERO -->
     <section class="hero">
       <div class="hero-content">
         <span class="hero-badge"><i class="fas fa-graduation-cap"></i> Capaian Pembelajaran</span>
@@ -495,6 +661,7 @@
       </div>
     </section>
 
+    <!-- PROGRESS -->
     <div class="progress-wrapper">
       <div class="progress-icon"><i class="fas fa-list-check"></i></div>
       <div class="progress-info">
@@ -508,6 +675,7 @@
       </div>
     </div>
 
+    <!-- TUJUAN UMUM -->
     <section class="section">
       <div class="section-header">
         <h2><i class="fas fa-bullseye"></i> Tujuan Umum</h2>
@@ -521,6 +689,52 @@
       </div>
     </section>
 
+    <!-- CAPAIAN PEMBELAJARAN (3 ELEMEN) -->
+    <section class="section">
+      <div class="section-header">
+        <h2><i class="fas fa-trophy"></i> Capaian Pembelajaran</h2>
+      </div>
+
+      <div class="capaian-grid">
+        <div class="capaian-card sikap">
+          <div class="capaian-icon"><i class="fas fa-heart"></i></div>
+          <h3>Sikap</h3>
+          <div class="sub">Sikap Spiritual & Sosial</div>
+          <ul>
+            <li>Menunjukkan sikap disiplin dalam menerapkan K3</li>
+            <li>Bertanggung jawab terhadap keselamatan diri & orang lain</li>
+            <li>Menjaga kebersihan dan kerapian area kerja</li>
+            <li>Bekerja sama dalam tim dengan aman</li>
+          </ul>
+        </div>
+
+        <div class="capaian-card pengetahuan">
+          <div class="capaian-icon"><i class="fas fa-brain"></i></div>
+          <h3>Pengetahuan</h3>
+          <div class="sub">Kognitif</div>
+          <ul>
+            <li>Menjelaskan pengertian & dasar hukum K3</li>
+            <li>Mengidentifikasi jenis APD dan fungsinya</li>
+            <li>Mengenali potensi bahaya di bengkel</li>
+            <li>Memahami prosedur P3K dan tanggap darurat</li>
+          </ul>
+        </div>
+
+        <div class="capaian-card keterampilan">
+          <div class="capaian-icon"><i class="fas fa-hands"></i></div>
+          <h3>Keterampilan</h3>
+          <div class="sub">Psikomotorik</div>
+          <ul>
+            <li>Memakai APD dengan benar dan lengkap</li>
+            <li>Melakukan identifikasi bahaya (HIRARC sederhana)</li>
+            <li>Menerapkan prosedur kerja aman di bengkel</li>
+            <li>Melakukan pertolongan pertama dasar</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TUJUAN SPESIFIK (8 CARD) -->
     <section class="section">
       <div class="section-header">
         <h2><i class="fas fa-list-check"></i> Tujuan Spesifik</h2>
@@ -528,6 +742,7 @@
 
       <div class="tujuan-grid">
 
+        <!-- 1 -->
         <div class="tujuan-card">
           <div class="tujuan-card-header">
             <div class="tujuan-num">1</div>
@@ -538,157 +753,247 @@
           </div>
           <p class="desc">Siswa dapat menjelaskan pengertian, ruang lingkup, dan dasar hukum penerapan K3 di Indonesia.</p>
           <div class="checklist">
-            <label class="checklist-item">
-              <input type="checkbox" data-key="t1-1">
-              <span>Menjelaskan definisi K3</span>
-            </label>
-            <label class="checklist-item">
-              <input type="checkbox" data-key="t1-2">
-              <span>Menyebutkan dasar hukum K3</span>
-            </label>
-            <label class="checklist-item">
-              <input type="checkbox" data-key="t1-3">
-              <span>Menyebutkan ruang lingkup K3</span>
-            </label>
+            <label class="checklist-item"><input type="checkbox" data-key="t1-1"><span>Menjelaskan definisi K3</span></label>
+            <label class="checklist-item"><input type="checkbox" data-key="t1-2"><span>Menyebutkan dasar hukum K3</span></label>
+            <label class="checklist-item"><input type="checkbox" data-key="t1-3"><span>Menyebutkan ruang lingkup K3</span></label>
           </div>
         </div>
 
+        <!-- 2 -->
         <div class="tujuan-card">
           <div class="tujuan-card-header">
             <div class="tujuan-num green">2</div>
             <div>
-              <h3>Menerapkan Penggunaan APD</h3>
+              <h3>Memahami Tujuan & Manfaat K3</h3>
               <div class="sub">Materi 2</div>
             </div>
           </div>
-          <p class="desc">Siswa dapat mengidentifikasi jenis APD dan menggunakannya dengan benar saat praktik di bengkel.</p>
+          <p class="desc">Siswa dapat menjelaskan tujuan penerapan K3 dan manfaatnya bagi pekerja maupun perusahaan.</p>
           <div class="checklist">
-            <label class="checklist-item">
-              <input type="checkbox" data-key="t2-1">
-              <span>Menyebutkan jenis APD</span>
-            </label>
-            <label class="checklist-item">
-              <input type="checkbox" data-key="t2-2">
-              <span>Memahami fungsi tiap APD</span>
-            </label>
-            <label class="checklist-item">
-              <input type="checkbox" data-key="t2-3">
-              <span>Memakai APD dengan benar</span>
-            </label>
+            <label class="checklist-item"><input type="checkbox" data-key="t2-1"><span>Menyebutkan tujuan K3</span></label>
+            <label class="checklist-item"><input type="checkbox" data-key="t2-2"><span>Menjelaskan manfaat K3 bagi pekerja</span></label>
+            <label class="checklist-item"><input type="checkbox" data-key="t2-3"><span>Menjelaskan manfaat K3 bagi perusahaan</span></label>
           </div>
         </div>
 
+        <!-- 3 -->
         <div class="tujuan-card">
           <div class="tujuan-card-header">
             <div class="tujuan-num orange">3</div>
             <div>
-              <h3>Mengidentifikasi Bahaya Kerja</h3>
+              <h3>Menerapkan Penggunaan APD</h3>
               <div class="sub">Materi 3</div>
+            </div>
+          </div>
+          <p class="desc">Siswa dapat mengidentifikasi jenis APD dan menggunakannya dengan benar saat praktik di bengkel.</p>
+          <div class="checklist">
+            <label class="checklist-item"><input type="checkbox" data-key="t3-1"><span>Menyebutkan jenis APD</span></label>
+            <label class="checklist-item"><input type="checkbox" data-key="t3-2"><span>Memahami fungsi tiap APD</span></label>
+            <label class="checklist-item"><input type="checkbox" data-key="t3-3"><span>Memakai APD dengan benar</span></label>
+          </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="tujuan-card">
+          <div class="tujuan-card-header">
+            <div class="tujuan-num red">4</div>
+            <div>
+              <h3>Mengidentifikasi Bahaya Kerja</h3>
+              <div class="sub">Materi 4</div>
             </div>
           </div>
           <p class="desc">Siswa dapat mengenali potensi bahaya mekanis dan non-mekanis di bengkel pemesinan serta cara pencegahannya.</p>
           <div class="checklist">
-            <label class="checklist-item">
-              <input type="checkbox" data-key="t3-1">
-              <span>Mengenali bahaya mekanis</span>
-            </label>
-            <label class="checklist-item">
-              <input type="checkbox" data-key="t3-2">
-              <span>Mengenali bahaya non-mekanis</span>
-            </label>
-            <label class="checklist-item">
-              <input type="checkbox" data-key="t3-3">
-              <span>Melakukan pencegahan bahaya</span>
-            </label>
+            <label class="checklist-item"><input type="checkbox" data-key="t4-1"><span>Mengenali bahaya mekanis</span></label>
+            <label class="checklist-item"><input type="checkbox" data-key="t4-2"><span>Mengenali bahaya non-mekanis</span></label>
+            <label class="checklist-item"><input type="checkbox" data-key="t4-3"><span>Melakukan pencegahan bahaya</span></label>
           </div>
         </div>
 
+        <!-- 5 -->
         <div class="tujuan-card">
           <div class="tujuan-card-header">
-            <div class="tujuan-num purple">4</div>
+            <div class="tujuan-num purple">5</div>
             <div>
               <h3>Melakukan P3K & Tanggap Darurat</h3>
-              <div class="sub">Materi 4</div>
+              <div class="sub">Materi 5</div>
             </div>
           </div>
           <p class="desc">Siswa dapat melakukan pertolongan pertama pada kecelakaan kerja dan menerapkan prosedur tanggap darurat.</p>
           <div class="checklist">
-            <label class="checklist-item">
-              <input type="checkbox" data-key="t4-1">
-              <span>Memahami isi kotak P3K</span>
-            </label>
-            <label class="checklist-item">
-              <input type="checkbox" data-key="t4-2">
-              <span>Mengetahui nomor darurat</span>
-            </label>
-            <label class="checklist-item">
-              <input type="checkbox" data-key="t4-3">
-              <span>Melakukan pertolongan dasar</span>
-            </label>
+            <label class="checklist-item"><input type="checkbox" data-key="t5-1"><span>Memahami isi kotak P3K</span></label>
+            <label class="checklist-item"><input type="checkbox" data-key="t5-2"><span>Mengetahui nomor darurat</span></label>
+            <label class="checklist-item"><input type="checkbox" data-key="t5-3"><span>Melakukan pertolongan dasar</span></label>
+          </div>
+        </div>
+
+        <!-- 6 -->
+        <div class="tujuan-card">
+          <div class="tujuan-card-header">
+            <div class="tujuan-num teal">6</div>
+            <div>
+              <h3>Menerapkan Budaya Kerja 5R/5S</h3>
+              <div class="sub">Materi 6</div>
+            </div>
+          </div>
+          <p class="desc">Siswa dapat menerapkan prinsip 5R (Ringkas, Rapi, Resik, Rawat, Rajin) di area kerja bengkel.</p>
+          <div class="checklist">
+            <label class="checklist-item"><input type="checkbox" data-key="t6-1"><span>Memahami konsep 5R/5S</span></label>
+            <label class="checklist-item"><input type="checkbox" data-key="t6-2"><span>Menerapkan kebersihan area kerja</span></label>
+            <label class="checklist-item"><input type="checkbox" data-key="t6-3"><span>Merapikan alat setelah digunakan</span></label>
+          </div>
+        </div>
+
+        <!-- 7 -->
+        <div class="tujuan-card">
+          <div class="tujuan-card-header">
+            <div class="tujuan-num pink">7</div>
+            <div>
+              <h3>Memahami Rambu & Simbol K3</h3>
+              <div class="sub">Materi 7</div>
+            </div>
+          </div>
+          <p class="desc">Siswa dapat mengenali rambu-rambu keselamatan dan simbol bahaya yang ada di bengkel pemesinan.</p>
+          <div class="checklist">
+            <label class="checklist-item"><input type="checkbox" data-key="t7-1"><span>Mengenali rambu peringatan</span></label>
+            <label class="checklist-item"><input type="checkbox" data-key="t7-2"><span>Mengenali rambu larangan</span></label>
+            <label class="checklist-item"><input type="checkbox" data-key="t7-3"><span>Mengenali simbol bahan kimia (MSDS)</span></label>
+          </div>
+        </div>
+
+        <!-- 8 -->
+        <div class="tujuan-card">
+          <div class="tujuan-card-header">
+            <div class="tujuan-num indigo">8</div>
+            <div>
+              <h3>Menerapkan Kerja Tim yang Aman</h3>
+              <div class="sub">Materi 8</div>
+            </div>
+          </div>
+          <p class="desc">Siswa dapat bekerja sama dalam tim dengan memperhatikan aspek keselamatan diri dan rekan kerja.</p>
+          <div class="checklist">
+            <label class="checklist-item"><input type="checkbox" data-key="t8-1"><span>Memahami komunikasi kerja aman</span></label>
+            <label class="checklist-item"><input type="checkbox" data-key="t8-2"><span>Menerapkan SOP kerja tim</span></label>
+            <label class="checklist-item"><input type="checkbox" data-key="t8-3"><span>Menjaga keselamatan rekan kerja</span></label>
           </div>
         </div>
 
       </div>
     </section>
 
+    <!-- ALUR PEMBELAJARAN -->
+    <section class="section">
+      <div class="section-header">
+        <h2><i class="fas fa-route"></i> Alur Pembelajaran</h2>
+      </div>
+
+      <div class="alur-container">
+        <div class="alur-step">
+          <i class="fas fa-book-open alur-icon"></i>
+          <div class="alur-num">1</div>
+          <h4>Baca Materi</h4>
+          <p>Pelajari materi K3 secara bertahap</p>
+        </div>
+        <div class="alur-step">
+          <i class="fas fa-video alur-icon"></i>
+          <div class="alur-num">2</div>
+          <h4>Tonton Video</h4>
+          <p>Perkuat pemahaman dengan video</p>
+        </div>
+        <div class="alur-step">
+          <i class="fas fa-pen-to-square alur-icon"></i>
+          <div class="alur-num">3</div>
+          <h4>Kerjakan Latihan</h4>
+          <p>Latihan soal PG & essay</p>
+        </div>
+        <div class="alur-step">
+          <i class="fas fa-clipboard-question alur-icon"></i>
+          <div class="alur-num">4</div>
+          <h4>Ikuti Kuis</h4>
+          <p>Uji pemahaman dengan kuis</p>
+        </div>
+        <div class="alur-step">
+          <i class="fas fa-chart-line alur-icon"></i>
+          <div class="alur-num">5</div>
+          <h4>Lihat Nilai</h4>
+          <p>Pantau hasil belajar</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- INDIKATOR KETERCAPAIAN -->
+    <section class="section">
+      <div class="section-header">
+        <h2><i class="fas fa-circle-check"></i> Indikator Ketercapaian</h2>
+      </div>
+
+      <div class="indikator-list">
+        <div class="indikator-item">
+          <div class="indikator-icon"><i class="fas fa-check"></i></div>
+          <div class="indikator-content">
+            <h4>Menyelesaikan Minimal 80% Materi</h4>
+            <p>Siswa dianggap tuntas jika sudah membaca dan menandai selesai minimal 80% materi K3 yang tersedia.</p>
+          </div>
+        </div>
+        <div class="indikator-item">
+          <div class="indikator-icon"><i class="fas fa-check"></i></div>
+          <div class="indikator-content">
+            <h4>Nilai Kuis Minimal 75</h4>
+            <p>Siswa harus mencapai nilai minimal 75 pada setiap kuis untuk dinyatakan lulus.</p>
+          </div>
+        </div>
+        <div class="indikator-item">
+          <div class="indikator-icon"><i class="fas fa-check"></i></div>
+          <div class="indikator-content">
+            <h4>Mengerjakan Semua Latihan</h4>
+            <p>Seluruh latihan soal (pilihan ganda & essay) harus dikerjakan dan dikumpulkan.</p>
+          </div>
+        </div>
+        <div class="indikator-item">
+          <div class="indikator-icon"><i class="fas fa-check"></i></div>
+          <div class="indikator-content">
+            <h4>Menerapkan K3 di Praktik</h4>
+            <p>Siswa dinilai dari kedisiplinan menerapkan K3 selama praktik di bengkel pemesinan.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MANFAAT -->
     <section class="section">
       <div class="section-header">
         <h2><i class="fas fa-star"></i> Manfaat Belajar K3</h2>
       </div>
 
       <div class="manfaat-grid">
-
         <div class="manfaat-item">
           <div class="manfaat-icon blue"><i class="fas fa-shield-halved"></i></div>
-          <div class="manfaat-content">
-            <h4>Aman Saat Praktik</h4>
-            <p>Terhindar dari risiko cedera dan kecelakaan saat praktik di bengkel.</p>
-          </div>
+          <div class="manfaat-content"><h4>Aman Saat Praktik</h4><p>Terhindar dari risiko cedera dan kecelakaan.</p></div>
         </div>
-
         <div class="manfaat-item">
           <div class="manfaat-icon green"><i class="fas fa-briefcase"></i></div>
-          <div class="manfaat-content">
-            <h4>Siap Kerja di Industri</h4>
-            <p>Membiasakan budaya K3 yang menjadi syarat utama di dunia industri.</p>
-          </div>
+          <div class="manfaat-content"><h4>Siap Kerja di Industri</h4><p>Membiasakan budaya K3 yang menjadi syarat utama industri.</p></div>
         </div>
-
         <div class="manfaat-item">
           <div class="manfaat-icon orange"><i class="fas fa-heart-pulse"></i></div>
-          <div class="manfaat-content">
-            <h4>Kesehatan Terjaga</h4>
-            <p>Terhindar dari penyakit akibat kerja dan kelelahan yang berlebihan.</p>
-          </div>
+          <div class="manfaat-content"><h4>Kesehatan Terjaga</h4><p>Terhindar dari penyakit akibat kerja.</p></div>
         </div>
-
         <div class="manfaat-item">
           <div class="manfaat-icon purple"><i class="fas fa-brain"></i></div>
-          <div class="manfaat-content">
-            <h4>Disiplin & Tanggung Jawab</h4>
-            <p>Melatih kedisiplinan, ketelitian, dan tanggung jawab dalam bekerja.</p>
-          </div>
+          <div class="manfaat-content"><h4>Disiplin & Tanggung Jawab</h4><p>Melatih kedisiplinan dan ketelitian.</p></div>
         </div>
-
         <div class="manfaat-item">
           <div class="manfaat-icon red"><i class="fas fa-triangle-exclamation"></i></div>
-          <div class="manfaat-content">
-            <h4>Waspada Bahaya</h4>
-            <p>Terlatih mengenali dan mencegah bahaya sebelum terjadi kecelakaan.</p>
-          </div>
+          <div class="manfaat-content"><h4>Waspada Bahaya</h4><p>Terlatih mengenali dan mencegah bahaya.</p></div>
         </div>
-
         <div class="manfaat-item">
           <div class="manfaat-icon yellow"><i class="fas fa-trophy"></i></div>
-          <div class="manfaat-content">
-            <h4>Produktif & Profesional</h4>
-            <p>Bekerja lebih efisien karena lingkungan kerja aman dan nyaman.</p>
-          </div>
+          <div class="manfaat-content"><h4>Produktif & Profesional</h4><p>Bekerja lebih efisien di lingkungan yang aman.</p></div>
         </div>
-
       </div>
     </section>
 
+    <!-- HIGHLIGHT -->
     <div class="highlight-box">
       <div class="icon"><i class="fas fa-lightbulb"></i></div>
       <div>
@@ -699,11 +1004,8 @@
 
   </main>
 
-  <!-- ============================================================
-       SUPABASE SDK & KONFIGURASI
-       ============================================================ -->
+  <!-- SUPABASE SDK & KONFIGURASI -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <script>
     const SUPABASE_URL = 'https://ddnhwcxfktcsyngupdex.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_ogAtXLGklIivo88I41J8ZA_9CWzS8D3';
@@ -711,11 +1013,6 @@
     console.log('✅ Supabase client siap di tujuan.html');
   </script>
 
-  <script src="js/app.js"></script>
-
-  <!-- ============================================================
-       SCRIPT TUJUAN
-       ============================================================ -->
   <script>
     let currentSiswa = null;
     let checkedSet = new Set();
@@ -745,16 +1042,14 @@
         } catch (e) { /* lanjut */ }
       }
 
-      const { data: { user } } = await supabaseClient.auth.getUser();
-      if (user) {
-        const { data: profile } = await supabaseClient
-          .from('profiles').select('*').eq('id', user.id).single();
-
-        if (profile?.role === 'guru') {
-          document.getElementById('user-role').textContent = profile.full_name || 'Guru';
+      const sessionGuru = localStorage.getItem('guru_session');
+      if (sessionGuru) {
+        try {
+          const guru = JSON.parse(sessionGuru);
+          document.getElementById('user-role').textContent = guru.nama || 'Guru';
           document.querySelector('.back-btn').href = 'dashboard-guru.html';
           return;
-        }
+        } catch (e) { /* lanjut */ }
       }
 
       window.location.href = 'index.html';
@@ -816,6 +1111,7 @@
       await cekRole();
       loadChecklistState();
       setupCheckboxes();
+      console.log('✅ Tujuan page siap');
     });
   </script>
 
