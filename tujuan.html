@@ -21,6 +21,9 @@
       --danger: #dc2626;
       --success: #16a34a;
       --purple: #7c3aed;
+      --teal: #0d9488;
+      --pink: #db2777;
+      --indigo: #4f46e5;
       --gray-50: #f9fafb;
       --gray-100: #f3f4f6;
       --gray-200: #e5e7eb;
@@ -47,7 +50,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* NAVBAR */
     .navbar {
       position: sticky; top: 0; z-index: 100;
       background: rgba(255,255,255,0.95);
@@ -90,7 +92,6 @@
 
     .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
 
-    /* HERO */
     .hero {
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
       border-radius: var(--radius);
@@ -135,7 +136,6 @@
       max-width: 640px; line-height: 1.65;
     }
 
-    /* PROGRESS */
     .progress-wrapper {
       background: white;
       border-radius: var(--radius-sm);
@@ -143,33 +143,26 @@
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--gray-100);
       margin-bottom: 1.8rem;
-      display: flex;
-      align-items: center;
-      gap: 1.2rem;
+      display: flex; align-items: center; gap: 1.2rem;
       animation: slideUp 0.5s ease-out 0.1s backwards;
     }
     .progress-icon {
       width: 48px; height: 48px;
       background: linear-gradient(135deg, #dbeafe, #3b82f6);
-      color: white;
-      border-radius: 12px;
+      color: white; border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem;
-      flex-shrink: 0;
+      font-size: 1.2rem; flex-shrink: 0;
     }
     .progress-info { flex: 1; }
     .progress-info .label {
       display: flex; justify-content: space-between;
       font-size: 0.82rem; font-weight: 700;
-      color: var(--gray-700);
-      margin-bottom: 0.5rem;
+      color: var(--gray-700); margin-bottom: 0.5rem;
     }
     .progress-info .percent { color: var(--primary); }
     .progress-bar-track {
-      height: 10px;
-      background: var(--gray-100);
-      border-radius: 999px;
-      overflow: hidden;
+      height: 10px; background: var(--gray-100);
+      border-radius: 999px; overflow: hidden;
     }
     .progress-bar-fill {
       height: 100%;
@@ -179,16 +172,10 @@
       width: 0%;
     }
 
-    /* SECTION */
-    .section {
-      margin-bottom: 2rem;
-      animation: slideUp 0.5s ease-out 0.15s backwards;
-    }
+    .section { margin-bottom: 2rem; animation: slideUp 0.5s ease-out 0.15s backwards; }
     .section-header {
       display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 1.2rem;
-      gap: 1rem;
-      flex-wrap: wrap;
+      margin-bottom: 1.2rem; gap: 1rem; flex-wrap: wrap;
     }
     .section-header h2 {
       font-size: 1.2rem; font-weight: 800;
@@ -219,9 +206,10 @@
       font-size: 0.95rem;
       color: var(--gray-700);
       line-height: 1.75;
-      position: relative;
-      z-index: 1;
+      position: relative; z-index: 1;
+      margin-bottom: 1rem;
     }
+    .tujuan-umum-card p:last-child { margin-bottom: 0; }
     .tujuan-umum-card p strong { color: var(--gray-800); }
 
     /* CAPAIAN PEMBELAJARAN (3 ELEMEN) */
@@ -239,57 +227,35 @@
       border-top: 4px solid var(--primary);
       transition: var(--transition);
     }
-    .capaian-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-md);
-    }
+    .capaian-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
     .capaian-card.sikap { border-top-color: var(--success); }
     .capaian-card.pengetahuan { border-top-color: var(--primary); }
     .capaian-card.keterampilan { border-top-color: var(--accent); }
-
     .capaian-icon {
       width: 48px; height: 48px;
       border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem;
-      margin-bottom: 1rem;
+      font-size: 1.3rem; margin-bottom: 1rem;
     }
     .capaian-card.sikap .capaian-icon { background: #dcfce7; color: #15803d; }
     .capaian-card.pengetahuan .capaian-icon { background: #dbeafe; color: #1e40af; }
     .capaian-card.keterampilan .capaian-icon { background: #fed7aa; color: #ea580c; }
-
-    .capaian-card h3 {
-      font-size: 1rem; font-weight: 800;
-      color: var(--gray-800);
-      margin-bottom: 0.5rem;
-    }
+    .capaian-card h3 { font-size: 1rem; font-weight: 800; color: var(--gray-800); margin-bottom: 0.3rem; }
     .capaian-card .sub {
       font-size: 0.72rem; font-weight: 700;
-      color: var(--gray-500);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.8rem;
+      color: var(--gray-500); text-transform: uppercase;
+      letter-spacing: 0.05em; margin-bottom: 0.8rem;
     }
-    .capaian-card ul {
-      list-style: none;
-      display: flex; flex-direction: column; gap: 0.4rem;
-    }
+    .capaian-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
     .capaian-card ul li {
-      font-size: 0.85rem;
-      color: var(--gray-600);
-      line-height: 1.55;
-      padding-left: 1.2rem;
-      position: relative;
+      font-size: 0.85rem; color: var(--gray-600);
+      line-height: 1.55; padding-left: 1.2rem; position: relative;
     }
     .capaian-card ul li::before {
-      content: '\f00c';
-      font-family: 'Font Awesome 6 Free';
-      font-weight: 900;
-      position: absolute;
-      left: 0;
-      color: var(--success);
-      font-size: 0.75rem;
-      top: 0.15rem;
+      content: '\f00c'; font-family: 'Font Awesome 6 Free';
+      font-weight: 900; position: absolute;
+      left: 0; color: var(--success);
+      font-size: 0.75rem; top: 0.15rem;
     }
 
     /* TUJUAN SPESIFIK (8 CARD) */
@@ -305,11 +271,8 @@
       border: 1px solid var(--gray-100);
       box-shadow: var(--shadow-sm);
       transition: var(--transition);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      gap: 0.9rem;
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column; gap: 0.9rem;
     }
     .tujuan-card:hover {
       transform: translateY(-4px);
@@ -317,132 +280,91 @@
       border-color: var(--primary-light);
     }
     .tujuan-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
       background: linear-gradient(90deg, var(--primary), var(--primary-light));
-      opacity: 0;
-      transition: var(--transition);
+      opacity: 0; transition: var(--transition);
     }
     .tujuan-card:hover::before { opacity: 1; }
-
-    .tujuan-card-header {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.9rem;
-    }
+    .tujuan-card-header { display: flex; align-items: flex-start; gap: 0.9rem; }
     .tujuan-num {
       width: 42px; height: 42px;
       border-radius: 12px;
       background: linear-gradient(135deg, #dbeafe, #3b82f6);
       color: white;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 800;
-      font-size: 1rem;
+      font-weight: 800; font-size: 1rem;
       flex-shrink: 0;
       box-shadow: 0 4px 10px rgba(59,130,246,0.25);
     }
-    .tujuan-num.green  { background: linear-gradient(135deg, #dcfce7, #16a34a); box-shadow: 0 4px 10px rgba(22,163,74,0.25); }
-    .tujuan-num.orange { background: linear-gradient(135deg, #fed7aa, #ea580c); box-shadow: 0 4px 10px rgba(234,88,12,0.25); }
-    .tujuan-num.purple { background: linear-gradient(135deg, #e9d5ff, #7c3aed); box-shadow: 0 4px 10px rgba(124,58,237,0.25); }
-    .tujuan-num.red    { background: linear-gradient(135deg, #fee2e2, #dc2626); box-shadow: 0 4px 10px rgba(220,38,38,0.25); }
-    .tujuan-num.teal   { background: linear-gradient(135deg, #ccfbf1, #0d9488); box-shadow: 0 4px 10px rgba(13,148,136,0.25); }
-    .tujuan-num.pink   { background: linear-gradient(135deg, #fce7f3, #db2777); box-shadow: 0 4px 10px rgba(219,39,119,0.25); }
-    .tujuan-num.indigo { background: linear-gradient(135deg, #e0e7ff, #4f46e5); box-shadow: 0 4px 10px rgba(79,70,229,0.25); }
+    .tujuan-num.green  { background: linear-gradient(135deg, #dcfce7, #16a34a); }
+    .tujuan-num.orange { background: linear-gradient(135deg, #fed7aa, #ea580c); }
+    .tujuan-num.purple { background: linear-gradient(135deg, #e9d5ff, #7c3aed); }
+    .tujuan-num.red    { background: linear-gradient(135deg, #fee2e2, #dc2626); }
+    .tujuan-num.teal   { background: linear-gradient(135deg, #ccfbf1, #0d9488); }
+    .tujuan-num.pink   { background: linear-gradient(135deg, #fce7f3, #db2777); }
+    .tujuan-num.indigo { background: linear-gradient(135deg, #e0e7ff, #4f46e5); }
 
     .tujuan-card h3 {
-      font-size: 0.98rem;
-      font-weight: 800;
-      color: var(--gray-800);
-      line-height: 1.35;
+      font-size: 0.98rem; font-weight: 800;
+      color: var(--gray-800); line-height: 1.35;
       margin-bottom: 0.2rem;
     }
     .tujuan-card .sub {
-      font-size: 0.72rem;
-      color: var(--gray-500);
-      font-weight: 600;
-      text-transform: uppercase;
+      font-size: 0.72rem; color: var(--gray-500);
+      font-weight: 600; text-transform: uppercase;
       letter-spacing: 0.03em;
     }
-
     .tujuan-card p.desc {
-      font-size: 0.85rem;
-      color: var(--gray-600);
+      font-size: 0.85rem; color: var(--gray-600);
       line-height: 1.65;
     }
 
     .checklist {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-top: 0.4rem;
-      padding-top: 0.9rem;
+      display: flex; flex-direction: column; gap: 0.5rem;
+      margin-top: 0.4rem; padding-top: 0.9rem;
       border-top: 1px dashed var(--gray-200);
     }
     .checklist-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.6rem;
-      font-size: 0.83rem;
-      color: var(--gray-700);
-      line-height: 1.5;
-      cursor: pointer;
-      padding: 0.35rem 0;
-      transition: var(--transition);
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      font-size: 0.83rem; color: var(--gray-700);
+      line-height: 1.5; cursor: pointer;
+      padding: 0.35rem 0; transition: var(--transition);
     }
     .checklist-item:hover { color: var(--primary); }
-
     .checklist-item input[type="checkbox"] {
-      appearance: none;
-      -webkit-appearance: none;
+      appearance: none; -webkit-appearance: none;
       width: 18px; height: 18px;
       border: 2px solid var(--gray-300);
-      border-radius: 5px;
-      cursor: pointer;
-      flex-shrink: 0;
-      margin-top: 2px;
-      position: relative;
-      transition: var(--transition);
+      border-radius: 5px; cursor: pointer;
+      flex-shrink: 0; margin-top: 2px;
+      position: relative; transition: var(--transition);
     }
     .checklist-item input[type="checkbox"]:checked {
-      background: var(--success);
-      border-color: var(--success);
+      background: var(--success); border-color: var(--success);
     }
     .checklist-item input[type="checkbox"]:checked::after {
-      content: '\f00c';
-      font-family: 'Font Awesome 6 Free';
-      font-weight: 900;
-      color: white;
-      font-size: 0.65rem;
-      position: absolute;
-      top: 50%; left: 50%;
+      content: '\f00c'; font-family: 'Font Awesome 6 Free';
+      font-weight: 900; color: white; font-size: 0.65rem;
+      position: absolute; top: 50%; left: 50%;
       transform: translate(-50%, -50%);
     }
     .checklist-item input[type="checkbox"]:checked ~ span {
-      text-decoration: line-through;
-      color: var(--gray-400);
+      text-decoration: line-through; color: var(--gray-400);
     }
 
     /* ALUR PEMBELAJARAN */
     .alur-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      justify-content: center;
+      display: flex; flex-wrap: wrap;
+      gap: 0.8rem; justify-content: center;
     }
     .alur-step {
-      flex: 1;
-      min-width: 140px;
-      max-width: 200px;
-      background: white;
-      border-radius: var(--radius-sm);
-      padding: 1.2rem 1rem;
-      text-align: center;
+      flex: 1; min-width: 140px; max-width: 200px;
+      background: white; border-radius: var(--radius-sm);
+      padding: 1.2rem 1rem; text-align: center;
       border: 1px solid var(--gray-100);
       box-shadow: var(--shadow-sm);
       transition: var(--transition);
-      position: relative;
     }
     .alur-step:hover {
       transform: translateY(-4px);
@@ -455,64 +377,66 @@
       background: linear-gradient(135deg, var(--primary), var(--primary-light));
       color: white;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 800;
-      font-size: 0.85rem;
+      font-weight: 800; font-size: 0.85rem;
       margin: 0 auto 0.7rem;
     }
-    .alur-step h4 {
-      font-size: 0.88rem;
-      font-weight: 800;
-      color: var(--gray-800);
-      margin-bottom: 0.25rem;
-    }
-    .alur-step p {
-      font-size: 0.72rem;
-      color: var(--gray-500);
-      line-height: 1.5;
-    }
-    .alur-step i.alur-icon {
-      font-size: 1.3rem;
-      color: var(--primary);
-      margin-bottom: 0.5rem;
-      display: block;
-    }
+    .alur-step h4 { font-size: 0.88rem; font-weight: 800; color: var(--gray-800); margin-bottom: 0.25rem; }
+    .alur-step p { font-size: 0.72rem; color: var(--gray-500); line-height: 1.5; }
+    .alur-step i.alur-icon { font-size: 1.3rem; color: var(--primary); margin-bottom: 0.5rem; display: block; }
 
     /* INDIKATOR KETERCAPAIAN */
     .indikator-list {
-      background: white;
-      border-radius: var(--radius);
+      background: white; border-radius: var(--radius);
       padding: 1.5rem 1.8rem;
       border: 1px solid var(--gray-100);
       box-shadow: var(--shadow-sm);
     }
     .indikator-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.9rem;
-      padding: 0.8rem 0;
-      border-bottom: 1px dashed var(--gray-200);
+      display: flex; align-items: flex-start; gap: 0.9rem;
+      padding: 0.8rem 0; border-bottom: 1px dashed var(--gray-200);
     }
     .indikator-item:last-child { border-bottom: none; }
     .indikator-icon {
-      width: 34px; height: 34px;
-      border-radius: 10px;
-      background: #dcfce7;
-      color: #15803d;
+      width: 34px; height: 34px; border-radius: 10px;
+      background: #dcfce7; color: #15803d;
       display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem;
-      flex-shrink: 0;
+      font-size: 0.9rem; flex-shrink: 0;
     }
-    .indikator-content h4 {
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--gray-800);
-      margin-bottom: 0.2rem;
+    .indikator-content h4 { font-size: 0.88rem; font-weight: 700; color: var(--gray-800); margin-bottom: 0.2rem; }
+    .indikator-content p { font-size: 0.8rem; color: var(--gray-500); line-height: 1.55; }
+
+    /* PETA KOMPETENSI */
+    .peta-container {
+      background: white; border-radius: var(--radius);
+      padding: 1.5rem; border: 1px solid var(--gray-100);
+      box-shadow: var(--shadow-sm);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
     }
-    .indikator-content p {
-      font-size: 0.8rem;
-      color: var(--gray-500);
-      line-height: 1.55;
+    .peta-level {
+      padding: 1.2rem 1rem; border-radius: var(--radius-sm);
+      text-align: center;
+      transition: var(--transition);
+      border: 2px solid;
     }
+    .peta-level.dasar { border-color: #86efac; background: #f0fdf4; }
+    .peta-level.menengah { border-color: #93c5fd; background: #eff6ff; }
+    .peta-level.lanjut { border-color: #fdba74; background: #fff7ed; }
+    .peta-level.ahli { border-color: #d8b4fe; background: #faf5ff; }
+    .peta-level:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .peta-level .level-icon {
+      width: 40px; height: 40px;
+      border-radius: 50%; margin: 0 auto 0.7rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: white;
+    }
+    .peta-level.dasar .level-icon { background: #16a34a; }
+    .peta-level.menengah .level-icon { background: #3b82f6; }
+    .peta-level.lanjut .level-icon { background: #ea580c; }
+    .peta-level.ahli .level-icon { background: #7c3aed; }
+    .peta-level h4 { font-size: 0.9rem; font-weight: 800; color: var(--gray-800); margin-bottom: 0.3rem; }
+    .peta-level p { font-size: 0.72rem; color: var(--gray-500); line-height: 1.5; }
 
     /* MANFAAT */
     .manfaat-grid {
@@ -521,26 +445,17 @@
       gap: 1rem;
     }
     .manfaat-item {
-      background: white;
-      border-radius: var(--radius-sm);
-      padding: 1.3rem;
-      border: 1px solid var(--gray-100);
+      background: white; border-radius: var(--radius-sm);
+      padding: 1.3rem; border: 1px solid var(--gray-100);
       box-shadow: var(--shadow-sm);
-      display: flex;
-      align-items: flex-start;
-      gap: 0.9rem;
+      display: flex; align-items: flex-start; gap: 0.9rem;
       transition: var(--transition);
     }
-    .manfaat-item:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-md);
-    }
+    .manfaat-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
     .manfaat-icon {
-      width: 44px; height: 44px;
-      border-radius: 12px;
+      width: 44px; height: 44px; border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem;
-      flex-shrink: 0;
+      font-size: 1.1rem; flex-shrink: 0;
     }
     .manfaat-icon.blue   { background: #dbeafe; color: #1e40af; }
     .manfaat-icon.green  { background: #dcfce7; color: #16a34a; }
@@ -548,16 +463,8 @@
     .manfaat-icon.purple { background: #e9d5ff; color: #7c3aed; }
     .manfaat-icon.red    { background: #fee2e2; color: #dc2626; }
     .manfaat-icon.yellow { background: #fef3c7; color: #92400e; }
-
-    .manfaat-content h4 {
-      font-size: 0.9rem; font-weight: 800;
-      color: var(--gray-800);
-      margin-bottom: 0.25rem;
-    }
-    .manfaat-content p {
-      font-size: 0.8rem; color: var(--gray-500);
-      line-height: 1.55;
-    }
+    .manfaat-content h4 { font-size: 0.9rem; font-weight: 800; color: var(--gray-800); margin-bottom: 0.25rem; }
+    .manfaat-content p { font-size: 0.8rem; color: var(--gray-500); line-height: 1.55; }
 
     /* HIGHLIGHT */
     .highlight-box {
@@ -565,30 +472,19 @@
       border-left: 5px solid var(--accent);
       border-radius: var(--radius-sm);
       padding: 1.3rem 1.5rem;
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
+      display: flex; align-items: flex-start; gap: 1rem;
       margin-top: 1.5rem;
       animation: slideUp 0.5s ease-out 0.3s backwards;
     }
     .highlight-box .icon {
       width: 44px; height: 44px;
       background: rgba(245,158,11,0.25);
-      color: #b45309;
-      border-radius: 12px;
+      color: #b45309; border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem;
-      flex-shrink: 0;
+      font-size: 1.2rem; flex-shrink: 0;
     }
-    .highlight-box h4 {
-      font-size: 0.92rem; font-weight: 800;
-      color: #78350f;
-      margin-bottom: 0.3rem;
-    }
-    .highlight-box p {
-      font-size: 0.85rem; color: #92400e;
-      line-height: 1.6;
-    }
+    .highlight-box h4 { font-size: 0.92rem; font-weight: 800; color: #78350f; margin-bottom: 0.3rem; }
+    .highlight-box p { font-size: 0.85rem; color: #92400e; line-height: 1.6; }
 
     /* TOAST */
     .toast {
@@ -621,6 +517,7 @@
       .tujuan-grid { grid-template-columns: 1fr; }
       .manfaat-grid { grid-template-columns: 1fr; }
       .capaian-grid { grid-template-columns: 1fr; }
+      .peta-container { grid-template-columns: 1fr; }
       .toast { right: 0.75rem; left: 0.75rem; max-width: none; }
     }
   </style>
@@ -686,10 +583,16 @@
         <p>
           Setelah mengikuti pembelajaran ini, siswa diharapkan mampu <strong>memahami dan menerapkan prinsip-prinsip Keselamatan dan Kesehatan Kerja (K3)</strong> dalam setiap aktivitas praktik di bengkel pemesinan, sehingga dapat bekerja dengan aman, produktif, dan profesional sesuai standar industri.
         </p>
+        <p>
+          Pembelajaran ini juga bertujuan untuk <strong>membentuk karakter kerja yang disiplin, bertanggung jawab, dan peduli terhadap keselamatan diri sendiri maupun orang lain</strong> — bekal penting yang akan terus berguna saat bekerja di dunia industri nanti.
+        </p>
+        <p>
+          Selain itu, siswa diharapkan mampu <strong>mengidentifikasi potensi bahaya, menerapkan prosedur kerja aman, serta melakukan tindakan tanggap darurat</strong> dengan benar saat menghadapi situasi darurat di bengkel.
+        </p>
       </div>
     </section>
 
-    <!-- CAPAIAN PEMBELAJARAN (3 ELEMEN) -->
+    <!-- CAPAIAN PEMBELAJARAN -->
     <section class="section">
       <div class="section-header">
         <h2><i class="fas fa-trophy"></i> Capaian Pembelajaran</h2>
@@ -703,8 +606,11 @@
           <ul>
             <li>Menunjukkan sikap disiplin dalam menerapkan K3</li>
             <li>Bertanggung jawab terhadap keselamatan diri & orang lain</li>
-            <li>Menjaga kebersihan dan kerapian area kerja</li>
+            <li>Menjaga kebersihan dan kerapian area kerja (5R)</li>
             <li>Bekerja sama dalam tim dengan aman</li>
+            <li>Menghargai perbedaan pendapat dalam kerja tim</li>
+            <li>Jujur melaporkan setiap kejadian berbahaya</li>
+            <li>Percaya diri dalam menerapkan prosedur K3</li>
           </ul>
         </div>
 
@@ -715,8 +621,11 @@
           <ul>
             <li>Menjelaskan pengertian & dasar hukum K3</li>
             <li>Mengidentifikasi jenis APD dan fungsinya</li>
-            <li>Mengenali potensi bahaya di bengkel</li>
+            <li>Mengenali potensi bahaya mekanis & non-mekanis</li>
             <li>Memahami prosedur P3K dan tanggap darurat</li>
+            <li>Mengenal rambu & simbol K3</li>
+            <li>Memahami prinsip 5R/5S</li>
+            <li>Menjelaskan prosedur HIRARC sederhana</li>
           </ul>
         </div>
 
@@ -729,7 +638,40 @@
             <li>Melakukan identifikasi bahaya (HIRARC sederhana)</li>
             <li>Menerapkan prosedur kerja aman di bengkel</li>
             <li>Melakukan pertolongan pertama dasar</li>
+            <li>Menggunakan APAR dengan benar</li>
+            <li>Menerapkan budaya 5R di area kerja</li>
+            <li>Melakukan komunikasi kerja tim yang aman</li>
           </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- PETA KOMPETENSI -->
+    <section class="section">
+      <div class="section-header">
+        <h2><i class="fas fa-layer-group"></i> Peta Kompetensi</h2>
+      </div>
+
+      <div class="peta-container">
+        <div class="peta-level dasar">
+          <div class="level-icon"><i class="fas fa-seedling"></i></div>
+          <h4>Level Dasar</h4>
+          <p>Konsep dasar K3, dasar hukum, ruang lingkup</p>
+        </div>
+        <div class="peta-level menengah">
+          <div class="level-icon"><i class="fas fa-shield-alt"></i></div>
+          <h4>Level Menengah</h4>
+          <p>APD, jenis bahaya, rambu & simbol K3</p>
+        </div>
+        <div class="peta-level lanjut">
+          <div class="level-icon"><i class="fas fa-first-aid"></i></div>
+          <h4>Level Lanjut</h4>
+          <p>P3K, tanggap darurat, prosedur kerja aman</p>
+        </div>
+        <div class="peta-level ahli">
+          <div class="level-icon"><i class="fas fa-medal"></i></div>
+          <h4>Level Ahli</h4>
+          <p>HIRARC, budaya 5R, kerja tim yang aman</p>
         </div>
       </div>
     </section>
@@ -742,7 +684,6 @@
 
       <div class="tujuan-grid">
 
-        <!-- 1 -->
         <div class="tujuan-card">
           <div class="tujuan-card-header">
             <div class="tujuan-num">1</div>
@@ -759,7 +700,6 @@
           </div>
         </div>
 
-        <!-- 2 -->
         <div class="tujuan-card">
           <div class="tujuan-card-header">
             <div class="tujuan-num green">2</div>
@@ -776,7 +716,6 @@
           </div>
         </div>
 
-        <!-- 3 -->
         <div class="tujuan-card">
           <div class="tujuan-card-header">
             <div class="tujuan-num orange">3</div>
@@ -793,7 +732,6 @@
           </div>
         </div>
 
-        <!-- 4 -->
         <div class="tujuan-card">
           <div class="tujuan-card-header">
             <div class="tujuan-num red">4</div>
@@ -810,7 +748,6 @@
           </div>
         </div>
 
-        <!-- 5 -->
         <div class="tujuan-card">
           <div class="tujuan-card-header">
             <div class="tujuan-num purple">5</div>
@@ -827,7 +764,6 @@
           </div>
         </div>
 
-        <!-- 6 -->
         <div class="tujuan-card">
           <div class="tujuan-card-header">
             <div class="tujuan-num teal">6</div>
@@ -844,7 +780,6 @@
           </div>
         </div>
 
-        <!-- 7 -->
         <div class="tujuan-card">
           <div class="tujuan-card-header">
             <div class="tujuan-num pink">7</div>
@@ -861,7 +796,6 @@
           </div>
         </div>
 
-        <!-- 8 -->
         <div class="tujuan-card">
           <div class="tujuan-card-header">
             <div class="tujuan-num indigo">8</div>
@@ -892,25 +826,25 @@
           <i class="fas fa-book-open alur-icon"></i>
           <div class="alur-num">1</div>
           <h4>Baca Materi</h4>
-          <p>Pelajari materi K3 secara bertahap</p>
+          <p>Pelajari 8 materi K3 bertahap</p>
         </div>
         <div class="alur-step">
           <i class="fas fa-video alur-icon"></i>
           <div class="alur-num">2</div>
           <h4>Tonton Video</h4>
-          <p>Perkuat pemahaman dengan video</p>
+          <p>Perkuat dengan video</p>
         </div>
         <div class="alur-step">
           <i class="fas fa-pen-to-square alur-icon"></i>
           <div class="alur-num">3</div>
           <h4>Kerjakan Latihan</h4>
-          <p>Latihan soal PG & essay</p>
+          <p>Latihan PG & essay</p>
         </div>
         <div class="alur-step">
           <i class="fas fa-clipboard-question alur-icon"></i>
           <div class="alur-num">4</div>
           <h4>Ikuti Kuis</h4>
-          <p>Uji pemahaman dengan kuis</p>
+          <p>Uji pemahaman</p>
         </div>
         <div class="alur-step">
           <i class="fas fa-chart-line alur-icon"></i>
@@ -954,6 +888,13 @@
           <div class="indikator-content">
             <h4>Menerapkan K3 di Praktik</h4>
             <p>Siswa dinilai dari kedisiplinan menerapkan K3 selama praktik di bengkel pemesinan.</p>
+          </div>
+        </div>
+        <div class="indikator-item">
+          <div class="indikator-icon"><i class="fas fa-check"></i></div>
+          <div class="indikator-content">
+            <h4>Menyelesaikan Minimal 75% Tujuan</h4>
+            <p>Siswa dianggap tuntas jika sudah mencentang minimal 75% checklist tujuan pembelajaran.</p>
           </div>
         </div>
       </div>
@@ -1004,7 +945,6 @@
 
   </main>
 
-  <!-- SUPABASE SDK & KONFIGURASI -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const SUPABASE_URL = 'https://ddnhwcxfktcsyngupdex.supabase.co';
@@ -1039,7 +979,7 @@
           currentSiswa = JSON.parse(sessionSiswa);
           document.getElementById('user-role').textContent = currentSiswa.nama || 'Siswa';
           return;
-        } catch (e) { /* lanjut */ }
+        } catch (e) {}
       }
 
       const sessionGuru = localStorage.getItem('guru_session');
@@ -1049,7 +989,7 @@
           document.getElementById('user-role').textContent = guru.nama || 'Guru';
           document.querySelector('.back-btn').href = 'dashboard-guru.html';
           return;
-        } catch (e) { /* lanjut */ }
+        } catch (e) {}
       }
 
       window.location.href = 'index.html';
@@ -1059,7 +999,7 @@
       try {
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) checkedSet = new Set(JSON.parse(saved));
-      } catch (e) { /* ignore */ }
+      } catch (e) {}
 
       document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(cb => {
         if (checkedSet.has(cb.dataset.key)) cb.checked = true;
