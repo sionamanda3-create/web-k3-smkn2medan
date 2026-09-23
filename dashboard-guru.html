@@ -345,6 +345,1205 @@
     }
     .btn-success:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(22,163,74,0.35); }
     .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* File upload styles */
+    .file-drop {
+      border: 2px dashed var(--gray-300);
+      border-radius: 12px;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      background: var(--gray-50);
+    }
+    .file-drop:hover, .file-drop.dragover {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+    .file-drop i { font-size: 2rem; color: var(--gray-400); margin-bottom: 0.5rem; display: block; }
+    .file-drop .file-label { font-size: 0.85rem; font-weight: 600; color: var(--gray-700); }
+    .file-drop .file-hint { font-size: 0.7rem; color: var(--gray-500); margin-top: 0.25rem; }
+    .file-drop.has-file { border-color: var(--success); background: #f0fdf4; }
+    .file-drop.has-file i { color: var(--success); }
+    .file-preview {
+      display: none; align-items: center; gap: 0.6rem;
+      margin-top: 0.7rem; padding: 0.6rem 0.8rem;
+      background: white; border: 1px solid var(--gray-200);
+      border-radius: 8px; font-size: 0.8rem;
+    }
+    .file-preview.show { display: flex; }
+    .file-preview i { font-size: 1.1rem; color: var(--primary); }
+    .file-preview .file-name { flex: 1; font-weight: 600; color: var(--gray-700); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .file-preview .file-size { color: var(--gray-500); font-size: 0.72rem; }
+    .file-preview .file-remove {
+      background: none; border: none; color: var(--danger);
+      cursor: pointer; font-size: 0.9rem; padding: 0.2rem;
+    }
+    .progress-bar {
+      display: none; height: 6px; background: var(--gray-200);
+      border-radius: 999px; overflow: hidden; margin-top: 0.7rem;
+    }
+    .progress-bar.show { display: block; }
+    .progress-bar .progress-fill {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      transition: width 0.3s ease;
+    }
+    @media (max-width: 640px) {
+      .navbar { padding: 0.75rem 1rem; }
+      .container { padding: 1.5rem 1rem 4rem; }
+      .welcome-hero h1 { font-size: 1.35rem; }
+      .user-details { display: none; }
+      .toast { right: 0.75rem; left: 0.75rem; max-width: none; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body data-page="dashboard-guru" data-role="guru">
+
+  <div id="toast" class="toast">
+    <i class="fas fa-info-circle"></i>
+    <span id="toast-message">Pesan</span>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-left">
+      <a href="dashboard-guru.html" class="navbar-brand">
+        <div class="brand-icon"><i class="fas fa-chalkboard-user"></i></div>
+        <span>Media K3</span>
+      </a>
+      <span class="role-badge">Guru</span>
+    </div>
+    <div class="navbar-right">
+      <div class="user-chip">
+        <div class="user-avatar" id="user-avatar">G</div>
+        <div class="user-details">
+          <span class="user-name" id="user-name">Guru</span>
+          <span class="user-role" id="user-email">-</span>
+        </div>
+      </div>
+      <button class="btn-icon" id="logout-btn" title="Keluar">
+        <i class="fas fa-right-from-bracket"></i>
+      </button>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- HERO -->
+    <div class="welcome-hero">
+      <div class="welcome-content">
+        <div class="welcome-greeting">Selamat datang kembali,</div>
+        <h1>Halo, <span class="highlight" id="welcome-name">Guru</span>! 👋</h1>
+        <p>Kelola data siswa, materi, kuis, dan nilai pembelajaran K3 untuk siswa Teknik Pemesinan SMK Negeri 2 Medan.</p>
+        <div class="welcome-meta">
+          <span class="meta-badge"><i class="fas fa-calendar"></i> <span id="heroDate">-</span></span>
+          <span class="meta-badge"><i class="fas fa-clock"></i> <span id="heroTime">-</span></span>
+          <span class="meta-badge"><i class="fas fa-user-tie"></i> Pengajar K3</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATISTIK -->
+    <div class="section-header">
+      <h2><i class="fas fa-chart-pie"></i> Ringkasan Data</h2>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon blue"><i class="fas fa-user-graduate"></i></div>
+        <div class="stat-info">
+          <div class="stat-label">Total Siswa</div>
+          <div class="stat-value" id="stat-siswa">0</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon green"><i class="fas fa-book"></i></div>
+        <div class="stat-info">
+          <div class="stat-label">Materi K3</div>
+          <div class="stat-value" id="stat-materi">0</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon orange"><i class="fas fa-clipboard-question"></i></div>
+        <div class="stat-info">
+          <div class="stat-label">Total Kuis</div>
+          <div class="stat-value" id="stat-kuis">0</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon purple"><i class="fas fa-star"></i></div>
+        <div class="stat-info">
+          <div class="stat-label">Rata-rata Nilai</div>
+          <div class="stat-value" id="stat-nilai">0%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MENU EDITOR -->
+    <div class="section-header">
+      <h2><i class="fas fa-plus-circle"></i> Tambah Konten Pembelajaran</h2>
+    </div>
+
+    <div class="editor-menu">
+      <button class="editor-btn materi" onclick="openModal('materi')">
+        <i class="fas fa-book"></i>
+        <div class="label">Tambah Materi</div>
+        <div class="desc">Upload file materi</div>
+      </button>
+      <button class="editor-btn video" onclick="openModal('video')">
+        <i class="fas fa-video"></i>
+        <div class="label">Tambah Video</div>
+        <div class="desc">Link YouTube</div>
+      </button>
+      <button class="editor-btn kuis" onclick="openModal('kuis')">
+        <i class="fas fa-clipboard-question"></i>
+        <div class="label">Tambah Kuis</div>
+        <div class="desc">Upload file kuis</div>
+      </button>
+      <button class="editor-btn latihan" onclick="openModal('latihan')">
+        <i class="fas fa-pen-to-square"></i>
+        <div class="label">Tambah Latihan</div>
+        <div class="desc">Upload file latihan</div>
+      </button>
+    </div>
+
+    <!-- MONITORING SISWA -->
+    <div class="section-header">
+      <h2><i class="fas fa-user-check"></i> Monitoring Siswa Login</h2>
+      <button class="btn btn-ghost" onclick="loadMonitoring()" style="padding:0.5rem 1rem;font-size:0.82rem;">
+        <i class="fas fa-rotate"></i> Muat Ulang
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama Siswa</th>
+              <th>Kelas</th>
+              <th>Login Terakhir</th>
+              <th>Total Login</th>
+              <th>Status</th>
+              <th style="text-align:right;">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-siswa">
+            <tr><td colspan="7"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat data...</p></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- NILAI SISWA -->
+    <div class="section-header">
+      <h2><i class="fas fa-file-lines"></i> Nilai Siswa</h2>
+      <button class="btn btn-ghost" onclick="loadNilai()" style="padding:0.5rem 1rem;font-size:0.82rem;">
+        <i class="fas fa-rotate"></i> Muat Ulang
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama Siswa</th>
+              <th>Kelas</th>
+              <th>Kuis/Materi</th>
+              <th>Nilai</th>
+              <th>Tanggal</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-nilai">
+            <tr><td colspan="6"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat data...</p></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer class="footer">
+      © 2026 SMK Negeri 2 Medan — Media Pembelajaran K3
+    </footer>
+  </div>
+
+  <!-- MODAL TAMBAH KONTEN -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modal-title"><i class="fas fa-plus-circle"></i> Tambah Konten</h3>
+        <button class="modal-close" onclick="closeModal()"><i class="fas fa-xmark"></i></button>
+      </div>
+      <form id="modal-form" onsubmit="handleSubmit(event)">
+        <div class="modal-body" id="modal-body"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" onclick="closeModal()">
+            <i class="fas fa-xmark"></i> Batal
+          </button>
+          <button type="submit" class="btn btn-success" id="btn-save">
+            <i class="fas fa-save"></i> Simpan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- SUPABASE SDK & KONFIGURASI -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://ddnhwcxfktcsyngupdex.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_ogAtXLGklIivo88I41J8ZA_9CWzS8D3';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log('✅ Supabase client siap di dashboard-guru.html');
+  </script>
+
+  <script>
+    let currentGuru = null;
+    let currentModalType = null;
+    let selectedFile = null;
+
+    const KELAS_ORDER = [
+      'X TP 1', 'X TP 2', 'X TP 3',
+      'XI TP 1', 'XI TP 2', 'XI TP 3',
+      'XII TP 1', 'XII TP 2', 'XII TP 3'
+    ];
+
+    // Konfigurasi bucket & tipe file yang diizinkan
+    const BUCKET_NAME = 'materi-k3';
+    const ALLOWED_TYPES = [
+      '.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx',
+      '.dwg', '.dxf', '.txt', '.csv', '.zip', '.rar',
+      '.png', '.jpg', '.jpeg', '.gif', '.mp4', '.mp3'
+    ];
+    const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
+
+    function sortByKelasThenNama(arr, kelasKey = 'kelas', namaKey = 'nama') {
+      return arr.sort((a, b) => {
+        const posA = KELAS_ORDER.indexOf(a[kelasKey]);
+        const posB = KELAS_ORDER.indexOf(b[kelasKey]);
+        const pA = posA === -1 ? 999 : posA;
+        const pB = posB === -1 ? 999 : posB;
+        if (pA !== pB) return pA - pB;
+        return (a[namaKey] || '').localeCompare(b[namaKey] || '', 'id', { sensitivity: 'base' });
+      });
+    }
+
+    function showToast(message, type = 'info') {
+      const toast = document.getElementById('toast');
+      const msg = document.getElementById('toast-message');
+      if (!toast || !msg) return;
+      const icon = toast.querySelector('i');
+      toast.className = 'toast ' + type;
+      msg.textContent = message;
+      const icons = { error: 'fa-circle-exclamation', success: 'fa-circle-check', info: 'fa-circle-info' };
+      if (icon) icon.className = 'fas ' + (icons[type] || icons.info);
+      toast.classList.add('show');
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    function cekLoginGuru() {
+      const sessionStr = localStorage.getItem('guru_session');
+      if (!sessionStr) { window.location.href = 'index.html'; return null; }
+      try { return JSON.parse(sessionStr); }
+      catch (e) {
+        localStorage.removeItem('guru_session');
+        window.location.href = 'index.html';
+        return null;
+      }
+    }
+
+    function logout() {
+      if (!confirm('Yakin ingin keluar dari akun guru?')) return;
+      localStorage.removeItem('guru_session');
+      window.location.href = 'index.html';
+    }
+
+    function updateDateTime() {
+      const now = new Date();
+      const opsi = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+      document.getElementById('heroDate').textContent = now.toLocaleDateString('id-ID', opsi);
+      document.getElementById('heroTime').textContent = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    async function muatStatistik() {
+      try {
+        const [siswa, materi, kuis] = await Promise.all([
+          supabaseClient.from('siswa').select('*', { count: 'exact', head: true }),
+          supabaseClient.from('materi').select('*', { count: 'exact', head: true }),
+          supabaseClient.from('kuis').select('*', { count: 'exact', head: true })
+        ]);
+        document.getElementById('stat-siswa').textContent = siswa.count || 0;
+        document.getElementById('stat-materi').textContent = materi.count || 0;
+        document.getElementById('stat-kuis').textContent = kuis.count || 0;
+
+        const { data: nilaiData } = await supabaseClient.from('nilai').select('nilai');
+        const nilaiEl = document.getElementById('stat-nilai');
+        if (nilaiData && nilaiData.length > 0) {
+          const rata = nilaiData.reduce((a, b) => a + (b.nilai || 0), 0) / nilaiData.length;
+          nilaiEl.textContent = Math.round(rata) + '%';
+        } else {
+          nilaiEl.textContent = '0%';
+        }
+      } catch (err) { console.error('Statistik error:', err); }
+    }
+
+    // ============================================================
+    // LOAD MONITORING SISWA (dengan tombol hapus)
+    // ============================================================
+    async function loadMonitoring() {
+      const tbody = document.getElementById('tbody-siswa');
+      tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat...</p></div></td></tr>';
+      try {
+        const { data, error } = await supabaseClient.from('siswa').select('*');
+        if (error) throw error;
+        if (!data || data.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><i class="fas fa-inbox"></i><p>Belum ada siswa.</p></div></td></tr>';
+          return;
+        }
+        const sorted = sortByKelasThenNama([...data], 'kelas', 'nama');
+        tbody.innerHTML = sorted.map((s, i) => `
+          <tr>
+            <td><strong>${i + 1}</strong></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:0.7rem;">
+                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#1e40af);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;flex-shrink:0;">
+                  ${(s.nama || '?').charAt(0).toUpperCase()}
+                </div>
+                <div style="font-weight:600;color:var(--gray-800);">${s.nama || '-'}</div>
+              </div>
+            </td>
+            <td><span class="badge primary">${s.kelas || '-'}</span></td>
+            <td>${s.last_login ? new Date(s.last_login).toLocaleString('id-ID') : '-'}</td>
+            <td><strong>${s.login_count || 0}x</strong></td>
+            <td><span class="badge success">Aktif</span></td>
+            <td style="text-align:right;">
+              <button class="btn-del" 
+                      onclick="hapusSiswa('${s.id}', '${(s.nama || '').replace(/'/g, "&#39;")}')" 
+                      title="Hapus Siswa">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        console.error(err);
+        tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Gagal memuat.</p></div></td></tr>';
+      }
+    }
+
+    // ============================================================
+    // HAPUS SISWA (ROBUST)
+    // ============================================================
+    async function hapusSiswa(id, nama) {
+      if (!confirm(`Yakin ingin menghapus siswa "${nama}"?\n\nData nilai dan aktivitas siswa juga akan dihapus.`)) return;
+
+      try {
+        await supabaseClient.from('nilai').delete().eq('nama_siswa', nama);
+        await supabaseClient.from('jawaban_latihan').delete().eq('siswa_id', id);
+        await supabaseClient.from('aktivitas').delete().eq('siswa_id', id);
+
+        const { error } = await supabaseClient.from('siswa').delete().eq('id', id);
+        if (error) throw error;
+
+        showToast(`Siswa "${nama}" berhasil dihapus!`, 'success');
+        await muatStatistik();
+        await loadMonitoring();
+        await loadNilai();
+      } catch (err) {
+        console.error('Gagal hapus siswa:', err);
+        showToast('Gagal menghapus: ' + err.message, 'error');
+      }
+    }
+
+    // ============================================================
+    // LOAD NILAI SISWA
+    // ============================================================
+    async function loadNilai() {
+      const tbody = document.getElementById('tbody-nilai');
+      tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat...</p></div></td></tr>';
+      try {
+        const { data, error } = await supabaseClient.from('nilai').select('*').order('created_at', { ascending: false });
+        if (error) throw error;
+        if (!data || data.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-inbox"></i><p>Belum ada nilai.</p></div></td></tr>';
+          return;
+        }
+        const sorted = sortByKelasThenNama([...data], 'kelas', 'nama_siswa');
+        tbody.innerHTML = sorted.map((n, i) => `
+          <tr>
+            <td><strong>${i + 1}</strong></td>
+            <td><strong>${n.nama_siswa || '-'}</strong></td>
+            <td><span class="badge primary">${n.kelas || '-'}</span></td>
+            <td>${n.materi || '-'}</td>
+            <td><strong style="color:${n.nilai >= 75 ? 'var(--success)' : 'var(--danger)'};">${n.nilai || 0}</strong></td>
+            <td>${n.created_at ? new Date(n.created_at).toLocaleDateString('id-ID') : '-'}</td>
+          </tr>
+        `).join('');
+      } catch (err) { console.error(err); }
+    }
+
+    // ============================================================
+    // FILE UPLOAD HANDLER
+    // ============================================================
+    function setupFileDrop(inputId, dropId, previewId) {
+      const input = document.getElementById(inputId);
+      const drop = document.getElementById(dropId);
+      const preview = document.getElementById(previewId);
+      if (!input || !drop || !preview) return;
+
+      drop.addEventListener('click', () => input.click());
+      drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.classList.add('dragover'); });
+      drop.addEventListener('dragleave', () => drop.classList.remove('dragover'));
+      drop.addEventListener('drop', (e) => {
+        e.preventDefault();
+        drop.classList.remove('dragover');
+        if (e.dataTransfer.files.length) {
+          input.files = e.dataTransfer.files;
+          input.dispatchEvent(new Event('change'));
+        }
+      });
+
+      input.addEventListener('change', () => {
+        const file = input.files[0];
+        if (!file) {
+          selectedFile = null;
+          drop.classList.remove('has-file');
+          preview.classList.remove('show');
+          return;
+        }
+        // Validasi ukuran
+        if (file.size > MAX_FILE_SIZE) {
+          showToast('File terlalu besar! Maksimal 50 MB.', 'error');
+          input.value = '';
+          selectedFile = null;
+          drop.classList.remove('has-file');
+          preview.classList.remove('show');
+          return;
+        }
+        // Validasi ekstensi
+        const ext = '.' + file.name.split('.').pop().toLowerCase();
+        if (!ALLOWED_TYPES.includes(ext)) {
+          showToast('Tipe file tidak diizinkan!', 'error');
+          input.value = '';
+          selectedFile = null;
+          drop.classList.remove('has-file');
+          preview.classList.remove('show');
+          return;
+        }
+        selectedFile = file;
+        drop.classList.add('has-file');
+        drop.querySelector('.file-label').textContent = file.name;
+        preview.querySelector('.file-name').textContent = file.name;
+        preview.querySelector('.file-size').textContent = (file.size / 1024).toFixed(1) + ' KB';
+        preview.classList.add('show');
+      });
+
+      preview.querySelector('.file-remove').addEventListener('click', (e) => {
+        e.stopPropagation();
+        input.value = '';
+        selectedFile = null;
+        drop.classList.remove('has-file');
+        drop.querySelector('.file-label').textContent = 'Klik atau seret file ke sini';
+        preview.classList.remove('show');
+      });
+    }
+
+    function getFileIcon(filename) {
+      const ext = filename.split('.').pop().toLowerCase();
+      const icons = {
+        pdf: 'fa-file-pdf', doc: 'fa-file-word', docx: 'fa-file-word',
+        xls: 'fa-file-excel', xlsx: 'fa-file-excel',
+        ppt: 'fa-file-powerpoint', pptx: 'fa-file-powerpoint',
+        dwg: 'fa-file-dwg', dxf: 'fa-file-dwg',
+        zip: 'fa-file-zipper', rar: 'fa-file-zipper',
+        png: 'fa-file-image', jpg: 'fa-file-image', jpeg: 'fa-file-image', gif: 'fa-file-image',
+        mp4: 'fa-file-video', mp3: 'fa-file-audio', txt: 'fa-file-lines', csv: 'fa-file-csv'
+      };
+      return icons[ext] || 'fa-file';
+    }
+
+    // ============================================================
+    // MODAL EDITOR (Materi / Video / Kuis / Latihan)
+    // ============================================================
+    function openModal(type) {
+      currentModalType = type;
+      selectedFile = null;
+      const title = document.getElementById('modal-title');
+      const body = document.getElementById('modal-body');
+
+      // Reset file input
+      const oldInput = document.getElementById('file-input');
+      if (oldInput) oldInput.value = '';
+
+      if (type === 'materi') {
+        title.innerHTML = '<i class="fas fa-book"></i> Tambah Materi K3';
+        body.innerHTML = `
+          <div class="form-group">
+            <label>Judul Materi <span class="req">*</span></label>
+            <input type="text" name="judul" placeholder="Contoh: Pengertian K3" required>
+          </div>
+          <div class="form-group">
+            <label>Deskripsi Singkat <span class="req">*</span></label>
+            <input type="text" name="deskripsi" placeholder="Deskripsi singkat materi" required>
+          </div>
+          <div class="form-group">
+            <label>File Materi <span class="req">*</span></label>
+            <div class="file-drop" id="file-drop">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <div class="file-label">Klik atau seret file ke sini</div>
+              <div class="file-hint">PDF, Word, Excel, PPT, DWG, ZIP, dll (maks. 50 MB)</div>
+            </div>
+            <input type="file" id="file-input" name="file" style="display:none;" 
+                   accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.dwg,.dxf,.txt,.csv,.zip,.rar,.png,.jpg,.jpeg,.gif,.mp4,.mp3">
+            <div class="file-preview" id="file-preview">
+              <i class="fas fa-file"></i>
+              <span class="file-name"></span>
+              <span class="file-size"></span>
+              <button type="button" class="file-remove"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="progress-bar" id="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Icon (Font Awesome)</label>
+              <input type="text" name="icon" value="fa-book" placeholder="fa-book">
+            </div>
+            <div class="form-group">
+              <label>Urutan</label>
+              <input type="number" name="urutan" value="1" min="1">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <select name="status">
+              <option value="aktif">Aktif</option>
+              <option value="draft">Draft</option>
+            </select>
+          </div>
+        `;
+        setTimeout(() => setupFileDrop('file-input', 'file-drop', 'file-preview'), 50);
+      } else if (type === 'video') {
+        title.innerHTML = '<i class="fas fa-video"></i> Tambah Video K3';
+        body.innerHTML = `
+          <div class="form-group">
+            <label>Judul Video <span class="req">*</span></label>
+            <input type="text" name="judul" placeholder="Contoh: Cara Memakai APD" required>
+          </div>
+          <div class="form-group">
+            <label>URL Video (YouTube / lainnya) <span class="req">*</span></label>
+            <input type="url" name="url" placeholder="https://www.youtube.com/watch?v=xxxxx" required>
+            <div class="form-hint">💡 Support: youtube.com, youtu.be, vimeo, dll</div>
+          </div>
+          <div class="form-group">
+            <label>Kategori</label>
+            <select name="kategori">
+              <option value="APD">APD</option>
+              <option value="Prosedur Kerja">Prosedur Kerja</option>
+              <option value="Identifikasi Bahaya">Identifikasi Bahaya</option>
+              <option value="Pertolongan Pertama">Pertolongan Pertama</option>
+              <option value="Umum" selected>Umum</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Deskripsi</label>
+            <textarea name="deskripsi" placeholder="Deskripsi video..." style="min-height:80px;"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Durasi (opsional)</label>
+            <input type="text" name="durasi" placeholder="05:30">
+          </div>
+        `;
+      } else if (type === 'kuis') {
+        title.innerHTML = '<i class="fas fa-clipboard-question"></i> Tambah Kuis';
+        body.innerHTML = `
+          <div class="form-group">
+            <label>Judul Kuis <span class="req">*</span></label>
+            <input type="text" name="judul" placeholder="Contoh: Kuis Dasar K3" required>
+          </div>
+          <div class="form-group">
+            <label>Deskripsi <span class="req">*</span></label>
+            <textarea name="deskripsi" placeholder="Deskripsi kuis..." style="min-height:80px;" required></textarea>
+          </div>
+          <div class="form-group">
+            <label>File Kuis <span class="req">*</span></label>
+            <div class="file-drop" id="file-drop">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <div class="file-label">Klik atau seret file ke sini</div>
+              <div class="file-hint">PDF, Word, Excel, dll (maks. 50 MB)</div>
+            </div>
+            <input type="file" id="file-input" name="file" style="display:none;" 
+                   accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.dwg,.dxf,.txt,.csv,.zip,.rar,.png,.jpg,.jpeg,.gif,.mp4,.mp3">
+            <div class="file-preview" id="file-preview">
+              <i class="fas fa-file"></i>
+              <span class="file-name"></span>
+              <span class="file-size"></span>
+              <button type="button" class="file-remove"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="progress-bar" id="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Durasi (menit)</label>
+              <input type="number" name="durasi" value="15" min="1">
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select name="status">
+                <option value="aktif">Aktif</option>
+                <option value="draft">Draft</option>
+              </select>
+            </div>
+          </div>
+        `;
+        setTimeout(() => setupFileDrop('file-input', 'file-drop', 'file-preview'), 50);
+      } else if (type === 'latihan') {
+        title.innerHTML = '<i class="fas fa-pen-to-square"></i> Tambah Latihan';
+        body.innerHTML = `
+          <div class="form-group">
+            <label>Judul Latihan <span class="req">*</span></label>
+            <input type="text" name="judul" placeholder="Contoh: Latihan Konsep K3" required>
+          </div>
+          <div class="form-group">
+            <label>Deskripsi <span class="req">*</span></label>
+            <textarea name="deskripsi" placeholder="Deskripsi latihan..." style="min-height:80px;" required></textarea>
+          </div>
+          <div class="form-group">
+            <label>File Latihan <span class="req">*</span></label>
+            <div class="file-drop" id="file-drop">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <div class="file-label">Klik atau seret file ke sini</div>
+              <div class="file-hint">PDF, Word, Excel, dll (maks. 50 MB)</div>
+            </div>
+            <input type="file" id="file-input" name="file" style="display:none;" 
+                   accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.dwg,.dxf,.txt,.csv,.zip,.rar,.png,.jpg,.jpeg,.gif,.mp4,.mp3">
+            <div class="file-preview" id="file-preview">
+              <i class="fas fa-file"></i>
+              <span class="file-name"></span>
+              <span class="file-size"></span>
+              <button type="button" class="file-remove"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="progress-bar" id="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Jumlah Soal</label>
+              <input type="number" name="jumlah_soal" value="15" min="1">
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select name="status">
+                <option value="aktif">Aktif</option>
+                <option value="draft">Draft</option>
+              </select>
+            </div>
+          </div>
+        `;
+        setTimeout(() => setupFileDrop('file-input', 'file-drop', 'file-preview'), 50);
+      }
+
+      document.getElementById('modal-overlay').classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('show');
+      document.body.style.overflow = '';
+      document.getElementById('modal-form').reset();
+      currentModalType = null;
+      selectedFile = null;
+    }
+
+    // ============================================================
+    // UPLOAD FILE KE SUPABASE STORAGE
+    // ============================================================
+    async function uploadFile(file, folder) {
+      const ext = file.name.split('.').pop().toLowerCase();
+      const fileName = `${folder}/${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${ext}`;
+
+      const { data, error } = await supabaseClient.storage
+        .from(BUCKET_NAME)
+        .upload(fileName, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
+
+      if (error) throw error;
+
+      // Dapatkan public URL
+      const { data: urlData } = supabaseClient.storage
+        .from(BUCKET_NAME)
+        .getPublicUrl(fileName);
+
+      return {
+        path: fileName,
+        url: urlData.publicUrl,
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        ext: ext
+      };
+    }
+
+    // ============================================================
+    // SUBMIT HANDLER
+    // ============================================================
+    async function handleSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+      const btn = document.getElementById('btn-save');
+
+      // Validasi file untuk materi, kuis, latihan
+      if (['materi', 'kuis', 'latihan'].includes(currentModalType)) {
+        if (!selectedFile) {
+          showToast('Silakan pilih file terlebih dahulu!', 'error');
+          return;
+        }
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+
+      try {
+        // Upload file jika ada
+        if (selectedFile && ['materi', 'kuis', 'latihan'].includes(currentModalType)) {
+          const progressBar = document.getElementById('progress-bar');
+          const progressFill = document.getElementById('progress-fill');
+          if (progressBar) progressBar.classList.add('show');
+          if (progressFill) progressFill.style.width = '30%';
+
+          const fileInfo = await uploadFile(selectedFile, currentModalType);
+
+          if (progressFill) progressFill.style.width = '80%';
+
+          // Tambahkan info file ke data
+          data.file_url = fileInfo.url;
+          data.file_path = fileInfo.path;
+          data.file_name = fileInfo.name;
+          data.file_size = fileInfo.size;
+          data.file_type = fileInfo.ext;
+        }
+
+        let result;
+        if (currentModalType === 'materi') {
+          result = await supabaseClient.from('materi').insert([data]);
+        } else if (currentModalType === 'video') {
+          result = await supabaseClient.from('video').insert([data]);
+        } else if (currentModalType === 'kuis') {
+          data.jumlah_soal = 0;
+          result = await supabaseClient.from('kuis').insert([data]);
+        } else if (currentModalType === 'latihan') {
+          result = await supabaseClient.from('latihan').insert([data]);
+        }
+
+        if (result.error) throw result.error;
+
+        showToast('Berhasil ditambahkan!', 'success');
+        closeModal();
+        await muatStatistik();
+      } catch (err) {
+        console.error(err);
+        showToast('Gagal menyimpan: ' + err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-save"></i> Simpan';
+        const progressBar = document.getElementById('progress-bar');
+        if (progressBar) progressBar.classList.remove('show');
+      }
+    }
+
+    // ============================================================
+    // INIT
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', async () => {
+      console.log('📄 Dashboard Guru init');
+
+      currentGuru = cekLoginGuru();
+      if (!currentGuru) return;
+
+      const initial = (currentGuru.nama || 'G').charAt(0).toUpperCase();
+      document.getElementById('user-avatar').textContent = initial;
+      document.getElementById('user-name').textContent = currentGuru.nama || 'Guru';
+      document.getElementById('user-email').textContent = currentGuru.email || '-';
+      document.getElementById('welcome-name').textContent = (currentGuru.nama || 'Guru').split(' ')[0];
+
+      updateDateTime();
+      setInterval(updateDateTime, 60000);
+
+      document.getElementById('logout-btn').addEventListener('click', logout);
+      document.getElementById('modal-overlay').addEventListener('click', (e) => {
+        if (e.target.id === 'modal-overlay') closeModal();
+      });
+
+      await muatStatistik();
+      await loadMonitoring();
+      await loadNilai();
+
+      console.log('✅ Dashboard Guru siap');
+    });
+
+    window.openModal = openModal;
+    window.closeModal = closeModal;
+    window.handleSubmit = handleSubmit;
+    window.loadMonitoring = loadMonitoring;
+    window.loadNilai = loadNilai;
+    window.hapusSiswa = hapusSiswa;
+    window.logout = logout;
+  </script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Guru | Media Pembelajaran K3</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --primary: #1e40af; --primary-light: #3b82f6;
+      --accent: #f59e0b; --danger: #dc2626; --success: #16a34a;
+      --purple: #7c3aed;
+      --gray-50: #f9fafb; --gray-100: #f3f4f6; --gray-200: #e5e7eb;
+      --gray-300: #d1d5db; --gray-400: #9ca3af; --gray-500: #6b7280;
+      --gray-600: #4b5563; --gray-700: #374151; --gray-800: #1f2937;
+      --white: #ffffff;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 20px 40px rgba(0,0,0,0.12);
+      --radius: 16px; --radius-sm: 12px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--gray-50); color: var(--gray-800);
+      min-height: 100vh; -webkit-font-smoothing: antialiased;
+    }
+    .navbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200); padding: 0.9rem 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .navbar-left { display: flex; align-items: center; gap: 0.9rem; }
+    .navbar-brand {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-weight: 800; font-size: 1.05rem; color: var(--primary);
+      text-decoration: none;
+    }
+    .navbar-brand .brand-icon {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+      border-radius: 10px; display: flex; align-items: center;
+      justify-content: center; color: white; font-size: 1rem;
+      box-shadow: 0 4px 10px rgba(124,58,237,0.3);
+    }
+    .role-badge {
+      background: #e9d5ff; color: #6b21a8;
+      font-size: 0.7rem; font-weight: 700;
+      padding: 0.25rem 0.6rem; border-radius: 999px;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .navbar-right { display: flex; align-items: center; gap: 0.9rem; }
+    .user-chip {
+      display: flex; align-items: center; gap: 0.65rem;
+      padding: 0.4rem 0.9rem 0.4rem 0.4rem;
+      background: var(--gray-100); border-radius: 999px;
+    }
+    .user-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+      color: white; display: flex; align-items: center;
+      justify-content: center; font-weight: 700;
+      font-size: 0.85rem; text-transform: uppercase;
+    }
+    .user-details { display: flex; flex-direction: column; line-height: 1.2; }
+    .user-details .user-name { font-size: 0.85rem; font-weight: 700; color: var(--gray-800); }
+    .user-details .user-role { font-size: 0.7rem; color: var(--gray-500); font-weight: 500; }
+    .btn-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      border: 1.5px solid var(--gray-200); background: var(--white);
+      color: var(--gray-600); display: flex; align-items: center;
+      justify-content: center; cursor: pointer; transition: var(--transition);
+      font-size: 0.95rem;
+    }
+    .btn-icon:hover { background: var(--danger); border-color: var(--danger); color: white; transform: translateY(-2px); }
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+    .welcome-hero {
+      background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+      border-radius: var(--radius); padding: 2.2rem 2rem;
+      color: white; margin-bottom: 1.5rem;
+      position: relative; overflow: hidden;
+      box-shadow: 0 12px 30px rgba(124,58,237,0.25);
+      animation: slideUp 0.5s ease-out;
+    }
+    .welcome-hero::before, .welcome-hero::after {
+      content: ''; position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+    }
+    .welcome-hero::before { width: 220px; height: 220px; top: -80px; right: -60px; }
+    .welcome-hero::after { width: 150px; height: 150px; bottom: -60px; right: 120px; background: rgba(255,255,255,0.06); }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .welcome-content { position: relative; z-index: 1; }
+    .welcome-greeting { font-size: 0.85rem; font-weight: 500; opacity: 0.9; margin-bottom: 0.35rem; }
+    .welcome-hero h1 { font-size: 1.75rem; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem; }
+    .welcome-hero h1 .highlight { color: #fde68a; }
+    .welcome-hero p { font-size: 0.9rem; opacity: 0.92; max-width: 600px; line-height: 1.6; }
+    .welcome-meta { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.3rem; }
+    .meta-badge {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      background: rgba(255,255,255,0.18); backdrop-filter: blur(8px);
+      padding: 0.45rem 0.9rem; border-radius: 999px;
+      font-size: 0.78rem; font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.1rem; margin-bottom: 1.5rem;
+    }
+    .stat-card {
+      background: var(--white); border-radius: var(--radius-sm);
+      padding: 1.3rem; box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-100);
+      display: flex; align-items: center; gap: 1rem;
+      transition: var(--transition);
+    }
+    .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--primary-light); }
+    .stat-icon {
+      width: 52px; height: 52px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; flex-shrink: 0;
+    }
+    .stat-icon.blue   { background: #dbeafe; color: #1e40af; }
+    .stat-icon.green  { background: #dcfce7; color: #16a34a; }
+    .stat-icon.orange { background: #fed7aa; color: #ea580c; }
+    .stat-icon.purple { background: #e9d5ff; color: #7c3aed; }
+    .stat-info { flex: 1; min-width: 0; }
+    .stat-label { font-size: 0.78rem; color: var(--gray-500); font-weight: 500; margin-bottom: 0.15rem; }
+    .stat-value { font-size: 1.5rem; font-weight: 800; color: var(--gray-800); line-height: 1.1; }
+    .section-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 1rem; margin-top: 2rem; gap: 0.75rem; flex-wrap: wrap;
+    }
+    .section-header h2 {
+      font-size: 1.15rem; font-weight: 700; color: var(--gray-800);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .section-header h2 i { color: var(--primary); font-size: 1rem; }
+    .card {
+      background: var(--white); border-radius: var(--radius-sm);
+      border: 1px solid var(--gray-100);
+      box-shadow: var(--shadow-sm); overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    .card-header {
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid var(--gray-100);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 0.75rem;
+    }
+    .card-header h3 {
+      font-size: 1rem; font-weight: 700; color: var(--gray-800);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .card-header h3 i { color: var(--primary); }
+    .table-wrapper { overflow-x: auto; }
+    table.data-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    table.data-table thead { background: var(--gray-50); border-bottom: 1.5px solid var(--gray-200); }
+    table.data-table th {
+      padding: 0.9rem 1rem; text-align: left;
+      font-size: 0.75rem; font-weight: 700; color: var(--gray-600);
+      text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap;
+    }
+    table.data-table td {
+      padding: 1rem; border-bottom: 1px solid var(--gray-100);
+      color: var(--gray-700); vertical-align: middle;
+    }
+    table.data-table tbody tr:hover { background: #faf5ff; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.3rem 0.7rem; border-radius: 999px;
+      font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.03em;
+    }
+    .badge.primary { background: #dbeafe; color: #1e40af; }
+    .badge.success { background: #dcfce7; color: #15803d; }
+    .badge.warning { background: #fef3c7; color: #92400e; }
+    .badge.purple  { background: #e9d5ff; color: #7c3aed; }
+    .empty-state { text-align: center; padding: 3rem 1rem; color: var(--gray-500); }
+    .empty-state i { font-size: 2.5rem; color: var(--gray-300); display: block; margin-bottom: 0.75rem; }
+    .empty-state p { font-size: 0.88rem; }
+    .footer {
+      text-align: center; padding: 2rem 1rem 1rem;
+      font-size: 0.75rem; color: var(--gray-500); font-weight: 500;
+    }
+    .skeleton {
+      background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite; border-radius: 8px;
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .toast {
+      position: fixed; top: 1.5rem; right: 1.5rem;
+      background: white; padding: 1rem 1.3rem;
+      border-radius: 10px; box-shadow: var(--shadow-lg);
+      display: flex; align-items: center; gap: 0.75rem;
+      font-size: 0.88rem; font-weight: 500; z-index: 9999;
+      transform: translateX(400px);
+      transition: transform 0.4s cubic-bezier(0.68,-0.55,0.27,1.55);
+      max-width: 340px;
+    }
+    .toast.show { transform: translateX(0); }
+    .toast.error   { border-left: 4px solid var(--danger); }
+    .toast.error i { color: var(--danger); }
+    .toast.success { border-left: 4px solid var(--success); }
+    .toast.success i { color: var(--success); }
+    .btn-del {
+      width: 32px; height: 32px; border-radius: 8px;
+      border: 1.5px solid var(--gray-200);
+      background: white; color: var(--gray-600);
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: var(--transition); font-size: 0.8rem;
+    }
+    .btn-del:hover { background: var(--danger); border-color: var(--danger); color: white; }
+    .editor-menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1rem;
+    }
+    .editor-btn {
+      background: white; border: 2px solid var(--gray-100);
+      border-radius: var(--radius-sm);
+      padding: 1.5rem 1rem; text-align: center;
+      cursor: pointer; transition: var(--transition);
+      font-family: inherit;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 0.6rem;
+    }
+    .editor-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary-light);
+    }
+    .editor-btn i {
+      font-size: 1.8rem;
+      width: 52px; height: 52px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 12px;
+    }
+    .editor-btn.materi  i { background: #dbeafe; color: #1e40af; }
+    .editor-btn.video   i { background: #fee2e2; color: #dc2626; }
+    .editor-btn.kuis    i { background: #fed7aa; color: #ea580c; }
+    .editor-btn.latihan i { background: #dcfce7; color: #16a34a; }
+    .editor-btn .label { font-size: 0.9rem; font-weight: 700; color: var(--gray-800); }
+    .editor-btn .desc { font-size: 0.7rem; color: var(--gray-500); }
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(15,23,42,0.7); backdrop-filter: blur(4px);
+      z-index: 9998; justify-content: center; align-items: center;
+      padding: 1rem; overflow-y: auto;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal {
+      background: white; border-radius: var(--radius);
+      width: 100%; max-width: 640px; max-height: 92vh;
+      display: flex; flex-direction: column;
+      box-shadow: var(--shadow-lg);
+      animation: slideUp 0.35s ease;
+      overflow: hidden;
+    }
+    .modal-header {
+      padding: 1.4rem 1.6rem;
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      color: white;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-shrink: 0;
+    }
+    .modal-header h3 {
+      font-size: 1.05rem; font-weight: 800;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .modal-close {
+      width: 34px; height: 34px; border-radius: 10px;
+      background: rgba(255,255,255,0.2); border: none;
+      color: white; cursor: pointer; font-size: 0.9rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: var(--transition);
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.35); transform: rotate(90deg); }
+    .modal-body {
+      padding: 1.6rem; overflow-y: auto; flex: 1;
+    }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label {
+      display: block; font-size: 0.82rem; font-weight: 700;
+      color: var(--gray-700); margin-bottom: 0.4rem;
+    }
+    .form-group label .req { color: var(--danger); }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; padding: 0.75rem 1rem;
+      border: 1.5px solid var(--gray-200); border-radius: 10px;
+      font-family: inherit; font-size: 0.9rem;
+      color: var(--gray-800); outline: none;
+      transition: var(--transition);
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(30,64,175,0.1);
+    }
+    .form-group textarea {
+      min-height: 140px; resize: vertical;
+      line-height: 1.6;
+      font-family: 'Courier New', monospace;
+    }
+    .form-hint {
+      font-size: 0.72rem; color: var(--gray-500);
+      margin-top: 0.3rem;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .modal-footer {
+      padding: 1rem 1.6rem;
+      border-top: 1px solid var(--gray-100);
+      background: var(--gray-50);
+      display: flex; justify-content: flex-end; gap: 0.7rem;
+      flex-shrink: 0;
+    }
+    .btn {
+      padding: 0.75rem 1.3rem; border-radius: 10px; border: none;
+      font-family: inherit; font-size: 0.88rem; font-weight: 700;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      cursor: pointer; transition: var(--transition);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(30,64,175,0.35); }
+    .btn-ghost { background: var(--gray-100); color: var(--gray-700); }
+    .btn-ghost:hover { background: var(--gray-200); }
+    .btn-success {
+      background: linear-gradient(135deg, #15803d, #16a34a);
+      color: white;
+    }
+    .btn-success:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(22,163,74,0.35); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
     @media (max-width: 640px) {
       .navbar { padding: 0.75rem 1rem; }
       .container { padding: 1.5rem 1rem 4rem; }
