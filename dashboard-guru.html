@@ -332,16 +332,12 @@
       transition: var(--transition);
     }
     .modal-close:hover { background: rgba(255,255,255,0.35); transform: rotate(90deg); }
-
-    /* BODY BISA SCROLL */
     .modal-body {
       padding: 1.6rem;
       overflow-y: auto;
       flex: 1;
       min-height: 0;
     }
-
-    /* FOOTER SELALU DI BAWAH */
     .modal-footer {
       padding: 1rem 1.6rem;
       border-top: 1px solid var(--gray-100);
@@ -953,7 +949,7 @@
             <div class="file-label">Klik atau seret file ke sini</div>
             <div class="file-hint">PDF, Word, Excel, PPT, DWG, ZIP, dll (maks. 50 MB)</div>
           </div>
-          <input type="file" id="file-input" name="file" style="display:none;"
+          <input type="file" id="file-input" style="display:none;"
                  accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.dwg,.dxf,.txt,.csv,.zip,.rar,.png,.jpg,.jpeg,.gif,.mp4,.mp3">
           <div class="file-preview" id="file-preview">
             <i class="fas fa-file"></i>
@@ -1126,15 +1122,20 @@
     }
 
     /* ============================================================
-       SUBMIT
+       SUBMIT — SUDAH DIPERBAIKI (hapus field 'file')
        ============================================================ */
     async function handleSubmit(e) {
       e.preventDefault();
       const form = e.target;
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
+
+      // 🔑 HAPUS field 'file' — bukan kolom database, file di-upload lewat Storage
+      delete data.file;
+
       const btn = document.getElementById('btn-save');
 
+      // Validasi file untuk materi, kuis, latihan
       if (['materi', 'kuis', 'latihan'].includes(currentModalType) && !selectedFile) {
         showToast('Silakan pilih file terlebih dahulu!', 'error');
         return;
@@ -1144,6 +1145,7 @@
       btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
 
       try {
+        // Upload file ke Storage
         if (selectedFile && ['materi', 'kuis', 'latihan'].includes(currentModalType)) {
           const progressBar = document.getElementById('progress-bar');
           const progressFill = document.getElementById('progress-fill');
@@ -1154,7 +1156,8 @@
 
           if (progressFill) progressFill.style.width = '80%';
 
-          data.file_url = fileInfo.url;
+          // Tambahkan info file ke data
+          data.file_url  = fileInfo.url;
           data.file_path = fileInfo.path;
           data.file_name = fileInfo.name;
           data.file_size = fileInfo.size;
