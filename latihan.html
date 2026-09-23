@@ -511,6 +511,1074 @@
       </div>
     </div>
 
+    <!-- MODE 2: PENGERJAAN LATIHAN -->
+    <div id="quiz-view" class="quiz-view">
+      <div class="exercise-header-bar">
+        <div class="exercise-info">
+          <h2 id="exercise-title">Judul Latihan</h2>
+          <p id="exercise-subtitle">Soal 1 dari 15</p>
+        </div>
+        <div class="save-indicator" id="save-indicator">
+          <i class="fas fa-cloud"></i>
+          <span id="save-text">Tersimpan otomatis</span>
+        </div>
+      </div>
+
+      <div class="exercise-progress">
+        <div class="exercise-progress-info">
+          <span>Soal <strong id="progress-current">1</strong> dari <strong id="progress-total">15</strong></span>
+          <span><strong id="progress-percent">0%</strong> selesai</span>
+        </div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+        <div class="question-nav-grid" id="question-nav"></div>
+      </div>
+
+      <div class="question-card" id="question-card">
+        <div style="margin-bottom:1rem;">
+          <span class="question-number">
+            <i class="fas fa-circle-question"></i>
+            Soal <span id="q-number">1</span>
+          </span>
+          <span class="question-type" id="q-type">
+            <i class="fas fa-check-circle"></i> Pilihan Ganda
+          </span>
+        </div>
+
+        <p class="question-text" id="q-text">Memuat soal...</p>
+
+        <div id="q-options-container">
+          <div class="options-list" id="q-options"></div>
+        </div>
+
+        <div class="quiz-nav">
+          <button class="btn btn-ghost" id="btn-prev">
+            <i class="fas fa-arrow-left"></i> Sebelumnya
+          </button>
+          <button class="btn btn-primary" id="btn-next">
+            Selanjutnya <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <div style="margin-top:1.5rem;text-align:center;">
+        <button class="btn btn-success" id="btn-finish" style="padding:1rem 2rem;">
+          <i class="fas fa-check-circle"></i> Selesai &amp; Kirim Jawaban
+        </button>
+      </div>
+    </div>
+
+    <!-- MODE 3: HASIL -->
+    <div id="result-view" class="quiz-view">
+      <div class="result-card">
+        <div class="result-icon done">
+          <i class="fas fa-circle-check"></i>
+        </div>
+        <h2 id="result-title">Latihan Selesai!</h2>
+        <p class="result-desc" id="result-desc">
+          Jawabanmu telah tersimpan. Nilai akan diperiksa oleh guru.
+        </p>
+
+        <div class="result-summary">
+          <div class="result-summary-item">
+            <div class="result-summary-label">Total Soal</div>
+            <div class="result-summary-value" id="result-total">0</div>
+          </div>
+          <div class="result-summary-item">
+            <div class="result-summary-label">Terjawab</div>
+            <div class="result-summary-value" id="result-answered">0</div>
+          </div>
+        </div>
+
+        <div class="result-actions">
+          <button class="btn btn-primary" id="btn-back-list">
+            <i class="fas fa-list"></i> Kembali ke Daftar
+          </button>
+          <a href="nilai.html" class="btn btn-ghost">
+            <i class="fas fa-chart-line"></i> Lihat Nilai
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ============================================================
+       SUPABASE SDK & KONFIGURASI
+       ============================================================ -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const SUPABASE_URL = 'https://ddnhwcxfktcsyngupdex.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_ogAtXLGklIivo88I41J8ZA_9CWzS8D3';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log('✅ Supabase client siap di latihan.html');
+  </script>
+
+  <!-- ============================================================
+       SCRIPT LATIHAN
+       ============================================================ -->
+  <script>
+    let currentRole = 'siswa';
+    let currentSiswa = null;
+    let daftarLatihan = [];
+    let latihanAktif = null;
+    let soalList = [];
+    let jawabanUser = {};
+    let currentIndex = 0;
+    let saveTimer = null;
+
+    function showToast(message, type = 'info') {
+      const toast = document.getElementById('toast');
+      const msg = document.getElementById('toast-message');
+      if (!toast || !msg) { alert(message); return; }
+      const icon = toast.querySelector('i');
+      toast.className = 'toast ' + type;
+      msg.textContent = message;
+      const icons = { error: 'fa-circle-exclamation', success: 'fa-circle-check', info: 'fa-circle-info' };
+      if (icon) icon.className = 'fas ' + (icons[type] || icons.info);
+      toast.classList.add('show');
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    // ============================================================
+    // SEED 2 LATIHAN (15 SOAL PER LATIHAN, PG + ESSAY)
+    // ============================================================
+    async function seedLatihanDefault() {
+      try {
+        const { count, error: countErr } = await supabaseClient
+          .from('latihan')
+          .select('*', { count: 'exact', head: true });
+
+        if (countErr) {
+          console.warn('⚠️ Gagal cek count:', countErr.message);
+          return;
+        }
+
+        if (count > 0) {
+          console.log('📚 Latihan sudah ada (' + count + '), skip seed');
+          return;
+        }
+
+        console.log('📚 Tabel latihan kosong, mengisi 2 latihan default...');
+
+        // =============================================
+        // LATIHAN 1: KONSEP DASAR & APD
+        // =============================================
+        const { data: l1, error: errL1 } = await supabaseClient
+          .from('latihan')
+          .insert([{
+            judul: 'Latihan 1: Konsep Dasar & APD',
+            deskripsi: 'Latihan soal tentang pengertian K3, dasar hukum, tujuan, manfaat, dan Alat Pelindung Diri (APD).',
+            jumlah_soal: 15,
+            status: 'aktif'
+          }])
+          .select()
+          .single();
+
+        if (errL1) throw errL1;
+
+        const soalL1 = [
+          { latihan_id: l1.id, tipe: 'pilihan_ganda', urutan: 1, pertanyaan: 'K3 adalah singkatan dari...', pilihan_a: 'Keselamatan dan Kesehatan Kerja', pilihan_b: 'Keamanan dan Ketertiban Kerja', pilihan_c: 'Kualitas dan Kuantitas Kerja', pilihan_d: 'Kesejahteraan dan Kemakmuran Kerja', jawaban_benar: 'A' },
+          { latihan_id: l1.id, tipe: 'pilihan_ganda', urutan: 2, pertanyaan: 'UU dasar K3 di Indonesia adalah...', pilihan_a: 'UU No. 1 Tahun 1970', pilihan_b: 'UU No. 2 Tahun 1980', pilihan_c: 'UU No. 3 Tahun 1990', pilihan_d: 'UU No. 4 Tahun 2000', jawaban_benar: 'A' },
+          { latihan_id: l1.id, tipe: 'essay', urutan: 3, pertanyaan: 'Jelaskan secara singkat apa yang dimaksud dengan K3!', jawaban_essay: 'K3 adalah upaya menjamin keselamatan dan kesehatan tenaga kerja serta orang lain di lingkungan kerja.' },
+          { latihan_id: l1.id, tipe: 'pilihan_ganda', urutan: 4, pertanyaan: 'Tujuan utama K3 adalah...', pilihan_a: 'Meningkatkan biaya', pilihan_b: 'Melindungi tenaga kerja dari risiko kecelakaan', pilihan_c: 'Mempercepat pekerjaan', pilihan_d: 'Mengurangi pekerja', jawaban_benar: 'B' },
+          { latihan_id: l1.id, tipe: 'pilihan_ganda', urutan: 5, pertanyaan: 'SMK3 singkatan dari...', pilihan_a: 'Sistem Manajemen Keselamatan dan Kesehatan Kerja', pilihan_b: 'Standar Mutu K3', pilihan_c: 'Sertifikasi Manajemen Kerja', pilihan_d: 'Sistem Mutu Kinerja K3', jawaban_benar: 'A' },
+          { latihan_id: l1.id, tipe: 'essay', urutan: 6, pertanyaan: 'Sebutkan 3 manfaat penerapan K3 bagi perusahaan!', jawaban_essay: 'Mengurangi biaya kecelakaan, meningkatkan citra perusahaan, meningkatkan produktivitas kerja.' },
+          { latihan_id: l1.id, tipe: 'pilihan_ganda', urutan: 7, pertanyaan: 'Yang BUKAN ruang lingkup K3 adalah...', pilihan_a: 'Keselamatan kerja', pilihan_b: 'Kesehatan kerja', pilihan_c: 'Ergonomi', pilihan_d: 'Pemasaran produk', jawaban_benar: 'D' },
+          { latihan_id: l1.id, tipe: 'pilihan_ganda', urutan: 8, pertanyaan: 'Prinsip utama K3 adalah...', pilihan_a: 'Safety First', pilihan_b: 'Profit First', pilihan_c: 'Speed First', pilihan_d: 'Quantity First', jawaban_benar: 'A' },
+          { latihan_id: l1.id, tipe: 'essay', urutan: 9, pertanyaan: 'Mengapa K3 penting bagi siswa SMK?', jawaban_essay: 'Agar terhindar dari cedera saat praktik, membiasakan budaya kerja aman, dan siap masuk industri.' },
+          { latihan_id: l1.id, tipe: 'pilihan_ganda', urutan: 10, pertanyaan: 'APD wajib saat mengoperasikan mesin gerinda adalah...', pilihan_a: 'Helm saja', pilihan_b: 'Safety glasses dan masker', pilihan_c: 'Sarung tangan kain', pilihan_d: 'Topi biasa', jawaban_benar: 'B' },
+          { latihan_id: l1.id, tipe: 'pilihan_ganda', urutan: 11, pertanyaan: 'Fungsi safety helmet adalah...', pilihan_a: 'Melindungi kepala dari benturan', pilihan_b: 'Melindungi mata', pilihan_c: 'Melindungi tangan', pilihan_d: 'Melindungi kaki', jawaban_benar: 'A' },
+          { latihan_id: l1.id, tipe: 'essay', urutan: 12, pertanyaan: 'Sebutkan minimal 5 jenis APD yang wajib di bengkel pemesinan!', jawaban_essay: 'Safety helmet, safety glasses, ear plug, sarung tangan, safety shoes, masker, apron.' },
+          { latihan_id: l1.id, tipe: 'pilihan_ganda', urutan: 13, pertanyaan: 'APD pelindung pendengaran adalah...', pilihan_a: 'Masker', pilihan_b: 'Ear plug / ear muff', pilihan_c: 'Safety glasses', pilihan_d: 'Sarung tangan', jawaban_benar: 'B' },
+          { latihan_id: l1.id, tipe: 'pilihan_ganda', urutan: 14, pertanyaan: 'Yang BUKAN APD di bengkel pemesinan adalah...', pilihan_a: 'Safety shoes', pilihan_b: 'Ear plug', pilihan_c: 'Jas hujan', pilihan_d: 'Apron', jawaban_benar: 'C' },
+          { latihan_id: l1.id, tipe: 'essay', urutan: 15, pertanyaan: 'Mengapa penggunaan APD sangat penting saat bekerja di bengkel?', jawaban_essay: 'APD penting untuk melindungi tubuh dari bahaya mekanis, kimia, dan fisik yang dapat menyebabkan cedera serius.' }
+        ];
+
+        const { error: errS1 } = await supabaseClient.from('soal_latihan').insert(soalL1);
+        if (errS1) throw errS1;
+
+        // =============================================
+        // LATIHAN 2: BAHAYA, P3K & KERJA TIM
+        // =============================================
+        const { data: l2, error: errL2 } = await supabaseClient
+          .from('latihan')
+          .insert([{
+            judul: 'Latihan 2: Bahaya, P3K & Kerja Tim',
+            deskripsi: 'Latihan soal tentang bahaya di bengkel, P3K, tanggap darurat, 5R, rambu K3, dan kerja tim.',
+            jumlah_soal: 15,
+            status: 'aktif'
+          }])
+          .select()
+          .single();
+
+        if (errL2) throw errL2;
+
+        const soalL2 = [
+          { latihan_id: l2.id, tipe: 'pilihan_ganda', urutan: 1, pertanyaan: 'Contoh bahaya mekanis di bengkel adalah...', pilihan_a: 'Terjepit putaran mesin bubut', pilihan_b: 'Kebisingan', pilihan_c: 'Debu', pilihan_d: 'Bahaya listrik', jawaban_benar: 'A' },
+          { latihan_id: l2.id, tipe: 'pilihan_ganda', urutan: 2, pertanyaan: 'Contoh bahaya non-mekanis di bengkel adalah...', pilihan_a: 'Terjepit mesin', pilihan_b: 'Tergores pahat', pilihan_c: 'Kebisingan dan debu', pilihan_d: 'Tertimpa benda kerja', jawaban_benar: 'C' },
+          { latihan_id: l2.id, tipe: 'essay', urutan: 3, pertanyaan: 'Sebutkan minimal 3 contoh bahaya mekanis di bengkel pemesinan!', jawaban_essay: 'Terjepit putaran mesin bubut, tergores pahat, serpihan logam beterbangan, pecahan mata bor.' },
+          { latihan_id: l2.id, tipe: 'pilihan_ganda', urutan: 4, pertanyaan: 'Nomor darurat ambulans di Indonesia adalah...', pilihan_a: '110', pilihan_b: '113', pilihan_c: '115', pilihan_d: '118', jawaban_benar: 'D' },
+          { latihan_id: l2.id, tipe: 'pilihan_ganda', urutan: 5, pertanyaan: 'Nomor darurat pemadam kebakaran adalah...', pilihan_a: '110', pilihan_b: '113', pilihan_c: '115', pilihan_d: '118', jawaban_benar: 'B' },
+          { latihan_id: l2.id, tipe: 'essay', urutan: 6, pertanyaan: 'Sebutkan langkah-langkah pertolongan pertama saat kecelakaan kerja!', jawaban_essay: '1) Pastikan keamanan diri, 2) Hubungi guru/petugas, 3) Cek kondisi korban, 4) Beri pertolongan dasar, 5) Bawa ke UKS/fasilitas kesehatan.' },
+          { latihan_id: l2.id, tipe: 'pilihan_ganda', urutan: 7, pertanyaan: 'Isi kotak P3K standar antara lain, KECUALI...', pilihan_a: 'Perban dan kasa steril', pilihan_b: 'Antiseptik', pilihan_c: 'Gunting dan pinset', pilihan_d: 'Obat nyamuk', jawaban_benar: 'D' },
+          { latihan_id: l2.id, tipe: 'pilihan_ganda', urutan: 8, pertanyaan: 'APAR singkatan dari...', pilihan_a: 'Alat Pemadam Api Ringan', pilihan_b: 'Alat Pencegah Api Ringan', pilihan_c: 'Alat Pemadam Asap Ringan', pilihan_d: 'Alat Pengaman Api Ringan', jawaban_benar: 'A' },
+          { latihan_id: l2.id, tipe: 'essay', urutan: 9, pertanyaan: 'Jelaskan mengapa komunikasi yang baik penting dalam kerja tim!', jawaban_essay: 'Karena komunikasi yang baik mencegah kecelakaan kerja, menghindari kesalahpahaman, dan menjaga keselamatan semua anggota tim.' },
+          { latihan_id: l2.id, tipe: 'pilihan_ganda', urutan: 10, pertanyaan: '5R singkatan dari...', pilihan_a: 'Ringkas, Rapi, Resik, Rawat, Rajin', pilihan_b: 'Rapi, Ramah, Resik, Rawat, Rajin', pilihan_c: 'Ringkas, Rapi, Ramah, Rawat, Rajin', pilihan_d: 'Ringkas, Ramah, Resik, Rukun, Rajin', jawaban_benar: 'A' },
+          { latihan_id: l2.id, tipe: 'pilihan_ganda', urutan: 11, pertanyaan: 'Rambu K3 warna KUNING berfungsi sebagai...', pilihan_a: 'Larangan', pilihan_b: 'Peringatan', pilihan_c: 'Perintah', pilihan_d: 'Informasi', jawaban_benar: 'B' },
+          { latihan_id: l2.id, tipe: 'essay', urutan: 12, pertanyaan: 'Sebutkan 5 prinsip budaya kerja 5R!', jawaban_essay: 'Ringkas (Seiri), Rapi (Seiton), Resik (Seiso), Rawat (Seiketsu), Rajin (Shitsuke).' },
+          { latihan_id: l2.id, tipe: 'pilihan_ganda', urutan: 13, pertanyaan: 'Rambu K3 warna MERAH berfungsi sebagai...', pilihan_a: 'Larangan', pilihan_b: 'Peringatan', pilihan_c: 'Perintah', pilihan_d: 'Informasi', jawaban_benar: 'A' },
+          { latihan_id: l2.id, tipe: 'pilihan_ganda', urutan: 14, pertanyaan: 'Simbol tengkorak menandakan bahan...', pilihan_a: 'Toxic (beracun)', pilihan_b: 'Flammable (mudah terbakar)', pilihan_c: 'Corrosive (korosif)', pilihan_d: 'Explosive (mudah meledak)', jawaban_benar: 'A' },
+          { latihan_id: l2.id, tipe: 'essay', urutan: 15, pertanyaan: 'Mengapa penggunaan APD wajib saat bekerja di bengkel?', jawaban_essay: 'APD wajib untuk melindungi diri dari bahaya yang dapat menyebabkan cedera atau penyakit akibat kerja.' }
+        ];
+
+        const { error: errS2 } = await supabaseClient.from('soal_latihan').insert(soalL2);
+        if (errS2) throw errS2;
+
+        console.log('✅ Berhasil menambahkan 2 latihan default (15 soal per latihan)!');
+      } catch (err) {
+        console.warn('⚠️ Gagal seed latihan:', err.message);
+      }
+    }
+
+    async function cekRole() {
+      const sessionSiswa = localStorage.getItem('siswa_session');
+      if (sessionSiswa) {
+        try {
+          currentSiswa = JSON.parse(sessionSiswa);
+          currentRole = 'siswa';
+          document.getElementById('user-role').textContent = currentSiswa.nama || 'Siswa';
+          document.getElementById('back-btn').href = 'dashboard-siswa.html';
+          return;
+        } catch (e) {}
+      }
+
+      const sessionGuru = localStorage.getItem('guru_session');
+      if (sessionGuru) {
+        try {
+          const guru = JSON.parse(sessionGuru);
+          currentRole = 'guru';
+          document.getElementById('user-role').textContent = guru.nama || 'Guru';
+          document.getElementById('back-btn').href = 'dashboard-guru.html';
+          return;
+        } catch (e) {}
+      }
+
+      window.location.href = 'index.html';
+    }
+
+    async function loadLatihan() {
+      const list = document.getElementById('latihan-list');
+      list.innerHTML = `
+        <div class="latihan-card">
+          <div class="skeleton" style="height:52px;width:52px;border-radius:14px;"></div>
+          <div class="skeleton" style="height:20px;width:80%;"></div>
+          <div class="skeleton" style="height:14px;width:100%;"></div>
+        </div>`;
+
+      try {
+        const { data, error } = await supabaseClient
+          .from('latihan')
+          .select('*')
+          .order('created_at', { ascending: true });
+
+        if (error) throw error;
+
+        daftarLatihan = (data || []).filter(l => currentRole === 'guru' || l.status === 'aktif');
+
+        if (daftarLatihan.length === 0) {
+          list.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-inbox"></i><h3>Belum Ada Latihan</h3><p>Latihan akan muncul setelah ditambahkan.</p></div>`;
+          return;
+        }
+
+        let selesaiSet = new Set();
+        if (currentRole === 'siswa' && currentSiswa) {
+          const { data: logData } = await supabaseClient
+            .from('aktivitas')
+            .select('judul')
+            .eq('siswa_id', currentSiswa.id)
+            .eq('tipe', 'latihan')
+            .eq('status', 'selesai');
+          selesaiSet = new Set((logData || []).map(l => l.judul));
+        }
+
+        list.innerHTML = daftarLatihan.map(l => {
+          const selesai = selesaiSet.has(l.judul);
+          return `
+            <div class="latihan-card">
+              <div class="latihan-card-header">
+                <div class="latihan-icon"><i class="fas fa-pen-to-square"></i></div>
+                <span class="latihan-status ${selesai ? 'selesai' : 'baru'}">
+                  ${selesai ? '<i class="fas fa-check"></i> Selesai' : '<i class="fas fa-play"></i> Tersedia'}
+                </span>
+              </div>
+              <h3>${l.judul}</h3>
+              <p class="desc">${l.deskripsi || 'Latihan soal untuk memperdalam pemahaman K3.'}</p>
+              <div class="latihan-meta">
+                <span class="latihan-meta-item"><i class="fas fa-list-ol"></i> ${l.jumlah_soal || 0} soal</span>
+                <span class="latihan-meta-item"><i class="fas fa-pen"></i> PG &amp; Essay</span>
+              </div>
+              <div class="latihan-actions">
+                <button class="btn btn-success" onclick="mulaiLatihan('${l.id}')">
+                  <i class="fas fa-play"></i> ${selesai ? 'Kerjakan Lagi' : 'Mulai Latihan'}
+                </button>
+              </div>
+            </div>`;
+        }).join('');
+      } catch (err) {
+        console.error('Gagal load latihan:', err);
+        list.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-exclamation-triangle"></i><h3>Gagal Memuat Latihan</h3><p>Terjadi kesalahan.</p></div>`;
+      }
+    }
+
+    async function mulaiLatihan(latihanId) {
+      const latihan = daftarLatihan.find(l => l.id === latihanId);
+      if (!latihan) return;
+
+      latihanAktif = latihan;
+      jawabanUser = {};
+      currentIndex = 0;
+
+      try {
+        const { data, error } = await supabaseClient
+          .from('soal_latihan')
+          .select('*')
+          .eq('latihan_id', latihanId)
+          .order('urutan', { ascending: true });
+
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+          showToast('Latihan ini belum memiliki soal.', 'error');
+          return;
+        }
+
+        soalList = data;
+        document.getElementById('list-view').classList.add('hidden');
+        document.getElementById('quiz-view').classList.add('active');
+        document.getElementById('exercise-title').textContent = latihan.judul;
+        document.getElementById('progress-total').textContent = soalList.length;
+
+        renderSoal();
+        renderNavigator();
+        updateProgress();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (err) {
+        console.error('Gagal load soal:', err);
+        showToast('Gagal memuat soal: ' + err.message, 'error');
+      }
+    }
+
+    function renderSoal() {
+      const soal = soalList[currentIndex];
+      if (!soal) return;
+
+      document.getElementById('q-number').textContent = currentIndex + 1;
+      document.getElementById('q-text').textContent = soal.pertanyaan;
+
+      const isEssay = soal.tipe === 'essay';
+      const typeEl = document.getElementById('q-type');
+      const optionsContainer = document.getElementById('q-options-container');
+
+      if (isEssay) {
+        typeEl.innerHTML = '<i class="fas fa-pen-fancy"></i> Essay';
+        const jawaban = jawabanUser[soal.id] || '';
+        optionsContainer.innerHTML = `
+          <div class="essay-wrapper">
+            <label for="essay-answer">Jawabanmu:</label>
+            <textarea id="essay-answer" placeholder="Tulis jawabanmu di sini...">${jawaban}</textarea>
+            <div class="essay-hint"><i class="fas fa-info-circle"></i> Jawaban akan diperiksa oleh guru.</div>
+          </div>`;
+        const textarea = document.getElementById('essay-answer');
+        textarea.addEventListener('input', () => {
+          jawabanUser[soal.id] = textarea.value;
+          debouncedSave();
+          renderNavigator();
+          updateProgress();
+        });
+      } else {
+        typeEl.innerHTML = '<i class="fas fa-check-circle"></i> Pilihan Ganda';
+        const selected = jawabanUser[soal.id];
+        const opts = [
+          { key: 'A', text: soal.pilihan_a },
+          { key: 'B', text: soal.pilihan_b },
+          { key: 'C', text: soal.pilihan_c },
+          { key: 'D', text: soal.pilihan_d }
+        ].filter(o => o.text);
+
+        optionsContainer.innerHTML = `
+          <div class="options-list">
+            ${opts.map(o => `
+              <label class="option-item ${selected === o.key ? 'selected' : ''}" data-key="${o.key}">
+                <input type="radio" name="jawaban" value="${o.key}" ${selected === o.key ? 'checked' : ''}>
+                <span class="option-letter">${o.key}</span>
+                <span>${o.text}</span>
+              </label>
+            `).join('')}
+          </div>`;
+
+        document.querySelectorAll('.option-item').forEach(el => {
+          el.addEventListener('click', () => {
+            jawabanUser[soal.id] = el.dataset.key;
+            document.querySelectorAll('.option-item').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            debouncedSave();
+            renderNavigator();
+            updateProgress();
+          });
+        });
+      }
+
+      document.getElementById('btn-prev').disabled = (currentIndex === 0);
+      const isLast = currentIndex === soalList.length - 1;
+      document.getElementById('btn-next').style.display = isLast ? 'none' : 'inline-flex';
+      document.getElementById('progress-current').textContent = currentIndex + 1;
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const total = soalList.length;
+      const dijawab = Object.keys(jawabanUser).filter(k => {
+        const v = jawabanUser[k];
+        return v !== '' && v !== null && v !== undefined;
+      }).length;
+      const persen = total > 0 ? Math.round((dijawab / total) * 100) : 0;
+
+      document.getElementById('progress-percent').textContent = persen + '%';
+      document.getElementById('progress-fill').style.width = persen + '%';
+      document.getElementById('exercise-subtitle').textContent = `Soal ${currentIndex + 1} dari ${total}`;
+    }
+
+    function renderNavigator() {
+      const nav = document.getElementById('question-nav');
+      nav.innerHTML = soalList.map((s, i) => {
+        const val = jawabanUser[s.id];
+        const answered = (val !== '' && val !== undefined && val !== null) ? 'answered' : '';
+        const current = i === currentIndex ? 'current' : '';
+        return `<button class="q-nav-btn ${answered} ${current}" onclick="gotoSoal(${i})">${i + 1}</button>`;
+      }).join('');
+    }
+
+    function gotoSoal(i) {
+      if (i < 0 || i >= soalList.length) return;
+      currentIndex = i;
+      renderSoal();
+      renderNavigator();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function debouncedSave() {
+      const indicator = document.getElementById('save-indicator');
+      const text = document.getElementById('save-text');
+      indicator.className = 'save-indicator saving';
+      text.textContent = 'Menyimpan...';
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => {
+        indicator.className = 'save-indicator saved';
+        text.textContent = 'Tersimpan otomatis';
+      }, 600);
+    }
+
+    async function selesaiLatihan() {
+      const total = soalList.length;
+      const dijawab = Object.keys(jawabanUser).filter(k => {
+        const v = jawabanUser[k];
+        return v !== '' && v !== null && v !== undefined;
+      }).length;
+
+      if (dijawab < total) {
+        if (!confirm(`Masih ada ${total - dijawab} soal belum dijawab. Yakin selesai?`)) return;
+      }
+
+      try {
+        const inserts = soalList.map(s => ({
+          siswa_id: currentSiswa?.id || null,
+          nama_siswa: currentSiswa?.nama || null,
+          kelas: currentSiswa?.kelas || null,
+          latihan_id: latihanAktif.id,
+          soal_id: s.id,
+          jawaban: jawabanUser[s.id] || '',
+          created_at: new Date().toISOString()
+        }));
+
+        const { error } = await supabaseClient.from('jawaban_latihan').insert(inserts);
+        if (error) throw error;
+
+        if (currentSiswa) {
+          await supabaseClient.from('aktivitas').insert([{
+            siswa_id: currentSiswa.id,
+            tipe: 'latihan',
+            judul: latihanAktif.judul,
+            status: 'selesai',
+            created_at: new Date().toISOString()
+          }]);
+        }
+
+        tampilkanHasilLatihan(total, dijawab);
+      } catch (err) {
+        console.error('Gagal simpan jawaban:', err);
+        showToast('Gagal menyimpan: ' + err.message, 'error');
+      }
+    }
+
+    function tampilkanHasilLatihan(total, dijawab) {
+      document.getElementById('quiz-view').classList.remove('active');
+      document.getElementById('result-view').classList.add('active');
+      document.getElementById('result-total').textContent = total;
+      document.getElementById('result-answered').textContent = dijawab;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function kembaliKeDaftar() {
+      document.getElementById('result-view').classList.remove('active');
+      document.getElementById('quiz-view').classList.remove('active');
+      document.getElementById('list-view').classList.remove('hidden');
+      latihanAktif = null;
+      soalList = [];
+      jawabanUser = {};
+      currentIndex = 0;
+      loadLatihan();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      console.log('📄 Halaman Latihan init');
+      await cekRole();
+      await seedLatihanDefault();
+      await loadLatihan();
+
+      document.getElementById('back-btn').addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = currentRole === 'guru' ? 'dashboard-guru.html' : 'dashboard-siswa.html';
+      });
+
+      document.getElementById('btn-prev').addEventListener('click', () => gotoSoal(currentIndex - 1));
+      document.getElementById('btn-next').addEventListener('click', () => gotoSoal(currentIndex + 1));
+      document.getElementById('btn-finish').addEventListener('click', selesaiLatihan);
+      document.getElementById('btn-back-list').addEventListener('click', kembaliKeDaftar);
+    });
+
+    window.mulaiLatihan = mulaiLatihan;
+    window.gotoSoal = gotoSoal;
+  </script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Latihan K3 - Media Pembelajaran K3 SMK Negeri 2 Medan">
+  <title>Latihan K3 | Media Pembelajaran K3</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #1e40af;
+      --primary-light: #3b82f6;
+      --accent: #f59e0b;
+      --danger: #dc2626;
+      --success: #16a34a;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --white: #ffffff;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 20px 40px rgba(0,0,0,0.12);
+      --radius: 16px;
+      --radius-sm: 12px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-800);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .navbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 0.9rem 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .navbar-left { display: flex; align-items: center; gap: 1rem; }
+    .back-btn {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--gray-100); color: var(--gray-700);
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; transition: var(--transition);
+      font-size: 0.95rem;
+    }
+    .back-btn:hover { background: var(--primary); color: white; transform: translateX(-3px); }
+    .navbar-brand {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-weight: 800; font-size: 1.05rem; color: var(--primary);
+    }
+    .navbar-brand .brand-icon {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, #16a34a, #4ade80);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 1rem;
+      box-shadow: 0 4px 10px rgba(22,163,74,0.3);
+    }
+    .navbar-right { display: flex; align-items: center; gap: 0.9rem; }
+    .user-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.4rem 0.8rem;
+      background: var(--gray-100);
+      border-radius: 999px;
+      font-size: 0.78rem; font-weight: 600; color: var(--gray-600);
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+
+    .page-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 1.8rem; gap: 1rem; flex-wrap: wrap;
+    }
+    .page-title h1 {
+      font-size: 1.6rem; font-weight: 800; color: var(--gray-800);
+      letter-spacing: -0.02em; margin-bottom: 0.3rem;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .page-title h1 i { color: var(--success); }
+    .page-title p { font-size: 0.88rem; color: var(--gray-500); font-weight: 500; }
+
+    .btn {
+      padding: 0.75rem 1.3rem; border-radius: 10px; border: none;
+      font-family: inherit; font-size: 0.88rem; font-weight: 700;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      cursor: pointer; transition: var(--transition); text-decoration: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      box-shadow: 0 4px 12px rgba(30,64,175,0.25);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(30,64,175,0.35); }
+    .btn-success {
+      background: linear-gradient(135deg, #15803d, #16a34a);
+      color: white;
+      box-shadow: 0 4px 12px rgba(22,163,74,0.25);
+    }
+    .btn-success:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(22,163,74,0.35); }
+    .btn-ghost { background: var(--gray-100); color: var(--gray-700); }
+    .btn-ghost:hover { background: var(--gray-200); }
+
+    .list-view { display: block; }
+    .list-view.hidden { display: none; }
+
+    .latihan-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.2rem;
+    }
+    .latihan-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      border: 1px solid var(--gray-100);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      position: relative; overflow: hidden;
+      animation: slideUp 0.5s ease-out backwards;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .latihan-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, #16a34a, #4ade80);
+    }
+    .latihan-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+      border-color: #4ade80;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .latihan-card-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 0.8rem;
+    }
+    .latihan-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: linear-gradient(135deg, #dcfce7, #16a34a);
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+      box-shadow: 0 6px 14px rgba(22,163,74,0.3);
+    }
+    .latihan-status {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.3rem 0.7rem; border-radius: 999px;
+      font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.03em;
+    }
+    .latihan-status.baru { background: #dbeafe; color: #1e40af; }
+    .latihan-status.selesai { background: #dcfce7; color: #15803d; }
+    .latihan-card h3 {
+      font-size: 1.05rem; font-weight: 700;
+      color: var(--gray-800); line-height: 1.35;
+    }
+    .latihan-card p.desc {
+      font-size: 0.83rem; color: var(--gray-500);
+      line-height: 1.55; flex: 1;
+    }
+    .latihan-meta {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      padding-top: 0.8rem;
+      border-top: 1px dashed var(--gray-200);
+    }
+    .latihan-meta-item {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      font-size: 0.75rem; font-weight: 600;
+      color: var(--gray-600); background: var(--gray-50);
+      padding: 0.35rem 0.65rem; border-radius: 8px;
+    }
+    .latihan-meta-item i { color: var(--success); font-size: 0.75rem; }
+    .latihan-actions { display: flex; gap: 0.6rem; margin-top: 0.3rem; }
+    .latihan-actions .btn { flex: 1; justify-content: center; padding: 0.75rem; font-size: 0.85rem; }
+
+    .empty-state {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 4rem 2rem;
+      text-align: center;
+      border: 2px dashed var(--gray-200);
+      grid-column: 1 / -1;
+    }
+    .empty-state i { font-size: 3.5rem; color: var(--gray-300); margin-bottom: 1rem; display: block; }
+    .empty-state h3 { font-size: 1.1rem; font-weight: 700; color: var(--gray-700); margin-bottom: 0.4rem; }
+    .empty-state p { font-size: 0.88rem; color: var(--gray-500); }
+
+    .quiz-view { display: none; }
+    .quiz-view.active { display: block; }
+
+    .exercise-header-bar {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 1.2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 1rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-100);
+      flex-wrap: wrap;
+    }
+    .exercise-info h2 { font-size: 1.1rem; font-weight: 800; color: var(--gray-800); margin-bottom: 0.25rem; }
+    .exercise-info p { font-size: 0.8rem; color: var(--gray-500); font-weight: 500; }
+    .save-indicator {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--gray-50);
+      border-radius: 999px;
+      font-size: 0.78rem; font-weight: 600;
+      color: var(--gray-500);
+      transition: var(--transition);
+    }
+    .save-indicator.saving { background: #fef3c7; color: #92400e; }
+    .save-indicator.saved { background: #dcfce7; color: #15803d; }
+
+    .exercise-progress {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-100);
+    }
+    .exercise-progress-info {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 0.6rem;
+      font-size: 0.83rem; font-weight: 600; color: var(--gray-600);
+    }
+    .exercise-progress-info strong { color: var(--success); font-weight: 800; }
+    .progress-bar-track {
+      height: 8px; background: var(--gray-100);
+      border-radius: 999px; overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #16a34a, #4ade80);
+      border-radius: 999px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    .question-nav-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .q-nav-btn {
+      aspect-ratio: 1;
+      border-radius: 10px;
+      border: 1.5px solid var(--gray-200);
+      background: white; color: var(--gray-600);
+      font-family: inherit; font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer; transition: var(--transition);
+    }
+    .q-nav-btn:hover { border-color: var(--success); color: var(--success); }
+    .q-nav-btn.answered { background: #dcfce7; border-color: var(--success); color: #15803d; }
+    .q-nav-btn.current {
+      background: var(--success); border-color: var(--success);
+      color: white; transform: scale(1.05);
+    }
+
+    .question-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-100);
+      animation: slideUp 0.4s ease-out;
+    }
+    .question-number {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.4rem 0.9rem;
+      background: #dcfce7; color: #15803d;
+      border-radius: 999px;
+      font-size: 0.75rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+    .question-type {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.3rem 0.7rem;
+      background: #dbeafe; color: #1e40af;
+      border-radius: 999px;
+      font-size: 0.7rem; font-weight: 700;
+      margin-left: 0.5rem;
+      text-transform: uppercase; letter-spacing: 0.03em;
+    }
+    .question-text {
+      font-size: 1.05rem; font-weight: 600;
+      color: var(--gray-800);
+      line-height: 1.6; margin-bottom: 1.5rem;
+    }
+
+    .options-list {
+      display: flex; flex-direction: column;
+      gap: 0.7rem; margin-bottom: 1.8rem;
+    }
+    .option-item {
+      display: flex; align-items: center; gap: 0.9rem;
+      padding: 1rem 1.2rem;
+      background: var(--gray-50);
+      border: 2px solid var(--gray-100);
+      border-radius: 12px;
+      cursor: pointer; transition: var(--transition);
+      font-size: 0.92rem; font-weight: 500;
+      color: var(--gray-700); position: relative;
+    }
+    .option-item:hover { background: #f0fdf4; border-color: #4ade80; }
+    .option-item input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
+    .option-letter {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: white;
+      border: 2px solid var(--gray-200);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; color: var(--gray-600);
+      flex-shrink: 0; transition: var(--transition);
+      font-size: 0.85rem;
+    }
+    .option-item.selected { background: #f0fdf4; border-color: var(--success); }
+    .option-item.selected .option-letter {
+      background: var(--success); border-color: var(--success); color: white;
+    }
+
+    .essay-wrapper { margin-bottom: 1.8rem; }
+    .essay-wrapper label {
+      display: block; font-size: 0.82rem; font-weight: 700;
+      color: var(--gray-700); margin-bottom: 0.5rem;
+    }
+    .essay-wrapper textarea {
+      width: 100%; min-height: 160px;
+      padding: 1rem 1.2rem;
+      border: 2px solid var(--gray-200);
+      border-radius: 12px;
+      font-family: inherit; font-size: 0.92rem;
+      color: var(--gray-800); line-height: 1.6;
+      resize: vertical; transition: var(--transition);
+      outline: none;
+    }
+    .essay-wrapper textarea:focus {
+      border-color: var(--success);
+      box-shadow: 0 0 0 4px rgba(22,163,74,0.1);
+    }
+    .essay-hint {
+      font-size: 0.75rem; color: var(--gray-500);
+      margin-top: 0.5rem;
+      display: flex; align-items: center; gap: 0.35rem;
+    }
+
+    .quiz-nav {
+      display: flex; justify-content: space-between; gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+    .quiz-nav .btn { flex: 1; justify-content: center; padding: 0.9rem; font-size: 0.9rem; }
+
+    .result-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 3rem 2rem;
+      text-align: center;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--gray-100);
+      animation: slideUp 0.5s ease-out;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .result-icon {
+      width: 100px; height: 100px;
+      margin: 0 auto 1.5rem;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.8rem;
+      animation: scaleIn 0.5s ease-out;
+    }
+    @keyframes scaleIn { from { transform: scale(0); } to { transform: scale(1); } }
+    .result-icon.done {
+      background: linear-gradient(135deg, #dcfce7, #16a34a);
+      color: white;
+    }
+    .result-card h2 { font-size: 1.5rem; font-weight: 800; color: var(--gray-800); margin-bottom: 0.5rem; }
+    .result-card p.result-desc {
+      font-size: 0.92rem; color: var(--gray-500);
+      margin-bottom: 1.8rem; line-height: 1.6;
+    }
+    .result-summary {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 1rem; margin-bottom: 2rem;
+    }
+    .result-summary-item {
+      padding: 1.2rem; background: var(--gray-50);
+      border-radius: 12px; text-align: left;
+    }
+    .result-summary-label {
+      font-size: 0.72rem; font-weight: 700;
+      color: var(--gray-500);
+      text-transform: uppercase; letter-spacing: 0.04em;
+      margin-bottom: 0.4rem;
+    }
+    .result-summary-value { font-size: 1.3rem; font-weight: 800; color: var(--gray-800); }
+    .result-actions { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+
+    .toast {
+      position: fixed; top: 1.5rem; right: 1.5rem;
+      background: white; padding: 1rem 1.3rem;
+      border-radius: 10px; box-shadow: var(--shadow-lg);
+      display: flex; align-items: center; gap: 0.75rem;
+      font-size: 0.88rem; font-weight: 500;
+      z-index: 9999;
+      transform: translateX(400px);
+      transition: transform 0.4s cubic-bezier(0.68,-0.55,0.27,1.55);
+      max-width: 340px;
+    }
+    .toast.show { transform: translateX(0); }
+    .toast i { font-size: 1.2rem; }
+    .toast.error   { border-left: 4px solid var(--danger); }
+    .toast.error i { color: var(--danger); }
+    .toast.success { border-left: 4px solid var(--success); }
+    .toast.success i { color: var(--success); }
+    .toast.info    { border-left: 4px solid var(--primary); }
+    .toast.info i  { color: var(--primary); }
+
+    .skeleton {
+      background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 8px;
+    }
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    @media (max-width: 640px) {
+      .navbar { padding: 0.75rem 1rem; }
+      .container { padding: 1.5rem 1rem 4rem; }
+      .page-title h1 { font-size: 1.3rem; }
+      .latihan-grid { grid-template-columns: 1fr; }
+      .question-card { padding: 1.3rem; }
+      .question-text { font-size: 0.95rem; }
+      .result-summary { grid-template-columns: 1fr; }
+      .toast { right: 0.75rem; left: 0.75rem; max-width: none; }
+    }
+  </style>
+</head>
+<body data-page="latihan">
+
+  <div id="toast" class="toast">
+    <i class="fas fa-info-circle"></i>
+    <span id="toast-message">Pesan</span>
+  </div>
+
+  <nav class="navbar">
+    <div class="navbar-left">
+      <a href="#" id="back-btn" class="back-btn" title="Kembali">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <div class="navbar-brand">
+        <div class="brand-icon"><i class="fas fa-pen-to-square"></i></div>
+        <span>Latihan K3</span>
+      </div>
+    </div>
+    <div class="navbar-right">
+      <div class="user-badge">
+        <i class="fas fa-user-circle"></i>
+        <span id="user-role">Siswa</span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- MODE 1: DAFTAR LATIHAN -->
+    <div id="list-view" class="list-view">
+      <div class="page-header">
+        <div class="page-title">
+          <h1><i class="fas fa-pen-to-square"></i> Latihan Soal K3</h1>
+          <p>Kerjakan latihan berikut untuk memperdalam pemahamanmu tentang Keselamatan dan Kesehatan Kerja.</p>
+        </div>
+      </div>
+
+      <div id="latihan-list" class="latihan-grid">
+        <div class="latihan-card">
+          <div class="skeleton" style="height:52px;width:52px;border-radius:14px;"></div>
+          <div class="skeleton" style="height:20px;width:80%;"></div>
+          <div class="skeleton" style="height:14px;width:100%;"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- MODE 2: PENGERJAAN -->
     <div id="quiz-view" class="quiz-view">
       <div class="exercise-header-bar">
