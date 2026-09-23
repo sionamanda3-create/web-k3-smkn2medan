@@ -365,6 +365,7 @@
   <!-- KONTEN (HANYA 1) -->
   <main class="container">
 
+    <!-- MODE 1: DAFTAR LATIHAN -->
     <div id="list-view" class="list-view">
       <div class="page-header">
         <div class="page-title">
@@ -372,6 +373,7 @@
           <p>Kerjakan latihan berikut untuk memperdalam pemahamanmu tentang Keselamatan dan Kesehatan Kerja.</p>
         </div>
       </div>
+
       <div id="latihan-list" class="latihan-grid">
         <div class="latihan-card">
           <div class="skeleton" style="height:52px;width:52px;border-radius:14px;"></div>
@@ -381,6 +383,7 @@
       </div>
     </div>
 
+    <!-- MODE 2: PENGERJAAN LATIHAN -->
     <div id="quiz-view" class="quiz-view">
       <div class="exercise-header-bar">
         <div class="exercise-info">
@@ -392,6 +395,7 @@
           <span id="save-text">Tersimpan otomatis</span>
         </div>
       </div>
+
       <div class="exercise-progress">
         <div class="exercise-progress-info">
           <span>Soal <strong id="progress-current">1</strong> dari <strong id="progress-total">15</strong></span>
@@ -402,6 +406,7 @@
         </div>
         <div class="question-nav-grid" id="question-nav"></div>
       </div>
+
       <div class="question-card" id="question-card">
         <div style="margin-bottom:1rem;">
           <span class="question-number">
@@ -412,10 +417,13 @@
             <i class="fas fa-check-circle"></i> Pilihan Ganda
           </span>
         </div>
+
         <p class="question-text" id="q-text">Memuat soal...</p>
+
         <div id="q-options-container">
           <div class="options-list" id="q-options"></div>
         </div>
+
         <div class="quiz-nav">
           <button class="btn btn-ghost" id="btn-prev">
             <i class="fas fa-arrow-left"></i> Sebelumnya
@@ -425,6 +433,7 @@
           </button>
         </div>
       </div>
+
       <div style="margin-top:1.5rem;text-align:center;">
         <button class="btn btn-success" id="btn-finish" style="padding:1rem 2rem;">
           <i class="fas fa-check-circle"></i> Selesai &amp; Kirim Jawaban
@@ -432,11 +441,17 @@
       </div>
     </div>
 
+    <!-- MODE 3: HASIL -->
     <div id="result-view" class="quiz-view">
       <div class="result-card">
-        <div class="result-icon done"><i class="fas fa-circle-check"></i></div>
+        <div class="result-icon done">
+          <i class="fas fa-circle-check"></i>
+        </div>
         <h2 id="result-title">Latihan Selesai!</h2>
-        <p class="result-desc" id="result-desc">Jawabanmu telah tersimpan. Nilai akan diperiksa oleh guru.</p>
+        <p class="result-desc" id="result-desc">
+          Jawabanmu telah tersimpan. Nilai akan diperiksa oleh guru.
+        </p>
+
         <div class="result-summary">
           <div class="result-summary-item">
             <div class="result-summary-label">Total Soal</div>
@@ -447,6 +462,7 @@
             <div class="result-summary-value" id="result-answered">0</div>
           </div>
         </div>
+
         <div class="result-actions">
           <button class="btn btn-primary" id="btn-back-list">
             <i class="fas fa-list"></i> Kembali ke Daftar
@@ -590,4 +606,225 @@
       currentIndex = 0;
       try {
         const { data, error } = await supabaseClient
-          .from('
+          .from('soal_latihan')
+          .select('*')
+          .eq('latihan_id', latihanId)
+          .order('urutan', { ascending: true });
+
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+          showToast('Latihan ini belum memiliki soal.', 'error');
+          return;
+        }
+
+        soalList = data;
+        document.getElementById('list-view').classList.add('hidden');
+        document.getElementById('quiz-view').classList.add('active');
+        document.getElementById('exercise-title').textContent = latihan.judul;
+        document.getElementById('progress-total').textContent = soalList.length;
+
+        renderSoal();
+        renderNavigator();
+        updateProgress();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (err) {
+        console.error('Gagal load soal:', err);
+        showToast('Gagal memuat soal: ' + err.message, 'error');
+      }
+    }
+
+    function renderSoal() {
+      const soal = soalList[currentIndex];
+      if (!soal) return;
+
+      document.getElementById('q-number').textContent = currentIndex + 1;
+      document.getElementById('q-text').textContent = soal.pertanyaan;
+
+      const isEssay = soal.tipe === 'essay';
+      const typeEl = document.getElementById('q-type');
+      const optionsContainer = document.getElementById('q-options-container');
+
+      if (isEssay) {
+        typeEl.innerHTML = '<i class="fas fa-pen-fancy"></i> Essay';
+        const jawaban = jawabanUser[soal.id] || '';
+        optionsContainer.innerHTML = `
+          <div class="essay-wrapper">
+            <label for="essay-answer">Jawabanmu:</label>
+            <textarea id="essay-answer" placeholder="Tulis jawabanmu di sini...">${jawaban}</textarea>
+            <div class="essay-hint"><i class="fas fa-info-circle"></i> Jawaban akan diperiksa oleh guru.</div>
+          </div>`;
+        const textarea = document.getElementById('essay-answer');
+        textarea.addEventListener('input', () => {
+          jawabanUser[soal.id] = textarea.value;
+          debouncedSave();
+          renderNavigator();
+          updateProgress();
+        });
+      } else {
+        typeEl.innerHTML = '<i class="fas fa-check-circle"></i> Pilihan Ganda';
+        const selected = jawabanUser[soal.id];
+        const opts = [
+          { key: 'A', text: soal.pilihan_a },
+          { key: 'B', text: soal.pilihan_b },
+          { key: 'C', text: soal.pilihan_c },
+          { key: 'D', text: soal.pilihan_d }
+        ].filter(o => o.text);
+
+        optionsContainer.innerHTML = `
+          <div class="options-list">
+            ${opts.map(o => `
+              <label class="option-item ${selected === o.key ? 'selected' : ''}" data-key="${o.key}">
+                <input type="radio" name="jawaban" value="${o.key}" ${selected === o.key ? 'checked' : ''}>
+                <span class="option-letter">${o.key}</span>
+                <span>${o.text}</span>
+              </label>
+            `).join('')}
+          </div>`;
+
+        document.querySelectorAll('.option-item').forEach(el => {
+          el.addEventListener('click', () => {
+            jawabanUser[soal.id] = el.dataset.key;
+            document.querySelectorAll('.option-item').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            debouncedSave();
+            renderNavigator();
+            updateProgress();
+          });
+        });
+      }
+
+      document.getElementById('btn-prev').disabled = (currentIndex === 0);
+      const isLast = currentIndex === soalList.length - 1;
+      document.getElementById('btn-next').style.display = isLast ? 'none' : 'inline-flex';
+      document.getElementById('progress-current').textContent = currentIndex + 1;
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const total = soalList.length;
+      const dijawab = Object.keys(jawabanUser).filter(k => {
+        const v = jawabanUser[k];
+        return v !== '' && v !== null && v !== undefined;
+      }).length;
+      const persen = total > 0 ? Math.round((dijawab / total) * 100) : 0;
+
+      document.getElementById('progress-percent').textContent = persen + '%';
+      document.getElementById('progress-fill').style.width = persen + '%';
+      document.getElementById('exercise-subtitle').textContent = `Soal ${currentIndex + 1} dari ${total}`;
+    }
+
+    function renderNavigator() {
+      const nav = document.getElementById('question-nav');
+      nav.innerHTML = soalList.map((s, i) => {
+        const val = jawabanUser[s.id];
+        const answered = (val !== '' && val !== undefined && val !== null) ? 'answered' : '';
+        const current = i === currentIndex ? 'current' : '';
+        return `<button class="q-nav-btn ${answered} ${current}" onclick="gotoSoal(${i})">${i + 1}</button>`;
+      }).join('');
+    }
+
+    function gotoSoal(i) {
+      if (i < 0 || i >= soalList.length) return;
+      currentIndex = i;
+      renderSoal();
+      renderNavigator();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function debouncedSave() {
+      const indicator = document.getElementById('save-indicator');
+      const text = document.getElementById('save-text');
+      indicator.className = 'save-indicator saving';
+      text.textContent = 'Menyimpan...';
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => {
+        indicator.className = 'save-indicator saved';
+        text.textContent = 'Tersimpan otomatis';
+      }, 600);
+    }
+
+    async function selesaiLatihan() {
+      const total = soalList.length;
+      const dijawab = Object.keys(jawabanUser).filter(k => {
+        const v = jawabanUser[k];
+        return v !== '' && v !== null && v !== undefined;
+      }).length;
+
+      if (dijawab < total) {
+        if (!confirm(`Masih ada ${total - dijawab} soal belum dijawab. Yakin selesai?`)) return;
+      }
+
+      try {
+        const inserts = soalList.map(s => ({
+          siswa_id: currentSiswa?.id || null,
+          nama_siswa: currentSiswa?.nama || null,
+          kelas: currentSiswa?.kelas || null,
+          latihan_id: latihanAktif.id,
+          soal_id: s.id,
+          jawaban: jawabanUser[s.id] || '',
+          created_at: new Date().toISOString()
+        }));
+
+        const { error } = await supabaseClient.from('jawaban_latihan').insert(inserts);
+        if (error) throw error;
+
+        if (currentSiswa) {
+          await supabaseClient.from('aktivitas').insert([{
+            siswa_id: currentSiswa.id,
+            tipe: 'latihan',
+            judul: latihanAktif.judul,
+            status: 'selesai',
+            created_at: new Date().toISOString()
+          }]);
+        }
+
+        tampilkanHasilLatihan(total, dijawab);
+      } catch (err) {
+        console.error('Gagal simpan jawaban:', err);
+        showToast('Gagal menyimpan: ' + err.message, 'error');
+      }
+    }
+
+    function tampilkanHasilLatihan(total, dijawab) {
+      document.getElementById('quiz-view').classList.remove('active');
+      document.getElementById('result-view').classList.add('active');
+      document.getElementById('result-total').textContent = total;
+      document.getElementById('result-answered').textContent = dijawab;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function kembaliKeDaftar() {
+      document.getElementById('result-view').classList.remove('active');
+      document.getElementById('quiz-view').classList.remove('active');
+      document.getElementById('list-view').classList.remove('hidden');
+      latihanAktif = null;
+      soalList = [];
+      jawabanUser = {};
+      currentIndex = 0;
+      loadLatihan();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      console.log('📄 Halaman Latihan init');
+      await cekRole();
+      await loadLatihan();
+
+      document.getElementById('back-btn').addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = currentRole === 'guru' ? 'dashboard-guru.html' : 'dashboard-siswa.html';
+      });
+
+      document.getElementById('btn-prev').addEventListener('click', () => gotoSoal(currentIndex - 1));
+      document.getElementById('btn-next').addEventListener('click', () => gotoSoal(currentIndex + 1));
+      document.getElementById('btn-finish').addEventListener('click', selesaiLatihan);
+      document.getElementById('btn-back-list').addEventListener('click', kembaliKeDaftar);
+    });
+
+    window.mulaiLatihan = mulaiLatihan;
+    window.gotoSoal = gotoSoal;
+  </script>
+
+</body>
+</html>
