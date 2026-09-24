@@ -158,12 +158,6 @@
       box-shadow: var(--shadow-sm); overflow: hidden;
       margin-bottom: 1.5rem;
     }
-    .card-header {
-      padding: 1.2rem 1.5rem;
-      border-bottom: 1px solid var(--gray-100);
-      display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 0.75rem;
-    }
 
     /* TABLE */
     .table-wrapper { overflow-x: auto; }
@@ -1027,7 +1021,12 @@
           bodyEl.innerHTML = `<div style="padding:2rem;text-align:center;"><i class="fas ${getFileIcon(item.file_name)}" style="font-size:3rem;color:var(--primary);margin-bottom:1rem;"></i><p style="margin-bottom:0.5rem;font-weight:600;">${escapeHtml(item.file_name || 'File')}</p><p style="margin-bottom:1rem;color:var(--gray-500);font-size:0.85rem;">Preview tidak tersedia untuk tipe file ini.</p><a href="${escapeHtml(item.file_url)}" target="_blank" class="btn btn-primary"><i class="fas fa-download"></i> Download / Buka File</a></div>`;
         }
       } else {
-        bodyEl.innerHTML = `<div style="padding:2rem;text-align:center;"><p>Tidak ada file yang bisa di-preview.</p></div>`;
+        bodyEl.innerHTML = `<div style="padding:2rem;text-align:center;">
+          <i class="fas fa-file" style="font-size:3rem;color:var(--gray-400);margin-bottom:1rem;"></i>
+          <p style="margin-bottom:0.5rem;font-weight:600;">${escapeHtml(item.judul || 'Konten ini')}</p>
+          <p style="margin-bottom:0.5rem;color:var(--gray-500);font-size:0.85rem;">Konten ini belum memiliki file yang di-upload.</p>
+          <p style="color:var(--gray-400);font-size:0.78rem;">Silakan edit konten ini untuk menambahkan file.</p>
+        </div>`;
       }
 
       document.getElementById('preview-overlay').classList.add('show');
