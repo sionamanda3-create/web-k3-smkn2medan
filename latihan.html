@@ -20,14 +20,10 @@
       --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
       --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
       --shadow-lg: 0 20px 40px rgba(0,0,0,0.12);
-      --radius: 16px; --radius-sm: 12px;
+      --radius: 16px;
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--gray-50); color: var(--gray-800);
-      min-height: 100vh;
-    }
+    body { font-family: 'Inter', sans-serif; background: var(--gray-50); color: var(--gray-800); min-height: 100vh; }
     .navbar {
       position: sticky; top: 0; z-index: 100;
       background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
@@ -75,15 +71,9 @@
       cursor: pointer; transition: var(--transition); text-decoration: none;
       justify-content: center;
     }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      color: white;
-    }
+    .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: white; }
     .btn-primary:hover { transform: translateY(-2px); }
-    .btn-success {
-      background: linear-gradient(135deg, #15803d, #16a34a);
-      color: white;
-    }
+    .btn-success { background: linear-gradient(135deg, #15803d, #16a34a); color: white; }
     .btn-success:hover { transform: translateY(-2px); }
     .btn-ghost { background: var(--gray-100); color: var(--gray-700); }
     .btn-ghost:hover { background: var(--gray-200); }
@@ -120,9 +110,8 @@
       display: inline-flex; align-items: center; gap: 0.35rem;
       padding: 0.3rem 0.7rem; border-radius: 999px;
       font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      background: #dbeafe; color: #1e40af;
     }
-    .latihan-status.baru { background: #dbeafe; color: #1e40af; }
-    .latihan-status.selesai { background: #dcfce7; color: #15803d; }
     .latihan-card h3 { font-size: 1.05rem; font-weight: 700; line-height: 1.35; }
     .latihan-card p.desc { font-size: 0.83rem; color: var(--gray-500); line-height: 1.55; flex: 1; }
     .latihan-meta {
@@ -229,7 +218,7 @@
       color: var(--gray-700); margin-bottom: 0.5rem;
     }
     .essay-wrapper textarea {
-      width: 100%; min-height: 160px; padding: 1rem 1.2rem;
+      width: 100%; min-height: 140px; padding: 1rem 1.2rem;
       border: 2px solid var(--gray-200); border-radius: 12px;
       font-family: inherit; font-size: 0.92rem; color: var(--gray-800);
       line-height: 1.6; resize: vertical; outline: none;
@@ -313,23 +302,21 @@
 
 <main class="container">
 
-  <!-- LIST VIEW -->
   <div id="list-view" class="list-view">
     <div class="page-header">
       <div class="page-title">
         <h1><i class="fas fa-pen-to-square"></i> Latihan Soal K3</h1>
-        <p id="latihan-subtitle">Latihan pilihan ganda & essay sesuai materi K3.</p>
+        <p id="latihan-subtitle">10 PG + 5 Essay per materi.</p>
       </div>
     </div>
     <div id="latihan-list" class="latihan-grid"></div>
   </div>
 
-  <!-- QUIZ VIEW -->
   <div id="quiz-view" class="quiz-view">
     <div class="exercise-header-bar">
       <div class="exercise-info">
         <h2 id="exercise-title">Judul Latihan</h2>
-        <p id="exercise-subtitle">Soal 1 dari 10</p>
+        <p id="exercise-subtitle">Soal 1 dari 15</p>
       </div>
       <div class="save-indicator">
         <i class="fas fa-cloud"></i>
@@ -339,7 +326,7 @@
 
     <div class="exercise-progress">
       <div class="exercise-progress-info">
-        <span>Soal <strong id="progress-current">1</strong> dari <strong id="progress-total">10</strong></span>
+        <span>Soal <strong id="progress-current">1</strong> dari <strong id="progress-total">15</strong></span>
         <span><strong id="progress-percent">0%</strong> selesai</span>
       </div>
       <div class="progress-bar-track">
@@ -377,7 +364,6 @@
     </div>
   </div>
 
-  <!-- RESULT VIEW -->
   <div id="result-view" class="quiz-view">
     <div class="result-card">
       <div class="result-icon">
@@ -417,8 +403,81 @@
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 </script>
 
-<!-- IMPORT DATA LATIHAN -->
-<script src="latihan-data.js"></script>
+<!-- ============================================================
+     DATA LATIHAN — BATCH 1: Materi 1-3
+     10 PG + 5 Essay per latihan
+     ============================================================ -->
+<script>
+const LATIHAN_DATA = {
+
+  latihan_1: {
+    judul: 'Latihan Materi 1: Pengertian K3',
+    deskripsi: 'Pengertian, ruang lingkup, dan definisi K3.',
+    soal: [
+      { tipe: 'pg', pertanyaan: 'K3 adalah singkatan dari...', a: 'Keselamatan dan Kesehatan Kerja', b: 'Keamanan dan Ketertiban Kerja', c: 'Kualitas dan Kuantitas Kerja', d: 'Kesejahteraan dan Kemakmuran Kerja', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Menurut UU No. 1 Tahun 1970, tujuan K3 adalah...', a: 'Mencegah kecelakaan dan penyakit akibat kerja', b: 'Meningkatkan gaji', c: 'Menambah jam kerja', d: 'Mengurangi libur', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Ruang lingkup K3 berikut, KECUALI...', a: 'Keselamatan kerja', b: 'Kesehatan kerja', c: 'Ergonomi', d: 'Pemasaran produk', jawaban: 'D' },
+      { tipe: 'pg', pertanyaan: 'Ergonomi dalam K3 berkaitan dengan...', a: 'Kenyamanan & efisiensi kerja', b: 'Kecepatan produksi', c: 'Harga produk', d: 'Iklan', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Filosofi dasar K3 adalah...', a: 'Safety First', b: 'Profit First', c: 'Speed First', d: 'Quantity First', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'K3 wajib diterapkan di...', a: 'Semua tempat kerja', b: 'Pabrik besar saja', c: 'Perusahaan asing', d: 'Kantor pemerintah', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Ilmu yang mempelajari interaksi manusia dengan pekerjaannya adalah...', a: 'Ergonomi', b: 'Ekonomi', c: 'Ekologi', d: 'Etnografi', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Higiene perusahaan mengkaji...', a: 'Faktor lingkungan kerja', b: 'Laba perusahaan', c: 'Strategi penjualan', d: 'Desain produk', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Psikologi kerja dalam K3 mempelajari...', a: 'Kesehatan mental & perilaku pekerja', b: 'Warna ruangan', c: 'Ukuran mesin', d: 'Harga bahan', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'K3 bertujuan utama melindungi...', a: 'Tenaga kerja & orang sekitar', b: 'Mesin', c: 'Bangunan', d: 'Kendaraan', jawaban: 'A' },
+      { tipe: 'essay', pertanyaan: 'Jelaskan pengertian K3 secara lengkap!' },
+      { tipe: 'essay', pertanyaan: 'Sebutkan 3 tujuan penerapan K3 di tempat kerja!' },
+      { tipe: 'essay', pertanyaan: 'Mengapa K3 penting bagi siswa SMK Teknik Pemesinan?' },
+      { tipe: 'essay', pertanyaan: 'Sebutkan 5 ruang lingkup K3!' },
+      { tipe: 'essay', pertanyaan: 'Berikan 2 contoh penerapan K3 di bengkel pemesinan!' }
+    ]
+  },
+
+  latihan_2: {
+    judul: 'Latihan Materi 2: Tujuan & Manfaat K3',
+    deskripsi: 'Tujuan, manfaat, dan fungsi K3.',
+    soal: [
+      { tipe: 'pg', pertanyaan: 'Tujuan utama K3 di bengkel adalah...', a: 'Mencegah kecelakaan kerja', b: 'Mempercepat pekerjaan', c: 'Menambah biaya', d: 'Mengurangi pekerja', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Manfaat K3 bagi pekerja adalah...', a: 'Aman, sehat, produktif', b: 'Cepat lelah', c: 'Sering cedera', d: 'Tidak nyaman', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Manfaat K3 bagi perusahaan adalah...', a: 'Meningkatkan citra & mengurangi biaya', b: 'Menambah kerugian', c: 'Menurunkan produktivitas', d: 'Menambah klaim', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'K3 bermanfaat meningkatkan...', a: 'Motivasi & kinerja karyawan', b: 'Kemalasan', c: 'Turnover', d: 'Konflik', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Tujuan K3 terkait lingkungan adalah...', a: 'Ciptakan lingkungan aman, sehat, nyaman', b: 'Buat kotor', c: 'Tambah polusi', d: 'Kurangi tanaman', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Perusahaan dengan K3 baik akan...', a: 'Dipercaya pekerja & masyarakat', b: 'Dijauhi', c: 'Kena denda', d: 'Sering kecelakaan', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'K3 dapat mengurangi biaya karena...', a: 'Klaim asuransi & pengobatan berkurang', b: 'Gaji turun', c: 'Bahan baku murah', d: 'Pajak rendah', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Manfaat K3 bagi masyarakat adalah...', a: 'Lingkungan kerja sehat & aman', b: 'Polusi meningkat', c: 'Kecelakaan meningkat', d: 'Biaya kesehatan naik', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Manfaat K3 bagi pemerintah adalah...', a: 'Mengurangi beban BPJS', b: 'Menambah pajak', c: 'Mengurangi pendapatan', d: 'Menambah pengangguran', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Dengan K3, tingkat kecelakaan kerja akan...', a: 'Menurun', b: 'Meningkat', c: 'Sama saja', d: 'Tidak terpengaruh', jawaban: 'A' },
+      { tipe: 'essay', pertanyaan: 'Jelaskan 3 tujuan utama penerapan K3!' },
+      { tipe: 'essay', pertanyaan: 'Sebutkan 4 manfaat K3 bagi perusahaan!' },
+      { tipe: 'essay', pertanyaan: 'Mengapa K3 bisa meningkatkan produktivitas kerja?' },
+      { tipe: 'essay', pertanyaan: 'Berikan contoh manfaat K3 bagi masyarakat sekitar!' },
+      { tipe: 'essay', pertanyaan: 'Menurutmu, apa manfaat paling penting dari penerapan K3? Jelaskan!' }
+    ]
+  },
+
+  latihan_3: {
+    judul: 'Latihan Materi 3: Dasar Hukum K3',
+    deskripsi: 'UU dan peraturan tentang K3.',
+    soal: [
+      { tipe: 'pg', pertanyaan: 'UU yang mengatur Keselamatan Kerja adalah...', a: 'UU No. 1 Tahun 1970', b: 'UU No. 2 Tahun 1980', c: 'UU No. 3 Tahun 1990', d: 'UU No. 4 Tahun 2000', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'UU Ketenagakerjaan yang mengatur K3...', a: 'UU No. 13 Tahun 2003', b: 'UU No. 20 Tahun 2003', c: 'UU No. 22 Tahun 2009', d: 'UU No. 44 Tahun 2009', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'UU Kesehatan yang berkaitan K3...', a: 'UU No. 36 Tahun 2009', b: 'UU No. 20 Tahun 2003', c: 'UU No. 5 Tahun 1999', d: 'UU No. 8 Tahun 1999', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'P2K3 adalah...', a: 'Panitia Pembina K3', b: 'P3K', c: 'SMK3', d: 'K3L', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'SMK3 adalah...', a: 'Sistem Manajemen K3', b: 'ISO 9001', c: 'P2K3', d: 'K3L', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'UU No. 1 Tahun 1970 berlaku untuk...', a: 'Semua tempat kerja', b: 'Hanya pabrik besar', c: 'Hanya kantor', d: 'Hanya asing', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Sanksi tidak menerapkan K3...', a: 'Sanksi administratif hingga pidana', b: 'Bonus', c: 'Penghargaan', d: 'Diskon pajak', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Permenaker tentang K3 Lingkungan Kerja...', a: 'Permenaker No. 5 Tahun 2018', b: 'Permenaker No. 1 Tahun 2010', c: 'Permenaker No. 2 Tahun 2015', d: 'Permenaker No. 3 Tahun 2019', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'UU yang mengatur K3 di pertambangan adalah...', a: 'UU No. 4 Tahun 2009', b: 'UU No. 5 Tahun 2009', c: 'UU No. 6 Tahun 2009', d: 'UU No. 7 Tahun 2009', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'UU No. 1 Tahun 1970 disahkan pada tahun...', a: '1970', b: '1960', c: '1980', d: '1990', jawaban: 'A' },
+      { tipe: 'essay', pertanyaan: 'Sebutkan 3 undang-undang yang mengatur K3 di Indonesia beserta isinya!' },
+      { tipe: 'essay', pertanyaan: 'Jelaskan tujuan UU No. 1 Tahun 1970!' },
+      { tipe: 'essay', pertanyaan: 'Apa fungsi P2K3 di perusahaan?' },
+      { tipe: 'essay', pertanyaan: 'Mengapa K3 wajib diatur dalam undang-undang?' },
+      { tipe: 'essay', pertanyaan: 'Apa sanksi bagi perusahaan yang tidak menerapkan K3? Jelaskan!' }
+    ]
+  }
+
+};
+</script>
 
 <script>
   let currentRole = 'siswa';
@@ -470,21 +529,6 @@
   async function loadLatihan() {
     const list = document.getElementById('latihan-list');
 
-    // Cek log aktivitas siswa
-    let selesaiSet = new Set();
-    if (currentRole === 'siswa' && currentSiswa) {
-      try {
-        const { data: logData } = await supabaseClient
-          .from('aktivitas')
-          .select('judul')
-          .eq('siswa_id', currentSiswa.id)
-          .eq('tipe', 'latihan')
-          .eq('status', 'selesai');
-        selesaiSet = new Set((logData || []).map(l => l.judul));
-      } catch (err) { console.warn(err); }
-    }
-
-    // Build dari LATIHAN_DATA
     daftarLatihan = Object.keys(LATIHAN_DATA).map(key => {
       const l = LATIHAN_DATA[key];
       return {
@@ -499,27 +543,23 @@
     document.getElementById('latihan-subtitle').textContent =
       `${daftarLatihan.length} latihan • ${daftarLatihan.reduce((a,b) => a + b.jumlah_soal, 0)} soal total`;
 
-    list.innerHTML = daftarLatihan.map(l => {
-      const selesai = selesaiSet.has(l.judul);
-      return `
-        <div class="latihan-card">
-          <div class="latihan-card-header">
-            <div class="latihan-icon"><i class="fas fa-pen-to-square"></i></div>
-            <span class="latihan-status ${selesai ? 'selesai' : 'baru'}">
-              ${selesai ? '<i class="fas fa-check"></i> Selesai' : '<i class="fas fa-play"></i> Tersedia'}
-            </span>
-          </div>
-          <h3>${l.judul}</h3>
-          <p class="desc">${l.deskripsi}</p>
-          <div class="latihan-meta">
-            <span class="latihan-meta-item"><i class="fas fa-list-ol"></i> ${l.jumlah_soal} soal</span>
-            <span class="latihan-meta-item"><i class="fas fa-pen"></i> PG &amp; Essay</span>
-          </div>
-          <button class="btn btn-success" onclick="mulaiLatihan('${l.id}')" style="width:100%;">
-            <i class="fas fa-play"></i> ${selesai ? 'Kerjakan Lagi' : 'Mulai Latihan'}
-          </button>
-        </div>`;
-    }).join('');
+    list.innerHTML = daftarLatihan.map(l => `
+      <div class="latihan-card">
+        <div class="latihan-card-header">
+          <div class="latihan-icon"><i class="fas fa-pen-to-square"></i></div>
+          <span class="latihan-status"><i class="fas fa-play"></i> Tersedia</span>
+        </div>
+        <h3>${l.judul}</h3>
+        <p class="desc">${l.deskripsi}</p>
+        <div class="latihan-meta">
+          <span class="latihan-meta-item"><i class="fas fa-list-ol"></i> ${l.jumlah_soal} soal</span>
+          <span class="latihan-meta-item"><i class="fas fa-pen"></i> PG &amp; Essay</span>
+        </div>
+        <button class="btn btn-success" onclick="mulaiLatihan('${l.id}')" style="width:100%;">
+          <i class="fas fa-play"></i> Mulai Latihan
+        </button>
+      </div>
+    `).join('');
   }
 
   function mulaiLatihan(latihanId) {
@@ -556,7 +596,7 @@
       const jawaban = jawabanUser[currentIndex] || '';
       optionsContainer.innerHTML = `
         <div class="essay-wrapper">
-          <label for="essay-answer">Jawabanmu:</label>
+          <label>Jawabanmu:</label>
           <textarea id="essay-answer" placeholder="Tulis jawabanmu di sini...">${jawaban}</textarea>
           <div class="essay-hint"><i class="fas fa-info-circle"></i> Jawaban essay akan diperiksa oleh guru.</div>
         </div>`;
@@ -643,7 +683,6 @@
       if (!confirm(`Masih ada ${total - dijawab} soal belum dijawab. Yakin selesai?`)) return;
     }
 
-    // Simpan ke Supabase
     if (currentSiswa) {
       try {
         const inserts = soalList.map((s, i) => ({
@@ -658,9 +697,7 @@
           created_at: new Date().toISOString()
         }));
 
-        const { error } = await supabaseClient.from('jawaban_latihan').insert(inserts);
-        if (error) console.warn('Insert jawaban_latihan error:', error.message);
-
+        await supabaseClient.from('jawaban_latihan').insert(inserts);
         await supabaseClient.from('aktivitas').insert([{
           siswa_id: currentSiswa.id,
           siswa_nama: currentSiswa.nama,
