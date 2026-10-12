@@ -5,15 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Materi K3 - Media Pembelajaran K3 SMK Negeri 2 Medan">
   <title>Materi K3 | Media Pembelajaran K3</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
     :root {
       --primary: #1e40af;
       --primary-dark: #1e3a8a;
@@ -35,10 +32,8 @@
       --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
       --shadow-lg: 0 20px 40px rgba(0,0,0,0.12);
       --radius: 16px;
-      --radius-sm: 12px;
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--gray-50);
@@ -46,7 +41,6 @@
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
     }
-
     .navbar {
       position: sticky; top: 0; z-index: 100;
       background: rgba(255,255,255,0.95);
@@ -68,7 +62,6 @@
     .navbar-brand {
       display: flex; align-items: center; gap: 0.6rem;
       font-weight: 800; font-size: 1.05rem; color: var(--primary);
-      letter-spacing: -0.02em;
     }
     .navbar-brand .brand-icon {
       width: 38px; height: 38px;
@@ -86,21 +79,18 @@
       border-radius: 999px;
       font-size: 0.78rem; font-weight: 600; color: var(--gray-600);
     }
-
     .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
-
     .page-header {
       display: flex; justify-content: space-between; align-items: flex-start;
       margin-bottom: 1.8rem; gap: 1rem; flex-wrap: wrap;
     }
     .page-title h1 {
       font-size: 1.6rem; font-weight: 800; color: var(--gray-800);
-      letter-spacing: -0.02em; margin-bottom: 0.3rem;
+      margin-bottom: 0.3rem;
       display: flex; align-items: center; gap: 0.6rem;
     }
     .page-title h1 i { color: var(--primary); }
     .page-title p { font-size: 0.88rem; color: var(--gray-500); font-weight: 500; }
-
     .btn {
       padding: 0.75rem 1.3rem; border-radius: 10px; border: none;
       font-family: inherit; font-size: 0.88rem; font-weight: 700;
@@ -120,11 +110,8 @@
       color: white;
       box-shadow: 0 4px 12px rgba(22,163,74,0.25);
     }
-    .btn-success:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(22,163,74,0.35); }
-    .btn-danger { background: #fee2e2; color: #b91c1c; }
-    .btn-danger:hover { background: #fecaca; }
+    .btn-success:hover { transform: translateY(-2px); }
     .btn-sm { padding: 0.55rem 0.9rem; font-size: 0.8rem; border-radius: 8px; }
-
     .toolbar {
       background: var(--white);
       border-radius: var(--radius);
@@ -167,14 +154,12 @@
       background: white; color: var(--primary);
       box-shadow: var(--shadow-sm);
     }
-
     .materi-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 1.2rem;
     }
     .materi-grid.list-view-mode { grid-template-columns: 1fr; }
-
     .materi-card {
       background: var(--white);
       border-radius: var(--radius);
@@ -182,25 +167,14 @@
       border: 1px solid var(--gray-100);
       box-shadow: var(--shadow-sm);
       transition: var(--transition);
-      animation: slideUp 0.5s ease-out backwards;
       display: flex; flex-direction: column;
       position: relative; cursor: pointer;
     }
-    .materi-card:nth-child(1) { animation-delay: 0.05s; }
-    .materi-card:nth-child(2) { animation-delay: 0.10s; }
-    .materi-card:nth-child(3) { animation-delay: 0.15s; }
-    .materi-card:nth-child(4) { animation-delay: 0.20s; }
-    .materi-card:nth-child(5) { animation-delay: 0.25s; }
     .materi-card:hover {
       transform: translateY(-5px);
       box-shadow: var(--shadow-md);
       border-color: var(--primary-light);
     }
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
     .materi-thumb {
       height: 120px;
       background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
@@ -229,17 +203,16 @@
       font-size: 0.65rem; font-weight: 800;
       padding: 0.3rem 0.6rem; border-radius: 999px;
       z-index: 2; display: none; align-items: center; gap: 0.3rem;
-      text-transform: uppercase; letter-spacing: 0.03em;
+      text-transform: uppercase;
     }
     .materi-read-badge.show { display: inline-flex; }
-
     .materi-body {
       padding: 1.2rem; flex: 1;
       display: flex; flex-direction: column; gap: 0.6rem;
     }
     .materi-title {
       font-size: 1rem; font-weight: 700; color: var(--gray-800);
-      line-height: 1.35; letter-spacing: -0.01em;
+      line-height: 1.35;
     }
     .materi-excerpt {
       font-size: 0.83rem; color: var(--gray-500); line-height: 1.55;
@@ -263,7 +236,6 @@
       opacity: 0; transition: var(--transition);
     }
     .materi-card:hover .materi-actions { opacity: 1; }
-
     .icon-btn {
       width: 32px; height: 32px; border-radius: 8px;
       border: 1.5px solid var(--gray-200);
@@ -273,11 +245,9 @@
     }
     .icon-btn:hover { background: var(--primary); border-color: var(--primary); color: white; }
     .icon-btn.danger:hover { background: var(--danger); border-color: var(--danger); }
-
     .materi-grid.list-view-mode .materi-card { flex-direction: row; }
     .materi-grid.list-view-mode .materi-thumb { width: 140px; height: auto; flex-shrink: 0; }
     .materi-grid.list-view-mode .materi-body { padding: 1.2rem 1.5rem; }
-
     .empty-state {
       background: var(--white);
       border-radius: var(--radius);
@@ -289,7 +259,6 @@
     .empty-state i { font-size: 3.5rem; color: var(--gray-300); margin-bottom: 1rem; display: block; }
     .empty-state h3 { font-size: 1.1rem; font-weight: 700; color: var(--gray-700); margin-bottom: 0.4rem; }
     .empty-state p { font-size: 0.88rem; color: var(--gray-500); }
-
     .skeleton {
       background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
       background-size: 200% 100%;
@@ -297,7 +266,6 @@
       border-radius: 8px;
     }
     @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-
     .modal-overlay {
       position: fixed; inset: 0;
       background: rgba(15, 23, 42, 0.7);
@@ -308,7 +276,6 @@
     }
     .modal-overlay.show { display: flex; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
     .modal-reader, .modal-form {
       background: white; border-radius: var(--radius);
       width: 100%; max-width: 780px; max-height: 92vh;
@@ -317,7 +284,10 @@
       animation: slideUp 0.35s ease; overflow: hidden;
     }
     .modal-form { max-width: 620px; }
-
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     .modal-reader-header {
       padding: 1.5rem 2rem;
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
@@ -373,7 +343,6 @@
       display: flex; align-items: center; gap: 0.4rem;
     }
     .modal-reader-footer .actions { display: flex; gap: 0.6rem; margin-left: auto; }
-
     .modal-form-header {
       padding: 1.5rem 1.8rem;
       border-bottom: 1px solid var(--gray-100);
@@ -408,18 +377,13 @@
       box-shadow: 0 0 0 4px rgba(30,64,175,0.1);
     }
     .form-group textarea { min-height: 180px; resize: vertical; line-height: 1.6; font-family: 'Courier New', monospace; }
-    .form-hint {
-      font-size: 0.75rem; color: var(--gray-500);
-      margin-top: 0.35rem;
-      display: flex; align-items: center; gap: 0.35rem;
-    }
+    .form-hint { font-size: 0.75rem; color: var(--gray-500); margin-top: 0.35rem; display: flex; align-items: center; gap: 0.35rem; }
     .modal-form-footer {
       padding: 1.2rem 1.8rem;
       border-top: 1px solid var(--gray-100);
       display: flex; justify-content: flex-end; gap: 0.7rem;
       background: var(--gray-50); flex-shrink: 0;
     }
-
     .toast {
       position: fixed; top: 1.5rem; right: 1.5rem;
       background: white; padding: 1rem 1.3rem;
@@ -433,13 +397,12 @@
     }
     .toast.show { transform: translateX(0); }
     .toast i { font-size: 1.2rem; }
-    .toast.error   { border-left: 4px solid var(--danger); }
+    .toast.error { border-left: 4px solid var(--danger); }
     .toast.error i { color: var(--danger); }
     .toast.success { border-left: 4px solid var(--success); }
     .toast.success i { color: var(--success); }
-    .toast.info    { border-left: 4px solid var(--primary); }
-    .toast.info i  { color: var(--primary); }
-
+    .toast.info { border-left: 4px solid var(--primary); }
+    .toast.info i { color: var(--primary); }
     @media (max-width: 640px) {
       .navbar { padding: 0.75rem 1rem; }
       .container { padding: 1.5rem 1rem 4rem; }
@@ -463,7 +426,6 @@
     <span id="toast-message">Pesan</span>
   </div>
 
-  <!-- NAVBAR (HANYA 1) -->
   <nav class="navbar">
     <div class="navbar-left">
       <a href="dashboard-siswa.html" id="back-btn" class="back-btn" title="Kembali">
@@ -482,12 +444,11 @@
     </div>
   </nav>
 
-  <!-- KONTEN (HANYA 1) -->
   <main class="container">
     <div class="page-header">
       <div class="page-title">
         <h1><i class="fas fa-book-open"></i> Materi Pembelajaran K3</h1>
-        <p>Baca materi Keselamatan dan Kesehatan Kerja untuk menunjang praktik di bengkel pemesinan.</p>
+        <p>35 materi Keselamatan dan Kesehatan Kerja untuk menunjang praktik di bengkel pemesinan.</p>
       </div>
       <button id="btn-add-materi" class="btn btn-primary" style="display:none;">
         <i class="fas fa-plus"></i> Tambah Materi
@@ -523,7 +484,6 @@
     </div>
   </main>
 
-  <!-- MODAL BACA -->
   <div class="modal-overlay" id="modal-reader">
     <div class="modal-reader">
       <div class="modal-reader-header">
@@ -534,7 +494,7 @@
             <span><i class="fas fa-clock"></i> <span id="reader-time">5 menit baca</span></span>
           </div>
         </div>
-        <button class="btn-close-modal" id="close-reader" aria-label="Tutup">
+        <button class="btn-close-modal" id="close-reader">
           <i class="fas fa-xmark"></i>
         </button>
       </div>
@@ -556,28 +516,24 @@
     </div>
   </div>
 
-  <!-- MODAL FORM -->
   <div class="modal-overlay" id="modal-form">
     <div class="modal-form">
       <div class="modal-form-header">
         <h2 id="form-title"><i class="fas fa-plus-circle"></i> Tambah Materi</h2>
-        <button class="btn-close-x" id="close-form" aria-label="Tutup">
+        <button class="btn-close-x" id="close-form">
           <i class="fas fa-xmark"></i>
         </button>
       </div>
-
       <form id="form-materi" onsubmit="handleFormSubmit(event)">
         <div class="modal-form-body">
           <div class="form-group">
             <label for="form-judul">Judul Materi <span class="req">*</span></label>
             <input type="text" id="form-judul" name="judul" placeholder="Contoh: Pengertian K3" required>
           </div>
-
           <div class="form-group">
             <label for="form-deskripsi">Deskripsi Singkat <span class="req">*</span></label>
-            <input type="text" id="form-deskripsi" name="deskripsi" placeholder="Dasar-dasar Keselamatan dan Kesehatan Kerja" required>
+            <input type="text" id="form-deskripsi" name="deskripsi" placeholder="Dasar-dasar K3" required>
           </div>
-
           <div class="form-group">
             <label for="form-konten">Isi Materi (HTML) <span class="req">*</span></label>
             <textarea id="form-konten" name="konten" placeholder="<h3>Sub Judul</h3>&#10;<p>Isi materi...</p>" required></textarea>
@@ -586,7 +542,6 @@
               Gunakan tag HTML: &lt;h3&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;strong&gt;, &lt;div class="callout"&gt;
             </div>
           </div>
-
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
             <div class="form-group">
               <label for="form-icon">Icon (Font Awesome)</label>
@@ -597,7 +552,6 @@
               <input type="number" id="form-urutan" name="urutan" placeholder="1" value="1" min="1">
             </div>
           </div>
-
           <div class="form-group">
             <label for="form-status">Status</label>
             <select id="form-status" name="status">
@@ -606,7 +560,6 @@
             </select>
           </div>
         </div>
-
         <div class="modal-form-footer">
           <button type="button" class="btn btn-ghost" onclick="closeFormModal()">
             <i class="fas fa-xmark"></i> Batal
@@ -619,7 +572,6 @@
     </div>
   </div>
 
-  <!-- SUPABASE -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const SUPABASE_URL = 'https://ddnhwcxfktcsyngupdex.supabase.co';
@@ -628,7 +580,6 @@
     console.log('✅ Supabase client siap di materi.html');
   </script>
 
-  <!-- LOGIC -->
   <script>
     let semuaMateri = [];
     let filterKata = '';
@@ -652,30 +603,67 @@
       toast._timer = setTimeout(() => toast.classList.remove('show'), 3500);
     }
 
+    // ===== DATA 35 MATERI K3 =====
+    const MATERI_35 = [
+      { judul: 'Pengertian Keselamatan dan Kesehatan Kerja (K3)', deskripsi: 'Dasar-dasar K3 dan definisinya', icon: 'fa-book-open', konten: '<h3>Definisi K3</h3><p>K3 adalah singkatan dari <strong>Keselamatan dan Kesehatan Kerja</strong>, yaitu segala upaya untuk menjamin keselamatan, kesehatan, dan kesejahteraan tenaga kerja serta orang lain di lingkungan kerja.</p><h3>Ruang Lingkup</h3><ul><li>Keselamatan kerja</li><li>Kesehatan kerja</li><li>Higiene perusahaan</li><li>Ergonomi</li><li>Psikologi kerja</li></ul><div class="callout">💡 K3 wajib diterapkan di setiap tempat kerja.</div>' },
+      { judul: 'Tujuan dan Manfaat K3', deskripsi: 'Tujuan & manfaat penerapan K3', icon: 'fa-bullseye', konten: '<h3>Tujuan K3</h3><ul><li>Melindungi tenaga kerja dari kecelakaan</li><li>Mencegah penyakit akibat kerja</li><li>Meningkatkan produktivitas</li><li>Menciptakan lingkungan aman</li></ul><h3>Manfaat K3</h3><p><strong>Bagi Pekerja:</strong> Aman, nyaman, produktif.</p><p><strong>Bagi Perusahaan:</strong> Hemat biaya, citra baik, patuh regulasi.</p><div class="callout">🎓 K3 penting untuk siap masuk industri.</div>' },
+      { judul: 'Dasar Hukum K3 di Indonesia', deskripsi: 'UU dan peraturan tentang K3', icon: 'fa-gavel', konten: '<h3>Landasan Hukum</h3><ul><li><strong>UU No. 1 Tahun 1970</strong> — Keselamatan Kerja</li><li><strong>UU No. 13 Tahun 2003</strong> — Ketenagakerjaan</li><li><strong>UU No. 36 Tahun 2009</strong> — Kesehatan</li><li><strong>Permenaker No. 5 Tahun 2018</strong> — K3 Lingkungan Kerja</li></ul><div class="callout">⚖️ K3 dilindungi undang-undang.</div>' },
+      { judul: 'Prinsip Dasar K3', deskripsi: 'Prinsip-prinsip K3', icon: 'fa-shield-alt', konten: '<h3>Prinsip K3</h3><ol><li>Identifikasi bahaya</li><li>Penilaian risiko</li><li>Pengendalian risiko</li><li>Evaluasi & pemantauan</li><li>Perbaikan berkelanjutan</li></ol><div class="callout">🔄 K3 adalah siklus berkelanjutan.</div>' },
+      { judul: 'Bahaya dan Risiko Kerja', deskripsi: 'Definisi bahaya & risiko', icon: 'fa-exclamation-triangle', konten: '<h3>Bahaya</h3><p>Sumber yang berpotensi menimbulkan kerugian.</p><h3>Risiko</h3><p>Kemungkinan terjadinya kerugian akibat bahaya.</p><h3>Jenis Bahaya</h3><ul><li>Fisik: kebisingan, getaran</li><li>Kimia: debu, uap</li><li>Biologi: bakteri, virus</li><li>Ergonomi: postur kerja</li><li>Psikologi: stres</li></ul>' },
+      { judul: 'Identifikasi Bahaya di Bengkel Pemesinan', deskripsi: 'Cara identifikasi bahaya', icon: 'fa-search', konten: '<h3>Cara Identifikasi</h3><ul><li>Inspeksi tempat kerja</li><li>Wawancara pekerja</li><li>Analisis kecelakaan lalu</li><li>Observasi proses kerja</li></ul><h3>Bahaya Umum di Bengkel</h3><ul><li>Mesin berputar</li><li>Percikan api</li><li>Serpihan logam</li><li>Kebisingan</li><li>Beban berat</li></ul>' },
+      { judul: 'Jenis-Jenis Kecelakaan Kerja', deskripsi: 'Klasifikasi kecelakaan kerja', icon: 'fa-band-aid', konten: '<h3>Klasifikasi</h3><ul><li>Ringan: P3K cukup</li><li>Sedang: perlu perawatan</li><li>Berat: cacat permanen</li><li>Fatal: meninggal</li></ul><h3>Berdasarkan Penyebab</h3><ul><li>Mesin</li><li>Alat kerja</li><li>Bahan kimia</li><li>Lingkungan</li><li>Manusia</li></ul>' },
+      { judul: 'Penyebab Kecelakaan Kerja', deskripsi: 'Unsafe action & condition', icon: 'fa-user-slash', konten: '<h3>2 Penyebab Utama</h3><h3>1. Unsafe Action (Tindakan Tidak Aman)</h3><ul><li>Bercanda saat kerja</li><li>Tidak pakai APD</li><li>Lalai SOP</li></ul><h3>2. Unsafe Condition (Kondisi Tidak Aman)</h3><ul><li>Alat rusak</li><li>Pencahayaan kurang</li><li>Ruang berantakan</li></ul>' },
+      { judul: 'Alat Pelindung Diri (APD)', deskripsi: 'Jenis & fungsi APD', icon: 'fa-hard-hat', konten: '<h3>APD Wajib</h3><ul><li><strong>Safety Helmet:</strong> Kepala</li><li><strong>Safety Glasses:</strong> Mata</li><li><strong>Ear Plug:</strong> Telinga</li><li><strong>Sarung Tangan:</strong> Tangan</li><li><strong>Safety Shoes:</strong> Kaki</li><li><strong>Masker:</strong> Pernapasan</li><li><strong>Apron:</strong> Tubuh</li><li><strong>Face Shield:</strong> Wajah</li></ul><div class="callout warning">⚠️ Jangan operasikan mesin tanpa APD!</div>' },
+      { judul: 'Rambu-Rambu K3', deskripsi: 'Rambu & simbol keselamatan', icon: 'fa-traffic-light', konten: '<h3>Jenis Rambu</h3><ul><li><strong>Larangan (Merah):</strong> Dilarang merokok</li><li><strong>Peringatan (Kuning):</strong> Awas listrik</li><li><strong>Perintah (Biru):</strong> Wajib helm</li><li><strong>Informasi (Hijau):</strong> Jalur evakuasi</li></ul><h3>Simbol Bahan Kimia</h3><ul><li>☠️ Toxic</li><li>🔥 Flammable</li><li>⚡ Corrosive</li><li>💥 Explosive</li></ul>' },
+      { judul: 'Tata Tertib dan Peraturan Bengkel', deskripsi: 'Aturan di bengkel', icon: 'fa-clipboard-list', konten: '<h3>Tata Tertib</h3><ol><li>Wajib pakai APD</li><li>Dilarang makan/minum</li><li>Dilarang bercanda</li><li>Ikuti SOP</li><li>Jaga kebersihan</li><li>Laporkan kerusakan</li></ol>' },
+      { judul: 'Prosedur Operasional Standar (SOP) Keselamatan Kerja', deskripsi: 'SOP di bengkel', icon: 'fa-list-check', konten: '<h3>SOP Umum</h3><ol><li>Persiapan: pakai APD, cek alat</li><li>Pelaksanaan: ikuti urutan</li><li>Selesai: matikan mesin, bersihkan</li></ol><div class="callout">📋 SOP dibuat untuk keselamatan bersama.</div>' },
+      { judul: 'Keselamatan Kerja Sebelum, Selama, dan Sesudah Praktik', deskripsi: '3 tahap keselamatan praktik', icon: 'fa-clock', konten: '<h3>Sebelum Praktik</h3><ul><li>Pakai APD lengkap</li><li>Cek alat & mesin</li><li>Pahami SOP</li></ul><h3>Selama Praktik</h3><ul><li>Fokus & hati-hati</li><li>Ikuti instruksi</li><li>Laporkan masalah</li></ul><h3>Sesudah Praktik</h3><ul><li>Matikan mesin</li><li>Bersihkan area</li><li>Simpan alat</li></ul>' },
+      { judul: 'Keselamatan Kerja Menggunakan Alat Tangan', deskripsi: 'K3 dengan alat tangan', icon: 'fa-screwdriver-wrench', konten: '<h3>Prinsip</h3><ul><li>Gunakan alat sesuai fungsi</li><li>Pilih ukuran tepat</li><li>Periksa kondisi alat</li><li>Simpan dengan rapi</li></ul><div class="callout warning">⚠️ Alat rusak = sumber kecelakaan.</div>' },
+      { judul: 'Keselamatan Kerja Menggunakan Alat Ukur', deskripsi: 'K3 dengan alat ukur', icon: 'fa-ruler', konten: '<h3>Alat Ukur</h3><ul><li>Jangka sorong</li><li>Mikrometer</li><li>Dial indicator</li></ul><h3>Prinsip K3</h3><ul><li>Kalibrasi rutin</li><li>Simpan di kotak</li><li>Jangan jatuh</li><li>Bersihkan sebelum/sesudah</li></ul>' },
+      { judul: 'Keselamatan Kerja Mesin Bubut', deskripsi: 'K3 di mesin bubut', icon: 'fa-gear', konten: '<h3>Sebelum</h3><ul><li>Pakai APD</li><li>Cek mesin</li><li>Pasang benda kerja kuat</li></ul><h3>Saat Kerja</h3><ul><li>Jangan pakai sarung tangan</li><li>Jangan dekatkan tangan</li><li>Fokus</li></ul><div class="callout warning">⚠️ Mesin bubut sangat berbahaya!</div>' },
+      { judul: 'Keselamatan Kerja Mesin Frais', deskripsi: 'K3 di mesin frais', icon: 'fa-cogs', konten: '<h3>Prinsip K3</h3><ul><li>Periksa pisau frais</li><li>Pakai pelindung mata</li><li>Jangan bersihkan tatal dengan tangan</li><li>Matikan mesin sebelum ganti cutter</li></ul>' },
+      { judul: 'Keselamatan Kerja Mesin Bor', deskripsi: 'K3 di mesin bor', icon: 'fa-screwdriver', konten: '<h3>Prinsip K3</h3><ul><li>Cek mata bor</li><li>Gunakan ragum</li><li>Jangan pakai sarung tangan</li><li>Bersihkan tatal dengan sikat</li></ul>' },
+      { judul: 'Keselamatan Kerja Mesin Gerinda', deskripsi: 'K3 di mesin gerinda', icon: 'fa-circle-notch', konten: '<h3>Prinsip K3</h3><ul><li>Pakai goggles</li><li>Pastikan batu gerinda tidak retak</li><li>Pakai masker</li><li>Jauh dari bahan mudah terbakar</li></ul>' },
+      { judul: 'Keselamatan Kerja Mesin CNC', deskripsi: 'K3 di mesin CNC', icon: 'fa-microchip', konten: '<h3>Prinsip K3</h3><ul><li>Pahami program</li><li>Cek tool offset</li><li>Pakai APD</li><li>Jangan buka pintu mesin saat beroperasi</li><li>Emergency stop wajib tahu</li></ul>' },
+      { judul: 'Keselamatan Kerja Pengelasan', deskripsi: 'K3 saat mengelas', icon: 'fa-fire', konten: '<h3>APD Las</h3><ul><li>Helm las</li><li>Sarung tangan kulit</li><li>Apron kulit</li><li>Safety shoes</li></ul><h3>Prinsip</h3><ul><li>Ruang berventilasi</li><li>Jauh dari bahan bakar</li><li>Periksa kabel</li></ul>' },
+      { judul: 'Keselamatan Listrik di Bengkel', deskripsi: 'K3 kelistrikan', icon: 'fa-bolt', konten: '<h3>Bahaya Listrik</h3><ul><li>Setrum</li><li>Kebakaran</li><li>Korsleting</li></ul><h3>Pencegahan</h3><ul><li>Periksa kabel</li><li>Jangan tangan basah</li><li>Gunakan alat berstandar</li><li>Pasang grounding</li></ul>' },
+      { judul: 'Bahaya Mekanis, Fisik, Kimia, dan Ergonomi', deskripsi: '4 jenis bahaya', icon: 'fa-triangle-exclamation', konten: '<h3>Bahaya Mekanis</h3><p>Mesin, alat, benda tajam</p><h3>Bahaya Fisik</h3><p>Kebisingan, suhu, getaran</p><h3>Bahaya Kimia</h3><p>Debu, uap, cairan</p><h3>Bahaya Ergonomi</h3><p>Postur kerja, beban</p>' },
+      { judul: 'Kesehatan Kerja dan Penyakit Akibat Kerja', deskripsi: 'Penyakit akibat kerja', icon: 'fa-heart-pulse', konten: '<h3>Penyakit Akibat Kerja</h3><ul><li>Gangguan pendengaran</li><li>Gangguan pernapasan</li><li>Dermatitis</li><li>Low back pain</li></ul><h3>Pencegahan</h3><ul><li>APD lengkap</li><li>Rotasi kerja</li><li>Pemeriksaan kesehatan rutin</li></ul>' },
+      { judul: 'Kebersihan dan Kerapian Lingkungan Bengkel (5R)', deskripsi: 'Prinsip 5R', icon: 'fa-broom', konten: '<h3>5R/5S</h3><ul><li><strong>Ringkas (Seiri):</strong> Pisahkan perlu/tidak</li><li><strong>Rapi (Seiton):</strong> Susun alat</li><li><strong>Resik (Seiso):</strong> Bersihkan</li><li><strong>Rawat (Seiketsu):</strong> Pertahankan</li><li><strong>Rajin (Shitsuke):</strong> Disiplin</li></ul>' },
+      { judul: 'Pencegahan dan Penanganan Kebakaran', deskripsi: 'APAR & prosedur', icon: 'fa-fire-extinguisher', konten: '<h3>Segitiga Api</h3><p>Bahan bakar + oksigen + panas</p><h3>Klasifikasi APAR</h3><ul><li>A: Kertas, kayu</li><li>B: Cairan</li><li>C: Gas</li><li>D: Logam</li></ul><h3>Cara Pakai APAR</h3><p><strong>P.A.S.S:</strong> Pull, Aim, Squeeze, Sweep</p>' },
+      { judul: 'Pertolongan Pertama pada Kecelakaan (P3K)', deskripsi: 'P3K di bengkel', icon: 'fa-first-aid', konten: '<h3>Isi Kotak P3K</h3><ul><li>Perban & kasa</li><li>Antiseptik</li><li>Gunting & pinset</li><li>Sarung tangan medis</li><li>Obat luka bakar</li></ul><h3>Nomor Darurat</h3><ul><li><strong>118:</strong> Ambulans</li><li><strong>113:</strong> Pemadam</li></ul>' },
+      { judul: 'Prosedur Keadaan Darurat dan Evakuasi', deskripsi: 'Evakuasi darurat', icon: 'fa-person-running', konten: '<h3>Jalur Evakuasi</h3><ul><li>Dikenali semua orang</li><li>Bebas hambatan</li><li>Ditandai rambu hijau</li></ul><h3>Titik Kumpul</h3><p>Lokasi aman setelah evakuasi</p><h3>Urutan</h3><ol><li>Dengar alarm</li><li>Jangan panik</li><li>Ikuti jalur</li><li>Menuju titik kumpul</li><li>Absensi</li></ol>' },
+      { judul: 'Pengelolaan Limbah Bengkel', deskripsi: 'Kelola limbah bengkel', icon: 'fa-recycle', konten: '<h3>Jenis Limbah</h3><ul><li>Padat: tatal, kertas</li><li>Cair: oli, coolant</li><li>B3: oli bekas, solvent</li></ul><h3>Pengelolaan</h3><ul><li>Pisahkan jenis</li><li>Wadah tertutup</li><li>Buang ke tempat resmi</li></ul>' },
+      { judul: 'Pemeliharaan dan Pemeriksaan Keselamatan Mesin', deskripsi: 'Maintenance mesin', icon: 'fa-tools', konten: '<h3>Pemeliharaan Rutin</h3><ul><li>Harian: cek visual, bersihkan</li><li>Mingguan: pelumasan</li><li>Bulanan: kalibrasi</li><li>Tahunan: overhaul</li></ul><h3>Pemeriksaan</h3><ul><li>Sistem kelistrikan</li><li>Sistem mekanik</li><li>Sistem pendingin</li></ul>' },
+      { judul: 'Budaya Keselamatan Kerja', deskripsi: 'Safety culture', icon: 'fa-people-group', konten: '<h3>Budaya K3</h3><p>Nilai & perilaku yang mengutamakan keselamatan.</p><h3>Ciri</h3><ul><li>Kepemimpinan peduli K3</li><li>Komunikasi terbuka</li><li>Pelaporan tanpa takut</li><li>Pembelajaran berkelanjutan</li></ul>' },
+      { judul: 'Pelaporan Kecelakaan dan Kejadian Nyaris Celaka', deskripsi: 'Pelaporan insiden', icon: 'fa-file-medical', konten: '<h3>Yang Dilaporkan</h3><ul><li>Kecelakaan aktual</li><li>Near miss (nyaris celaka)</li><li>Kerusakan alat</li><li>Kondisi tidak aman</li></ul><h3>Tujuan</h3><ul><li>Cegah terulang</li><li>Analisis penyebab</li><li>Perbaikan sistem</li></ul>' },
+      { judul: 'Penilaian dan Pengendalian Risiko Kerja', deskripsi: 'Risk assessment', icon: 'fa-chart-line', konten: '<h3>Penilaian Risiko</h3><p>Risiko = Kemungkinan × Keparahan</p><h3>Hierarki Pengendalian</h3><ol><li>Eliminasi</li><li>Substitusi</li><li>Rekayasa teknik</li><li>Administrasi</li><li>APD</li></ol>' },
+      { judul: 'Penggunaan Bahan Kimia dan Cairan Pendingin secara Aman', deskripsi: 'K3 bahan kimia', icon: 'fa-flask', konten: '<h3>Bahaya Bahan Kimia</h3><ul><li>Korosif</li><li>Beracun</li><li>Mudah terbakar</li></ul><h3>K3</h3><ul><li>Pakai APD lengkap</li><li>Baca label (MSDS)</li><li>Ventilasi baik</li><li>Simpan sesuai standar</li></ul>' },
+      { judul: 'Tanggung Jawab Siswa dalam Penerapan K3 di Bengkel', deskripsi: 'Peran siswa', icon: 'fa-user-graduate', konten: '<h3>Tanggung Jawab</h3><ul><li>Patuh SOP</li><li>Pakai APD</li><li>Jaga kebersihan</li><li>Laporkan bahaya</li><li>Ikut pelatihan K3</li></ul><div class="callout">🎓 K3 adalah investasi masa depan.</div>' }
+    ];
+
     async function seedMateriDefault() {
       try {
         const { count, error: countErr } = await supabaseClient
           .from('materi').select('*', { count: 'exact', head: true });
 
         if (countErr) { console.warn('⚠️', countErr.message); return; }
-        if (count > 0) { console.log('📚 Materi sudah ada (' + count + ')'); return; }
+        if (count >= 35) { console.log('📚 Materi sudah ada (' + count + ')'); return; }
 
-        console.log('📚 Seed 8 materi K3...');
+        console.log('📚 Menambahkan materi K3 (' + count + ' → 35)...');
 
-        const materiDefault = [
-          { judul: 'Pengertian K3', deskripsi: 'Dasar-dasar Keselamatan dan Kesehatan Kerja serta landasan hukumnya', icon: 'fa-book-open', urutan: 1, status: 'aktif', konten: '<h3>Apa itu K3?</h3><p>K3 adalah <strong>Keselamatan dan Kesehatan Kerja</strong>, yaitu segala upaya untuk menjamin keselamatan dan kesehatan tenaga kerja serta orang lain di lingkungan kerja.</p><h3>Dasar Hukum</h3><ul><li><strong>UU No. 1 Tahun 1970</strong> — Keselamatan Kerja</li><li><strong>UU No. 13 Tahun 2003</strong> — Ketenagakerjaan</li><li><strong>Permenaker No. 5 Tahun 2018</strong> — K3 Lingkungan Kerja</li></ul><h3>Ruang Lingkup</h3><ul><li>Keselamatan kerja</li><li>Kesehatan kerja</li><li>Higiene perusahaan</li><li>Ergonomi</li><li>Psikologi kerja</li></ul><div class="callout">💡 K3 wajib diterapkan di setiap tempat kerja.</div>' },
-          { judul: 'Tujuan dan Manfaat K3', deskripsi: 'Tujuan penerapan K3 dan manfaatnya bagi pekerja dan perusahaan', icon: 'fa-bullseye', urutan: 2, status: 'aktif', konten: '<h3>Tujuan K3</h3><ul><li>Melindungi tenaga kerja dari risiko kecelakaan</li><li>Mencegah penyakit akibat kerja</li><li>Meningkatkan produktivitas</li><li>Menciptakan lingkungan kerja aman</li></ul><h3>Manfaat</h3><p><strong>Bagi Pekerja:</strong></p><ul><li>Terhindar dari cedera</li><li>Aman dan nyaman</li><li>Produktif</li></ul><p><strong>Bagi Perusahaan:</strong></p><ul><li>Mengurangi biaya</li><li>Meningkatkan citra</li><li>Mematuhi regulasi</li></ul><div class="callout">🎓 K3 penting untuk siap masuk industri.</div>' },
-          { judul: 'Alat Pelindung Diri (APD)', deskripsi: 'Jenis, fungsi, dan cara penggunaan APD di bengkel', icon: 'fa-shield-alt', urutan: 3, status: 'aktif', konten: '<h3>Apa itu APD?</h3><p>APD adalah <strong>perlengkapan wajib</strong> untuk melindungi diri dari bahaya.</p><h3>APD Wajib</h3><ul><li><strong>Safety Helmet:</strong> Kepala</li><li><strong>Safety Glasses:</strong> Mata</li><li><strong>Ear Plug:</strong> Pendengaran</li><li><strong>Sarung Tangan:</strong> Tangan</li><li><strong>Safety Shoes:</strong> Kaki</li><li><strong>Masker:</strong> Pernapasan</li><li><strong>Apron:</strong> Tubuh</li><li><strong>Face Shield:</strong> Wajah</li></ul><div class="callout warning">⚠️ Jangan operasikan mesin tanpa APD!</div>' },
-          { judul: 'Bahaya di Bengkel Pemesinan', deskripsi: 'Mengenali bahaya mekanis & non-mekanis', icon: 'fa-exclamation-triangle', urutan: 4, status: 'aktif', konten: '<h3>Bahaya Mekanis</h3><ul><li>Terjepit mesin bubut</li><li>Tergores pahat</li><li>Serpihan logam</li><li>Pecahan mata bor</li><li>Tertimpa benda kerja</li></ul><h3>Bahaya Non-Mekanis</h3><ul><li>Kebisingan</li><li>Debu & asap</li><li>Bahaya listrik</li><li>Kebakaran</li><li>Bahan kimia</li></ul><div class="callout warning">⚠️ Kecelakaan terjadi karena unsafe action & condition.</div>' },
-          { judul: 'P3K dan Tanggap Darurat', deskripsi: 'Prosedur pertolongan pertama & evakuasi', icon: 'fa-first-aid', urutan: 5, status: 'aktif', konten: '<h3>Isi Kotak P3K</h3><ul><li>Perban & kasa steril</li><li>Antiseptik</li><li>Gunting & pinset</li><li>Sarung tangan medis</li><li>Obat luka bakar</li></ul><h3>Nomor Darurat</h3><ul><li><strong>118:</strong> Ambulans</li><li><strong>113:</strong> Pemadam</li><li><strong>110:</strong> Polisi</li><li><strong>115:</strong> Basarnas</li></ul><div class="callout warning">⚠️ Jangan beri minum korban tidak sadar.</div>' },
-          { judul: 'Budaya Kerja 5R/5S', deskripsi: 'Menerapkan 5R di bengkel', icon: 'fa-broom', urutan: 6, status: 'aktif', konten: '<h3>Prinsip 5R</h3><ul><li><strong>Ringkas (Seiri):</strong> Pisahkan perlu/tidak</li><li><strong>Rapi (Seiton):</strong> Susun alat</li><li><strong>Resik (Seiso):</strong> Bersihkan</li><li><strong>Rawat (Seiketsu):</strong> Pertahankan</li><li><strong>Rajin (Shitsuke):</strong> Disiplin</li></ul><div class="callout">💡 Budayakan 5R dari hal kecil.</div>' },
-          { judul: 'Rambu dan Simbol K3', deskripsi: 'Rambu keselamatan & simbol bahaya', icon: 'fa-traffic-light', urutan: 7, status: 'aktif', konten: '<h3>Jenis Rambu</h3><ul><li><strong>Larangan (Merah):</strong> Dilarang merokok</li><li><strong>Peringatan (Kuning):</strong> Awas listrik</li><li><strong>Perintah (Biru):</strong> Wajib helm</li><li><strong>Informasi (Hijau):</strong> Jalur evakuasi</li></ul><h3>Simbol Bahan Kimia</h3><ul><li>☠️ Toxic</li><li>🔥 Flammable</li><li>⚡ Corrosive</li><li>💥 Explosive</li></ul>' },
-          { judul: 'Kerja Tim yang Aman', deskripsi: 'Komunikasi & kerja sama aman', icon: 'fa-users', urutan: 8, status: 'aktif', konten: '<h3>Komunikasi Kerja Aman</h3><ul><li>Gunakan hand signal</li><li>Konfirmasi sebelum bertindak</li><li>Beri tahu sebelum nyalakan mesin</li><li>Jangan bercanda saat kerja</li></ul><h3>SOP Kerja Tim</h3><ol><li>Briefing sebelum kerja</li><li>Tentukan peran</li><li>Pakai APD</li><li>Ikuti protokol</li><li>Evaluasi</li></ol>' }
-        ];
+        const materiInsert = MATERI_35.map((m, i) => ({
+          judul: m.judul,
+          deskripsi: m.deskripsi,
+          icon: m.icon,
+          urutan: i + 1,
+          status: 'aktif',
+          konten: m.konten
+        }));
 
-        const { error } = await supabaseClient.from('materi').insert(materiDefault);
+        const { error } = await supabaseClient.from('materi').insert(materiInsert);
         if (error) throw error;
-        console.log('✅ Berhasil menambahkan 8 materi default!');
+        console.log('✅ Berhasil menambahkan ' + MATERI_35.length + ' materi!');
       } catch (err) { console.warn('⚠️ Gagal seed:', err.message); }
     }
 
@@ -703,7 +691,8 @@
         } catch (e) {}
       }
 
-      window.location.href = 'index.html';
+      // Kalau tidak ada session, tetap lanjut (mode read-only)
+      console.log('⚠️ Tidak ada session — mode read-only');
     }
 
     async function loadMateri() {
@@ -727,7 +716,7 @@
         renderMateri();
       } catch (err) {
         console.error('Gagal load materi:', err);
-        list.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Gagal Memuat Materi</h3><p>Terjadi kesalahan saat memuat data.</p></div>`;
+        list.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Gagal Memuat Materi</h3><p>${err.message}</p></div>`;
       }
     }
 
@@ -744,7 +733,6 @@
 
     function renderMateri() {
       const list = document.getElementById('materi-list');
-
       const q = filterKata.toLowerCase().trim();
       const filtered = q
         ? semuaMateri.filter(m => (m.judul || '').toLowerCase().includes(q) || (m.deskripsi || '').toLowerCase().includes(q))
@@ -796,7 +784,6 @@
       const m = semuaMateri.find(x => x.id === id);
       if (!m) return;
       currentIndex = semuaMateri.indexOf(m);
-
       document.getElementById('reader-title').textContent = m.judul;
       const jumlahKata = (m.konten || '').split(/\s+/).length;
       const estimasiBaca = Math.max(1, Math.ceil(jumlahKata / 200));
@@ -832,7 +819,8 @@
     }
 
     async function tandaiSelesai() {
-      if (currentIndex < 0 || !currentSiswa) { showToast('Hanya siswa yang bisa menandai.', 'info'); return; }
+      if (currentIndex < 0) return;
+      if (!currentSiswa) { showToast('Hanya siswa yang bisa menandai.', 'info'); return; }
       const m = semuaMateri[currentIndex];
       if (!m || materiSelesaiSet.has(m.judul)) { showToast('Sudah ditandai.', 'info'); return; }
 
@@ -842,8 +830,13 @@
 
       try {
         const { error } = await supabaseClient.from('aktivitas').insert([{
-          siswa_id: currentSiswa.id, tipe: 'materi', judul: m.judul,
-          status: 'selesai', created_at: new Date().toISOString()
+          siswa_id: currentSiswa.id,
+          siswa_nama: currentSiswa.nama,
+          kelas: currentSiswa.kelas,
+          tipe: 'materi',
+          judul: m.judul,
+          status: 'selesai',
+          created_at: new Date().toISOString()
         }]);
         if (error) throw error;
 
