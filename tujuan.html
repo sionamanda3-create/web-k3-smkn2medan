@@ -5,15 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Tujuan Pembelajaran K3 - Media Pembelajaran K3 SMK Negeri 2 Medan">
   <title>Tujuan Pembelajaran K3 | Media Pembelajaran K3</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
     :root {
       --primary: #1e40af;
       --primary-light: #3b82f6;
@@ -38,10 +35,8 @@
       --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
       --shadow-lg: 0 20px 40px rgba(0,0,0,0.12);
       --radius: 16px;
-      --radius-sm: 12px;
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--gray-50);
@@ -49,7 +44,6 @@
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
     }
-
     .navbar {
       position: sticky; top: 0; z-index: 100;
       background: rgba(255,255,255,0.95);
@@ -64,14 +58,12 @@
       width: 40px; height: 40px; border-radius: 10px;
       background: var(--gray-100); color: var(--gray-700);
       display: flex; align-items: center; justify-content: center;
-      text-decoration: none; transition: var(--transition);
-      font-size: 0.95rem;
+      text-decoration: none; transition: var(--transition); font-size: 0.95rem;
     }
     .back-btn:hover { background: var(--primary); color: white; transform: translateX(-3px); }
     .navbar-brand {
       display: flex; align-items: center; gap: 0.6rem;
       font-weight: 800; font-size: 1.05rem; color: var(--primary);
-      letter-spacing: -0.02em;
     }
     .navbar-brand .brand-icon {
       width: 38px; height: 38px;
@@ -89,9 +81,7 @@
       border-radius: 999px;
       font-size: 0.78rem; font-weight: 600; color: var(--gray-600);
     }
-
     .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
-
     .hero {
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
       border-radius: var(--radius);
@@ -111,7 +101,7 @@
     .hero::after { width: 150px; height: 150px; bottom: -60px; right: 120px; background: rgba(255,255,255,0.06); }
     @keyframes slideUp {
       from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .hero-content { position: relative; z-index: 1; }
     .hero-badge {
@@ -128,17 +118,12 @@
     .hero h1 {
       font-size: 1.75rem; font-weight: 800;
       line-height: 1.25; margin-bottom: 0.5rem;
-      letter-spacing: -0.02em;
     }
     .hero h1 .highlight { color: #fde68a; }
-    .hero p {
-      font-size: 0.92rem; opacity: 0.95;
-      max-width: 640px; line-height: 1.65;
-    }
-
+    .hero p { font-size: 0.92rem; opacity: 0.95; max-width: 640px; line-height: 1.65; }
     .progress-wrapper {
       background: white;
-      border-radius: var(--radius-sm);
+      border-radius: var(--radius);
       padding: 1.2rem 1.5rem;
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--gray-100);
@@ -171,7 +156,6 @@
       transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
       width: 0%;
     }
-
     .section { margin-bottom: 2rem; animation: slideUp 0.5s ease-out 0.15s backwards; }
     .section-header {
       display: flex; justify-content: space-between; align-items: center;
@@ -181,11 +165,8 @@
       font-size: 1.2rem; font-weight: 800;
       color: var(--gray-800);
       display: flex; align-items: center; gap: 0.6rem;
-      letter-spacing: -0.01em;
     }
     .section-header h2 i { color: var(--primary); }
-
-    /* TUJUAN UMUM */
     .tujuan-umum-card {
       background: white;
       border-radius: var(--radius);
@@ -211,8 +192,6 @@
     }
     .tujuan-umum-card p:last-child { margin-bottom: 0; }
     .tujuan-umum-card p strong { color: var(--gray-800); }
-
-    /* CAPAIAN PEMBELAJARAN (3 ELEMEN) */
     .capaian-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -244,7 +223,7 @@
     .capaian-card .sub {
       font-size: 0.72rem; font-weight: 700;
       color: var(--gray-500); text-transform: uppercase;
-      letter-spacing: 0.05em; margin-bottom: 0.8rem;
+      margin-bottom: 0.8rem;
     }
     .capaian-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
     .capaian-card ul li {
@@ -257,8 +236,37 @@
       left: 0; color: var(--success);
       font-size: 0.75rem; top: 0.15rem;
     }
-
-    /* TUJUAN SPESIFIK (8 CARD) */
+    .peta-container {
+      background: white; border-radius: var(--radius);
+      padding: 1.5rem; border: 1px solid var(--gray-100);
+      box-shadow: var(--shadow-sm);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+    .peta-level {
+      padding: 1.2rem 1rem; border-radius: 12px;
+      text-align: center;
+      transition: var(--transition);
+      border: 2px solid;
+    }
+    .peta-level.dasar { border-color: #86efac; background: #f0fdf4; }
+    .peta-level.menengah { border-color: #93c5fd; background: #eff6ff; }
+    .peta-level.lanjut { border-color: #fdba74; background: #fff7ed; }
+    .peta-level.ahli { border-color: #d8b4fe; background: #faf5ff; }
+    .peta-level:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .peta-level .level-icon {
+      width: 40px; height: 40px;
+      border-radius: 50%; margin: 0 auto 0.7rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: white;
+    }
+    .peta-level.dasar .level-icon { background: #16a34a; }
+    .peta-level.menengah .level-icon { background: #3b82f6; }
+    .peta-level.lanjut .level-icon { background: #ea580c; }
+    .peta-level.ahli .level-icon { background: #7c3aed; }
+    .peta-level h4 { font-size: 0.9rem; font-weight: 800; color: var(--gray-800); margin-bottom: 0.3rem; }
+    .peta-level p { font-size: 0.72rem; color: var(--gray-500); line-height: 1.5; }
     .tujuan-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -297,39 +305,36 @@
       flex-shrink: 0;
       box-shadow: 0 4px 10px rgba(59,130,246,0.25);
     }
-    .tujuan-num.green  { background: linear-gradient(135deg, #dcfce7, #16a34a); }
+    .tujuan-num.green { background: linear-gradient(135deg, #dcfce7, #16a34a); }
     .tujuan-num.orange { background: linear-gradient(135deg, #fed7aa, #ea580c); }
     .tujuan-num.purple { background: linear-gradient(135deg, #e9d5ff, #7c3aed); }
-    .tujuan-num.red    { background: linear-gradient(135deg, #fee2e2, #dc2626); }
-    .tujuan-num.teal   { background: linear-gradient(135deg, #ccfbf1, #0d9488); }
-    .tujuan-num.pink   { background: linear-gradient(135deg, #fce7f3, #db2777); }
+    .tujuan-num.red { background: linear-gradient(135deg, #fee2e2, #dc2626); }
+    .tujuan-num.teal { background: linear-gradient(135deg, #ccfbf1, #0d9488); }
+    .tujuan-num.pink { background: linear-gradient(135deg, #fce7f3, #db2777); }
     .tujuan-num.indigo { background: linear-gradient(135deg, #e0e7ff, #4f46e5); }
-
     .tujuan-card h3 {
-      font-size: 0.98rem; font-weight: 800;
+      font-size: 0.95rem; font-weight: 800;
       color: var(--gray-800); line-height: 1.35;
       margin-bottom: 0.2rem;
     }
     .tujuan-card .sub {
-      font-size: 0.72rem; color: var(--gray-500);
+      font-size: 0.7rem; color: var(--gray-500);
       font-weight: 600; text-transform: uppercase;
-      letter-spacing: 0.03em;
     }
     .tujuan-card p.desc {
-      font-size: 0.85rem; color: var(--gray-600);
-      line-height: 1.65;
+      font-size: 0.83rem; color: var(--gray-600);
+      line-height: 1.6;
     }
-
     .checklist {
-      display: flex; flex-direction: column; gap: 0.5rem;
-      margin-top: 0.4rem; padding-top: 0.9rem;
+      display: flex; flex-direction: column; gap: 0.4rem;
+      margin-top: 0.4rem; padding-top: 0.8rem;
       border-top: 1px dashed var(--gray-200);
     }
     .checklist-item {
-      display: flex; align-items: flex-start; gap: 0.6rem;
-      font-size: 0.83rem; color: var(--gray-700);
+      display: flex; align-items: flex-start; gap: 0.5rem;
+      font-size: 0.82rem; color: var(--gray-700);
       line-height: 1.5; cursor: pointer;
-      padding: 0.35rem 0; transition: var(--transition);
+      padding: 0.3rem 0; transition: var(--transition);
     }
     .checklist-item:hover { color: var(--primary); }
     .checklist-item input[type="checkbox"] {
@@ -352,15 +357,13 @@
     .checklist-item input[type="checkbox"]:checked ~ span {
       text-decoration: line-through; color: var(--gray-400);
     }
-
-    /* ALUR PEMBELAJARAN */
     .alur-container {
       display: flex; flex-wrap: wrap;
       gap: 0.8rem; justify-content: center;
     }
     .alur-step {
       flex: 1; min-width: 140px; max-width: 200px;
-      background: white; border-radius: var(--radius-sm);
+      background: white; border-radius: 12px;
       padding: 1.2rem 1rem; text-align: center;
       border: 1px solid var(--gray-100);
       box-shadow: var(--shadow-sm);
@@ -383,8 +386,6 @@
     .alur-step h4 { font-size: 0.88rem; font-weight: 800; color: var(--gray-800); margin-bottom: 0.25rem; }
     .alur-step p { font-size: 0.72rem; color: var(--gray-500); line-height: 1.5; }
     .alur-step i.alur-icon { font-size: 1.3rem; color: var(--primary); margin-bottom: 0.5rem; display: block; }
-
-    /* INDIKATOR KETERCAPAIAN */
     .indikator-list {
       background: white; border-radius: var(--radius);
       padding: 1.5rem 1.8rem;
@@ -404,48 +405,13 @@
     }
     .indikator-content h4 { font-size: 0.88rem; font-weight: 700; color: var(--gray-800); margin-bottom: 0.2rem; }
     .indikator-content p { font-size: 0.8rem; color: var(--gray-500); line-height: 1.55; }
-
-    /* PETA KOMPETENSI */
-    .peta-container {
-      background: white; border-radius: var(--radius);
-      padding: 1.5rem; border: 1px solid var(--gray-100);
-      box-shadow: var(--shadow-sm);
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1rem;
-    }
-    .peta-level {
-      padding: 1.2rem 1rem; border-radius: var(--radius-sm);
-      text-align: center;
-      transition: var(--transition);
-      border: 2px solid;
-    }
-    .peta-level.dasar { border-color: #86efac; background: #f0fdf4; }
-    .peta-level.menengah { border-color: #93c5fd; background: #eff6ff; }
-    .peta-level.lanjut { border-color: #fdba74; background: #fff7ed; }
-    .peta-level.ahli { border-color: #d8b4fe; background: #faf5ff; }
-    .peta-level:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
-    .peta-level .level-icon {
-      width: 40px; height: 40px;
-      border-radius: 50%; margin: 0 auto 0.7rem;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem; color: white;
-    }
-    .peta-level.dasar .level-icon { background: #16a34a; }
-    .peta-level.menengah .level-icon { background: #3b82f6; }
-    .peta-level.lanjut .level-icon { background: #ea580c; }
-    .peta-level.ahli .level-icon { background: #7c3aed; }
-    .peta-level h4 { font-size: 0.9rem; font-weight: 800; color: var(--gray-800); margin-bottom: 0.3rem; }
-    .peta-level p { font-size: 0.72rem; color: var(--gray-500); line-height: 1.5; }
-
-    /* MANFAAT */
     .manfaat-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 1rem;
     }
     .manfaat-item {
-      background: white; border-radius: var(--radius-sm);
+      background: white; border-radius: 12px;
       padding: 1.3rem; border: 1px solid var(--gray-100);
       box-shadow: var(--shadow-sm);
       display: flex; align-items: flex-start; gap: 0.9rem;
@@ -457,24 +423,21 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 1.1rem; flex-shrink: 0;
     }
-    .manfaat-icon.blue   { background: #dbeafe; color: #1e40af; }
-    .manfaat-icon.green  { background: #dcfce7; color: #16a34a; }
+    .manfaat-icon.blue { background: #dbeafe; color: #1e40af; }
+    .manfaat-icon.green { background: #dcfce7; color: #16a34a; }
     .manfaat-icon.orange { background: #fed7aa; color: #ea580c; }
     .manfaat-icon.purple { background: #e9d5ff; color: #7c3aed; }
-    .manfaat-icon.red    { background: #fee2e2; color: #dc2626; }
+    .manfaat-icon.red { background: #fee2e2; color: #dc2626; }
     .manfaat-icon.yellow { background: #fef3c7; color: #92400e; }
     .manfaat-content h4 { font-size: 0.9rem; font-weight: 800; color: var(--gray-800); margin-bottom: 0.25rem; }
     .manfaat-content p { font-size: 0.8rem; color: var(--gray-500); line-height: 1.55; }
-
-    /* HIGHLIGHT */
     .highlight-box {
       background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
       border-left: 5px solid var(--accent);
-      border-radius: var(--radius-sm);
+      border-radius: 12px;
       padding: 1.3rem 1.5rem;
       display: flex; align-items: flex-start; gap: 1rem;
       margin-top: 1.5rem;
-      animation: slideUp 0.5s ease-out 0.3s backwards;
     }
     .highlight-box .icon {
       width: 44px; height: 44px;
@@ -485,8 +448,6 @@
     }
     .highlight-box h4 { font-size: 0.92rem; font-weight: 800; color: #78350f; margin-bottom: 0.3rem; }
     .highlight-box p { font-size: 0.85rem; color: #92400e; line-height: 1.6; }
-
-    /* TOAST */
     .toast {
       position: fixed; top: 1.5rem; right: 1.5rem;
       background: white; padding: 1rem 1.3rem;
@@ -500,13 +461,12 @@
     }
     .toast.show { transform: translateX(0); }
     .toast i { font-size: 1.2rem; }
-    .toast.error   { border-left: 4px solid var(--danger); }
+    .toast.error { border-left: 4px solid var(--danger); }
     .toast.error i { color: var(--danger); }
     .toast.success { border-left: 4px solid var(--success); }
     .toast.success i { color: var(--success); }
-    .toast.info    { border-left: 4px solid var(--primary); }
-    .toast.info i  { color: var(--primary); }
-
+    .toast.info { border-left: 4px solid var(--primary); }
+    .toast.info i { color: var(--primary); }
     @media (max-width: 640px) {
       .navbar { padding: 0.75rem 1rem; }
       .container { padding: 1.5rem 1rem 4rem; }
@@ -549,16 +509,14 @@
 
   <main class="container">
 
-    <!-- HERO -->
     <section class="hero">
       <div class="hero-content">
         <span class="hero-badge"><i class="fas fa-graduation-cap"></i> Capaian Pembelajaran</span>
         <h1>Tujuan Pembelajaran <span class="highlight">K3</span></h1>
-        <p>Memahami tujuan, capaian, dan manfaat pembelajaran Keselamatan & Kesehatan Kerja untuk mempersiapkan diri memasuki dunia industri teknik pemesinan yang aman dan profesional.</p>
+        <p>10 tujuan pembelajaran Keselamatan & Kesehatan Kerja untuk mempersiapkan diri memasuki dunia industri teknik pemesinan yang aman dan profesional.</p>
       </div>
     </section>
 
-    <!-- PROGRESS -->
     <div class="progress-wrapper">
       <div class="progress-icon"><i class="fas fa-list-check"></i></div>
       <div class="progress-info">
@@ -572,48 +530,36 @@
       </div>
     </div>
 
-    <!-- TUJUAN UMUM -->
     <section class="section">
       <div class="section-header">
         <h2><i class="fas fa-bullseye"></i> Tujuan Umum</h2>
       </div>
-
       <div class="tujuan-umum-card">
         <i class="fas fa-quote-right quote-icon"></i>
-        <p>
-          Setelah mengikuti pembelajaran ini, siswa diharapkan mampu <strong>memahami dan menerapkan prinsip-prinsip Keselamatan dan Kesehatan Kerja (K3)</strong> dalam setiap aktivitas praktik di bengkel pemesinan, sehingga dapat bekerja dengan aman, produktif, dan profesional sesuai standar industri.
-        </p>
-        <p>
-          Pembelajaran ini juga bertujuan untuk <strong>membentuk karakter kerja yang disiplin, bertanggung jawab, dan peduli terhadap keselamatan diri sendiri maupun orang lain</strong> — bekal penting yang akan terus berguna saat bekerja di dunia industri nanti.
-        </p>
-        <p>
-          Selain itu, siswa diharapkan mampu <strong>mengidentifikasi potensi bahaya, menerapkan prosedur kerja aman, serta melakukan tindakan tanggap darurat</strong> dengan benar saat menghadapi situasi darurat di bengkel.
-        </p>
+        <p>Setelah mengikuti pembelajaran ini, siswa diharapkan mampu <strong>memahami dan menerapkan prinsip-prinsip Keselamatan dan Kesehatan Kerja (K3)</strong> dalam setiap aktivitas praktik di bengkel pemesinan, sehingga dapat bekerja dengan aman, produktif, dan profesional sesuai standar industri.</p>
+        <p>Pembelajaran ini juga bertujuan untuk <strong>membentuk karakter kerja yang disiplin, bertanggung jawab, dan peduli terhadap keselamatan diri sendiri maupun orang lain</strong> — bekal penting yang akan terus berguna saat bekerja di dunia industri nanti.</p>
+        <p>Selain itu, siswa diharapkan mampu <strong>mengidentifikasi potensi bahaya, menerapkan prosedur kerja aman, serta melakukan tindakan tanggap darurat</strong> dengan benar saat menghadapi situasi darurat di bengkel.</p>
       </div>
     </section>
 
-    <!-- CAPAIAN PEMBELAJARAN -->
     <section class="section">
       <div class="section-header">
         <h2><i class="fas fa-trophy"></i> Capaian Pembelajaran</h2>
       </div>
-
       <div class="capaian-grid">
         <div class="capaian-card sikap">
           <div class="capaian-icon"><i class="fas fa-heart"></i></div>
           <h3>Sikap</h3>
           <div class="sub">Sikap Spiritual & Sosial</div>
           <ul>
-            <li>Menunjukkan sikap disiplin dalam menerapkan K3</li>
-            <li>Bertanggung jawab terhadap keselamatan diri & orang lain</li>
-            <li>Menjaga kebersihan dan kerapian area kerja (5R)</li>
+            <li>Disiplin dalam menerapkan K3</li>
+            <li>Bertanggung jawab terhadap keselamatan</li>
+            <li>Menjaga kebersihan area kerja (5R)</li>
             <li>Bekerja sama dalam tim dengan aman</li>
-            <li>Menghargai perbedaan pendapat dalam kerja tim</li>
-            <li>Jujur melaporkan setiap kejadian berbahaya</li>
-            <li>Percaya diri dalam menerapkan prosedur K3</li>
+            <li>Jujur melaporkan kejadian berbahaya</li>
+            <li>Percaya diri menerapkan prosedur K3</li>
           </ul>
         </div>
-
         <div class="capaian-card pengetahuan">
           <div class="capaian-icon"><i class="fas fa-brain"></i></div>
           <h3>Pengetahuan</h3>
@@ -625,33 +571,28 @@
             <li>Memahami prosedur P3K dan tanggap darurat</li>
             <li>Mengenal rambu & simbol K3</li>
             <li>Memahami prinsip 5R/5S</li>
-            <li>Menjelaskan prosedur HIRARC sederhana</li>
           </ul>
         </div>
-
         <div class="capaian-card keterampilan">
           <div class="capaian-icon"><i class="fas fa-hands"></i></div>
           <h3>Keterampilan</h3>
           <div class="sub">Psikomotorik</div>
           <ul>
             <li>Memakai APD dengan benar dan lengkap</li>
-            <li>Melakukan identifikasi bahaya (HIRARC sederhana)</li>
-            <li>Menerapkan prosedur kerja aman di bengkel</li>
+            <li>Melakukan identifikasi bahaya sederhana</li>
+            <li>Menerapkan prosedur kerja aman</li>
             <li>Melakukan pertolongan pertama dasar</li>
             <li>Menggunakan APAR dengan benar</li>
             <li>Menerapkan budaya 5R di area kerja</li>
-            <li>Melakukan komunikasi kerja tim yang aman</li>
           </ul>
         </div>
       </div>
     </section>
 
-    <!-- PETA KOMPETENSI -->
     <section class="section">
       <div class="section-header">
         <h2><i class="fas fa-layer-group"></i> Peta Kompetensi</h2>
       </div>
-
       <div class="peta-container">
         <div class="peta-level dasar">
           <div class="level-icon"><i class="fas fa-seedling"></i></div>
@@ -671,162 +612,30 @@
         <div class="peta-level ahli">
           <div class="level-icon"><i class="fas fa-medal"></i></div>
           <h4>Level Ahli</h4>
-          <p>HIRARC, budaya 5R, kerja tim yang aman</p>
+          <p>Pengendalian risiko, budaya 5R, kerja tim aman</p>
         </div>
       </div>
     </section>
 
-    <!-- TUJUAN SPESIFIK (8 CARD) -->
     <section class="section">
       <div class="section-header">
-        <h2><i class="fas fa-list-check"></i> Tujuan Spesifik</h2>
+        <h2><i class="fas fa-list-check"></i> 10 Tujuan Pembelajaran</h2>
       </div>
-
-      <div class="tujuan-grid">
-
-        <div class="tujuan-card">
-          <div class="tujuan-card-header">
-            <div class="tujuan-num">1</div>
-            <div>
-              <h3>Memahami Konsep Dasar K3</h3>
-              <div class="sub">Materi 1</div>
-            </div>
-          </div>
-          <p class="desc">Siswa dapat menjelaskan pengertian, ruang lingkup, dan dasar hukum penerapan K3 di Indonesia.</p>
-          <div class="checklist">
-            <label class="checklist-item"><input type="checkbox" data-key="t1-1"><span>Menjelaskan definisi K3</span></label>
-            <label class="checklist-item"><input type="checkbox" data-key="t1-2"><span>Menyebutkan dasar hukum K3</span></label>
-            <label class="checklist-item"><input type="checkbox" data-key="t1-3"><span>Menyebutkan ruang lingkup K3</span></label>
-          </div>
-        </div>
-
-        <div class="tujuan-card">
-          <div class="tujuan-card-header">
-            <div class="tujuan-num green">2</div>
-            <div>
-              <h3>Memahami Tujuan & Manfaat K3</h3>
-              <div class="sub">Materi 2</div>
-            </div>
-          </div>
-          <p class="desc">Siswa dapat menjelaskan tujuan penerapan K3 dan manfaatnya bagi pekerja maupun perusahaan.</p>
-          <div class="checklist">
-            <label class="checklist-item"><input type="checkbox" data-key="t2-1"><span>Menyebutkan tujuan K3</span></label>
-            <label class="checklist-item"><input type="checkbox" data-key="t2-2"><span>Menjelaskan manfaat K3 bagi pekerja</span></label>
-            <label class="checklist-item"><input type="checkbox" data-key="t2-3"><span>Menjelaskan manfaat K3 bagi perusahaan</span></label>
-          </div>
-        </div>
-
-        <div class="tujuan-card">
-          <div class="tujuan-card-header">
-            <div class="tujuan-num orange">3</div>
-            <div>
-              <h3>Menerapkan Penggunaan APD</h3>
-              <div class="sub">Materi 3</div>
-            </div>
-          </div>
-          <p class="desc">Siswa dapat mengidentifikasi jenis APD dan menggunakannya dengan benar saat praktik di bengkel.</p>
-          <div class="checklist">
-            <label class="checklist-item"><input type="checkbox" data-key="t3-1"><span>Menyebutkan jenis APD</span></label>
-            <label class="checklist-item"><input type="checkbox" data-key="t3-2"><span>Memahami fungsi tiap APD</span></label>
-            <label class="checklist-item"><input type="checkbox" data-key="t3-3"><span>Memakai APD dengan benar</span></label>
-          </div>
-        </div>
-
-        <div class="tujuan-card">
-          <div class="tujuan-card-header">
-            <div class="tujuan-num red">4</div>
-            <div>
-              <h3>Mengidentifikasi Bahaya Kerja</h3>
-              <div class="sub">Materi 4</div>
-            </div>
-          </div>
-          <p class="desc">Siswa dapat mengenali potensi bahaya mekanis dan non-mekanis di bengkel pemesinan serta cara pencegahannya.</p>
-          <div class="checklist">
-            <label class="checklist-item"><input type="checkbox" data-key="t4-1"><span>Mengenali bahaya mekanis</span></label>
-            <label class="checklist-item"><input type="checkbox" data-key="t4-2"><span>Mengenali bahaya non-mekanis</span></label>
-            <label class="checklist-item"><input type="checkbox" data-key="t4-3"><span>Melakukan pencegahan bahaya</span></label>
-          </div>
-        </div>
-
-        <div class="tujuan-card">
-          <div class="tujuan-card-header">
-            <div class="tujuan-num purple">5</div>
-            <div>
-              <h3>Melakukan P3K & Tanggap Darurat</h3>
-              <div class="sub">Materi 5</div>
-            </div>
-          </div>
-          <p class="desc">Siswa dapat melakukan pertolongan pertama pada kecelakaan kerja dan menerapkan prosedur tanggap darurat.</p>
-          <div class="checklist">
-            <label class="checklist-item"><input type="checkbox" data-key="t5-1"><span>Memahami isi kotak P3K</span></label>
-            <label class="checklist-item"><input type="checkbox" data-key="t5-2"><span>Mengetahui nomor darurat</span></label>
-            <label class="checklist-item"><input type="checkbox" data-key="t5-3"><span>Melakukan pertolongan dasar</span></label>
-          </div>
-        </div>
-
-        <div class="tujuan-card">
-          <div class="tujuan-card-header">
-            <div class="tujuan-num teal">6</div>
-            <div>
-              <h3>Menerapkan Budaya Kerja 5R/5S</h3>
-              <div class="sub">Materi 6</div>
-            </div>
-          </div>
-          <p class="desc">Siswa dapat menerapkan prinsip 5R (Ringkas, Rapi, Resik, Rawat, Rajin) di area kerja bengkel.</p>
-          <div class="checklist">
-            <label class="checklist-item"><input type="checkbox" data-key="t6-1"><span>Memahami konsep 5R/5S</span></label>
-            <label class="checklist-item"><input type="checkbox" data-key="t6-2"><span>Menerapkan kebersihan area kerja</span></label>
-            <label class="checklist-item"><input type="checkbox" data-key="t6-3"><span>Merapikan alat setelah digunakan</span></label>
-          </div>
-        </div>
-
-        <div class="tujuan-card">
-          <div class="tujuan-card-header">
-            <div class="tujuan-num pink">7</div>
-            <div>
-              <h3>Memahami Rambu & Simbol K3</h3>
-              <div class="sub">Materi 7</div>
-            </div>
-          </div>
-          <p class="desc">Siswa dapat mengenali rambu-rambu keselamatan dan simbol bahaya yang ada di bengkel pemesinan.</p>
-          <div class="checklist">
-            <label class="checklist-item"><input type="checkbox" data-key="t7-1"><span>Mengenali rambu peringatan</span></label>
-            <label class="checklist-item"><input type="checkbox" data-key="t7-2"><span>Mengenali rambu larangan</span></label>
-            <label class="checklist-item"><input type="checkbox" data-key="t7-3"><span>Mengenali simbol bahan kimia (MSDS)</span></label>
-          </div>
-        </div>
-
-        <div class="tujuan-card">
-          <div class="tujuan-card-header">
-            <div class="tujuan-num indigo">8</div>
-            <div>
-              <h3>Menerapkan Kerja Tim yang Aman</h3>
-              <div class="sub">Materi 8</div>
-            </div>
-          </div>
-          <p class="desc">Siswa dapat bekerja sama dalam tim dengan memperhatikan aspek keselamatan diri dan rekan kerja.</p>
-          <div class="checklist">
-            <label class="checklist-item"><input type="checkbox" data-key="t8-1"><span>Memahami komunikasi kerja aman</span></label>
-            <label class="checklist-item"><input type="checkbox" data-key="t8-2"><span>Menerapkan SOP kerja tim</span></label>
-            <label class="checklist-item"><input type="checkbox" data-key="t8-3"><span>Menjaga keselamatan rekan kerja</span></label>
-          </div>
-        </div>
-
+      <div class="tujuan-grid" id="tujuan-grid">
+        <!-- Diisi via JavaScript -->
       </div>
     </section>
 
-    <!-- ALUR PEMBELAJARAN -->
     <section class="section">
       <div class="section-header">
         <h2><i class="fas fa-route"></i> Alur Pembelajaran</h2>
       </div>
-
       <div class="alur-container">
         <div class="alur-step">
           <i class="fas fa-book-open alur-icon"></i>
           <div class="alur-num">1</div>
           <h4>Baca Materi</h4>
-          <p>Pelajari 8 materi K3 bertahap</p>
+          <p>Pelajari materi K3 bertahap</p>
         </div>
         <div class="alur-step">
           <i class="fas fa-video alur-icon"></i>
@@ -855,18 +664,16 @@
       </div>
     </section>
 
-    <!-- INDIKATOR KETERCAPAIAN -->
     <section class="section">
       <div class="section-header">
         <h2><i class="fas fa-circle-check"></i> Indikator Ketercapaian</h2>
       </div>
-
       <div class="indikator-list">
         <div class="indikator-item">
           <div class="indikator-icon"><i class="fas fa-check"></i></div>
           <div class="indikator-content">
             <h4>Menyelesaikan Minimal 80% Materi</h4>
-            <p>Siswa dianggap tuntas jika sudah membaca dan menandai selesai minimal 80% materi K3 yang tersedia.</p>
+            <p>Siswa dianggap tuntas jika sudah membaca dan menandai selesai minimal 80% materi K3.</p>
           </div>
         </div>
         <div class="indikator-item">
@@ -900,12 +707,10 @@
       </div>
     </section>
 
-    <!-- MANFAAT -->
     <section class="section">
       <div class="section-header">
         <h2><i class="fas fa-star"></i> Manfaat Belajar K3</h2>
       </div>
-
       <div class="manfaat-grid">
         <div class="manfaat-item">
           <div class="manfaat-icon blue"><i class="fas fa-shield-halved"></i></div>
@@ -934,7 +739,6 @@
       </div>
     </section>
 
-    <!-- HIGHLIGHT -->
     <div class="highlight-box">
       <div class="icon"><i class="fas fa-lightbulb"></i></div>
       <div>
@@ -954,6 +758,120 @@
   </script>
 
   <script>
+    // ===== DATA 10 TUJUAN PEMBELAJARAN =====
+    const TUJUAN_DATA = [
+      {
+        num: 1, color: '',
+        title: 'Menjelaskan Pengertian, Tujuan, dan Manfaat K3',
+        sub: 'Tujuan 1',
+        desc: 'Memahami konsep dasar K3, tujuan penerapannya, dan manfaatnya bagi pekerja maupun perusahaan.',
+        checks: [
+          'Menjelaskan pengertian K3',
+          'Menyebutkan tujuan penerapan K3',
+          'Menjelaskan manfaat K3 bagi pekerja & perusahaan'
+        ]
+      },
+      {
+        num: 2, color: 'green',
+        title: 'Mengidentifikasi Potensi Bahaya dan Risiko Kecelakaan Kerja',
+        sub: 'Tujuan 2',
+        desc: 'Mengenali potensi bahaya dan risiko kecelakaan kerja yang ada di bengkel pemesinan.',
+        checks: [
+          'Mengenali potensi bahaya di bengkel',
+          'Menilai tingkat risiko kerja',
+          'Menyebutkan cara pencegahan bahaya'
+        ]
+      },
+      {
+        num: 3, color: 'orange',
+        title: 'Menjelaskan Jenis Kecelakaan Kerja dan Faktor Penyebabnya',
+        sub: 'Tujuan 3',
+        desc: 'Memahami klasifikasi jenis kecelakaan kerja serta faktor-faktor penyebabnya.',
+        checks: [
+          'Menyebutkan jenis-jenis kecelakaan kerja',
+          'Menjelaskan faktor unsafe action',
+          'Menjelaskan faktor unsafe condition'
+        ]
+      },
+      {
+        num: 4, color: 'red',
+        title: 'Menjelaskan Fungsi dan Menggunakan APD Sesuai Pekerjaan',
+        sub: 'Tujuan 4',
+        desc: 'Mengidentifikasi fungsi APD dan menggunakannya dengan tepat sesuai jenis pekerjaan.',
+        checks: [
+          'Menyebutkan jenis-jenis APD',
+          'Menjelaskan fungsi tiap APD',
+          'Memakai APD dengan benar'
+        ]
+      },
+      {
+        num: 5, color: 'purple',
+        title: 'Mengidentifikasi dan Memahami Rambu-Rambu K3',
+        sub: 'Tujuan 5',
+        desc: 'Mengenali rambu-rambu keselamatan dan memahami artinya di lingkungan kerja.',
+        checks: [
+          'Mengenali rambu larangan & peringatan',
+          'Mengenali rambu perintah & informasi',
+          'Memahami simbol bahaya bahan kimia'
+        ]
+      },
+      {
+        num: 6, color: 'teal',
+        title: 'Menerapkan Prosedur K3 Sebelum, Selama, dan Setelah Praktik',
+        sub: 'Tujuan 6',
+        desc: 'Menerapkan prosedur keselamatan kerja pada 3 tahap: sebelum, selama, dan sesudah praktik.',
+        checks: [
+          'Menerapkan K3 sebelum praktik',
+          'Menerapkan K3 selama praktik',
+          'Menerapkan K3 sesudah praktik'
+        ]
+      },
+      {
+        num: 7, color: 'indigo',
+        title: 'Menjelaskan Prosedur K3 Penggunaan Mesin',
+        sub: 'Tujuan 7',
+        desc: 'Memahami prosedur keselamatan penggunaan mesin bubut, frais, bor, gerinda, dan CNC.',
+        checks: [
+          'Menjelaskan K3 mesin bubut & frais',
+          'Menjelaskan K3 mesin bor & gerinda',
+          'Menjelaskan K3 mesin CNC'
+        ]
+      },
+      {
+        num: 8, color: 'pink',
+        title: 'Menjaga Kebersihan, Kerapian, dan Ketertiban Kerja',
+        sub: 'Tujuan 8',
+        desc: 'Menerapkan budaya 5R/5S untuk menjaga kebersihan dan kerapian lingkungan kerja.',
+        checks: [
+          'Menerapkan prinsip 5R/5S',
+          'Menjaga kebersihan area kerja',
+          'Merapikan alat setelah digunakan'
+        ]
+      },
+      {
+        num: 9, color: 'green',
+        title: 'Menjelaskan P3K dan Prosedur Keadaan Darurat',
+        sub: 'Tujuan 9',
+        desc: 'Memahami tindakan pertolongan pertama dan prosedur penanganan keadaan darurat.',
+        checks: [
+          'Memahami isi kotak P3K',
+          'Mengetahui nomor darurat',
+          'Memahami prosedur evakuasi'
+        ]
+      },
+      {
+        num: 10, color: 'purple',
+        title: 'Menumbuhkan Sikap Disiplin, Tanggung Jawab, dan Kepedulian',
+        sub: 'Tujuan 10',
+        desc: 'Menumbuhkan sikap disiplin, tanggung jawab, dan kepedulian terhadap keselamatan diri & orang lain.',
+        checks: [
+          'Disiplin menerapkan K3',
+          'Bertanggung jawab atas keselamatan',
+          'Peduli terhadap keselamatan orang lain'
+        ]
+      }
+    ];
+
     let currentSiswa = null;
     let checkedSet = new Set();
     const STORAGE_KEY = 'tujuan_checked';
@@ -972,6 +890,28 @@
       toast._timer = setTimeout(() => toast.classList.remove('show'), 3500);
     }
 
+    function renderTujuan() {
+      const grid = document.getElementById('tujuan-grid');
+      grid.innerHTML = TUJUAN_DATA.map((t, i) => {
+        const checksHtml = t.checks.map((c, ci) => {
+          const key = 't' + t.num + '-' + (ci + 1);
+          return '<label class="checklist-item"><input type="checkbox" data-key="' + key + '"><span>' + c + '</span></label>';
+        }).join('');
+
+        return '<div class="tujuan-card">' +
+          '<div class="tujuan-card-header">' +
+            '<div class="tujuan-num ' + t.color + '">' + t.num + '</div>' +
+            '<div>' +
+              '<h3>' + t.title + '</h3>' +
+              '<div class="sub">' + t.sub + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<p class="desc">' + t.desc + '</p>' +
+          '<div class="checklist">' + checksHtml + '</div>' +
+        '</div>';
+      }).join('');
+    }
+
     async function cekRole() {
       const sessionSiswa = localStorage.getItem('siswa_session');
       if (sessionSiswa) {
@@ -981,7 +921,6 @@
           return;
         } catch (e) {}
       }
-
       const sessionGuru = localStorage.getItem('guru_session');
       if (sessionGuru) {
         try {
@@ -991,8 +930,6 @@
           return;
         } catch (e) {}
       }
-
-      window.location.href = 'index.html';
     }
 
     function loadChecklistState() {
@@ -1000,11 +937,9 @@
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) checkedSet = new Set(JSON.parse(saved));
       } catch (e) {}
-
       document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(cb => {
         if (checkedSet.has(cb.dataset.key)) cb.checked = true;
       });
-
       updateProgress();
     }
 
@@ -1012,7 +947,6 @@
       const total = document.querySelectorAll('.checklist-item input[type="checkbox"]').length;
       const checked = checkedSet.size;
       const persen = total > 0 ? Math.round((checked / total) * 100) : 0;
-
       const fill = document.getElementById('progress-fill');
       const percent = document.getElementById('progress-percent');
       if (fill) fill.style.width = persen + '%';
@@ -1029,13 +963,14 @@
           } else {
             checkedSet.delete(key);
           }
-
           localStorage.setItem(STORAGE_KEY, JSON.stringify([...checkedSet]));
           updateProgress();
 
           if (currentSiswa) {
             supabaseClient.from('aktivitas').insert([{
               siswa_id: currentSiswa.id,
+              siswa_nama: currentSiswa.nama,
+              kelas: currentSiswa.kelas,
               tipe: 'tujuan',
               judul: 'Tujuan ' + key,
               status: e.target.checked ? 'selesai' : 'proses',
@@ -1048,10 +983,11 @@
 
     document.addEventListener('DOMContentLoaded', async () => {
       console.log('📄 Halaman Tujuan init');
+      renderTujuan();
       await cekRole();
       loadChecklistState();
       setupCheckboxes();
-      console.log('✅ Tujuan page siap');
+      console.log('✅ 10 Tujuan Pembelajaran siap');
     });
   </script>
 
