@@ -99,6 +99,10 @@ table.data-table tbody tr:hover{background:#faf5ff}
 .badge.mudah{background:#dcfce7;color:#15803d}
 .badge.sedang{background:#fef3c7;color:#92400e}
 .badge.sulit{background:#fee2e2;color:#b91c1c}
+.badge.hadir{background:#dcfce7;color:#15803d}
+.badge.sakit{background:#fef3c7;color:#92400e}
+.badge.izin{background:#dbeafe;color:#1e40af}
+.badge.alpha{background:#fee2e2;color:#b91c1c}
 .btn-row-action{width:34px;height:34px;border-radius:8px;border:1.5px solid var(--gray-200);background:#fff;color:var(--gray-600);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;font-size:.85rem;margin-right:.25rem;text-decoration:none}
 .btn-row-action:hover{background:var(--primary);border-color:var(--primary);color:#fff;transform:translateY(-2px)}
 .btn-row-action.danger:hover{background:var(--danger);border-color:var(--danger)}
@@ -119,8 +123,6 @@ table.data-table tbody tr:hover{background:#faf5ff}
 .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(124,58,237,.1)}
 .form-group textarea{min-height:100px;resize:vertical}
 .form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
-
-/* FILE DROP (untuk upload materi) */
 .file-drop{border:2px dashed #cbd5e1;border-radius:12px;padding:1.5rem;text-align:center;cursor:pointer;transition:all .3s;background:#f9fafb}
 .file-drop:hover,.file-drop.dragover{border-color:var(--primary);background:#faf5ff}
 .file-drop.has-file{border-color:var(--success);background:#f0fdf4;border-style:solid}
@@ -134,8 +136,6 @@ table.data-table tbody tr:hover{background:#faf5ff}
 .file-preview .f-name{flex:1;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .file-preview .f-size{color:var(--gray-500);font-size:.75rem;flex-shrink:0}
 .file-preview .f-remove{background:none;border:none;color:var(--danger);cursor:pointer;font-size:1rem;padding:.3rem;flex-shrink:0}
-
-/* TOAST */
 .toast{position:fixed;top:1.5rem;right:1.5rem;background:#fff;padding:1rem 1.3rem;border-radius:10px;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:.75rem;font-size:.88rem;font-weight:500;z-index:9999;transform:translateX(400px);transition:transform .4s;max-width:340px}
 .toast.show{transform:translateX(0)}
 .toast.error{border-left:4px solid var(--danger)}
@@ -144,8 +144,6 @@ table.data-table tbody tr:hover{background:#faf5ff}
 .toast.success i{color:var(--success)}
 .toast.info{border-left:4px solid var(--primary)}
 .toast.info i{color:var(--primary)}
-
-/* JAWABAN ITEM (untuk tugas & nilai) */
 .jawaban-item{padding:1.4rem 1.6rem;border-bottom:1px solid var(--gray-100);transition:all .3s}
 .jawaban-item:hover{background:#faf5ff}
 .jawaban-item:last-child{border-bottom:none}
@@ -210,7 +208,7 @@ table.data-table tbody tr:hover{background:#faf5ff}
     <div class="welcome-content">
       <p class="welcome-greeting" id="greeting">Selamat datang kembali,</p>
       <h1>Halo, <span class="highlight" id="welcome-name">Guru</span>! 👋</h1>
-      <p>Kelola materi (upload file), video, soal kuis, dan nilai siswa. Pantau tugas yang dikirim siswa.</p>
+      <p>Kelola materi, video, soal kuis, nilai siswa, dan daftar hadir. Pantau tugas yang dikirim siswa.</p>
       <div class="welcome-meta">
         <div class="meta-badge"><i class="fas fa-calendar-day"></i><span id="current-date">-</span></div>
         <div class="meta-badge"><i class="fas fa-clock"></i><span id="current-time">-</span></div>
@@ -228,11 +226,14 @@ table.data-table tbody tr:hover{background:#faf5ff}
 
   <div class="section-header"><h2><i class="fas fa-grip"></i> Menu Pembelajaran</h2></div>
   <section class="menu-grid">
+    <a href="tujuan.html" class="menu-item">
+      <div class="menu-icon purple"><i class="fas fa-bullseye"></i></div>
+      <div class="menu-label">Tujuan</div><div class="menu-desc">Kelola tujuan</div>
+    </a>
     <a href="materi.html" class="menu-item"><div class="menu-icon blue"><i class="fas fa-book"></i></div><div class="menu-label">Materi</div><div class="menu-desc">Kelola materi</div></a>
     <a href="video.html" class="menu-item"><div class="menu-icon red"><i class="fas fa-video"></i></div><div class="menu-label">Video</div><div class="menu-desc">Kelola video</div></a>
     <a href="kuis.html" class="menu-item"><div class="menu-icon orange"><i class="fas fa-clipboard-question"></i></div><div class="menu-label">Kuis</div><div class="menu-desc">Lihat kuis</div></a>
     <a href="latihan.html" class="menu-item"><div class="menu-icon green"><i class="fas fa-pen-to-square"></i></div><div class="menu-label">Latihan</div><div class="menu-desc">Lihat latihan</div></a>
-    <a href="nilai.html" class="menu-item"><div class="menu-icon purple"><i class="fas fa-chart-line"></i></div><div class="menu-label">Nilai</div><div class="menu-desc">Nilai siswa</div></a>
     <button class="menu-item" onclick="logout()"><div class="menu-icon gray"><i class="fas fa-right-from-bracket"></i></div><div class="menu-label">Logout</div><div class="menu-desc">Keluar akun</div></button>
   </section>
 
@@ -276,6 +277,9 @@ table.data-table tbody tr:hover{background:#faf5ff}
     </div>
   </div>
 
+  <!-- ============================================================
+       MONITORING SISWA
+       ============================================================ -->
   <div class="section-header">
     <h2><i class="fas fa-user-check"></i> Monitoring Siswa</h2>
     <button class="btn-toolbar ghost" onclick="loadMonitoring()"><i class="fas fa-rotate"></i> Muat Ulang</button>
@@ -292,6 +296,31 @@ table.data-table tbody tr:hover{background:#faf5ff}
     </table></div>
   </section>
 
+  <!-- ============================================================
+       DAFTAR HADIR SISWA (FITUR BARU)
+       ============================================================ -->
+  <div class="section-header">
+    <h2><i class="fas fa-clipboard-user"></i> Daftar Hadir Siswa</h2>
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+      <button class="btn-toolbar primary" onclick="openModalKehadiran()"><i class="fas fa-plus"></i> Catat Kehadiran</button>
+      <button class="btn-toolbar ghost" onclick="loadKehadiran()"><i class="fas fa-rotate"></i> Muat Ulang</button>
+    </div>
+  </div>
+
+  <section class="data-panel">
+    <div class="data-toolbar">
+      <div class="search-box"><i class="fas fa-magnifying-glass"></i><input type="text" id="filter-kehadiran" placeholder="Cari nama siswa..."></div>
+      <input type="date" class="filter-select" id="filter-kehadiran-tanggal" style="padding:.75rem 1rem;">
+    </div>
+    <div class="table-wrapper"><table class="data-table">
+      <thead><tr><th>Tanggal</th><th>Nama Siswa</th><th>Kelas</th><th>Status</th><th>Keterangan</th><th style="text-align:right;">Aksi</th></tr></thead>
+      <tbody id="tbody-kehadiran"><tr><td colspan="6"><div class="empty-state"><i class="fas fa-inbox"></i><p>Memuat data...</p></div></td></tr></tbody>
+    </table></div>
+  </section>
+
+  <!-- ============================================================
+       TUGAS YANG DIKIRIM SISWA (dengan tombol HAPUS)
+       ============================================================ -->
   <div class="section-header">
     <h2><i class="fas fa-inbox"></i> Tugas yang Dikirim Siswa</h2>
     <button class="btn-toolbar ghost" onclick="loadJawaban()"><i class="fas fa-rotate"></i> Muat Ulang</button>
@@ -299,20 +328,28 @@ table.data-table tbody tr:hover{background:#faf5ff}
 
   <div class="data-panel"><div id="jawaban-list"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat tugas siswa...</p></div></div></div>
 
+  <!-- ============================================================
+       DAFTAR NILAI SISWA (FITUR BARU)
+       ============================================================ -->
   <div class="section-header">
-    <h2><i class="fas fa-file-lines"></i> File Nilai Siswa</h2>
-    <button class="btn-toolbar primary" onclick="loadNilai()"><i class="fas fa-rotate"></i> Muat Nilai</button>
+    <h2><i class="fas fa-file-lines"></i> Daftar Nilai Siswa</h2>
+    <button class="btn-toolbar primary" onclick="loadDaftarNilai()"><i class="fas fa-rotate"></i> Muat Nilai</button>
   </div>
 
   <section class="data-panel">
+    <div class="data-toolbar">
+      <div class="search-box"><i class="fas fa-magnifying-glass"></i><input type="text" id="filter-nilai" placeholder="Cari nama siswa..."></div>
+      <select class="filter-select" id="filter-nilai-kelas"><option value="">Semua Kelas</option></select>
+    </div>
     <div class="table-wrapper"><table class="data-table">
-      <thead><tr><th>Nama Siswa</th><th>Kelas</th><th>Materi</th><th>Nilai</th><th>Tanggal</th><th style="text-align:right;">File</th></tr></thead>
-      <tbody id="tbody-nilai"><tr><td colspan="6"><div class="empty-state"><i class="fas fa-inbox"></i><p>Belum ada data nilai.</p></div></td></tr></tbody>
+      <thead><tr><th>Nama Siswa</th><th>Kelas</th><th>Materi</th><th>Nilai</th><th>Predikat</th><th>Tanggal</th><th style="text-align:right;">File</th></tr></thead>
+      <tbody id="tbody-nilai"><tr><td colspan="7"><div class="empty-state"><i class="fas fa-inbox"></i><p>Belum ada data nilai.</p></div></td></tr></tbody>
     </table></div>
   </section>
 
 </main>
 
+<!-- MODAL TAMBAH/EDIT KONTEN -->
 <div class="modal-overlay" id="modal-overlay">
   <div class="modal">
     <div class="modal-header">
@@ -329,6 +366,60 @@ table.data-table tbody tr:hover{background:#faf5ff}
   </div>
 </div>
 
+<!-- MODAL KEHADIRAN -->
+<div class="modal-overlay" id="modal-kehadiran">
+  <div class="modal">
+    <div class="modal-header">
+      <h3><i class="fas fa-clipboard-user"></i> Catat Kehadiran</h3>
+      <button class="modal-close" onclick="document.getElementById('modal-kehadiran').classList.remove('show')"><i class="fas fa-times"></i></button>
+    </div>
+    <form id="form-kehadiran" onsubmit="handleKehadiranSubmit(event)">
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Tanggal</label>
+          <input type="date" name="tanggal" id="kehadiran-tanggal" required>
+        </div>
+        <div class="form-group">
+          <label>Nama Siswa</label>
+          <input type="text" name="nama_siswa" placeholder="Nama lengkap siswa" required>
+        </div>
+        <div class="form-group">
+          <label>Kelas</label>
+          <select name="kelas" required>
+            <option value="">-- Pilih Kelas --</option>
+            <option value="X TP 1">X TP 1</option>
+            <option value="X TP 2">X TP 2</option>
+            <option value="X TP 3">X TP 3</option>
+            <option value="XI TP 1">XI TP 1</option>
+            <option value="XI TP 2">XI TP 2</option>
+            <option value="XI TP 3">XI TP 3</option>
+            <option value="XII TP 1">XII TP 1</option>
+            <option value="XII TP 2">XII TP 2</option>
+            <option value="XII TP 3">XII TP 3</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select name="status" required>
+            <option value="hadir">Hadir</option>
+            <option value="sakit">Sakit</option>
+            <option value="izin">Izin</option>
+            <option value="alpha">Alpha (Tanpa Keterangan)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Keterangan (opsional)</label>
+          <textarea name="keterangan" placeholder="Contoh: Sakit demam" style="min-height:70px;"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-toolbar ghost" onclick="document.getElementById('modal-kehadiran').classList.remove('show')">Batal</button>
+        <button type="submit" class="btn-toolbar primary"><i class="fas fa-save"></i> Simpan Kehadiran</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <div class="zoom-modal" id="zoomModal" onclick="closeZoom()"><img id="zoomImg" src="" alt="Preview"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -336,7 +427,6 @@ table.data-table tbody tr:hover{background:#faf5ff}
 const SUPABASE_URL = 'https://ddnhwcxfktcsyngupdex.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_ogAtXLGklIivo88I41J8ZA_9CWzS8D3';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
 const BUCKET_MATERI = 'materi-k3';
 const MAX_SIZE = 20 * 1024 * 1024;
 const ALLOWED_EXT = ['jpg','jpeg','png','gif','webp','pdf','doc','docx','xls','xlsx','ppt','pptx','txt','zip','rar'];
@@ -345,7 +435,10 @@ let currentGuru = null;
 let currentModalType = null;
 let semuaJawaban = [];
 let selectedMateriFile = null;
+let semuaKehadiran = [];
+let semuaNilai = [];
 
+// ============ HELPERS ============
 function showToast(message, type = 'info') {
   const toast = document.getElementById('toast');
   const msg = document.getElementById('toast-message');
@@ -382,6 +475,14 @@ function isImage(filename) {
   return ['jpg','jpeg','png','gif','webp'].includes(ext);
 }
 
+function getPredikat(nilai) {
+  if (nilai === null || nilai === undefined) return { label: '—', cls: 'draft' };
+  if (nilai >= 90) return { label: 'A', cls: 'aktif' };
+  if (nilai >= 80) return { label: 'B', cls: 'kelas' };
+  if (nilai >= 70) return { label: 'C', cls: 'sedang' };
+  return { label: 'D', cls: 'sulit' };
+}
+
 function cekSession() {
   const s = localStorage.getItem('guru_session');
   if (!s) { window.location.href = 'index.html'; return null; }
@@ -395,10 +496,11 @@ function logout() {
   window.location.href = 'index.html';
 }
 
+// ============ STATISTIK ============
 async function loadStatistik() {
   try {
     const [siswa, materi, kuis, tugas] = await Promise.all([
-      supabaseClient.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'siswa'),
+      supabaseClient.from('profiles').select('*', { count: 'exact', head: true }),
       supabaseClient.from('materi').select('*', { count: 'exact', head: true }),
       supabaseClient.from('soal').select('*', { count: 'exact', head: true }),
       supabaseClient.from('jawaban_siswa').select('*', { count: 'exact', head: true })
@@ -410,6 +512,7 @@ async function loadStatistik() {
   } catch (err) { console.error('Gagal load statistik:', err); }
 }
 
+// ============ TAB KONTEN ============
 function switchTab(tab) {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
@@ -471,19 +574,17 @@ async function loadKonten(type) {
   }
 }
 
+// ============ MONITORING SISWA ============
 async function loadMonitoring() {
   const tbody = document.getElementById('tbody-monitoring');
   tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat data...</p></div></td></tr>';
   try {
-    const { data, error } = await supabaseClient.from('profiles')
-      .select('*')
-      .order('last_sign_in_at', { ascending: false, nullsFirst: false });
+    const { data, error } = await supabaseClient.from('profiles').select('*').order('last_sign_in_at', { ascending: false, nullsFirst: false });
     if (error) throw error;
     if (!data || data.length === 0) {
       tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-inbox"></i><p>Belum ada siswa terdaftar.</p></div></td></tr>';
       return;
     }
-    // Filter yang role-nya siswa (atau semua kalau role kosong)
     const siswaOnly = data.filter(s => !s.role || s.role === 'siswa');
     const displayData = siswaOnly.length > 0 ? siswaOnly : data;
 
@@ -528,6 +629,95 @@ async function loadMonitoring() {
   }
 }
 
+// ============ DAFTAR HADIR ============
+function openModalKehadiran() {
+  document.getElementById('kehadiran-tanggal').value = new Date().toISOString().split('T')[0];
+  document.getElementById('modal-kehadiran').classList.add('show');
+}
+
+async function handleKehadiranSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  const data = Object.fromEntries(new FormData(form));
+  try {
+    const { error } = await supabaseClient.from('kehadiran').insert([data]);
+    if (error) throw error;
+    showToast('Kehadiran berhasil dicatat! ✅', 'success');
+    form.reset();
+    document.getElementById('modal-kehadiran').classList.remove('show');
+    loadKehadiran();
+  } catch (err) {
+    showToast('Gagal menyimpan: ' + err.message, 'error');
+  }
+}
+
+async function loadKehadiran() {
+  const tbody = document.getElementById('tbody-kehadiran');
+  tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat data...</p></div></td></tr>';
+  try {
+    const { data, error } = await supabaseClient.from('kehadiran').select('*').order('tanggal', { ascending: false });
+    if (error) throw error;
+    semuaKehadiran = data || [];
+
+    if (semuaKehadiran.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-inbox"></i><p>Belum ada data kehadiran.</p></div></td></tr>';
+      return;
+    }
+
+    const render = list => {
+      if (list.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-inbox"></i><p>Tidak ada data yang cocok.</p></div></td></tr>';
+        return;
+      }
+      tbody.innerHTML = list.map(k => {
+        const tgl = k.tanggal ? new Date(k.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '-';
+        const statusBadge = { hadir: 'hadir', sakit: 'sakit', izin: 'izin', alpha: 'alpha' }[k.status] || 'draft';
+        return `
+          <tr>
+            <td><strong>${tgl}</strong></td>
+            <td>${escapeHtml(k.nama_siswa || '-')}</td>
+            <td><span class="badge kelas">${escapeHtml(k.kelas || '-')}</span></td>
+            <td><span class="badge ${statusBadge}">${escapeHtml(k.status || '-')}</span></td>
+            <td>${escapeHtml(k.keterangan || '-')}</td>
+            <td style="text-align:right;">
+              <button class="btn-row-action danger" onclick="hapusKehadiran('${k.id}')"><i class="fas fa-trash"></i></button>
+            </td>
+          </tr>`;
+      }).join('');
+    };
+
+    render(semuaKehadiran);
+
+    const filterInput = document.getElementById('filter-kehadiran');
+    const filterTanggal = document.getElementById('filter-kehadiran-tanggal');
+    const applyFilter = () => {
+      const q = filterInput.value.toLowerCase();
+      const tgl = filterTanggal.value;
+      render(semuaKehadiran.filter(k => 
+        (k.nama_siswa || '').toLowerCase().includes(q) && 
+        (!tgl || k.tanggal === tgl)
+      ));
+    };
+    filterInput.addEventListener('input', applyFilter);
+    filterTanggal.addEventListener('change', applyFilter);
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Gagal memuat: ${escapeHtml(err.message)}</p></div></td></tr>`;
+  }
+}
+
+async function hapusKehadiran(id) {
+  if (!confirm('Yakin ingin menghapus data kehadiran ini?')) return;
+  try {
+    const { error } = await supabaseClient.from('kehadiran').delete().eq('id', id);
+    if (error) throw error;
+    showToast('Kehadiran berhasil dihapus!', 'success');
+    loadKehadiran();
+  } catch (err) {
+    showToast('Gagal menghapus: ' + err.message, 'error');
+  }
+}
+
+// ============ TUGAS MASUK (dengan hapus) ============
 async function loadJawaban() {
   const container = document.getElementById('jawaban-list');
   container.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat tugas siswa...</p></div>';
@@ -553,7 +743,6 @@ function renderJawaban() {
     const initial = (j.nama_siswa || '?').charAt(0).toUpperCase();
     const badge = isDinilai ? `<span class="badge aktif">✅ Dinilai: ${j.nilai || 0}</span>` : `<span class="badge warning">⏳ Menunggu</span>`;
 
-    // File box
     let fileBoxHTML = '';
     if (j.file_url) {
       const isImg = isImage(j.file_name);
@@ -574,9 +763,7 @@ function renderJawaban() {
         </div>`;
     }
 
-    // Jawaban teks
     const jawabanHTML = j.jawaban ? `<div class="jawaban-box"><b><i class="fas fa-comment-dots"></i> Jawaban Siswa:</b><br>${escapeHtml(j.jawaban).replace(/\n/g, '<br>')}</div>` : '';
-
     const catatanHTML = j.catatan ? `<div class="catatan-box"><b><i class="fas fa-comment"></i> Catatan Siswa:</b><br>${escapeHtml(j.catatan)}</div>` : '';
 
     return `
@@ -593,7 +780,10 @@ function renderJawaban() {
               </p>
             </div>
           </div>
-          ${badge}
+          <div style="display:flex;gap:.5rem;align-items:center;">
+            ${badge}
+            <button class="btn-row-action danger" onclick="hapusJawaban('${j.id}')" title="Hapus Jawaban"><i class="fas fa-trash"></i></button>
+          </div>
         </div>
         ${catatanHTML}
         ${jawabanHTML}
@@ -610,6 +800,19 @@ function renderJawaban() {
   }).join('');
 }
 
+async function hapusJawaban(id) {
+  if (!confirm('Yakin ingin menghapus jawaban siswa ini? Tindakan ini tidak dapat dibatalkan.')) return;
+  try {
+    const { error } = await supabaseClient.from('jawaban_siswa').delete().eq('id', id);
+    if (error) throw error;
+    showToast('Jawaban berhasil dihapus! 🗑️', 'success');
+    loadJawaban();
+    loadStatistik();
+  } catch (err) {
+    showToast('Gagal menghapus: ' + err.message, 'error');
+  }
+}
+
 async function simpanNilai(id) {
   const nilaiEl = document.getElementById('nilai-' + id);
   const komentarEl = document.getElementById('komentar-' + id);
@@ -622,40 +825,71 @@ async function simpanNilai(id) {
     if (error) throw error;
     showToast('Nilai berhasil disimpan! ✅', 'success');
     loadJawaban();
+    loadDaftarNilai();
   } catch (err) { showToast('Gagal simpan: ' + err.message, 'error'); }
 }
 
-async function loadNilai() {
+// ============ DAFTAR NILAI SISWA ============
+async function loadDaftarNilai() {
   const tbody = document.getElementById('tbody-nilai');
-  tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat data...</p></div></td></tr>';
+  tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat data...</p></div></td></tr>';
   try {
-    // Ambil dari jawaban_siswa yang sudah dinilai
     const { data, error } = await supabaseClient.from('jawaban_siswa')
-      .select('*')
-      .eq('status', 'dinilai')
-      .order('created_at', { ascending: false });
+      .select('*').eq('status', 'dinilai').order('created_at', { ascending: false });
     if (error) throw error;
-    if (!data || data.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-inbox"></i><p>Belum ada nilai siswa yang tersimpan.</p></div></td></tr>';
+    semuaNilai = data || [];
+
+    if (semuaNilai.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><i class="fas fa-inbox"></i><p>Belum ada nilai siswa yang tersimpan.</p></div></td></tr>';
       return;
     }
-    tbody.innerHTML = data.map(n => `
-      <tr>
-        <td><strong>${escapeHtml(n.nama_siswa || '-')}</strong></td>
-        <td><span class="badge kelas">${escapeHtml(n.kelas || '-')}</span></td>
-        <td>${escapeHtml(n.judul_tugas || '-')}</td>
-        <td><strong style="color:${n.nilai >= 75 ? 'var(--success)' : 'var(--danger)'};">${n.nilai || 0}</strong></td>
-        <td>${n.created_at ? new Date(n.created_at).toLocaleDateString('id-ID') : '-'}</td>
-        <td style="text-align:right;">
-          ${n.file_url ? `<a href="${escapeHtml(n.file_url)}" target="_blank" class="btn-row-action" title="Lihat File"><i class="fas fa-download"></i></a>` : '-'}
-        </td>
-      </tr>`).join('');
+
+    const kelasSet = new Set(semuaNilai.map(n => n.kelas).filter(Boolean));
+    const filterKelas = document.getElementById('filter-nilai-kelas');
+    filterKelas.innerHTML = '<option value="">Semua Kelas</option>' + [...kelasSet].map(k => `<option value="${escapeHtml(k)}">${escapeHtml(k)}</option>`).join('');
+
+    const render = list => {
+      if (list.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><i class="fas fa-inbox"></i><p>Tidak ada data yang cocok.</p></div></td></tr>';
+        return;
+      }
+      tbody.innerHTML = list.map(n => {
+        const p = getPredikat(n.nilai);
+        return `
+          <tr>
+            <td><strong>${escapeHtml(n.nama_siswa || '-')}</strong></td>
+            <td><span class="badge kelas">${escapeHtml(n.kelas || '-')}</span></td>
+            <td>${escapeHtml(n.judul_tugas || '-')}</td>
+            <td><strong style="color:${n.nilai >= 75 ? 'var(--success)' : 'var(--danger)'};">${n.nilai || 0}</strong></td>
+            <td><span class="badge ${p.cls}">${p.label}</span></td>
+            <td>${n.created_at ? new Date(n.created_at).toLocaleDateString('id-ID') : '-'}</td>
+            <td style="text-align:right;">
+              ${n.file_url ? `<a href="${escapeHtml(n.file_url)}" target="_blank" class="btn-row-action" title="Lihat File"><i class="fas fa-download"></i></a>` : '-'}
+            </td>
+          </tr>`;
+      }).join('');
+    };
+
+    render(semuaNilai);
+
+    const filterInput = document.getElementById('filter-nilai');
+    const filterKelasEl = document.getElementById('filter-nilai-kelas');
+    const applyFilter = () => {
+      const q = filterInput.value.toLowerCase();
+      const kls = filterKelasEl.value;
+      render(semuaNilai.filter(n => 
+        (n.nama_siswa || '').toLowerCase().includes(q) && 
+        (!kls || n.kelas === kls)
+      ));
+    };
+    filterInput.addEventListener('input', applyFilter);
+    filterKelasEl.addEventListener('change', applyFilter);
   } catch (err) {
-    tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>${escapeHtml(err.message)}</p></div></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Gagal memuat: ${escapeHtml(err.message)}</p></div></td></tr>`;
   }
 }
 
-// ============ MODAL ============
+// ============ MODAL KONTEN ============
 function openModal(type, data = null) {
   currentModalType = type;
   selectedMateriFile = null;
@@ -783,7 +1017,6 @@ async function handleModalSubmit(e) {
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
 
   try {
-    // Upload file materi kalau ada
     if (currentModalType === 'materi') {
       if (selectedMateriFile) {
         const fileInfo = await uploadMateriFile(selectedMateriFile);
@@ -839,6 +1072,7 @@ async function hapusItem(type, id) {
 function openZoom(url) { document.getElementById('zoomImg').src = url; document.getElementById('zoomModal').classList.add('show'); }
 function closeZoom() { document.getElementById('zoomModal').classList.remove('show'); }
 
+// ============ INIT ============
 document.addEventListener('DOMContentLoaded', async () => {
   currentGuru = cekSession();
   if (!currentGuru) return;
@@ -862,10 +1096,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('greeting').textContent = greeting;
 
   document.getElementById('logout-btn').addEventListener('click', logout);
+
   await loadStatistik();
   await loadKonten('materi');
   await loadMonitoring();
+  await loadKehadiran();
   await loadJawaban();
+  await loadDaftarNilai();
 });
 
 window.openModal = openModal;
@@ -875,9 +1112,14 @@ window.switchTab = switchTab;
 window.editItem = editItem;
 window.hapusItem = hapusItem;
 window.loadMonitoring = loadMonitoring;
-window.loadNilai = loadNilai;
+window.loadKehadiran = loadKehadiran;
+window.openModalKehadiran = openModalKehadiran;
+window.handleKehadiranSubmit = handleKehadiranSubmit;
+window.hapusKehadiran = hapusKehadiran;
 window.loadJawaban = loadJawaban;
+window.hapusJawaban = hapusJawaban;
 window.simpanNilai = simpanNilai;
+window.loadDaftarNilai = loadDaftarNilai;
 window.openZoom = openZoom;
 window.closeZoom = closeZoom;
 window.logout = logout;
