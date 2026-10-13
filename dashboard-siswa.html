@@ -503,4 +503,290 @@
       pdf:'fa-file-pdf', doc:'fa-file-word', docx:'fa-file-word',
       xls:'fa-file-excel', xlsx:'fa-file-excel',
       ppt:'fa-file-powerpoint', pptx:'fa-file-powerpoint',
-      txt:'fa-file-lines', zip:'
+      txt:'fa-file-lines', zip:'fa-file-zipper', rar:'fa-file-zipper'
+    };
+    return map[ext] || 'fa-file';
+  }
+
+  // ===== FILE DROP =====
+  function setupFileDrop() {
+    const drop = document.getElementById('fileDrop');
+    const input = document.getElementById('fileInput');
+    const preview = document.getElementById('filePreview');
+    const fIcon = document.getElementById('fIcon');
+    const fName = document.getElementById('fName');
+    const fSize = document.getElementById('fSize');
+    const fRemove = document.getElementById('fRemove');
+
+    drop.addEventListener('click', () => input.click());
+
+    drop.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      drop.classList.add('dragover');
+    });
+    drop.addEventListener('dragleave', () => drop.classList.remove('dragover'));
+    drop.addEventListener('drop', (e) => {
+      e.preventDefault();
+      drop.classList.remove('dragover');
+      if (e.dataTransfer.files.length) {
+        input.files = e.dataTransfer.files;
+        input.dispatchEvent(new Event('change'));
+      }
+    });
+
+    input.addEventListener('change', () => {
+      const file = input.files[0];
+      if (!file) return reset();
+
+      // Validasi ukuran
+      if (file.size > MAX_SIZE) {
+        showToast('File terlalu besar! Maksimal 20 MB.', 'error');
+        return reset();
+      }
+
+      // Validasi ekstensi
+      const ext = file.name.split('.').pop().toLowerCase();
+      if (!ALLOWED_EXT.includes(ext)) {
+        showToast('Tipe file tidak diizinkan!', 'error');
+        return reset();
+      }
+
+      selectedFile = file;
+
+      // Update UI
+      drop.classList.add('has-file');
+      drop.querySelector('.file-label').textContent = '✓ ' + file.name;
+      drop.querySelector('.file-hint').textContent = 'Klik untuk ganti file';
+
+      fIcon.innerHTML = `<i class="fas ${getFileIcon(file.name)}"></i>`;
+      fName.textContent = file.name;
+      fSize.textContent = formatSize(file.size);
+      preview.classList.add('show');
+    });
+
+    fRemove.addEventListener('click', (e) => {
+      e.stopPropagation();
+      reset();
+    });
+
+    function reset() {
+      input.value = '';
+      selectedFile = null;
+      drop.classList.remove('has-file');
+      drop.querySelector('.file-label').textContent = 'Klik atau seret file ke sini';
+      drop.querySelector('.file-hint').textContent = 'Format: JPG, PNG, PDF, Word, Excel, PPT, ZIP (maks. 20 MB)';
+      preview.classList.remove('show');
+    }
+  }
+
+  // ===== UPLOAD KE STORAGE =====
+  async function uploadFile(file) {
+    const ext = file.name.split('.').pop().toLowerCase();
+    const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${ext}`;
+    const filePath = `${currentSiswa.kelas}/${fileName}`;
+
+    const { error: uploadError } = await supabaseClient.storage
+      .from(BUCKET)
+      .upload(filePath, file, { cacheControl: '3600', upsert: false });
+
+    if (uploadError) throw uploadError;
+
+    const { data: urlData } = supabaseClient.storage.from(BUCKET).getPublicUrl(filePath);
+
+    return {
+      path: filePath,
+      url: urlData.publicUrl,
+      name: file.name,
+      size: file.size,
+      type: ext
+    };
+  }
+
+  // ===== KIRIM TUGAS =====
+  async function kirimTugas() {
+    if (!currentSiswa) return showToast('Silakan login', 'error');
+
+    const judul = document.getElementById('judulTugas').value.trim();
+    const tipe = document.getElementById('tipeTugas').value;
+    const catatan = document.getElementById('catatanTugas').value.trim();
+
+    if (!judul) return showToast('Judul tugas wajib diisi', 'error');
+    if (!selectedFile) return showToast('Silakan pilih file tugas', 'error');
+
+    const btn = document.getElementById('btnKirim');
+    const progressBar = document.getElementById('progressBar');
+    const progressFill = document.getElementById('progressFill');
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengunggah file...';
+    progressBar.classList.add('show');
+    progressFill.style.width = '30%';
+
+    try {
+      // Upload file ke storage
+      const fileInfo = await uploadFile(selectedFile);
+      progressFill.style.width = '80%';
+
+      // Simpan data ke tabel
+      const { error: dbError } = await supabaseClient.from('jawaban_siswa').insert([{
+        siswa_id: currentSiswa.id || currentSiswa.username || 'unknown',
+        nama_siswa: currentSiswa.nama,
+        kelas: currentSiswa.kelas,
+        judul_tugas: judul,
+        tipe: tipe,
+        file_url: fileInfo.url,
+        file_path: fileInfo.path,
+        file_name: fileInfo.name,
+        file_size: fileInfo.size,
+        file_type: fileInfo.type,
+        catatan: catatan,
+        status: 'menunggu',
+        created_at: new Date().toISOString()
+      }]);
+
+      if (dbError) throw dbError;
+
+      progressFill.style.width = '100%';
+
+      // Log aktivitas
+      try {
+        await supabaseClient.from('aktivitas').insert([{
+          siswa_id: currentSiswa.id,
+          tipe: 'tugas',
+          judul: judul,
+          status: 'selesai',
+          created_at: new Date().toISOString()
+        }]);
+      } catch (e) { console.warn(e); }
+
+      showToast('Tugas berhasil dikirim! 🎉', 'success');
+      document.getElementById('formKirim').reset();
+      document.getElementById('filePreview').classList.remove('show');
+      document.getElementById('fileDrop').classList.remove('has-file');
+      document.getElementById('fileDrop').querySelector('.file-label').textContent = 'Klik atau seret file ke sini';
+      document.getElementById('fileDrop').querySelector('.file-hint').textContent = 'Format: JPG, PNG, PDF, Word, Excel, PPT, ZIP (maks. 20 MB)';
+      selectedFile = null;
+
+      loadRiwayat();
+      loadStatistik();
+
+    } catch (err) {
+      console.error(err);
+      showToast('Gagal kirim: ' + err.message, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-paper-plane"></i> Kirim ke Guru';
+      setTimeout(() => {
+        progressBar.classList.remove('show');
+        progressFill.style.width = '0%';
+      }, 1000);
+    }
+  }
+
+  // ===== RIWAYAT =====
+  async function loadRiwayat() {
+    const list = document.getElementById('riwayatList');
+    if (!currentSiswa) return;
+
+    try {
+      const { data, error } = await supabaseClient
+        .from('jawaban_siswa')
+        .select('*')
+        .eq('nama_siswa', currentSiswa.nama)
+        .eq('kelas', currentSiswa.kelas)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      if (!data || data.length === 0) {
+        list.innerHTML = '<p style="text-align:center; color:#64748b; padding:20px;">Belum ada tugas yang dikirim.</p>';
+        return;
+      }
+
+      list.innerHTML = data.map(d => {
+        const waktu = new Date(d.created_at).toLocaleString('id-ID', {
+          day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+        });
+        const isDinilai = d.status === 'dinilai';
+
+        return `
+          <div class="riwayat-item">
+            <div class="riwayat-info">
+              <h4>${d.judul_tugas}</h4>
+              <p><i class="fas fa-clock"></i> ${waktu} • Tipe: ${d.tipe}</p>
+              ${d.file_url ? `
+                <a href="${d.file_url}" target="_blank" class="riwayat-file">
+                  <i class="fas ${getFileIcon(d.file_name)}"></i>
+                  ${d.file_name || 'File'}
+                </a>` : ''}
+              ${d.komentar_guru ? `<p style="margin-top:6px; color:#ea580c;"><i class="fas fa-comment"></i> ${d.komentar_guru}</p>` : ''}
+            </div>
+            <div class="riwayat-status ${isDinilai ? 'dinilai' : 'menunggu'}">
+              ${isDinilai ? `✅ Dinilai: ${d.nilai}` : '⏳ Menunggu'}
+            </div>
+          </div>`;
+      }).join('');
+
+    } catch (err) {
+      console.error(err);
+      list.innerHTML = '<p style="text-align:center; color:#dc2626; padding:20px;">Gagal memuat riwayat.</p>';
+    }
+  }
+
+  // ===== STATISTIK =====
+  async function loadStatistik() {
+    if (!currentSiswa) return;
+    try {
+      const { count: totalMateri } = await supabaseClient.from('materi').select('*', { count: 'exact', head: true }).eq('status', 'aktif');
+      const { count: materiDibaca } = await supabaseClient.from('aktivitas').select('*', { count: 'exact', head: true }).eq('siswa_id', currentSiswa.id).eq('tipe', 'materi').eq('status', 'selesai');
+      const { count: kuisSelesai } = await supabaseClient.from('aktivitas').select('*', { count: 'exact', head: true }).eq('siswa_id', currentSiswa.id).eq('tipe', 'kuis').eq('status', 'selesai');
+      const { count: tugasDikirim } = await supabaseClient.from('jawaban_siswa').select('*', { count: 'exact', head: true }).eq('nama_siswa', currentSiswa.nama).eq('kelas', currentSiswa.kelas);
+
+      const { data: nilaiData } = await supabaseClient.from('nilai').select('nilai').eq('nama_siswa', currentSiswa.nama).eq('kelas', currentSiswa.kelas);
+      let rataNilai = 0;
+      if (nilaiData && nilaiData.length > 0) {
+        rataNilai = nilaiData.reduce((a, b) => a + (b.nilai || 0), 0) / nilaiData.length;
+      }
+
+      document.getElementById('stat-materi').textContent = `${materiDibaca || 0} / ${totalMateri || 0}`;
+      document.getElementById('stat-kuis').textContent = kuisSelesai || 0;
+      document.getElementById('stat-nilai').textContent = rataNilai > 0 ? Math.round(rataNilai) + '%' : '—';
+      document.getElementById('stat-tugas').textContent = tugasDikirim || 0;
+    } catch (err) { console.error(err); }
+  }
+
+  function logout() {
+    if (!confirm('Yakin ingin keluar?')) return;
+    localStorage.removeItem('siswa_session');
+    window.location.href = 'index.html';
+  }
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    currentSiswa = cekSession();
+    if (!currentSiswa) return;
+
+    const initial = (currentSiswa.nama || 'S').charAt(0).toUpperCase();
+    document.getElementById('user-avatar').textContent = initial;
+    document.getElementById('user-name').textContent = currentSiswa.nama || 'Siswa';
+    document.getElementById('user-kelas').textContent = currentSiswa.kelas || '-';
+    document.getElementById('welcome-name').textContent = (currentSiswa.nama || 'Siswa').split(' ')[0];
+    document.getElementById('greeting').textContent = getGreeting();
+
+    const now = new Date();
+    document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', logout);
+
+    setupFileDrop();
+    await loadStatistik();
+    await loadRiwayat();
+  });
+
+  window.kirimTugas = kirimTugas;
+  window.logout = logout;
+</script>
+
+</body>
+</html>
