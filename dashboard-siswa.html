@@ -3,748 +3,616 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Dashboard Siswa - Media Pembelajaran K3 SMK Negeri 2 Medan">
   <title>Dashboard Siswa | Media Pembelajaran K3</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
     :root {
-      --primary: #1e40af;
-      --primary-light: #3b82f6;
-      --accent: #f59e0b;
-      --danger: #dc2626;
-      --success: #16a34a;
-      --gray-50: #f9fafb;
-      --gray-100: #f3f4f6;
-      --gray-200: #e5e7eb;
-      --gray-300: #d1d5db;
-      --gray-400: #9ca3af;
-      --gray-500: #6b7280;
-      --gray-600: #4b5563;
-      --gray-700: #374151;
-      --gray-800: #1f2937;
+      --primary: #1e40af; --primary-light: #3b82f6;
+      --accent: #f59e0b; --danger: #dc2626; --success: #16a34a;
+      --orange: #ea580c; --orange-light: #f59e0b;
+      --gray-50: #f9fafb; --gray-100: #f3f4f6; --gray-200: #e5e7eb;
+      --gray-300: #d1d5db; --gray-400: #9ca3af; --gray-500: #6b7280;
+      --gray-600: #4b5563; --gray-700: #374151; --gray-800: #1f2937;
       --white: #ffffff;
       --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
       --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
       --shadow-lg: 0 20px 40px rgba(0,0,0,0.12);
       --radius: 16px;
-      --radius-sm: 12px;
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--gray-50);
-      color: var(--gray-800);
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
-      padding-bottom: 5rem;
-    }
-
-    /* NAVBAR */
+    body { font-family: 'Inter', sans-serif; background: var(--gray-50); color: var(--gray-800); min-height: 100vh; padding-bottom: 5rem; }
     .navbar {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--gray-200);
-      padding: 0.9rem 1.5rem;
+      background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200); padding: 0.9rem 1.5rem;
       display: flex; justify-content: space-between; align-items: center;
       box-shadow: var(--shadow-sm);
     }
-    .navbar-brand {
-      display: flex; align-items: center; gap: 0.6rem;
-      font-weight: 800; font-size: 1.05rem; color: var(--primary);
-    }
+    .navbar-brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 800; font-size: 1.05rem; color: var(--primary); }
     .brand-icon {
       width: 38px; height: 38px;
       background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
       color: white; font-size: 1rem;
       box-shadow: 0 4px 10px rgba(30,64,175,0.3);
     }
     .navbar-right { display: flex; align-items: center; gap: 0.9rem; }
-    .user-chip {
-      display: flex; align-items: center; gap: 0.65rem;
-      padding: 0.4rem 0.9rem 0.4rem 0.4rem;
-      background: var(--gray-100);
-      border-radius: 999px;
-    }
+    .user-chip { display: flex; align-items: center; gap: 0.65rem; padding: 0.4rem 0.9rem 0.4rem 0.4rem; background: var(--gray-100); border-radius: 999px; }
     .user-avatar {
       width: 34px; height: 34px; border-radius: 50%;
       background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      color: white;
-      display: flex; align-items: center; justify-content: center;
+      color: white; display: flex; align-items: center; justify-content: center;
       font-weight: 700; font-size: 0.85rem; text-transform: uppercase;
     }
     .user-details { display: flex; flex-direction: column; line-height: 1.2; }
     .user-details .user-name { font-size: 0.85rem; font-weight: 700; color: var(--gray-800); }
     .user-details .user-role { font-size: 0.7rem; color: var(--gray-500); font-weight: 500; }
-
     .btn-icon {
       width: 40px; height: 40px; border-radius: 10px;
-      border: 1.5px solid var(--gray-200);
-      background: var(--white); color: var(--gray-600);
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; transition: var(--transition); font-size: 0.95rem;
+      border: 1.5px solid var(--gray-200); background: var(--white);
+      color: var(--gray-600); display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.3s; font-size: 0.95rem;
     }
-    .btn-icon:hover { background: var(--danger); border-color: var(--danger); color: white; transform: translateY(-2px); }
-
-    /* CONTAINER */
+    .btn-icon:hover { background: var(--danger); border-color: var(--danger); color: white; }
     .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
-
-    /* HERO */
     .welcome-hero {
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-      border-radius: var(--radius);
-      padding: 2.2rem 2rem;
-      color: white; margin-bottom: 1.5rem;
-      position: relative; overflow: hidden;
+      border-radius: var(--radius); padding: 2.2rem 2rem; color: white;
+      margin-bottom: 1.5rem; position: relative; overflow: hidden;
       box-shadow: 0 12px 30px rgba(30,64,175,0.25);
-      animation: slideUp 0.5s ease-out;
     }
     .welcome-hero::before, .welcome-hero::after {
-      content: ''; position: absolute; border-radius: 50%;
-      background: rgba(255,255,255,0.1);
+      content: ''; position: absolute; border-radius: 50%; background: rgba(255,255,255,0.1);
     }
     .welcome-hero::before { width: 220px; height: 220px; top: -80px; right: -60px; }
     .welcome-hero::after { width: 150px; height: 150px; bottom: -60px; right: 120px; background: rgba(255,255,255,0.06); }
-
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
     .welcome-content { position: relative; z-index: 1; }
     .welcome-greeting { font-size: 0.85rem; font-weight: 500; opacity: 0.9; margin-bottom: 0.35rem; }
-    .welcome-hero h1 { font-size: 1.75rem; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+    .welcome-hero h1 { font-size: 1.75rem; font-weight: 800; line-height: 1.25; margin-bottom: 0.5rem; }
     .welcome-hero h1 .highlight { color: #fde68a; }
     .welcome-hero p { font-size: 0.9rem; opacity: 0.92; max-width: 600px; line-height: 1.6; }
     .welcome-meta { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.3rem; }
     .meta-badge {
       display: inline-flex; align-items: center; gap: 0.45rem;
-      background: rgba(255,255,255,0.18);
-      backdrop-filter: blur(8px);
+      background: rgba(255,255,255,0.18); backdrop-filter: blur(8px);
       padding: 0.45rem 0.9rem; border-radius: 999px;
       font-size: 0.78rem; font-weight: 600;
       border: 1px solid rgba(255,255,255,0.2);
     }
-
-    /* STATISTIK */
     .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 1.1rem; margin-bottom: 1.5rem;
     }
     .stat-card {
-      background: var(--white);
-      border-radius: var(--radius-sm);
-      padding: 1.3rem;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--gray-100);
+      background: var(--white); border-radius: 12px; padding: 1.3rem;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--gray-100);
       display: flex; align-items: center; gap: 1rem;
-      transition: var(--transition);
-      animation: slideUp 0.5s ease-out backwards;
     }
-    .stat-card:nth-child(1) { animation-delay: 0.05s; }
-    .stat-card:nth-child(2) { animation-delay: 0.10s; }
-    .stat-card:nth-child(3) { animation-delay: 0.15s; }
-    .stat-card:nth-child(4) { animation-delay: 0.20s; }
-    .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--primary-light); }
     .stat-icon {
       width: 52px; height: 52px; border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
       font-size: 1.3rem; flex-shrink: 0;
     }
-    .stat-icon.blue   { background: #dbeafe; color: #1e40af; }
-    .stat-icon.green  { background: #dcfce7; color: #16a34a; }
+    .stat-icon.blue { background: #dbeafe; color: #1e40af; }
+    .stat-icon.green { background: #dcfce7; color: #16a34a; }
     .stat-icon.orange { background: #fed7aa; color: #ea580c; }
     .stat-icon.purple { background: #e9d5ff; color: #7c3aed; }
-    .stat-info { flex: 1; min-width: 0; }
     .stat-label { font-size: 0.78rem; color: var(--gray-500); font-weight: 500; margin-bottom: 0.15rem; }
     .stat-value { font-size: 1.5rem; font-weight: 800; color: var(--gray-800); line-height: 1.1; }
-    .stat-value small { font-size: 0.85rem; font-weight: 600; color: var(--gray-500); margin-left: 0.2rem; }
-
-    /* INFO BANNER */
-    .info-banner {
-      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-      border-left: 5px solid var(--accent);
-      border-radius: var(--radius-sm);
-      padding: 1.1rem 1.3rem;
-      margin-bottom: 1.5rem;
-      display: flex; align-items: flex-start; gap: 0.9rem;
-      animation: slideUp 0.5s ease-out 0.25s backwards;
-    }
-    .info-banner .info-icon {
-      width: 40px; height: 40px;
-      background: rgba(245,158,11,0.2);
-      color: #b45309;
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem; flex-shrink: 0;
-    }
-    .info-banner .info-content h4 { font-size: 0.9rem; font-weight: 700; color: #78350f; margin-bottom: 0.15rem; }
-    .info-banner .info-content p { font-size: 0.83rem; color: #92400e; line-height: 1.55; }
-
-    /* SECTION HEADER */
     .section-header {
       display: flex; justify-content: space-between; align-items: center;
       margin-bottom: 1rem; margin-top: 2rem;
     }
-    .section-header h2 {
-      font-size: 1.15rem; font-weight: 700; color: var(--gray-800);
-      display: flex; align-items: center; gap: 0.5rem;
-    }
+    .section-header h2 { font-size: 1.15rem; font-weight: 700; color: var(--gray-800); display: flex; align-items: center; gap: 0.5rem; }
     .section-header h2 i { color: var(--primary); font-size: 1rem; }
-
-    /* MENU GRID */
     .menu-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
       gap: 1rem;
     }
     .menu-item {
-      background: var(--white);
-      border: 1px solid var(--gray-100);
-      border-radius: var(--radius-sm);
-      padding: 1.5rem 1rem;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 0.75rem;
-      text-decoration: none; color: var(--gray-800);
-      cursor: pointer; transition: var(--transition);
-      position: relative; overflow: hidden;
+      background: var(--white); border: 1px solid var(--gray-100);
+      border-radius: 12px; padding: 1.5rem 1rem;
+      display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
+      text-decoration: none; color: var(--gray-800); cursor: pointer;
+      transition: all 0.3s; position: relative; overflow: hidden;
       font-family: inherit; text-align: center;
-      animation: slideUp 0.5s ease-out backwards;
     }
-    .menu-item:nth-child(1) { animation-delay: 0.05s; }
-    .menu-item:nth-child(2) { animation-delay: 0.10s; }
-    .menu-item:nth-child(3) { animation-delay: 0.15s; }
-    .menu-item:nth-child(4) { animation-delay: 0.20s; }
-    .menu-item:nth-child(5) { animation-delay: 0.25s; }
     .menu-item::before {
       content: ''; position: absolute; inset: 0;
       background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      opacity: 0; transition: var(--transition); z-index: 0;
+      opacity: 0; transition: all 0.3s; z-index: 0;
     }
     .menu-item:hover::before { opacity: 1; }
     .menu-item > * { position: relative; z-index: 1; }
-    .menu-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 28px rgba(30,64,175,0.25);
-      border-color: transparent;
-    }
-    .menu-item:hover .menu-icon,
-    .menu-item:hover .menu-label { color: white; }
-
+    .menu-item:hover { transform: translateY(-5px); box-shadow: 0 12px 28px rgba(30,64,175,0.25); border-color: transparent; }
+    .menu-item:hover .menu-icon, .menu-item:hover .menu-label { color: white; }
     .menu-icon {
       width: 56px; height: 56px; border-radius: 14px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem; transition: var(--transition);
+      font-size: 1.4rem; transition: all 0.3s;
     }
-    .menu-icon.blue   { background: #dbeafe; color: #1e40af; }
-    .menu-icon.red    { background: #fee2e2; color: #dc2626; }
-    .menu-icon.green  { background: #dcfce7; color: #16a34a; }
+    .menu-icon.blue { background: #dbeafe; color: #1e40af; }
+    .menu-icon.red { background: #fee2e2; color: #dc2626; }
+    .menu-icon.green { background: #dcfce7; color: #16a34a; }
     .menu-icon.orange { background: #fed7aa; color: #ea580c; }
     .menu-icon.purple { background: #e9d5ff; color: #7c3aed; }
-    .menu-icon.gray   { background: #f3f4f6; color: #4b5563; }
+    .menu-icon.gray { background: #f3f4f6; color: #4b5563; }
     .menu-item:hover .menu-icon { background: rgba(255,255,255,0.2); }
-
-    .menu-label { font-size: 0.88rem; font-weight: 700; color: var(--gray-800); transition: var(--transition); }
-    .menu-desc { font-size: 0.72rem; color: var(--gray-500); font-weight: 500; transition: var(--transition); }
+    .menu-label { font-size: 0.88rem; font-weight: 700; color: var(--gray-800); transition: all 0.3s; }
+    .menu-desc { font-size: 0.72rem; color: var(--gray-500); font-weight: 500; transition: all 0.3s; }
     .menu-item:hover .menu-desc { color: rgba(255,255,255,0.85); }
-
-    /* ACTIVITY FEED */
+    .kirim-card {
+      background: linear-gradient(135deg, #fff7ed, #ffedd5);
+      border: 2px solid #fed7aa; border-radius: 16px;
+      padding: 25px; margin-top: 1rem;
+    }
+    .kirim-card h2 {
+      color: var(--orange); font-size: 18px; font-weight: 800;
+      margin-bottom: 15px; display: flex; align-items: center; gap: 10px;
+    }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 700; color: #374151; margin-bottom: 6px; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 12px 14px;
+      border: 2px solid #e5e7eb; border-radius: 10px;
+      font-family: inherit; font-size: 14px; color: #1f2937;
+      outline: none; transition: all 0.3s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--orange); box-shadow: 0 0 0 4px rgba(234,88,12,0.1);
+    }
+    .form-group textarea { min-height: 140px; resize: vertical; line-height: 1.6; }
+    .btn-kirim {
+      width: 100%; padding: 14px; border: none; border-radius: 10px;
+      background: linear-gradient(135deg, var(--orange), var(--orange-light));
+      color: white; font-family: inherit; font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: all 0.3s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      box-shadow: 0 4px 15px rgba(234,88,12,0.3);
+    }
+    .btn-kirim:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(234,88,12,0.4); }
+    .btn-kirim:disabled { opacity: 0.6; cursor: not-allowed; }
+    .riwayat-list { display: grid; gap: 12px; margin-top: 1rem; }
+    .riwayat-item {
+      background: #fff; padding: 16px; border-radius: 12px;
+      border-left: 4px solid var(--primary);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 12px; flex-wrap: wrap;
+    }
+    .riwayat-info h4 { font-size: 14px; font-weight: 700; color: #0d47a1; margin-bottom: 4px; }
+    .riwayat-info p { font-size: 12px; color: #64748b; }
+    .riwayat-status { padding: 6px 12px; border-radius: 999px; font-size: 11px; font-weight: 800; text-transform: uppercase; }
+    .riwayat-status.menunggu { background: #fef3c7; color: #92400e; }
+    .riwayat-status.dinilai { background: #dcfce7; color: #15803d; }
     .activity-card {
-      background: var(--white);
-      border-radius: var(--radius-sm);
-      padding: 1.4rem;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--gray-100);
+      background: var(--white); border-radius: 12px; padding: 1.4rem;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--gray-100);
       margin-top: 1rem;
-      animation: slideUp 0.5s ease-out 0.4s backwards;
     }
     .activity-list { display: flex; flex-direction: column; gap: 0.6rem; }
-    .activity-item {
-      display: flex; align-items: center; gap: 0.9rem;
-      padding: 0.75rem; border-radius: 10px;
-      transition: var(--transition);
-    }
-    .activity-item:hover { background: var(--gray-50); }
+    .activity-item { display: flex; align-items: center; gap: 0.9rem; padding: 0.75rem; border-radius: 10px; }
     .activity-icon {
       width: 38px; height: 38px; border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
       font-size: 0.9rem; flex-shrink: 0;
     }
-    .activity-body { flex: 1; min-width: 0; }
     .activity-title { font-size: 0.86rem; font-weight: 600; color: var(--gray-800); margin-bottom: 0.1rem; }
-    .activity-time { font-size: 0.72rem; color: var(--gray-500); font-weight: 500; }
-    .activity-badge {
-      font-size: 0.7rem; padding: 0.25rem 0.6rem;
-      border-radius: 999px; font-weight: 700;
-      background: var(--gray-100); color: var(--gray-600);
-    }
+    .activity-time { font-size: 0.72rem; color: var(--gray-500); }
+    .activity-badge { font-size: 0.7rem; padding: 0.25rem 0.6rem; border-radius: 999px; font-weight: 700; }
     .activity-badge.done { background: #dcfce7; color: #15803d; }
     .activity-badge.pending { background: #fed7aa; color: #c2410c; }
-
-    /* SKELETON */
-    .skeleton {
-      background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.5s infinite;
-      border-radius: 8px;
-    }
-    @keyframes shimmer {
-      0%   { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
-
-    /* FOOTER */
-    .footer {
-      text-align: center; padding: 2rem 1rem 1rem;
-      font-size: 0.75rem; color: var(--gray-500); font-weight: 500;
-    }
-
-    /* TOAST */
     .toast {
       position: fixed; top: 1.5rem; right: 1.5rem;
       background: white; padding: 1rem 1.3rem;
       border-radius: 10px; box-shadow: var(--shadow-lg);
       display: flex; align-items: center; gap: 0.75rem;
-      font-size: 0.88rem; font-weight: 500;
-      z-index: 9999;
-      transform: translateX(400px);
-      transition: transform 0.4s cubic-bezier(0.68,-0.55,0.27,1.55);
+      font-size: 0.88rem; font-weight: 500; z-index: 9999;
+      transform: translateX(400px); transition: transform 0.4s;
       max-width: 340px;
     }
     .toast.show { transform: translateX(0); }
-    .toast i { font-size: 1.2rem; }
-    .toast.error   { border-left: 4px solid var(--danger); }
+    .toast.error { border-left: 4px solid var(--danger); }
     .toast.error i { color: var(--danger); }
     .toast.success { border-left: 4px solid var(--success); }
     .toast.success i { color: var(--success); }
-    .toast.info    { border-left: 4px solid var(--primary); }
-    .toast.info i  { color: var(--primary); }
-
-    /* RESPONSIVE */
+    .toast.info { border-left: 4px solid var(--primary); }
+    .toast.info i { color: var(--primary); }
+    .footer { text-align: center; padding: 2rem 1rem 1rem; font-size: 0.75rem; color: var(--gray-500); }
     @media (max-width: 640px) {
       .navbar { padding: 0.75rem 1rem; }
       .container { padding: 1.5rem 1rem; }
-      .welcome-hero { padding: 1.6rem 1.3rem; }
       .welcome-hero h1 { font-size: 1.35rem; }
-      .stat-value { font-size: 1.3rem; }
       .user-details { display: none; }
       .menu-grid { grid-template-columns: repeat(2, 1fr); }
-      .section-header h2 { font-size: 1rem; }
       .toast { right: 0.75rem; left: 0.75rem; max-width: none; }
     }
   </style>
 </head>
-<body data-page="dashboard-siswa">
+<body>
 
-  <!-- TOAST -->
-  <div id="toast" class="toast">
-    <i class="fas fa-info-circle"></i>
-    <span id="toast-message">Pesan</span>
+<div id="toast" class="toast">
+  <i class="fas fa-info-circle"></i>
+  <span id="toast-message">Pesan</span>
+</div>
+
+<nav class="navbar">
+  <div class="navbar-brand">
+    <div class="brand-icon"><i class="fas fa-hard-hat"></i></div>
+    <span>Media K3</span>
+  </div>
+  <div class="navbar-right">
+    <div class="user-chip">
+      <div class="user-avatar" id="user-avatar">S</div>
+      <div class="user-details">
+        <span class="user-name" id="user-name">Siswa</span>
+        <span class="user-role" id="user-kelas">-</span>
+      </div>
+    </div>
+    <button class="btn-icon" id="logout-btn" title="Logout">
+      <i class="fas fa-right-from-bracket"></i>
+    </button>
+  </div>
+</nav>
+
+<main class="container">
+
+  <section class="welcome-hero">
+    <div class="welcome-content">
+      <p class="welcome-greeting" id="greeting">Selamat datang kembali,</p>
+      <h1>Halo, <span class="highlight" id="welcome-name">Siswa</span>! 👋</h1>
+      <p>Selamat datang di media pembelajaran interaktif K3. Pelajari materi, tonton video, kerjakan latihan dan kuis untuk meningkatkan pemahaman Keselamatan dan Kesehatan Kerja di bengkel pemesinan.</p>
+      <div class="welcome-meta">
+        <div class="meta-badge"><i class="fas fa-calendar-day"></i><span id="current-date">-</span></div>
+        <div class="meta-badge"><i class="fas fa-graduation-cap"></i><span>Teknik Pemesinan</span></div>
+        <div class="meta-badge"><i class="fas fa-school"></i><span>SMK Negeri 2 Medan</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon blue"><i class="fas fa-book-open"></i></div>
+      <div>
+        <p class="stat-label">Materi Dibaca</p>
+        <p class="stat-value" id="stat-materi">0 / 0</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon green"><i class="fas fa-circle-check"></i></div>
+      <div>
+        <p class="stat-label">Kuis Selesai</p>
+        <p class="stat-value" id="stat-kuis">0</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon orange"><i class="fas fa-star"></i></div>
+      <div>
+        <p class="stat-label">Rata-rata Nilai</p>
+        <p class="stat-value" id="stat-nilai">—</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon purple"><i class="fas fa-paper-plane"></i></div>
+      <div>
+        <p class="stat-label">Tugas Dikirim</p>
+        <p class="stat-value" id="stat-tugas">0</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-header">
+    <h2><i class="fas fa-grip"></i> Menu Pembelajaran</h2>
   </div>
 
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <div class="navbar-brand">
-      <div class="brand-icon"><i class="fas fa-hard-hat"></i></div>
-      <span>Media K3</span>
-    </div>
+  <section class="menu-grid">
+    <a href="tujuan.html" class="menu-item">
+      <div class="menu-icon blue"><i class="fas fa-bullseye"></i></div>
+      <div class="menu-label">Tujuan</div>
+      <div class="menu-desc">Tujuan pembelajaran</div>
+    </a>
+    <a href="materi.html" class="menu-item">
+      <div class="menu-icon blue"><i class="fas fa-book"></i></div>
+      <div class="menu-label">Materi</div>
+      <div class="menu-desc">Baca materi K3</div>
+    </a>
+    <a href="video.html" class="menu-item">
+      <div class="menu-icon red"><i class="fas fa-video"></i></div>
+      <div class="menu-label">Video</div>
+      <div class="menu-desc">Tonton video</div>
+    </a>
+    <a href="kuis.html" class="menu-item">
+      <div class="menu-icon orange"><i class="fas fa-clipboard-question"></i></div>
+      <div class="menu-label">Kuis</div>
+      <div class="menu-desc">Uji pemahaman</div>
+    </a>
+    <a href="latihan.html" class="menu-item">
+      <div class="menu-icon green"><i class="fas fa-pen-to-square"></i></div>
+      <div class="menu-label">Latihan</div>
+      <div class="menu-desc">Kerjakan latihan</div>
+    </a>
+  </section>
 
-    <div class="navbar-right">
-      <div class="user-chip">
-        <div class="user-avatar" id="user-avatar">S</div>
-        <div class="user-details">
-          <span class="user-name" id="user-name">Siswa</span>
-          <span class="user-role" id="user-kelas">-</span>
-        </div>
+  <div class="section-header">
+    <h2><i class="fas fa-paper-plane"></i> Kirim Tugas ke Guru</h2>
+  </div>
+
+  <div class="kirim-card">
+    <h2><i class="fas fa-edit"></i> Form Pengiriman Tugas</h2>
+    <form id="formKirim" onsubmit="event.preventDefault(); kirimTugas();">
+      <div class="form-group">
+        <label><i class="fas fa-book"></i> Judul Tugas / Latihan</label>
+        <input type="text" id="judulTugas" placeholder="Contoh: Tugas 1 - Penerapan K3" required>
       </div>
-      <button class="btn-icon" id="logout-btn" title="Logout">
-        <i class="fas fa-right-from-bracket"></i>
+      <div class="form-group">
+        <label><i class="fas fa-tag"></i> Tipe Tugas</label>
+        <select id="tipeTugas" required>
+          <option value="tugas">Tugas</option>
+          <option value="latihan">Latihan</option>
+          <option value="evaluasi">Evaluasi</option>
+          <option value="praktik">Laporan Praktik</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label><i class="fas fa-pen"></i> Jawaban / Isi Tugas</label>
+        <textarea id="jawabanTugas" placeholder="Tulis jawabanmu di sini..." required></textarea>
+      </div>
+      <button type="submit" class="btn-kirim" id="btnKirim">
+        <i class="fas fa-paper-plane"></i> Kirim ke Guru
       </button>
+    </form>
+  </div>
+
+  <div class="section-header">
+    <h2><i class="fas fa-history"></i> Riwayat Pengiriman</h2>
+  </div>
+  <div class="riwayat-list" id="riwayatList">
+    <p style="text-align:center; color:#64748b; padding:20px;">Memuat riwayat...</p>
+  </div>
+
+  <div class="section-header">
+    <h2><i class="fas fa-clock-rotate-left"></i> Aktivitas Terbaru</h2>
+  </div>
+  <section class="activity-card">
+    <div class="activity-list" id="activity-list">
+      <p style="text-align:center; color:#64748b; padding:20px;">Memuat aktivitas...</p>
     </div>
-  </nav>
+  </section>
 
-  <!-- KONTEN -->
-  <main class="container">
+  <footer class="footer">© 2026 SMK Negeri 2 Medan — Media Pembelajaran K3</footer>
+</main>
 
-    <!-- HERO -->
-    <section class="welcome-hero">
-      <div class="welcome-content">
-        <p class="welcome-greeting" id="greeting">Selamat datang kembali,</p>
-        <h1>Halo, <span class="highlight" id="welcome-name">Siswa</span>! 👋</h1>
-        <p>Selamat datang di media pembelajaran interaktif K3. Pelajari materi, tonton video, kerjakan latihan dan kuis untuk meningkatkan pemahaman Keselamatan dan Kesehatan Kerja di bengkel pemesinan.</p>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://ddnhwcxfktcsyngupdex.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_ogAtXLGklIivo88I41J8ZA_9CWzS8D3';
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+</script>
 
-        <div class="welcome-meta">
-          <div class="meta-badge">
-            <i class="fas fa-calendar-day"></i>
-            <span id="current-date">-</span>
-          </div>
-          <div class="meta-badge">
-            <i class="fas fa-graduation-cap"></i>
-            <span>Teknik Pemesinan</span>
-          </div>
-          <div class="meta-badge">
-            <i class="fas fa-school"></i>
-            <span>SMK Negeri 2 Medan</span>
-          </div>
-        </div>
-      </div>
-    </section>
+<script>
+  let currentSiswa = null;
 
-    <!-- STATISTIK -->
-    <section class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon blue"><i class="fas fa-book-open"></i></div>
-        <div class="stat-info">
-          <p class="stat-label">Materi Dibaca</p>
-          <p class="stat-value" id="stat-materi">0 <small>/ 0</small></p>
-        </div>
-      </div>
+  function showToast(message, type = 'info') {
+    const toast = document.getElementById('toast');
+    const msg = document.getElementById('toast-message');
+    const icon = toast.querySelector('i');
+    toast.className = 'toast ' + type;
+    msg.textContent = message;
+    const icons = { error: 'fa-circle-exclamation', success: 'fa-circle-check', info: 'fa-circle-info' };
+    icon.className = 'fas ' + (icons[type] || icons.info);
+    toast.classList.add('show');
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => toast.classList.remove('show'), 3500);
+  }
 
-      <div class="stat-card">
-        <div class="stat-icon green"><i class="fas fa-circle-check"></i></div>
-        <div class="stat-info">
-          <p class="stat-label">Kuis Selesai</p>
-          <p class="stat-value" id="stat-kuis">0</p>
-        </div>
-      </div>
+  function getGreeting() {
+    const h = new Date().getHours();
+    if (h < 11) return 'Selamat pagi,';
+    if (h < 15) return 'Selamat siang,';
+    if (h < 18) return 'Selamat sore,';
+    return 'Selamat malam,';
+  }
 
-      <div class="stat-card">
-        <div class="stat-icon orange"><i class="fas fa-star"></i></div>
-        <div class="stat-info">
-          <p class="stat-label">Rata-rata Nilai</p>
-          <p class="stat-value" id="stat-nilai">—</p>
-        </div>
-      </div>
+  function cekSession() {
+    const s = localStorage.getItem('siswa_session');
+    if (!s) { window.location.href = 'index.html'; return null; }
+    try { return JSON.parse(s); }
+    catch (e) { localStorage.removeItem('siswa_session'); window.location.href = 'index.html'; return null; }
+  }
 
-      <div class="stat-card">
-        <div class="stat-icon purple"><i class="fas fa-fire"></i></div>
-        <div class="stat-info">
-          <p class="stat-label">Streak Belajar</p>
-          <p class="stat-value" id="stat-streak">0 <small>hari</small></p>
-        </div>
-      </div>
-    </section>
+  async function kirimTugas() {
+    if (!currentSiswa) return showToast('Silakan login', 'error');
 
-    <!-- INFO BANNER -->
-    <section class="info-banner">
-      <div class="info-icon"><i class="fas fa-lightbulb"></i></div>
-      <div class="info-content">
-        <h4>Tips Belajar K3</h4>
-        <p>Pelajari materi K3 dengan seksama sebelum melakukan praktik di bengkel pemesinan. Pahami penggunaan APD, prosedur kerja aman, dan identifikasi bahaya di setiap mesin.</p>
-      </div>
-    </section>
+    const judul = document.getElementById('judulTugas').value.trim();
+    const tipe = document.getElementById('tipeTugas').value;
+    const jawaban = document.getElementById('jawabanTugas').value.trim();
 
-    <!-- MENU CEPAT -->
-    <div class="section-header">
-      <h2><i class="fas fa-grip"></i> Menu Pembelajaran</h2>
-    </div>
+    if (!judul) return showToast('Judul tugas wajib diisi', 'error');
+    if (!jawaban || jawaban.length < 20) return showToast('Jawaban minimal 20 karakter', 'error');
 
-    <section class="menu-grid">
-      <a href="tujuan.html" class="menu-item">
-        <div class="menu-icon blue"><i class="fas fa-bullseye"></i></div>
-        <div class="menu-label">Tujuan</div>
-        <div class="menu-desc">Tujuan pembelajaran</div>
-      </a>
+    const btn = document.getElementById('btnKirim');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
 
-      <a href="materi.html" class="menu-item">
-        <div class="menu-icon blue"><i class="fas fa-book"></i></div>
-        <div class="menu-label">Materi</div>
-        <div class="menu-desc">Baca materi K3</div>
-      </a>
+    try {
+      const { error } = await supabaseClient.from('jawaban_siswa').insert([{
+        siswa_id: currentSiswa.id || currentSiswa.username || 'unknown',
+        nama_siswa: currentSiswa.nama,
+        kelas: currentSiswa.kelas,
+        judul_tugas: judul,
+        tipe: tipe,
+        jawaban: jawaban,
+        status: 'menunggu',
+        created_at: new Date().toISOString()
+      }]);
 
-      <a href="video.html" class="menu-item">
-        <div class="menu-icon red"><i class="fas fa-video"></i></div>
-        <div class="menu-label">Video</div>
-        <div class="menu-desc">Tonton video</div>
-      </a>
-
-      <a href="kuis.html" class="menu-item">
-        <div class="menu-icon orange"><i class="fas fa-clipboard-question"></i></div>
-        <div class="menu-label">Kuis</div>
-        <div class="menu-desc">Uji pemahaman</div>
-      </a>
-
-      <a href="latihan.html" class="menu-item">
-        <div class="menu-icon green"><i class="fas fa-pen-to-square"></i></div>
-        <div class="menu-label">Latihan</div>
-        <div class="menu-desc">Kerjakan latihan</div>
-      </a>
-    </section>
-
-    <!-- AKTIVITAS TERBARU -->
-    <div class="section-header">
-      <h2><i class="fas fa-clock-rotate-left"></i> Aktivitas Terbaru</h2>
-    </div>
-
-    <section class="activity-card">
-      <div class="activity-list" id="activity-list">
-        <div class="activity-item">
-          <div class="skeleton" style="width:38px;height:38px;border-radius:10px;"></div>
-          <div class="activity-body">
-            <div class="skeleton" style="width:60%;height:12px;margin-bottom:6px;"></div>
-            <div class="skeleton" style="width:35%;height:10px;"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer class="footer">
-      © 2026 SMK Negeri 2 Medan — Media Pembelajaran K3
-    </footer>
-  </main>
-
-  <!-- ============================================================
-       SUPABASE SDK & KONFIGURASI
-       ============================================================ -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <script>
-    const SUPABASE_URL = 'https://ddnhwcxfktcsyngupdex.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_ogAtXLGklIivo88I41J8ZA_9CWzS8D3';
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    console.log('✅ Supabase client siap di dashboard-siswa.html');
-  </script>
-
-  <!-- APP.JS (HELPER FUNCTIONS) -->
-  <script src="js/app.js"></script>
-
-  <!-- ============================================================
-       SCRIPT DASHBOARD SISWA
-       ============================================================ -->
-  <script>
-    // ============================================================
-    // STATE
-    // ============================================================
-    let currentSiswa = null;
-
-    // ============================================================
-    // TOAST
-    // ============================================================
-    function showToast(message, type = 'info') {
-      const toast = document.getElementById('toast');
-      const msg = document.getElementById('toast-message');
-      if (!toast || !msg) { alert(message); return; }
-      const icon = toast.querySelector('i');
-      toast.className = 'toast ' + type;
-      msg.textContent = message;
-      const icons = { error: 'fa-circle-exclamation', success: 'fa-circle-check', info: 'fa-circle-info' };
-      if (icon) icon.className = 'fas ' + (icons[type] || icons.info);
-      toast.classList.add('show');
-      clearTimeout(toast._timer);
-      toast._timer = setTimeout(() => toast.classList.remove('show'), 3500);
-    }
-
-    // ============================================================
-    // CEK SESSION SISWA
-    // ============================================================
-    function cekSession() {
-      const sessionStr = localStorage.getItem('siswa_session');
-      if (!sessionStr) {
-        console.warn('⚠️ Tidak ada session siswa, redirect ke login');
-        window.location.href = 'index.html';
-        return null;
-      }
-      try {
-        return JSON.parse(sessionStr);
-      } catch (e) {
-        localStorage.removeItem('siswa_session');
-        window.location.href = 'index.html';
-        return null;
-      }
-    }
-
-    // ============================================================
-    // GREETING OTOMATIS
-    // ============================================================
-    function getGreeting() {
-      const hour = new Date().getHours();
-      if (hour < 11) return 'Selamat pagi,';
-      if (hour < 15) return 'Selamat siang,';
-      if (hour < 18) return 'Selamat sore,';
-      return 'Selamat malam,';
-    }
-
-    // ============================================================
-    // LOAD STATISTIK SISWA
-    // ============================================================
-    async function loadStatistik() {
-      if (!currentSiswa) return;
+      if (error) throw error;
 
       try {
-        // 1. Total materi aktif
-        const { count: totalMateri } = await supabaseClient
-          .from('materi')
-          .select('*', { count: 'exact', head: true })
-          .eq('status', 'aktif');
+        await supabaseClient.from('aktivitas').insert([{
+          siswa_id: currentSiswa.id,
+          tipe: 'tugas',
+          judul: judul,
+          status: 'selesai',
+          created_at: new Date().toISOString()
+        }]);
+      } catch (e) { console.warn(e); }
 
-        // 2. Materi yang sudah dibaca
-        const { count: materiDibaca } = await supabaseClient
-          .from('aktivitas')
-          .select('*', { count: 'exact', head: true })
-          .eq('siswa_id', currentSiswa.id)
-          .eq('tipe', 'materi')
-          .eq('status', 'selesai');
+      showToast('Tugas berhasil dikirim! 🎉', 'success');
+      document.getElementById('formKirim').reset();
+      loadRiwayat();
+      loadStatistik();
+      loadAktivitas();
 
-        // 3. Kuis selesai
-        const { count: kuisSelesai } = await supabaseClient
-          .from('aktivitas')
-          .select('*', { count: 'exact', head: true })
-          .eq('siswa_id', currentSiswa.id)
-          .eq('tipe', 'kuis')
-          .eq('status', 'selesai');
-
-        // 4. Rata-rata nilai
-        const { data: nilaiData } = await supabaseClient
-          .from('nilai')
-          .select('nilai')
-          .eq('nama_siswa', currentSiswa.nama)
-          .eq('kelas', currentSiswa.kelas);
-
-        let rataNilai = 0;
-        if (nilaiData && nilaiData.length > 0) {
-          rataNilai = nilaiData.reduce((a, b) => a + (b.nilai || 0), 0) / nilaiData.length;
-        }
-
-        // Update DOM
-        const elMateri = document.getElementById('stat-materi');
-        const elKuis = document.getElementById('stat-kuis');
-        const elNilai = document.getElementById('stat-nilai');
-
-        if (elMateri) elMateri.innerHTML = `${materiDibaca || 0} <small>/ ${totalMateri || 0}</small>`;
-        if (elKuis) elKuis.textContent = kuisSelesai || 0;
-        if (elNilai) elNilai.textContent = rataNilai > 0 ? Math.round(rataNilai) + '%' : '—';
-
-      } catch (err) {
-        console.error('Gagal load statistik:', err);
-      }
+    } catch (err) {
+      showToast('Gagal kirim: ' + err.message, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-paper-plane"></i> Kirim ke Guru';
     }
+  }
 
-    // ============================================================
-    // LOAD AKTIVITAS TERBARU
-    // ============================================================
-    async function loadAktivitas() {
-      if (!currentSiswa) return;
-      const container = document.getElementById('activity-list');
-      if (!container) return;
+  async function loadRiwayat() {
+    const list = document.getElementById('riwayatList');
+    if (!currentSiswa) return;
 
-      try {
-        const { data, error } = await supabaseClient
-          .from('aktivitas')
-          .select('*')
-          .eq('siswa_id', currentSiswa.id)
-          .order('created_at', { ascending: false })
-          .limit(5);
+    try {
+      const { data, error } = await supabaseClient
+        .from('jawaban_siswa')
+        .select('*')
+        .eq('nama_siswa', currentSiswa.nama)
+        .eq('kelas', currentSiswa.kelas)
+        .order('created_at', { ascending: false });
 
-        if (error) throw error;
+      if (error) throw error;
 
-        if (!data || data.length === 0) {
-          container.innerHTML = `
-            <div style="text-align:center;padding:2rem 1rem;color:var(--gray-500);">
-              <i class="fas fa-inbox" style="font-size:2rem;color:var(--gray-300);display:block;margin-bottom:0.75rem;"></i>
-              <p style="font-size:0.88rem;">Belum ada aktivitas. Mulai belajar sekarang!</p>
-            </div>`;
-          return;
-        }
+      if (!data || data.length === 0) {
+        list.innerHTML = '<p style="text-align:center; color:#64748b; padding:20px;">Belum ada tugas yang dikirim.</p>';
+        return;
+      }
 
-        const icons = {
-          materi:  { icon: 'fa-book', bg: '#dbeafe', color: '#1e40af' },
-          video:   { icon: 'fa-video', bg: '#fee2e2', color: '#dc2626' },
-          latihan: { icon: 'fa-pen-to-square', bg: '#dcfce7', color: '#16a34a' },
-          kuis:    { icon: 'fa-clipboard-question', bg: '#fed7aa', color: '#ea580c' },
-          tujuan:  { icon: 'fa-bullseye', bg: '#e9d5ff', color: '#7c3aed' }
-        };
+      list.innerHTML = data.map(d => {
+        const waktu = new Date(d.created_at).toLocaleString('id-ID', {
+          day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+        });
+        const statusClass = d.status === 'dinilai' ? 'dinilai' : 'menunggu';
+        const statusText = d.status === 'dinilai' ? `✅ Dinilai: ${d.nilai}` : '⏳ Menunggu';
 
-        container.innerHTML = data.map(a => {
-          const meta = icons[a.tipe] || icons.materi;
-          const badgeClass = a.status === 'selesai' ? 'done' : 'pending';
-          const badgeText = a.status === 'selesai' ? 'Selesai' : 'Proses';
-          const waktu = a.created_at ? new Date(a.created_at).toLocaleString('id-ID', {
-            day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
-          }) : '-';
-
-          return `
-            <div class="activity-item">
-              <div class="activity-icon" style="background:${meta.bg};color:${meta.color};">
-                <i class="fas ${meta.icon}"></i>
-              </div>
-              <div class="activity-body">
-                <div class="activity-title">${a.judul || a.tipe || 'Aktivitas'}</div>
-                <div class="activity-time">${waktu}</div>
-              </div>
-              <span class="activity-badge ${badgeClass}">${badgeText}</span>
+        return `
+          <div class="riwayat-item">
+            <div class="riwayat-info">
+              <h4>${d.judul_tugas}</h4>
+              <p><i class="fas fa-clock"></i> ${waktu} • Tipe: ${d.tipe}</p>
+              ${d.komentar_guru ? `<p style="margin-top:6px; color:#ea580c;"><i class="fas fa-comment"></i> ${d.komentar_guru}</p>` : ''}
             </div>
-          `;
-        }).join('');
-
-      } catch (err) {
-        console.error('Gagal load aktivitas:', err);
-        container.innerHTML = `
-          <div style="text-align:center;padding:2rem 1rem;color:var(--gray-500);">
-            <i class="fas fa-exclamation-triangle" style="font-size:2rem;color:var(--gray-300);display:block;margin-bottom:0.75rem;"></i>
-            <p style="font-size:0.88rem;">Gagal memuat aktivitas.</p>
+            <div class="riwayat-status ${statusClass}">${statusText}</div>
           </div>`;
+      }).join('');
+
+    } catch (err) {
+      list.innerHTML = '<p style="text-align:center; color:#dc2626; padding:20px;">Gagal memuat riwayat.</p>';
+    }
+  }
+
+  async function loadStatistik() {
+    if (!currentSiswa) return;
+    try {
+      const { count: totalMateri } = await supabaseClient.from('materi').select('*', { count: 'exact', head: true }).eq('status', 'aktif');
+      const { count: materiDibaca } = await supabaseClient.from('aktivitas').select('*', { count: 'exact', head: true }).eq('siswa_id', currentSiswa.id).eq('tipe', 'materi').eq('status', 'selesai');
+      const { count: kuisSelesai } = await supabaseClient.from('aktivitas').select('*', { count: 'exact', head: true }).eq('siswa_id', currentSiswa.id).eq('tipe', 'kuis').eq('status', 'selesai');
+      const { count: tugasDikirim } = await supabaseClient.from('jawaban_siswa').select('*', { count: 'exact', head: true }).eq('nama_siswa', currentSiswa.nama).eq('kelas', currentSiswa.kelas);
+
+      const { data: nilaiData } = await supabaseClient.from('nilai').select('nilai').eq('nama_siswa', currentSiswa.nama).eq('kelas', currentSiswa.kelas);
+      let rataNilai = 0;
+      if (nilaiData && nilaiData.length > 0) {
+        rataNilai = nilaiData.reduce((a, b) => a + (b.nilai || 0), 0) / nilaiData.length;
       }
-    }
 
-    // ============================================================
-    // LOGOUT
-    // ============================================================
-    function logout() {
-      if (!confirm('Yakin ingin keluar?')) return;
-      localStorage.removeItem('siswa_session');
-      window.location.href = 'index.html';
-    }
+      document.getElementById('stat-materi').textContent = `${materiDibaca || 0} / ${totalMateri || 0}`;
+      document.getElementById('stat-kuis').textContent = kuisSelesai || 0;
+      document.getElementById('stat-nilai').textContent = rataNilai > 0 ? Math.round(rataNilai) + '%' : '—';
+      document.getElementById('stat-tugas').textContent = tugasDikirim || 0;
+    } catch (err) { console.error(err); }
+  }
 
-    // ============================================================
-    // INIT
-    // ============================================================
-    document.addEventListener('DOMContentLoaded', async () => {
-      console.log('📄 Dashboard Siswa init');
+  async function loadAktivitas() {
+    if (!currentSiswa) return;
+    const container = document.getElementById('activity-list');
+    try {
+      const { data, error } = await supabaseClient
+        .from('aktivitas')
+        .select('*')
+        .eq('siswa_id', currentSiswa.id)
+        .order('created_at', { ascending: false })
+        .limit(5);
 
-      // Cek session
-      currentSiswa = cekSession();
-      if (!currentSiswa) return;
+      if (error) throw error;
 
-      // Isi data user
-      const initial = (currentSiswa.nama || 'S').charAt(0).toUpperCase();
-      document.getElementById('user-avatar').textContent = initial;
-      document.getElementById('user-name').textContent = currentSiswa.nama || 'Siswa';
-      document.getElementById('user-kelas').textContent = currentSiswa.kelas || '-';
-      document.getElementById('welcome-name').textContent = (currentSiswa.nama || 'Siswa').split(' ')[0];
+      if (!data || data.length === 0) {
+        container.innerHTML = '<p style="text-align:center; color:#64748b; padding:20px;">Belum ada aktivitas.</p>';
+        return;
+      }
 
-      // Greeting
-      document.getElementById('greeting').textContent = getGreeting();
+      const icons = {
+        materi:  { icon: 'fa-book', bg: '#dbeafe', color: '#1e40af' },
+        video:   { icon: 'fa-video', bg: '#fee2e2', color: '#dc2626' },
+        latihan: { icon: 'fa-pen-to-square', bg: '#dcfce7', color: '#16a34a' },
+        kuis:    { icon: 'fa-clipboard-question', bg: '#fed7aa', color: '#ea580c' },
+        tujuan:  { icon: 'fa-bullseye', bg: '#e9d5ff', color: '#7c3aed' },
+        tugas:   { icon: 'fa-paper-plane', bg: '#fef3c7', color: '#92400e' }
+      };
 
-      // Tanggal
-      const now = new Date();
-      document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', {
-        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
-      });
+      container.innerHTML = data.map(a => {
+        const meta = icons[a.tipe] || icons.materi;
+        const waktu = a.created_at ? new Date(a.created_at).toLocaleString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '-';
+        return `
+          <div class="activity-item">
+            <div class="activity-icon" style="background:${meta.bg};color:${meta.color};"><i class="fas ${meta.icon}"></i></div>
+            <div style="flex:1;">
+              <div class="activity-title">${a.judul || a.tipe}</div>
+              <div class="activity-time">${waktu}</div>
+            </div>
+            <span class="activity-badge ${a.status === 'selesai' ? 'done' : 'pending'}">${a.status === 'selesai' ? 'Selesai' : 'Proses'}</span>
+          </div>`;
+      }).join('');
+    } catch (err) { console.error(err); }
+  }
 
-      // Logout
-      document.getElementById('logout-btn').addEventListener('click', logout);
+  function logout() {
+    if (!confirm('Yakin ingin keluar?')) return;
+    localStorage.removeItem('siswa_session');
+    window.location.href = 'index.html';
+  }
 
-      // Load data
-      await loadStatistik();
-      await loadAktivitas();
+  document.addEventListener('DOMContentLoaded', async () => {
+    currentSiswa = cekSession();
+    if (!currentSiswa) return;
 
-      console.log('✅ Dashboard siswa siap');
+    const initial = (currentSiswa.nama || 'S').charAt(0).toUpperCase();
+    document.getElementById('user-avatar').textContent = initial;
+    document.getElementById('user-name').textContent = currentSiswa.nama || 'Siswa';
+    document.getElementById('user-kelas').textContent = currentSiswa.kelas || '-';
+    document.getElementById('welcome-name').textContent = (currentSiswa.nama || 'Siswa').split(' ')[0];
+    document.getElementById('greeting').textContent = getGreeting();
+
+    const now = new Date();
+    document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
     });
 
-    // Expose
-    window.logout = logout;
-  </script>
+    document.getElementById('logout-btn').addEventListener('click', logout);
+
+    await loadStatistik();
+    await loadAktivitas();
+    await loadRiwayat();
+  });
+
+  window.kirimTugas = kirimTugas;
+  window.logout = logout;
+</script>
 
 </body>
 </html>
