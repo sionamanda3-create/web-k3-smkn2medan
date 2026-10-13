@@ -13,6 +13,7 @@
     :root {
       --primary: #1e40af; --primary-light: #3b82f6;
       --success: #16a34a; --danger: #dc2626;
+      --orange: #ea580c; --orange-light: #f59e0b;
       --gray-50: #f9fafb; --gray-100: #f3f4f6; --gray-200: #e5e7eb;
       --gray-300: #d1d5db; --gray-400: #9ca3af; --gray-500: #6b7280;
       --gray-600: #4b5563; --gray-700: #374151; --gray-800: #1f2937;
@@ -38,17 +39,17 @@
       display: flex; align-items: center; justify-content: center;
       text-decoration: none; transition: var(--transition); font-size: 0.95rem;
     }
-    .back-btn:hover { background: var(--primary); color: white; }
+    .back-btn:hover { background: var(--orange); color: white; }
     .navbar-brand {
       display: flex; align-items: center; gap: 0.6rem;
-      font-weight: 800; font-size: 1.05rem; color: var(--primary);
+      font-weight: 800; font-size: 1.05rem; color: var(--orange);
     }
     .navbar-brand .brand-icon {
       width: 38px; height: 38px;
-      background: linear-gradient(135deg, #16a34a, #4ade80);
+      background: linear-gradient(135deg, var(--orange), var(--orange-light));
       border-radius: 10px; display: flex; align-items: center;
       justify-content: center; color: white; font-size: 1rem;
-      box-shadow: 0 4px 10px rgba(22,163,74,0.3);
+      box-shadow: 0 4px 10px rgba(234,88,12,0.3);
     }
     .navbar-right { display: flex; align-items: center; gap: 0.9rem; }
     .user-badge {
@@ -62,7 +63,7 @@
       font-size: 1.6rem; font-weight: 800;
       margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.6rem;
     }
-    .page-title h1 i { color: var(--success); }
+    .page-title h1 i { color: var(--orange); }
     .page-title p { font-size: 0.88rem; color: var(--gray-500); font-weight: 500; }
     .btn {
       padding: 0.75rem 1.3rem; border-radius: 10px; border: none;
@@ -73,6 +74,8 @@
     }
     .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: white; }
     .btn-primary:hover { transform: translateY(-2px); }
+    .btn-orange { background: linear-gradient(135deg, var(--orange), var(--orange-light)); color: white; }
+    .btn-orange:hover { transform: translateY(-2px); }
     .btn-success { background: linear-gradient(135deg, #15803d, #16a34a); color: white; }
     .btn-success:hover { transform: translateY(-2px); }
     .btn-ghost { background: var(--gray-100); color: var(--gray-700); }
@@ -92,7 +95,7 @@
     }
     .latihan-card::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0;
-      height: 4px; background: linear-gradient(90deg, #16a34a, #4ade80);
+      height: 4px; background: linear-gradient(90deg, var(--orange), var(--orange-light));
     }
     .latihan-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
     .latihan-card-header {
@@ -101,16 +104,16 @@
     }
     .latihan-icon {
       width: 52px; height: 52px; border-radius: 14px;
-      background: linear-gradient(135deg, #dcfce7, #16a34a);
+      background: linear-gradient(135deg, #fed7aa, var(--orange-light));
       color: white; display: flex; align-items: center;
       justify-content: center; font-size: 1.4rem;
-      box-shadow: 0 6px 14px rgba(22,163,74,0.3);
+      box-shadow: 0 6px 14px rgba(245,158,11,0.3);
     }
     .latihan-status {
       display: inline-flex; align-items: center; gap: 0.35rem;
       padding: 0.3rem 0.7rem; border-radius: 999px;
       font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
-      background: #dbeafe; color: #1e40af;
+      background: #fef3c7; color: #92400e;
     }
     .latihan-card h3 { font-size: 1.05rem; font-weight: 700; line-height: 1.35; }
     .latihan-card p.desc { font-size: 0.83rem; color: var(--gray-500); line-height: 1.55; flex: 1; }
@@ -123,7 +126,7 @@
       font-size: 0.75rem; font-weight: 600; color: var(--gray-600);
       background: var(--gray-50); padding: 0.35rem 0.65rem; border-radius: 8px;
     }
-    .latihan-meta-item i { color: var(--success); }
+    .latihan-meta-item i { color: var(--orange); }
 
     .quiz-view { display: none; }
     .quiz-view.active { display: block; }
@@ -152,10 +155,10 @@
       display: flex; justify-content: space-between;
       margin-bottom: 0.6rem; font-size: 0.83rem; font-weight: 600; color: var(--gray-600);
     }
-    .exercise-progress-info strong { color: var(--success); font-weight: 800; }
+    .exercise-progress-info strong { color: var(--orange); font-weight: 800; }
     .progress-bar-track { height: 8px; background: var(--gray-100); border-radius: 999px; overflow: hidden; }
     .progress-bar-fill {
-      height: 100%; background: linear-gradient(90deg, #16a34a, #4ade80);
+      height: 100%; background: linear-gradient(90deg, var(--orange), var(--orange-light));
       border-radius: 999px; transition: width 0.4s ease; width: 0%;
     }
     .question-nav-grid {
@@ -169,8 +172,8 @@
       font-family: inherit; font-weight: 700; font-size: 0.85rem;
       cursor: pointer;
     }
-    .q-nav-btn.answered { background: #dcfce7; border-color: var(--success); color: #15803d; }
-    .q-nav-btn.current { background: var(--success); border-color: var(--success); color: white; }
+    .q-nav-btn.answered { background: #ffedd5; border-color: var(--orange); color: var(--orange); }
+    .q-nav-btn.current { background: var(--orange); border-color: var(--orange); color: white; }
 
     .question-card {
       background: var(--white); border-radius: var(--radius);
@@ -179,7 +182,7 @@
     }
     .question-number {
       display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.4rem 0.9rem; background: #dcfce7; color: #15803d;
+      padding: 0.4rem 0.9rem; background: #ffedd5; color: var(--orange);
       border-radius: 999px; font-size: 0.75rem; font-weight: 800;
       text-transform: uppercase; margin-bottom: 1rem;
     }
@@ -201,7 +204,7 @@
       cursor: pointer; font-size: 0.92rem; font-weight: 500;
       position: relative;
     }
-    .option-item:hover { background: #f0fdf4; border-color: #4ade80; }
+    .option-item:hover { background: #fff7ed; border-color: var(--orange-light); }
     .option-item input[type="radio"] { position: absolute; opacity: 0; }
     .option-letter {
       width: 34px; height: 34px; border-radius: 50%;
@@ -209,8 +212,8 @@
       display: flex; align-items: center; justify-content: center;
       font-weight: 800; color: var(--gray-600); flex-shrink: 0;
     }
-    .option-item.selected { background: #f0fdf4; border-color: var(--success); }
-    .option-item.selected .option-letter { background: var(--success); border-color: var(--success); color: white; }
+    .option-item.selected { background: #fff7ed; border-color: var(--orange); }
+    .option-item.selected .option-letter { background: var(--orange); border-color: var(--orange); color: white; }
 
     .essay-wrapper { margin-bottom: 1.8rem; }
     .essay-wrapper label {
@@ -223,7 +226,7 @@
       font-family: inherit; font-size: 0.92rem; color: var(--gray-800);
       line-height: 1.6; resize: vertical; outline: none;
     }
-    .essay-wrapper textarea:focus { border-color: var(--success); box-shadow: 0 0 0 4px rgba(22,163,74,0.1); }
+    .essay-wrapper textarea:focus { border-color: var(--orange); box-shadow: 0 0 0 4px rgba(234,88,12,0.1); }
     .essay-hint { font-size: 0.75rem; color: var(--gray-500); margin-top: 0.5rem; }
 
     .quiz-nav { display: flex; justify-content: space-between; gap: 0.8rem; margin-top: 1.5rem; }
@@ -306,7 +309,7 @@
     <div class="page-header">
       <div class="page-title">
         <h1><i class="fas fa-pen-to-square"></i> Latihan Soal K3</h1>
-        <p id="latihan-subtitle">10 PG + 5 Essay per materi.</p>
+        <p id="latihan-subtitle">10 Pilihan Ganda + 5 Essay per latihan.</p>
       </div>
     </div>
     <div id="latihan-list" class="latihan-grid"></div>
@@ -404,75 +407,183 @@
 </script>
 
 <!-- ============================================================
-     DATA LATIHAN — BATCH 1: Materi 1-3
-     10 PG + 5 Essay per latihan
+     DATA LATIHAN — 7 LATIHAN × 15 SOAL (10 PG + 5 Essay)
      ============================================================ -->
 <script>
 const LATIHAN_DATA = {
 
+  // ==========================================================
+  // LATIHAN 1 — DASAR K3 (Materi 1-5)
+  // ==========================================================
   latihan_1: {
-    judul: 'Latihan Materi 1: Pengertian K3',
-    deskripsi: 'Pengertian, ruang lingkup, dan definisi K3.',
+    judul: 'Latihan 1 — Dasar K3',
+    deskripsi: 'Pengertian, tujuan, manfaat, dasar hukum, prinsip, dan bahaya/risiko K3.',
     soal: [
       { tipe: 'pg', pertanyaan: 'K3 adalah singkatan dari...', a: 'Keselamatan dan Kesehatan Kerja', b: 'Keamanan dan Ketertiban Kerja', c: 'Kualitas dan Kuantitas Kerja', d: 'Kesejahteraan dan Kemakmuran Kerja', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'Menurut UU No. 1 Tahun 1970, tujuan K3 adalah...', a: 'Mencegah kecelakaan dan penyakit akibat kerja', b: 'Meningkatkan gaji', c: 'Menambah jam kerja', d: 'Mengurangi libur', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'Ruang lingkup K3 berikut, KECUALI...', a: 'Keselamatan kerja', b: 'Kesehatan kerja', c: 'Ergonomi', d: 'Pemasaran produk', jawaban: 'D' },
-      { tipe: 'pg', pertanyaan: 'Ergonomi dalam K3 berkaitan dengan...', a: 'Kenyamanan & efisiensi kerja', b: 'Kecepatan produksi', c: 'Harga produk', d: 'Iklan', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Dasar hukum utama K3 di Indonesia adalah...', a: 'UU No. 1 Tahun 1970', b: 'UU No. 2 Tahun 1980', c: 'UU No. 3 Tahun 1990', d: 'UU No. 4 Tahun 2000', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Tujuan utama K3 adalah...', a: 'Menambah biaya produksi', b: 'Melindungi tenaga kerja dari kecelakaan', c: 'Mempercepat pekerjaan', d: 'Mengurangi jumlah pekerja', jawaban: 'B' },
+      { tipe: 'pg', pertanyaan: 'Berikut yang BUKAN ruang lingkup K3 adalah...', a: 'Keselamatan kerja', b: 'Kesehatan kerja', c: 'Ergonomi', d: 'Pemasaran produk', jawaban: 'D' },
       { tipe: 'pg', pertanyaan: 'Filosofi dasar K3 adalah...', a: 'Safety First', b: 'Profit First', c: 'Speed First', d: 'Quantity First', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'K3 wajib diterapkan di...', a: 'Semua tempat kerja', b: 'Pabrik besar saja', c: 'Perusahaan asing', d: 'Kantor pemerintah', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'Ilmu yang mempelajari interaksi manusia dengan pekerjaannya adalah...', a: 'Ergonomi', b: 'Ekonomi', c: 'Ekologi', d: 'Etnografi', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'Higiene perusahaan mengkaji...', a: 'Faktor lingkungan kerja', b: 'Laba perusahaan', c: 'Strategi penjualan', d: 'Desain produk', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'Psikologi kerja dalam K3 mempelajari...', a: 'Kesehatan mental & perilaku pekerja', b: 'Warna ruangan', c: 'Ukuran mesin', d: 'Harga bahan', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'K3 bertujuan utama melindungi...', a: 'Tenaga kerja & orang sekitar', b: 'Mesin', c: 'Bangunan', d: 'Kendaraan', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'UU Ketenagakerjaan yang mengatur K3 adalah...', a: 'UU No. 13 Tahun 2003', b: 'UU No. 20 Tahun 2003', c: 'UU No. 22 Tahun 2009', d: 'UU No. 44 Tahun 2009', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Hierarki pengendalian risiko PALING efektif adalah...', a: 'Eliminasi', b: 'APD', c: 'Administrasi', d: 'Rekayasa teknik', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Bahaya (hazard) adalah...', a: 'Sumber yang berpotensi menimbulkan kerugian', b: 'Kerugian yang terjadi', c: 'Kecelakaan', d: 'Penyakit', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Kebisingan termasuk bahaya...', a: 'Fisik', b: 'Kimia', c: 'Biologi', d: 'Ergonomi', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Risiko = ...', a: 'Kemungkinan × Keparahan', b: 'Bahaya + Kecelakaan', c: 'Jumlah pekerja', d: 'Lama kerja', jawaban: 'A' },
       { tipe: 'essay', pertanyaan: 'Jelaskan pengertian K3 secara lengkap!' },
-      { tipe: 'essay', pertanyaan: 'Sebutkan 3 tujuan penerapan K3 di tempat kerja!' },
-      { tipe: 'essay', pertanyaan: 'Mengapa K3 penting bagi siswa SMK Teknik Pemesinan?' },
-      { tipe: 'essay', pertanyaan: 'Sebutkan 5 ruang lingkup K3!' },
-      { tipe: 'essay', pertanyaan: 'Berikan 2 contoh penerapan K3 di bengkel pemesinan!' }
+      { tipe: 'essay', pertanyaan: 'Sebutkan 3 tujuan dan 3 manfaat penerapan K3!' },
+      { tipe: 'essay', pertanyaan: 'Sebutkan 3 undang-undang yang mengatur K3 di Indonesia!' },
+      { tipe: 'essay', pertanyaan: 'Sebutkan 5 hierarki pengendalian risiko!' },
+      { tipe: 'essay', pertanyaan: 'Jelaskan perbedaan bahaya (hazard) dan risiko (risk) beserta contohnya!' }
     ]
   },
 
+  // ==========================================================
+  // LATIHAN 2 — BAHAYA & APD (Materi 6-10)
+  // ==========================================================
   latihan_2: {
-    judul: 'Latihan Materi 2: Tujuan & Manfaat K3',
-    deskripsi: 'Tujuan, manfaat, dan fungsi K3.',
+    judul: 'Latihan 2 — Bahaya & APD',
+    deskripsi: 'Identifikasi bahaya bengkel, jenis kecelakaan, penyebab, APD, dan rambu K3.',
     soal: [
-      { tipe: 'pg', pertanyaan: 'Tujuan utama K3 di bengkel adalah...', a: 'Mencegah kecelakaan kerja', b: 'Mempercepat pekerjaan', c: 'Menambah biaya', d: 'Mengurangi pekerja', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'Manfaat K3 bagi pekerja adalah...', a: 'Aman, sehat, produktif', b: 'Cepat lelah', c: 'Sering cedera', d: 'Tidak nyaman', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'Manfaat K3 bagi perusahaan adalah...', a: 'Meningkatkan citra & mengurangi biaya', b: 'Menambah kerugian', c: 'Menurunkan produktivitas', d: 'Menambah klaim', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'K3 bermanfaat meningkatkan...', a: 'Motivasi & kinerja karyawan', b: 'Kemalasan', c: 'Turnover', d: 'Konflik', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'Tujuan K3 terkait lingkungan adalah...', a: 'Ciptakan lingkungan aman, sehat, nyaman', b: 'Buat kotor', c: 'Tambah polusi', d: 'Kurangi tanaman', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'Perusahaan dengan K3 baik akan...', a: 'Dipercaya pekerja & masyarakat', b: 'Dijauhi', c: 'Kena denda', d: 'Sering kecelakaan', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'K3 dapat mengurangi biaya karena...', a: 'Klaim asuransi & pengobatan berkurang', b: 'Gaji turun', c: 'Bahan baku murah', d: 'Pajak rendah', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'Manfaat K3 bagi masyarakat adalah...', a: 'Lingkungan kerja sehat & aman', b: 'Polusi meningkat', c: 'Kecelakaan meningkat', d: 'Biaya kesehatan naik', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'Manfaat K3 bagi pemerintah adalah...', a: 'Mengurangi beban BPJS', b: 'Menambah pajak', c: 'Mengurangi pendapatan', d: 'Menambah pengangguran', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'Dengan K3, tingkat kecelakaan kerja akan...', a: 'Menurun', b: 'Meningkat', c: 'Sama saja', d: 'Tidak terpengaruh', jawaban: 'A' },
-      { tipe: 'essay', pertanyaan: 'Jelaskan 3 tujuan utama penerapan K3!' },
-      { tipe: 'essay', pertanyaan: 'Sebutkan 4 manfaat K3 bagi perusahaan!' },
-      { tipe: 'essay', pertanyaan: 'Mengapa K3 bisa meningkatkan produktivitas kerja?' },
-      { tipe: 'essay', pertanyaan: 'Berikan contoh manfaat K3 bagi masyarakat sekitar!' },
-      { tipe: 'essay', pertanyaan: 'Menurutmu, apa manfaat paling penting dari penerapan K3? Jelaskan!' }
+      { tipe: 'pg', pertanyaan: 'HIRARC adalah singkatan dari...', a: 'Hazard Identification, Risk Assessment & Risk Control', b: 'High Risk Analysis', c: 'Hazard Industry', d: 'Health Risk', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Kecelakaan kerja ringan biasanya...', a: 'Cukup P3K', b: 'Cacat permanen', c: 'Meninggal', d: 'Rawat inap lama', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Penyebab utama kecelakaan kerja adalah...', a: 'Unsafe action & unsafe condition', b: 'Nasib buruk', c: 'Takdir', d: 'Kebetulan', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'APD adalah singkatan dari...', a: 'Alat Pelindung Diri', b: 'Alat Pengaman Diri', c: 'Alat Pertahanan Diri', d: 'Alat Perlindungan Diri', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Fungsi safety helmet adalah...', a: 'Melindungi kepala dari benturan', b: 'Melindungi mata', c: 'Melindungi tangan', d: 'Melindungi kaki', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'APD untuk melindungi mata adalah...', a: 'Safety glasses', b: 'Helm', c: 'Sarung tangan', d: 'Sepatu safety', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'APD untuk melindungi pernapasan adalah...', a: 'Masker', b: 'Helm', c: 'Sarung tangan', d: 'Sepatu', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Rambu warna merah menunjukkan...', a: 'Larangan / bahaya', b: 'Peringatan', c: 'Perintah', d: 'Informasi', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Rambu warna kuning menunjukkan...', a: 'Peringatan', b: 'Larangan', c: 'Perintah', d: 'Informasi', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Simbol tengkorak menandakan bahan...', a: 'Beracun', b: 'Mudah terbakar', c: 'Korosif', d: 'Radioaktif', jawaban: 'A' },
+      { tipe: 'essay', pertanyaan: 'Jelaskan apa itu HIRARC dan tujuannya!' },
+      { tipe: 'essay', pertanyaan: 'Sebutkan 5 bahaya yang ada di bengkel pemesinan!' },
+      { tipe: 'essay', pertanyaan: 'Sebutkan 4 klasifikasi kecelakaan kerja berdasarkan akibatnya!' },
+      { tipe: 'essay', pertanyaan: 'Sebutkan 5 jenis APD beserta fungsinya!' },
+      { tipe: 'essay', pertanyaan: 'Sebutkan 4 warna rambu K3 beserta artinya!' }
     ]
   },
 
+  // ==========================================================
+  // LATIHAN 3 — PROSEDUR & TATA TERTIB (Materi 11-15)
+  // ==========================================================
   latihan_3: {
-    judul: 'Latihan Materi 3: Dasar Hukum K3',
-    deskripsi: 'UU dan peraturan tentang K3.',
+    judul: 'Latihan 3 — Prosedur & Tata Tertib',
+    deskripsi: 'Tata tertib bengkel, SOP, K3 sebelum/selama/sesudah praktik, alat tangan, dan alat ukur.',
     soal: [
-      { tipe: 'pg', pertanyaan: 'UU yang mengatur Keselamatan Kerja adalah...', a: 'UU No. 1 Tahun 1970', b: 'UU No. 2 Tahun 1980', c: 'UU No. 3 Tahun 1990', d: 'UU No. 4 Tahun 2000', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'UU Ketenagakerjaan yang mengatur K3...', a: 'UU No. 13 Tahun 2003', b: 'UU No. 20 Tahun 2003', c: 'UU No. 22 Tahun 2009', d: 'UU No. 44 Tahun 2009', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'UU Kesehatan yang berkaitan K3...', a: 'UU No. 36 Tahun 2009', b: 'UU No. 20 Tahun 2003', c: 'UU No. 5 Tahun 1999', d: 'UU No. 8 Tahun 1999', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'P2K3 adalah...', a: 'Panitia Pembina K3', b: 'P3K', c: 'SMK3', d: 'K3L', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'SMK3 adalah...', a: 'Sistem Manajemen K3', b: 'ISO 9001', c: 'P2K3', d: 'K3L', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'UU No. 1 Tahun 1970 berlaku untuk...', a: 'Semua tempat kerja', b: 'Hanya pabrik besar', c: 'Hanya kantor', d: 'Hanya asing', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'Sanksi tidak menerapkan K3...', a: 'Sanksi administratif hingga pidana', b: 'Bonus', c: 'Penghargaan', d: 'Diskon pajak', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'Permenaker tentang K3 Lingkungan Kerja...', a: 'Permenaker No. 5 Tahun 2018', b: 'Permenaker No. 1 Tahun 2010', c: 'Permenaker No. 2 Tahun 2015', d: 'Permenaker No. 3 Tahun 2019', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'UU yang mengatur K3 di pertambangan adalah...', a: 'UU No. 4 Tahun 2009', b: 'UU No. 5 Tahun 2009', c: 'UU No. 6 Tahun 2009', d: 'UU No. 7 Tahun 2009', jawaban: 'A' },
-      { tipe: 'pg', pertanyaan: 'UU No. 1 Tahun 1970 disahkan pada tahun...', a: '1970', b: '1960', c: '1980', d: '1990', jawaban: 'A' },
-      { tipe: 'essay', pertanyaan: 'Sebutkan 3 undang-undang yang mengatur K3 di Indonesia beserta isinya!' },
-      { tipe: 'essay', pertanyaan: 'Jelaskan tujuan UU No. 1 Tahun 1970!' },
-      { tipe: 'essay', pertanyaan: 'Apa fungsi P2K3 di perusahaan?' },
-      { tipe: 'essay', pertanyaan: 'Mengapa K3 wajib diatur dalam undang-undang?' },
-      { tipe: 'essay', pertanyaan: 'Apa sanksi bagi perusahaan yang tidak menerapkan K3? Jelaskan!' }
+      { tipe: 'pg', pertanyaan: 'Hal yang harus dilakukan SEBELUM praktik adalah...', a: 'Langsung menyalakan mesin', b: 'Memakai APD lengkap', c: 'Bercanda dengan teman', d: 'Makan di area kerja', jawaban: 'B' },
+      { tipe: 'pg', pertanyaan: 'Hal yang benar SAAT praktik adalah...', a: 'Fokus dan ikuti SOP', b: 'Mengobrol sambil bekerja', c: 'Melepas APD karena panas', d: 'Bermain HP', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Hal yang benar SETELAH praktik adalah...', a: 'Tinggalkan mesin menyala', b: 'Bersihkan area kerja', c: 'Biarkan alat berserakan', d: 'Tinggalkan bengkel tanpa lapor', jawaban: 'B' },
+      { tipe: 'pg', pertanyaan: 'Berikut yang BUKAN prinsip keselamatan alat tangan adalah...', a: 'Gunakan sesuai fungsi', b: 'Pilih ukuran tepat', c: 'Gunakan alat rusak', d: 'Simpan dengan rapi', jawaban: 'C' },
+      { tipe: 'pg', pertanyaan: 'Alat ukur presisi berikut yang sering digunakan di bengkel adalah...', a: 'Jangka sorong', b: 'Palu', c: 'Tang', d: 'Kunci pas', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'SOP adalah singkatan dari...', a: 'Standar Operasional Prosedur', b: 'Sistem Operasional Pekerjaan', c: 'Standar Operasi Perusahaan', d: 'Sistem Organisasi Prosedural', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Yang BUKAN tata tertib bengkel adalah...', a: 'Wajib pakai APD', b: 'Dilarang bercanda', c: 'Boleh makan di area kerja', d: 'Ikuti SOP', jawaban: 'C' },
+      { tipe: 'pg', pertanyaan: 'Alat ukur yang digunakan untuk mengukur diameter luar/dalam adalah...', a: 'Jangka sorong', b: 'Mistar', c: 'Meteran', d: 'Penggaris', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Saat menggunakan alat tangan, hal yang harus diperhatikan adalah...', a: 'Kondisi alat', b: 'Warna alat', c: 'Merk alat', d: 'Harga alat', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Jika menemukan alat rusak, sebaiknya...', a: 'Tetap digunakan', b: 'Dilaporkan ke guru', c: 'Disembunyikan', d: 'Dibuang', jawaban: 'B' },
+      { tipe: 'essay', pertanyaan: 'Sebutkan 3 hal yang harus dilakukan SEBELUM praktik!' },
+      { tipe: 'essay', pertanyaan: 'Sebutkan 3 hal yang harus dilakukan SETELAH praktik!' },
+      { tipe: 'essay', pertanyaan: 'Mengapa SOP harus diikuti saat bekerja di bengkel?' },
+      { tipe: 'essay', pertanyaan: 'Sebutkan 3 contoh alat tangan dan cara penggunaannya yang aman!' },
+      { tipe: 'essay', pertanyaan: 'Jelaskan cara merawat alat ukur agar awet dan akurat!' }
+    ]
+  },
+
+  // ==========================================================
+  // LATIHAN 4 — MESIN BUBUT, FRAIS, BOR, GERINDA (Materi 16-19)
+  // ==========================================================
+  latihan_4: {
+    judul: 'Latihan 4 — Mesin Bubut, Frais, Bor, Gerinda',
+    deskripsi: 'Prosedur K3 pada mesin bubut, frais, bor, dan gerinda.',
+    soal: [
+      { tipe: 'pg', pertanyaan: 'Yang TIDAK BOLEH dilakukan saat mengoperasikan mesin bubut adalah...', a: 'Pakai kacamata', b: 'Pakai sarung tangan', c: 'Ikat rambut panjang', d: 'Pastikan benda kerja kuat', jawaban: 'B' },
+      { tipe: 'pg', pertanyaan: 'Sebelum mengganti cutter mesin frais, hal wajib adalah...', a: 'Matikan mesin', b: 'Biarkan mesin menyala', c: 'Langsung ganti', d: 'Panggil teman', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Saat mengebor, benda kerja sebaiknya dijepit dengan...', a: 'Tangan', b: 'Ragum', c: 'Kaki', d: 'Kain', jawaban: 'B' },
+      { tipe: 'pg', pertanyaan: 'APD wajib saat menggerinda adalah...', a: 'Goggles dan masker', b: 'Helm proyek', c: 'Sarung tangan kain', d: 'Jas hujan', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Yang BENAR saat membersihkan tatal mesin bubut adalah...', a: 'Pakai tangan', b: 'Pakai sikat', c: 'Pakai kain', d: 'Pakai kaki', jawaban: 'B' },
+      { tipe: 'pg', pertanyaan: 'Sebelum menyalakan mesin bubut, hal yang harus dilakukan...', a: 'Cek kondisi mesin & benda kerja', b: 'Langsung nyalakan', c: 'Bercanda dengan teman', d: 'Makan dulu', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Mesin yang digunakan untuk membuat ulir adalah...', a: 'Bubut', b: 'Frais', c: 'Bor', d: 'Gerinda', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Mesin yang digunakan untuk membuat permukaan rata adalah...', a: 'Frais', b: 'Bubut', c: 'Bor', d: 'Gerinda', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Mesin yang digunakan untuk membuat lubang adalah...', a: 'Bor', b: 'Frais', c: 'Bubut', d: 'Gerinda', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Saat menggerinda, hal yang HARUS dilakukan adalah...', a: 'Pakai goggles & masker', b: 'Pakai sarung tangan', c: 'Dekatkan wajah', d: 'Buka pelindung', jawaban: 'A' },
+      { tipe: 'essay', pertanyaan: 'Sebutkan 3 prosedur K3 sebelum mengoperasikan mesin bubut!' },
+      { tipe: 'essay', pertanyaan: 'Mengapa TIDAK boleh memakai sarung tangan saat mengoperasikan mesin bubut/frais/bor?' },
+      { tipe: 'essay', pertanyaan: 'Sebutkan 3 prosedur K3 saat menggunakan mesin gerinda!' },
+      { tipe: 'essay', pertanyaan: 'Bagaimana cara membersihkan tatal yang aman?' },
+      { tipe: 'essay', pertanyaan: 'Mengapa mesin harus dimatikan sebelum mengganti cutter/pahat?' }
+    ]
+  },
+
+  // ==========================================================
+  // LATIHAN 5 — CNC, LAS, LISTRIK (Materi 20-22)
+  // ==========================================================
+  latihan_5: {
+    judul: 'Latihan 5 — CNC, Las, Listrik',
+    deskripsi: 'Keselamatan kerja pada mesin CNC, pengelasan, dan kelistrikan bengkel.',
+    soal: [
+      { tipe: 'pg', pertanyaan: 'Saat mesin CNC beroperasi, yang BENAR adalah...', a: 'Jangan buka pintu mesin', b: 'Sering buka pintu mesin', c: 'Pegang tool saat berputar', d: 'Matikan tiba-tiba', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'APD utama saat mengelas adalah...', a: 'Helm las', b: 'Topi biasa', c: 'Sepatu biasa', d: 'Kacamata hitam', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Penyebab utama bahaya listrik di bengkel adalah...', a: 'Kabel terkelupas', b: 'Lantai bersih', c: 'Mesin terawat', d: 'APD lengkap', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Yang BUKAN cara mencegah bahaya listrik adalah...', a: 'Periksa kabel rutin', b: 'Grounding', c: 'Tangan basah pegang stopkontak', d: 'Alat berstandar', jawaban: 'C' },
+      { tipe: 'pg', pertanyaan: 'Area las harus jauh dari bahan...', a: 'Mudah terbakar', b: 'Anti api', c: 'Besi', d: 'Air', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Mesin CNC singkatan dari...', a: 'Computer Numerical Control', b: 'Central Numeric Code', c: 'Computer Network Control', d: 'Control Numeric Computer', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'APD untuk mengelas yang melindungi mata adalah...', a: 'Helm las / face shield', b: 'Topi', c: 'Sunglasses biasa', d: 'Masker', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Sebelum mengelas, pastikan area kerja...', a: 'Berventilasi & jauh dari bahan bakar', b: 'Gelap', c: 'Sempit', d: 'Penuh bahan bakar', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Emergency stop pada mesin CNC berfungsi untuk...', a: 'Menghentikan mesin darurat', b: 'Menyalakan mesin', c: 'Menambah kecepatan', d: 'Mengganti tool', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Yang BUKAN bahaya listrik adalah...', a: 'Sengatan', b: 'Kebakaran', c: 'Korsleting', d: 'Pencahayaan terang', jawaban: 'D' },
+      { tipe: 'essay', pertanyaan: 'Sebutkan 3 prosedur K3 saat mengoperasikan mesin CNC!' },
+      { tipe: 'essay', pertanyaan: 'Sebutkan 4 APD wajib saat mengelas!' },
+      { tipe: 'essay', pertanyaan: 'Sebutkan 3 cara mencegah bahaya listrik di bengkel!' },
+      { tipe: 'essay', pertanyaan: 'Mengapa area pengelasan harus jauh dari bahan mudah terbakar?' },
+      { tipe: 'essay', pertanyaan: 'Jelaskan fungsi emergency stop pada mesin CNC!' }
+    ]
+  },
+
+  // ==========================================================
+  // LATIHAN 6 — KESEHATAN & LINGKUNGAN (Materi 23-28)
+  // ==========================================================
+  latihan_6: {
+    judul: 'Latihan 6 — Kesehatan & Lingkungan',
+    deskripsi: 'Bahaya kerja, penyakit akibat kerja, 5R, kebakaran, P3K, evakuasi, dan limbah.',
+    soal: [
+      { tipe: 'pg', pertanyaan: 'Penyakit akibat kerja berikut yang sering dialami pekerja bengkel adalah...', a: 'Gangguan pendengaran', b: 'Sakit gigi', c: 'Rabun senja', d: 'Sakit kepala ringan', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Prinsip 5R yang berarti "menyusun alat dengan rapi" adalah...', a: 'Ringkas', b: 'Rapi', c: 'Resik', d: 'Rawat', jawaban: 'B' },
+      { tipe: 'pg', pertanyaan: 'Segitiga api terdiri dari...', a: 'Bahan bakar + oksigen + panas', b: 'Air + udara + angin', c: 'Kayu + minyak + listrik', d: 'Besi + api + asap', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Nomor darurat untuk pemadam kebakaran adalah...', a: '110', b: '113', c: '115', d: '118', jawaban: 'B' },
+      { tipe: 'pg', pertanyaan: 'Limbah bengkel berupa oli bekas termasuk limbah...', a: 'Organik', b: 'B3 (Bahan Berbahaya & Beracun)', c: 'Daun kering', d: 'Kertas', jawaban: 'B' },
+      { tipe: 'pg', pertanyaan: 'P3K adalah singkatan dari...', a: 'Pertolongan Pertama pada Kecelakaan', b: 'Pertolongan Pertama pada Korban', c: 'Pertolongan Pasien Kritis', d: 'Pelayanan Pertama Klinik', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'APAR adalah singkatan dari...', a: 'Alat Pemadam Api Ringan', b: 'Alat Pencegah Api Ringan', c: 'Alat Pemadam Air Ringan', d: 'Alat Pembersih Api Ringan', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Prinsip 5R adalah...', a: 'Ringkas, Rapi, Resik, Rawat, Rajin', b: 'Ringkas, Rapi, Resik, Rawat, Rukun', c: 'Ringkas, Rapi, Resik, Rawat, Ramah', d: 'Ringkas, Rapi, Resik, Rawat, Rajin, Rukun', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Cara memadamkan api ringan dengan APAR adalah...', a: 'P.A.S.S (Pull, Aim, Squeeze, Sweep)', b: 'P.U.S.H', c: 'P.U.L.L', d: 'P.A.S.T', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Limbah bengkel yang perlu diolah khusus adalah...', a: 'Oli bekas', b: 'Kertas', c: 'Daun', d: 'Besi', jawaban: 'A' },
+      { tipe: 'essay', pertanyaan: 'Sebutkan 3 penyakit akibat kerja di bengkel pemesinan!' },
+      { tipe: 'essay', pertanyaan: 'Jelaskan prinsip 5R/5S beserta contoh penerapannya!' },
+      { tipe: 'essay', pertanyaan: 'Jelaskan segitiga api dan 4 klasifikasi APAR!' },
+      { tipe: 'essay', pertanyaan: 'Sebutkan isi kotak P3K standar dan 4 nomor darurat!' },
+      { tipe: 'essay', pertanyaan: 'Bagaimana cara mengelola limbah bengkel dengan aman?' }
+    ]
+  },
+
+  // ==========================================================
+  // LATIHAN 7 — BUDAYA & TANGGUNG JAWAB K3 (Materi 29-35)
+  // ==========================================================
+  latihan_7: {
+    judul: 'Latihan 7 — Budaya & Tanggung Jawab K3',
+    deskripsi: 'Pemeliharaan mesin, budaya K3, pelaporan insiden, penilaian risiko, bahan kimia, dan tanggung jawab siswa.',
+    soal: [
+      { tipe: 'pg', pertanyaan: 'Pemeliharaan mesin secara rutin bertujuan untuk...', a: 'Memperpanjang umur mesin dan mencegah kecelakaan', b: 'Membuat mesin cepat rusak', c: 'Menambah biaya', d: 'Mengurangi APD', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Yang dimaksud "budaya keselamatan kerja" adalah...', a: 'Nilai dan perilaku yang mengutamakan K3', b: 'Budaya malas', c: 'Kebiasaan mengabaikan bahaya', d: 'Tradisi kerja cepat', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Laporan "near miss" adalah laporan tentang...', a: 'Kecelakaan yang terjadi', b: 'Kejadian nyaris celaka', c: 'Pekerja yang berprestasi', d: 'Pekerjaan selesai', jawaban: 'B' },
+      { tipe: 'pg', pertanyaan: 'Urutan hierarki pengendalian risiko yang PALING efektif adalah...', a: 'APD → Administrasi → Teknik → Eliminasi', b: 'Eliminasi → Substitusi → Teknik → Administrasi → APD', c: 'Administrasi → APD → Substitusi → Eliminasi', d: 'Terserah perusahaan', jawaban: 'B' },
+      { tipe: 'pg', pertanyaan: 'Tanggung jawab siswa dalam penerapan K3 di bengkel adalah...', a: 'Patuh SOP & pakai APD', b: 'Melanggar aturan', c: 'Bermain saat kerja', d: 'Tidak peduli K3', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Bahan kimia di bengkel harus disimpan...', a: 'Sesuai standar & berlabel', b: 'Sembarangan', c: 'Di dekat api', d: 'Di lantai', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'MSDS adalah...', a: 'Material Safety Data Sheet', b: 'Material Sistem Data Standar', c: 'Management Safety Data System', d: 'Material Standar Data Sistem', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Pelaporan kecelakaan bertujuan untuk...', a: 'Mencegah terulang & perbaikan sistem', b: 'Mencari kesalahan', c: 'Menghukum pekerja', d: 'Menutupi kejadian', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Contoh budaya K3 yang baik adalah...', a: 'Melaporkan bahaya tanpa takut', b: 'Menyembunyikan bahaya', c: 'Bercanda saat kerja', d: 'Melanggar SOP', jawaban: 'A' },
+      { tipe: 'pg', pertanyaan: 'Pemeliharaan mesin secara rutin dilakukan...', a: 'Harian, mingguan, bulanan, tahunan', b: 'Hanya saat rusak', c: 'Hanya saat ada inspeksi', d: 'Tidak perlu', jawaban: 'A' },
+      { tipe: 'essay', pertanyaan: 'Apa yang dimaksud budaya K3 dan mengapa penting?' },
+      { tipe: 'essay', pertanyaan: 'Jelaskan apa itu "near miss" dan mengapa harus dilaporkan!' },
+      { tipe: 'essay', pertanyaan: 'Sebutkan 5 hierarki pengendalian risiko dari yang paling efektif!' },
+      { tipe: 'essay', pertanyaan: 'Jelaskan prosedur penanganan bahan kimia & MSDS!' },
+      { tipe: 'essay', pertanyaan: 'Sebutkan 5 tanggung jawab siswa dalam penerapan K3 di bengkel!' }
     ]
   }
 
@@ -553,9 +664,10 @@ const LATIHAN_DATA = {
         <p class="desc">${l.deskripsi}</p>
         <div class="latihan-meta">
           <span class="latihan-meta-item"><i class="fas fa-list-ol"></i> ${l.jumlah_soal} soal</span>
-          <span class="latihan-meta-item"><i class="fas fa-pen"></i> PG &amp; Essay</span>
+          <span class="latihan-meta-item"><i class="fas fa-clock"></i> 20 menit</span>
+          <span class="latihan-meta-item"><i class="fas fa-star"></i> Nilai ≥ 75</span>
         </div>
-        <button class="btn btn-success" onclick="mulaiLatihan('${l.id}')" style="width:100%;">
+        <button class="btn btn-orange" onclick="mulaiLatihan('${l.id}')" style="width:100%;">
           <i class="fas fa-play"></i> Mulai Latihan
         </button>
       </div>
