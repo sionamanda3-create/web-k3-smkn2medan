@@ -264,8 +264,8 @@ table.data-table tbody tr:hover{background:#faf5ff}
 
     <div id="tab-soal" class="tab-content">
       <div class="table-wrapper"><table class="data-table">
-        <thead><tr><th>Pertanyaan</th><th>Jawaban Benar</th><th>Kesulitan</th><th style="text-align:right;">Aksi</th></tr></thead>
-        <tbody id="tbody-soal"><tr><td colspan="4"><div class="empty-state"><i class="fas fa-inbox"></i><p>Memuat data...</p></div></td></tr></tbody>
+        <thead><tr><th>Pertanyaan</th><th>Jawaban</th><th>Kesulitan</th><th>File</th><th style="text-align:right;">Aksi</th></tr></thead>
+        <tbody id="tbody-soal"><tr><td colspan="5"><div class="empty-state"><i class="fas fa-inbox"></i><p>Memuat data...</p></div></td></tr></tbody>
       </table></div>
     </div>
 
@@ -277,9 +277,6 @@ table.data-table tbody tr:hover{background:#faf5ff}
     </div>
   </div>
 
-  <!-- ============================================================
-       MONITORING SISWA
-       ============================================================ -->
   <div class="section-header">
     <h2><i class="fas fa-user-check"></i> Monitoring Siswa</h2>
     <button class="btn-toolbar ghost" onclick="loadMonitoring()"><i class="fas fa-rotate"></i> Muat Ulang</button>
@@ -296,9 +293,6 @@ table.data-table tbody tr:hover{background:#faf5ff}
     </table></div>
   </section>
 
-  <!-- ============================================================
-       DAFTAR HADIR SISWA (FITUR BARU)
-       ============================================================ -->
   <div class="section-header">
     <h2><i class="fas fa-clipboard-user"></i> Daftar Hadir Siswa</h2>
     <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
@@ -318,9 +312,6 @@ table.data-table tbody tr:hover{background:#faf5ff}
     </table></div>
   </section>
 
-  <!-- ============================================================
-       TUGAS YANG DIKIRIM SISWA (dengan tombol HAPUS)
-       ============================================================ -->
   <div class="section-header">
     <h2><i class="fas fa-inbox"></i> Tugas yang Dikirim Siswa</h2>
     <button class="btn-toolbar ghost" onclick="loadJawaban()"><i class="fas fa-rotate"></i> Muat Ulang</button>
@@ -328,9 +319,6 @@ table.data-table tbody tr:hover{background:#faf5ff}
 
   <div class="data-panel"><div id="jawaban-list"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat tugas siswa...</p></div></div></div>
 
-  <!-- ============================================================
-       DAFTAR NILAI SISWA (FITUR BARU)
-       ============================================================ -->
   <div class="section-header">
     <h2><i class="fas fa-file-lines"></i> Daftar Nilai Siswa</h2>
     <button class="btn-toolbar primary" onclick="loadDaftarNilai()"><i class="fas fa-rotate"></i> Muat Nilai</button>
@@ -349,7 +337,6 @@ table.data-table tbody tr:hover{background:#faf5ff}
 
 </main>
 
-<!-- MODAL TAMBAH/EDIT KONTEN -->
 <div class="modal-overlay" id="modal-overlay">
   <div class="modal">
     <div class="modal-header">
@@ -366,7 +353,6 @@ table.data-table tbody tr:hover{background:#faf5ff}
   </div>
 </div>
 
-<!-- MODAL KEHADIRAN -->
 <div class="modal-overlay" id="modal-kehadiran">
   <div class="modal">
     <div class="modal-header">
@@ -375,31 +361,17 @@ table.data-table tbody tr:hover{background:#faf5ff}
     </div>
     <form id="form-kehadiran" onsubmit="handleKehadiranSubmit(event)">
       <div class="modal-body">
-        <div class="form-group">
-          <label>Tanggal</label>
-          <input type="date" name="tanggal" id="kehadiran-tanggal" required>
-        </div>
-        <div class="form-group">
-          <label>Nama Siswa</label>
-          <input type="text" name="nama_siswa" placeholder="Nama lengkap siswa" required>
-        </div>
-        <div class="form-group">
-          <label>Kelas</label>
+        <div class="form-group"><label>Tanggal</label><input type="date" name="tanggal" id="kehadiran-tanggal" required></div>
+        <div class="form-group"><label>Nama Siswa</label><input type="text" name="nama_siswa" placeholder="Nama lengkap siswa" required></div>
+        <div class="form-group"><label>Kelas</label>
           <select name="kelas" required>
             <option value="">-- Pilih Kelas --</option>
-            <option value="X TP 1">X TP 1</option>
-            <option value="X TP 2">X TP 2</option>
-            <option value="X TP 3">X TP 3</option>
-            <option value="XI TP 1">XI TP 1</option>
-            <option value="XI TP 2">XI TP 2</option>
-            <option value="XI TP 3">XI TP 3</option>
-            <option value="XII TP 1">XII TP 1</option>
-            <option value="XII TP 2">XII TP 2</option>
-            <option value="XII TP 3">XII TP 3</option>
+            <option value="TP 1">TP 1</option>
+            <option value="TP 2">TP 2</option>
+            <option value="TP 3">TP 3</option>
           </select>
         </div>
-        <div class="form-group">
-          <label>Status</label>
+        <div class="form-group"><label>Status</label>
           <select name="status" required>
             <option value="hadir">Hadir</option>
             <option value="sakit">Sakit</option>
@@ -407,10 +379,7 @@ table.data-table tbody tr:hover{background:#faf5ff}
             <option value="alpha">Alpha (Tanpa Keterangan)</option>
           </select>
         </div>
-        <div class="form-group">
-          <label>Keterangan (opsional)</label>
-          <textarea name="keterangan" placeholder="Contoh: Sakit demam" style="min-height:70px;"></textarea>
-        </div>
+        <div class="form-group"><label>Keterangan (opsional)</label><textarea name="keterangan" placeholder="Contoh: Sakit demam" style="min-height:70px;"></textarea></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn-toolbar ghost" onclick="document.getElementById('modal-kehadiran').classList.remove('show')">Batal</button>
@@ -428,17 +397,19 @@ const SUPABASE_URL = 'https://ddnhwcxfktcsyngupdex.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_ogAtXLGklIivo88I41J8ZA_9CWzS8D3';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const BUCKET_MATERI = 'materi-k3';
+const BUCKET_SOAL = 'soal-kuis';
 const MAX_SIZE = 20 * 1024 * 1024;
 const ALLOWED_EXT = ['jpg','jpeg','png','gif','webp','pdf','doc','docx','xls','xlsx','ppt','pptx','txt','zip','rar'];
+const ALLOWED_SOAL_EXT = ['jpg','jpeg','png','gif','webp','pdf','doc','docx','txt'];
 
 let currentGuru = null;
 let currentModalType = null;
 let semuaJawaban = [];
 let selectedMateriFile = null;
+let selectedSoalFile = null;
 let semuaKehadiran = [];
 let semuaNilai = [];
 
-// ============ HELPERS ============
 function showToast(message, type = 'info') {
   const toast = document.getElementById('toast');
   const msg = document.getElementById('toast-message');
@@ -496,7 +467,6 @@ function logout() {
   window.location.href = 'index.html';
 }
 
-// ============ STATISTIK ============
 async function loadStatistik() {
   try {
     const [siswa, materi, kuis, tugas] = await Promise.all([
@@ -512,7 +482,6 @@ async function loadStatistik() {
   } catch (err) { console.error('Gagal load statistik:', err); }
 }
 
-// ============ TAB KONTEN ============
 function switchTab(tab) {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
@@ -525,7 +494,7 @@ function switchTab(tab) {
 async function loadKonten(type) {
   const tbody = document.getElementById('tbody-' + type);
   if (!tbody) return;
-  const colCount = type === 'materi' ? 5 : 4;
+  const colCount = type === 'materi' ? 5 : (type === 'soal' ? 5 : 4);
   tbody.innerHTML = `<tr><td colspan="${colCount}"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat data...</p></div></td></tr>`;
   try {
     const { data, error } = await supabaseClient.from(type).select('*').order('created_at', { ascending: false });
@@ -549,9 +518,10 @@ async function loadKonten(type) {
     } else if (type === 'soal') {
       tbody.innerHTML = data.map(s => `
         <tr>
-          <td>${escapeHtml((s.pertanyaan || '-').substring(0, 70))}...</td>
+          <td>${escapeHtml((s.pertanyaan || '-').substring(0, 60))}...</td>
           <td><strong style="color:var(--success);">${s.jawaban_benar || '-'}</strong></td>
           <td><span class="badge ${s.kesulitan || 'sedang'}">${s.kesulitan || 'sedang'}</span></td>
+          <td>${s.file_url ? `<a href="${escapeHtml(s.file_url)}" target="_blank" class="btn-row-action" title="Download"><i class="fas ${getFileIcon(s.file_name)}"></i></a>` : '<span style="color:#9ca3af;font-size:.78rem;">-</span>'}</td>
           <td style="text-align:right;">
             <button class="btn-row-action" onclick="editItem('soal', '${s.id}')"><i class="fas fa-pen"></i></button>
             <button class="btn-row-action danger" onclick="hapusItem('soal', '${s.id}')"><i class="fas fa-trash"></i></button>
@@ -574,7 +544,6 @@ async function loadKonten(type) {
   }
 }
 
-// ============ MONITORING SISWA ============
 async function loadMonitoring() {
   const tbody = document.getElementById('tbody-monitoring');
   tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat data...</p></div></td></tr>';
@@ -629,7 +598,6 @@ async function loadMonitoring() {
   }
 }
 
-// ============ DAFTAR HADIR ============
 function openModalKehadiran() {
   document.getElementById('kehadiran-tanggal').value = new Date().toISOString().split('T')[0];
   document.getElementById('modal-kehadiran').classList.add('show');
@@ -717,7 +685,6 @@ async function hapusKehadiran(id) {
   }
 }
 
-// ============ TUGAS MASUK (dengan hapus) ============
 async function loadJawaban() {
   const container = document.getElementById('jawaban-list');
   container.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat tugas siswa...</p></div>';
@@ -829,7 +796,6 @@ async function simpanNilai(id) {
   } catch (err) { showToast('Gagal simpan: ' + err.message, 'error'); }
 }
 
-// ============ DAFTAR NILAI SISWA ============
 async function loadDaftarNilai() {
   const tbody = document.getElementById('tbody-nilai');
   tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat data...</p></div></td></tr>';
@@ -889,10 +855,10 @@ async function loadDaftarNilai() {
   }
 }
 
-// ============ MODAL KONTEN ============
 function openModal(type, data = null) {
   currentModalType = type;
   selectedMateriFile = null;
+  selectedSoalFile = null;
   const title = document.getElementById('modal-title');
   const body = document.getElementById('modal-body');
   const isEdit = !!data;
@@ -922,13 +888,29 @@ function openModal(type, data = null) {
     setupMateriFileDrop();
   } else if (type === 'soal') {
     body.innerHTML = `
-      <div class="form-group"><label>Pertanyaan</label><textarea name="pertanyaan" required>${escapeHtml(data?.pertanyaan || '')}</textarea></div>
+      <div class="form-group"><label>Pertanyaan (teks)</label><textarea name="pertanyaan" required>${escapeHtml(data?.pertanyaan || '')}</textarea></div>
       <div class="form-row-2"><div class="form-group"><label>Pilihan A</label><input type="text" name="pilihan_a" value="${escapeHtml(data?.pilihan_a || '')}" required></div><div class="form-group"><label>Pilihan B</label><input type="text" name="pilihan_b" value="${escapeHtml(data?.pilihan_b || '')}" required></div></div>
       <div class="form-row-2"><div class="form-group"><label>Pilihan C</label><input type="text" name="pilihan_c" value="${escapeHtml(data?.pilihan_c || '')}" required></div><div class="form-group"><label>Pilihan D</label><input type="text" name="pilihan_d" value="${escapeHtml(data?.pilihan_d || '')}" required></div></div>
       <div class="form-row-2">
         <div class="form-group"><label>Jawaban Benar</label><select name="jawaban_benar"><option value="A" ${data?.jawaban_benar === 'A' ? 'selected' : ''}>A</option><option value="B" ${data?.jawaban_benar === 'B' ? 'selected' : ''}>B</option><option value="C" ${data?.jawaban_benar === 'C' ? 'selected' : ''}>C</option><option value="D" ${data?.jawaban_benar === 'D' ? 'selected' : ''}>D</option></select></div>
         <div class="form-group"><label>Kesulitan</label><select name="kesulitan"><option value="mudah" ${data?.kesulitan === 'mudah' ? 'selected' : ''}>Mudah</option><option value="sedang" ${data?.kesulitan === 'sedang' ? 'selected' : ''}>Sedang</option><option value="sulit" ${data?.kesulitan === 'sulit' ? 'selected' : ''}>Sulit</option></select></div>
+      </div>
+      <div class="form-group">
+        <label>Upload File Soal (opsional — JPG/PDF/Word, maks 20MB)</label>
+        <div class="file-drop" id="soalFileDrop">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <div class="file-label">${data?.file_name ? '✓ ' + escapeHtml(data.file_name) : 'Klik atau seret file ke sini'}</div>
+          <div class="file-hint">JPG, PNG, PDF, Word (maks. 20 MB)</div>
+        </div>
+        <input type="file" id="soalFileInput" style="display:none;" accept=".jpg,.jpeg,.png,.gif,.webp,.pdf,.doc,.docx,.txt">
+        <div class="file-preview" id="soalFilePreview">
+          <div class="f-icon" id="soalFIcon"><i class="fas fa-file"></i></div>
+          <span class="f-name" id="soalFName"></span>
+          <span class="f-size" id="soalFSize"></span>
+          <button type="button" class="f-remove" id="soalFRemove"><i class="fas fa-times"></i></button>
+        </div>
       </div>`;
+    setupSoalFileDrop();
   } else if (type === 'video') {
     body.innerHTML = `
       <div class="form-group"><label>Judul Video</label><input type="text" name="judul" value="${escapeHtml(data?.judul || '')}" required></div>
@@ -952,6 +934,7 @@ function setupMateriFileDrop() {
   const fSize = document.getElementById('materiFSize');
   const fRemove = document.getElementById('materiFRemove');
 
+  if (!drop) return;
   drop.addEventListener('click', () => input.click());
   drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('dragover'); });
   drop.addEventListener('dragleave', () => drop.classList.remove('dragover'));
@@ -985,6 +968,49 @@ function setupMateriFileDrop() {
   }
 }
 
+function setupSoalFileDrop() {
+  const drop = document.getElementById('soalFileDrop');
+  const input = document.getElementById('soalFileInput');
+  const preview = document.getElementById('soalFilePreview');
+  const fIcon = document.getElementById('soalFIcon');
+  const fName = document.getElementById('soalFName');
+  const fSize = document.getElementById('soalFSize');
+  const fRemove = document.getElementById('soalFRemove');
+
+  if (!drop) return;
+  drop.addEventListener('click', () => input.click());
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('dragover'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('dragover'));
+  drop.addEventListener('drop', e => {
+    e.preventDefault(); drop.classList.remove('dragover');
+    if (e.dataTransfer.files.length) { input.files = e.dataTransfer.files; input.dispatchEvent(new Event('change')); }
+  });
+  input.addEventListener('change', () => {
+    const file = input.files[0];
+    if (!file) return reset();
+    if (file.size > MAX_SIZE) { showToast('File terlalu besar! Maksimal 20 MB.', 'error'); return reset(); }
+    const ext = file.name.split('.').pop().toLowerCase();
+    if (!ALLOWED_SOAL_EXT.includes(ext)) { showToast('Tipe file tidak diizinkan untuk soal!', 'error'); return reset(); }
+    selectedSoalFile = file;
+    drop.classList.add('has-file');
+    drop.querySelector('.file-label').textContent = '✓ ' + file.name;
+    drop.querySelector('.file-hint').textContent = 'Klik untuk ganti file';
+    fIcon.innerHTML = `<i class="fas ${getFileIcon(file.name)}"></i>`;
+    fName.textContent = file.name;
+    fSize.textContent = formatSize(file.size);
+    preview.classList.add('show');
+  });
+  fRemove.addEventListener('click', e => { e.stopPropagation(); reset(); });
+
+  function reset() {
+    input.value = ''; selectedSoalFile = null;
+    drop.classList.remove('has-file');
+    drop.querySelector('.file-label').textContent = 'Klik atau seret file ke sini';
+    drop.querySelector('.file-hint').textContent = 'JPG, PNG, PDF, Word (maks. 20 MB)';
+    preview.classList.remove('show');
+  }
+}
+
 async function uploadMateriFile(file) {
   const ext = file.name.split('.').pop().toLowerCase();
   const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${ext}`;
@@ -995,11 +1021,22 @@ async function uploadMateriFile(file) {
   return { url: urlData.publicUrl, name: file.name, size: file.size, type: ext };
 }
 
+async function uploadSoalFile(file) {
+  const ext = file.name.split('.').pop().toLowerCase();
+  const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${ext}`;
+  const filePath = `soal/${fileName}`;
+  const { error: uploadError } = await supabaseClient.storage.from(BUCKET_SOAL).upload(filePath, file, { cacheControl: '3600', upsert: false });
+  if (uploadError) throw uploadError;
+  const { data: urlData } = supabaseClient.storage.from(BUCKET_SOAL).getPublicUrl(filePath);
+  return { url: urlData.publicUrl, name: file.name, size: file.size, type: ext };
+}
+
 function closeModal() {
   document.getElementById('modal-overlay').classList.remove('show');
   document.getElementById('modal-form').reset();
   currentModalType = null;
   selectedMateriFile = null;
+  selectedSoalFile = null;
 }
 
 async function handleModalSubmit(e) {
@@ -1020,6 +1057,18 @@ async function handleModalSubmit(e) {
     if (currentModalType === 'materi') {
       if (selectedMateriFile) {
         const fileInfo = await uploadMateriFile(selectedMateriFile);
+        data.file_url = fileInfo.url;
+        data.file_name = fileInfo.name;
+        data.file_type = fileInfo.type;
+        data.file_size = fileInfo.size;
+      } else if (editId && oldFileUrl) {
+        data.file_url = oldFileUrl;
+        data.file_name = oldFileName;
+        data.file_type = oldFileType;
+      }
+    } else if (currentModalType === 'soal') {
+      if (selectedSoalFile) {
+        const fileInfo = await uploadSoalFile(selectedSoalFile);
         data.file_url = fileInfo.url;
         data.file_name = fileInfo.name;
         data.file_type = fileInfo.type;
@@ -1072,7 +1121,6 @@ async function hapusItem(type, id) {
 function openZoom(url) { document.getElementById('zoomImg').src = url; document.getElementById('zoomModal').classList.add('show'); }
 function closeZoom() { document.getElementById('zoomModal').classList.remove('show'); }
 
-// ============ INIT ============
 document.addEventListener('DOMContentLoaded', async () => {
   currentGuru = cekSession();
   if (!currentGuru) return;
