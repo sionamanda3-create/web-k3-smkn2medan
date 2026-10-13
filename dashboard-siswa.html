@@ -59,6 +59,7 @@ body{font-family:'Inter',sans-serif;background:var(--gray-50);color:var(--gray-8
 .menu-icon.red{background:#fee2e2;color:#dc2626}
 .menu-icon.green{background:#dcfce7;color:#16a34a}
 .menu-icon.orange{background:#fed7aa;color:#ea580c}
+.menu-icon.purple{background:#e9d5ff;color:#7c3aed}
 .menu-item:hover .menu-icon{background:rgba(255,255,255,.2)}
 .menu-label{font-size:.88rem;font-weight:700;transition:all .3s}
 .menu-desc{font-size:.72rem;color:var(--gray-500);font-weight:500;transition:all .3s}
@@ -68,7 +69,6 @@ body{font-family:'Inter',sans-serif;background:var(--gray-50);color:var(--gray-8
 .content-item:hover{transform:translateX(4px);box-shadow:var(--shadow-md);border-color:var(--primary-light)}
 .content-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
 .content-icon.blue{background:#dbeafe;color:#1e40af}
-.content-icon.red{background:#fee2e2;color:#dc2626}
 .content-info{flex:1;min-width:0}
 .content-info h4{font-size:.92rem;font-weight:700;margin-bottom:.2rem}
 .content-info p{font-size:.78rem;color:var(--gray-500);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
@@ -76,8 +76,6 @@ body{font-family:'Inter',sans-serif;background:var(--gray-50);color:var(--gray-8
 .empty-state{text-align:center;padding:2rem 1rem;color:var(--gray-500)}
 .empty-state i{font-size:2.5rem;color:var(--gray-300);display:block;margin-bottom:.75rem}
 .empty-state p{font-size:.88rem}
-
-/* KIRIM TUGAS CARD */
 .kirim-card{background:linear-gradient(135deg,#fff7ed,#ffedd5);border:2px solid #fed7aa;border-radius:16px;padding:25px;margin-top:1rem}
 .kirim-card h2{color:var(--orange);font-size:18px;font-weight:800;margin-bottom:15px;display:flex;align-items:center;gap:10px}
 .form-group{margin-bottom:15px}
@@ -106,8 +104,6 @@ body{font-family:'Inter',sans-serif;background:var(--gray-50);color:var(--gray-8
 .btn-kirim:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(234,88,12,.4)}
 .btn-kirim:disabled{opacity:.6;cursor:not-allowed}
 .info-note{background:#fef3c7;border-left:4px solid #f59e0b;border-radius:8px;padding:.8rem 1rem;font-size:.82rem;color:#92400e;margin-bottom:1rem;line-height:1.6}
-
-/* RIWAYAT */
 .riwayat-list{display:grid;gap:12px;margin-top:1rem}
 .riwayat-item{background:#fff;padding:16px;border-radius:12px;border-left:4px solid var(--primary);box-shadow:0 2px 8px rgba(0,0,0,.05);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .riwayat-info{flex:1;min-width:200px}
@@ -117,8 +113,6 @@ body{font-family:'Inter',sans-serif;background:var(--gray-50);color:var(--gray-8
 .riwayat-status{padding:6px 12px;border-radius:999px;font-size:11px;font-weight:800;text-transform:uppercase}
 .riwayat-status.menunggu{background:#fef3c7;color:#92400e}
 .riwayat-status.dinilai{background:#dcfce7;color:#15803d}
-
-/* AKTIVITAS */
 .activity-card{background:#fff;border-radius:12px;padding:1.4rem;box-shadow:var(--shadow-sm);border:1px solid var(--gray-100);margin-top:1rem}
 .activity-list{display:flex;flex-direction:column;gap:.6rem}
 .activity-item{display:flex;align-items:center;gap:.9rem;padding:.75rem;border-radius:10px}
@@ -128,7 +122,6 @@ body{font-family:'Inter',sans-serif;background:var(--gray-50);color:var(--gray-8
 .activity-badge{font-size:.7rem;padding:.25rem .6rem;border-radius:999px;font-weight:700}
 .activity-badge.done{background:#dcfce7;color:#15803d}
 .activity-badge.pending{background:#fed7aa;color:#c2410c}
-
 .toast{position:fixed;top:1.5rem;right:1.5rem;background:#fff;padding:1rem 1.3rem;border-radius:10px;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:.75rem;font-size:.88rem;font-weight:500;z-index:9999;transform:translateX(400px);transition:transform .4s;max-width:340px}
 .toast.show{transform:translateX(0)}
 .toast.error{border-left:4px solid var(--danger)}
@@ -137,13 +130,13 @@ body{font-family:'Inter',sans-serif;background:var(--gray-50);color:var(--gray-8
 .toast.success i{color:var(--success)}
 .toast.info{border-left:4px solid var(--primary)}
 .toast.info i{color:var(--primary)}
-
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;justify-content:center;align-items:center;padding:1rem}
 .modal-overlay.show{display:flex}
 .modal{background:#fff;border-radius:16px;max-width:700px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
-.modal-header{padding:1.3rem 1.5rem;border-bottom:1px solid var(--gray-100);display:flex;justify-content:space-between;align-items:center}
-.modal-header h3{font-size:1.05rem;font-weight:700}
-.modal-close{width:32px;height:32px;border-radius:8px;border:none;background:var(--gray-100);color:var(--gray-600);cursor:pointer;font-size:.9rem}
+.modal-header{padding:1.3rem 1.5rem;border-bottom:1px solid var(--gray-100);display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#1e40af,#3b82f6);color:#fff;border-radius:16px 16px 0 0}
+.modal-header h3{font-size:1.05rem;font-weight:700;display:flex;align-items:center;gap:.6rem}
+.modal-close{width:32px;height:32px;border-radius:8px;border:none;background:rgba(255,255,255,.2);color:#fff;cursor:pointer;font-size:.9rem}
+.modal-close:hover{background:rgba(255,255,255,.35)}
 .modal-body{padding:1.5rem}
 .footer{text-align:center;padding:2rem 1rem 1rem;font-size:.75rem;color:var(--gray-500)}
 @media(max-width:640px){.navbar{padding:.75rem 1rem}.container{padding:1.5rem 1rem}.welcome-hero h1{font-size:1.35rem}.user-details{display:none}.menu-grid{grid-template-columns:repeat(2,1fr)}.toast{right:.75rem;left:.75rem;max-width:none}}
@@ -194,25 +187,41 @@ body{font-family:'Inter',sans-serif;background:var(--gray-50);color:var(--gray-8
 
   <div class="section-header"><h2><i class="fas fa-grip"></i> Menu Pembelajaran</h2></div>
   <section class="menu-grid">
-    <a href="materi.html" class="menu-item"><div class="menu-icon blue"><i class="fas fa-book"></i></div><div class="menu-label">Materi</div><div class="menu-desc">Baca materi K3</div></a>
-    <a href="video.html" class="menu-item"><div class="menu-icon red"><i class="fas fa-video"></i></div><div class="menu-label">Video</div><div class="menu-desc">Tonton video</div></a>
-    <a href="kuis.html" class="menu-item"><div class="menu-icon orange"><i class="fas fa-clipboard-question"></i></div><div class="menu-label">Kuis</div><div class="menu-desc">Uji pemahaman</div></a>
-    <a href="latihan.html" class="menu-item"><div class="menu-icon green"><i class="fas fa-pen-to-square"></i></div><div class="menu-label">Latihan</div><div class="menu-desc">Kerjakan latihan</div></a>
+    <a href="tujuan.html" class="menu-item">
+      <div class="menu-icon purple"><i class="fas fa-bullseye"></i></div>
+      <div class="menu-label">Tujuan</div>
+      <div class="menu-desc">Tujuan pembelajaran</div>
+    </a>
+    <a href="materi.html" class="menu-item">
+      <div class="menu-icon blue"><i class="fas fa-book"></i></div>
+      <div class="menu-label">Materi</div>
+      <div class="menu-desc">Baca materi K3</div>
+    </a>
+    <a href="video.html" class="menu-item">
+      <div class="menu-icon red"><i class="fas fa-video"></i></div>
+      <div class="menu-label">Video</div>
+      <div class="menu-desc">Tonton video</div>
+    </a>
+    <a href="kuis.html" class="menu-item">
+      <div class="menu-icon orange"><i class="fas fa-clipboard-question"></i></div>
+      <div class="menu-label">Kuis</div>
+      <div class="menu-desc">Uji pemahaman</div>
+    </a>
+    <a href="latihan.html" class="menu-item">
+      <div class="menu-icon green"><i class="fas fa-pen-to-square"></i></div>
+      <div class="menu-label">Latihan</div>
+      <div class="menu-desc">Kerjakan latihan</div>
+    </a>
   </section>
 
   <div class="section-header"><h2><i class="fas fa-book-open"></i> Materi Terbaru</h2></div>
   <div id="materi-preview" class="content-list"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat materi...</p></div></div>
 
-  <div class="section-header"><h2><i class="fas fa-video"></i> Video Terbaru</h2></div>
-  <div id="video-preview" class="content-list"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat video...</p></div></div>
-
-  <!-- KIRIM TUGAS -->
   <div class="section-header"><h2><i class="fas fa-paper-plane"></i> Kirim Tugas ke Guru</h2></div>
-
   <div class="kirim-card">
     <h2><i class="fas fa-edit"></i> Form Pengiriman Tugas</h2>
     <div class="info-note">
-      <i class="fas fa-info-circle"></i> Anda bisa mengirim <b>jawaban teks</b>, <b>file tugas</b>, atau <b>keduanya sekaligus</b>. Pilih salah satu atau isi keduanya.
+      <i class="fas fa-info-circle"></i> Anda bisa mengirim <b>jawaban teks</b>, <b>file tugas</b>, atau <b>keduanya sekaligus</b>.
     </div>
     <form id="formKirim" onsubmit="event.preventDefault(); kirimTugas();">
       <div class="form-group">
@@ -252,11 +261,9 @@ body{font-family:'Inter',sans-serif;background:var(--gray-50);color:var(--gray-8
     </form>
   </div>
 
-  <!-- RIWAYAT -->
   <div class="section-header"><h2><i class="fas fa-history"></i> Riwayat Pengiriman</h2></div>
   <div class="riwayat-list" id="riwayatList"><p style="text-align:center;color:#64748b;padding:20px;">Memuat riwayat...</p></div>
 
-  <!-- AKTIVITAS -->
   <div class="section-header"><h2><i class="fas fa-clock-rotate-left"></i> Aktivitas Terbaru</h2></div>
   <section class="activity-card">
     <div class="activity-list" id="activity-list"><p style="text-align:center;color:#64748b;padding:20px;">Memuat aktivitas...</p></div>
@@ -265,11 +272,11 @@ body{font-family:'Inter',sans-serif;background:var(--gray-50);color:var(--gray-8
   <footer class="footer">© 2026 SMK Negeri 2 Medan — Media Pembelajaran K3</footer>
 </main>
 
-<!-- MODAL MATERI DETAIL -->
-<div class="modal-overlay" id="modal-materi">
+<!-- MODAL DETAIL MATERI -->
+<div class="modal-overlay" id="modalMateri">
   <div class="modal">
     <div class="modal-header">
-      <h3 id="modal-materi-title">Detail Materi</h3>
+      <h3 id="modal-materi-title"><i class="fas fa-book"></i> Detail Materi</h3>
       <button class="modal-close" onclick="closeMateriModal()"><i class="fas fa-times"></i></button>
     </div>
     <div class="modal-body" id="modal-materi-body"></div>
@@ -362,7 +369,7 @@ async function loadMateriPreview() {
 async function openMateriModal(id) {
   const { data, error } = await supabaseClient.from('materi').select('*').eq('id', id).single();
   if (error || !data) { showToast('Gagal memuat materi', 'error'); return; }
-  document.getElementById('modal-materi-title').textContent = data.judul || 'Detail Materi';
+  document.getElementById('modal-materi-title').innerHTML = `<i class="fas fa-book"></i> ${escapeHtml(data.judul || 'Detail Materi')}`;
 
   let fileHTML = '';
   if (data.file_url) {
@@ -399,37 +406,16 @@ async function openMateriModal(id) {
     </div>
     ${fileHTML}
   `;
-  document.getElementById('modal-materi').classList.add('show');
+  document.getElementById('modalMateri').classList.add('show');
 }
 
 function closeMateriModal() {
-  document.getElementById('modal-materi').classList.remove('show');
+  document.getElementById('modalMateri').classList.remove('show');
 }
 
-// ============ LOAD VIDEO ============
-async function loadVideoPreview() {
-  const container = document.getElementById('video-preview');
-  try {
-    const { data, error } = await supabaseClient.from('video').select('*').order('created_at', { ascending: false }).limit(10);
-    if (error) throw error;
-    if (!data || data.length === 0) {
-      container.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>Belum ada video tersedia.</p></div>';
-      return;
-    }
-    container.innerHTML = data.map(v => `
-      <a href="${escapeHtml(v.url)}" target="_blank" class="content-item">
-        <div class="content-icon red"><i class="fas fa-video"></i></div>
-        <div class="content-info">
-          <h4>${escapeHtml(v.judul || 'Tanpa Judul')}</h4>
-          <p>${escapeHtml(v.durasi || '-')} • ${escapeHtml((v.url || '').substring(0, 50))}...</p>
-        </div>
-        <i class="fas fa-external-link-alt content-arrow"></i>
-      </a>
-    `).join('');
-  } catch (err) {
-    container.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Gagal memuat: ${escapeHtml(err.message)}</p></div>`;
-  }
-}
+document.getElementById('modalMateri')?.addEventListener('click', function(e) {
+  if (e.target === this) closeMateriModal();
+});
 
 // ============ FILE DROP ============
 function setupFileDrop() {
@@ -534,7 +520,6 @@ async function kirimTugas() {
 
     progressFill.style.width = '100%';
 
-    // Log aktivitas
     try {
       await supabaseClient.from('aktivitas').insert([{
         siswa_id: currentSiswa.id,
@@ -680,14 +665,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   setupFileDrop();
   await loadStatistik();
   await loadMateriPreview();
-  await loadVideoPreview();
   await loadRiwayat();
   await loadAktivitas();
 });
 
-window.kirimTugas = kirimTugas;
 window.openMateriModal = openMateriModal;
 window.closeMateriModal = closeMateriModal;
+window.kirimTugas = kirimTugas;
 window.logout = logout;
 </script>
 
