@@ -226,10 +226,7 @@ table.data-table tbody tr:hover{background:#faf5ff}
 
   <div class="section-header"><h2><i class="fas fa-grip"></i> Menu Pembelajaran</h2></div>
   <section class="menu-grid">
-    <a href="tujuan.html" class="menu-item">
-      <div class="menu-icon purple"><i class="fas fa-bullseye"></i></div>
-      <div class="menu-label">Tujuan</div><div class="menu-desc">Kelola tujuan</div>
-    </a>
+    <a href="tujuan.html" class="menu-item"><div class="menu-icon purple"><i class="fas fa-bullseye"></i></div><div class="menu-label">Tujuan</div><div class="menu-desc">Kelola tujuan</div></a>
     <a href="materi.html" class="menu-item"><div class="menu-icon blue"><i class="fas fa-book"></i></div><div class="menu-label">Materi</div><div class="menu-desc">Kelola materi</div></a>
     <a href="video.html" class="menu-item"><div class="menu-icon red"><i class="fas fa-video"></i></div><div class="menu-label">Video</div><div class="menu-desc">Kelola video</div></a>
     <a href="kuis.html" class="menu-item"><div class="menu-icon orange"><i class="fas fa-clipboard-question"></i></div><div class="menu-label">Kuis</div><div class="menu-desc">Lihat kuis</div></a>
@@ -288,8 +285,8 @@ table.data-table tbody tr:hover{background:#faf5ff}
       <select class="filter-select" id="filter-monitoring-kelas"><option value="">Semua Kelas</option></select>
     </div>
     <div class="table-wrapper"><table class="data-table">
-      <thead><tr><th>Siswa</th><th>Kelas</th><th>Login Terakhir</th><th>Total Login</th><th>Status</th></tr></thead>
-      <tbody id="tbody-monitoring"><tr><td colspan="5"><div class="empty-state"><i class="fas fa-inbox"></i><p>Memuat data...</p></div></td></tr></tbody>
+      <thead><tr><th>Siswa</th><th>Kelas</th><th>Login Terakhir</th><th>Total Login</th><th>Status</th><th style="text-align:right;">Aksi</th></tr></thead>
+      <tbody id="tbody-monitoring"><tr><td colspan="6"><div class="empty-state"><i class="fas fa-inbox"></i><p>Memuat data...</p></div></td></tr></tbody>
     </table></div>
   </section>
 
@@ -330,7 +327,7 @@ table.data-table tbody tr:hover{background:#faf5ff}
       <select class="filter-select" id="filter-nilai-kelas"><option value="">Semua Kelas</option></select>
     </div>
     <div class="table-wrapper"><table class="data-table">
-      <thead><tr><th>Nama Siswa</th><th>Kelas</th><th>Materi</th><th>Nilai</th><th>Predikat</th><th>Tanggal</th><th style="text-align:right;">File</th></tr></thead>
+      <thead><tr><th>Nama Siswa</th><th>Kelas</th><th>Materi</th><th>Nilai</th><th>Predikat</th><th>Tanggal</th><th style="text-align:right;">Aksi</th></tr></thead>
       <tbody id="tbody-nilai"><tr><td colspan="7"><div class="empty-state"><i class="fas fa-inbox"></i><p>Belum ada data nilai.</p></div></td></tr></tbody>
     </table></div>
   </section>
@@ -356,8 +353,8 @@ table.data-table tbody tr:hover{background:#faf5ff}
 <div class="modal-overlay" id="modal-kehadiran">
   <div class="modal">
     <div class="modal-header">
-      <h3><i class="fas fa-clipboard-user"></i> Catat Kehadiran</h3>
-      <button class="modal-close" onclick="document.getElementById('modal-kehadiran').classList.remove('show')"><i class="fas fa-times"></i></button>
+      <h3 id="kehadiran-modal-title"><i class="fas fa-clipboard-user"></i> Catat Kehadiran</h3>
+      <button class="modal-close" onclick="closeModalKehadiran()"><i class="fas fa-times"></i></button>
     </div>
     <form id="form-kehadiran" onsubmit="handleKehadiranSubmit(event)">
       <div class="modal-body">
@@ -382,7 +379,7 @@ table.data-table tbody tr:hover{background:#faf5ff}
         <div class="form-group"><label>Keterangan (opsional)</label><textarea name="keterangan" placeholder="Contoh: Sakit demam" style="min-height:70px;"></textarea></div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn-toolbar ghost" onclick="document.getElementById('modal-kehadiran').classList.remove('show')">Batal</button>
+        <button type="button" class="btn-toolbar ghost" onclick="closeModalKehadiran()">Batal</button>
         <button type="submit" class="btn-toolbar primary"><i class="fas fa-save"></i> Simpan Kehadiran</button>
       </div>
     </form>
@@ -511,8 +508,8 @@ async function loadKonten(type) {
           <td>${m.file_url ? `<a href="${escapeHtml(m.file_url)}" target="_blank" class="btn-row-action" title="Download"><i class="fas ${getFileIcon(m.file_name)}"></i></a>` : '<span style="color:#9ca3af;font-size:.78rem;">-</span>'}</td>
           <td><span class="badge ${m.status === 'aktif' ? 'aktif' : 'draft'}">${m.status || 'draft'}</span></td>
           <td style="text-align:right;">
-            <button class="btn-row-action" onclick="editItem('materi', '${m.id}')"><i class="fas fa-pen"></i></button>
-            <button class="btn-row-action danger" onclick="hapusItem('materi', '${m.id}')"><i class="fas fa-trash"></i></button>
+            <button class="btn-row-action" onclick="editItem('materi', '${m.id}')" title="Edit"><i class="fas fa-pen"></i></button>
+            <button class="btn-row-action danger" onclick="hapusItem('materi', '${m.id}')" title="Hapus"><i class="fas fa-trash"></i></button>
           </td>
         </tr>`).join('');
     } else if (type === 'soal') {
@@ -523,8 +520,8 @@ async function loadKonten(type) {
           <td><span class="badge ${s.kesulitan || 'sedang'}">${s.kesulitan || 'sedang'}</span></td>
           <td>${s.file_url ? `<a href="${escapeHtml(s.file_url)}" target="_blank" class="btn-row-action" title="Download"><i class="fas ${getFileIcon(s.file_name)}"></i></a>` : '<span style="color:#9ca3af;font-size:.78rem;">-</span>'}</td>
           <td style="text-align:right;">
-            <button class="btn-row-action" onclick="editItem('soal', '${s.id}')"><i class="fas fa-pen"></i></button>
-            <button class="btn-row-action danger" onclick="hapusItem('soal', '${s.id}')"><i class="fas fa-trash"></i></button>
+            <button class="btn-row-action" onclick="editItem('soal', '${s.id}')" title="Edit"><i class="fas fa-pen"></i></button>
+            <button class="btn-row-action danger" onclick="hapusItem('soal', '${s.id}')" title="Hapus"><i class="fas fa-trash"></i></button>
           </td>
         </tr>`).join('');
     } else if (type === 'video') {
@@ -534,8 +531,8 @@ async function loadKonten(type) {
           <td><a href="${escapeHtml(v.url)}" target="_blank" style="color:var(--primary);">${escapeHtml((v.url || '-').substring(0, 40))}...</a></td>
           <td>${escapeHtml(v.durasi || '-')}</td>
           <td style="text-align:right;">
-            <button class="btn-row-action" onclick="editItem('video', '${v.id}')"><i class="fas fa-pen"></i></button>
-            <button class="btn-row-action danger" onclick="hapusItem('video', '${v.id}')"><i class="fas fa-trash"></i></button>
+            <button class="btn-row-action" onclick="editItem('video', '${v.id}')" title="Edit"><i class="fas fa-pen"></i></button>
+            <button class="btn-row-action danger" onclick="hapusItem('video', '${v.id}')" title="Hapus"><i class="fas fa-trash"></i></button>
           </td>
         </tr>`).join('');
     }
@@ -546,12 +543,12 @@ async function loadKonten(type) {
 
 async function loadMonitoring() {
   const tbody = document.getElementById('tbody-monitoring');
-  tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat data...</p></div></td></tr>';
+  tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat data...</p></div></td></tr>';
   try {
     const { data, error } = await supabaseClient.from('profiles').select('*').order('last_sign_in_at', { ascending: false, nullsFirst: false });
     if (error) throw error;
     if (!data || data.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-inbox"></i><p>Belum ada siswa terdaftar.</p></div></td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-inbox"></i><p>Belum ada siswa terdaftar.</p></div></td></tr>';
       return;
     }
     const siswaOnly = data.filter(s => !s.role || s.role === 'siswa');
@@ -563,7 +560,7 @@ async function loadMonitoring() {
 
     const render = list => {
       if (list.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-inbox"></i><p>Tidak ada data yang cocok.</p></div></td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-inbox"></i><p>Tidak ada data yang cocok.</p></div></td></tr>';
         return;
       }
       tbody.innerHTML = list.map(s => `
@@ -581,6 +578,10 @@ async function loadMonitoring() {
           <td>${s.last_sign_in_at ? new Date(s.last_sign_in_at).toLocaleString('id-ID') : '-'}</td>
           <td><strong>${s.login_count || 0}x</strong></td>
           <td><span class="badge aktif">Aktif</span></td>
+          <td style="text-align:right;">
+            <button class="btn-row-action" onclick="editMonitoring('${s.id}')" title="Edit Data Siswa"><i class="fas fa-pen"></i></button>
+            <button class="btn-row-action danger" onclick="hapusMonitoring('${s.id}')" title="Hapus Siswa"><i class="fas fa-trash"></i></button>
+          </td>
         </tr>`).join('');
     };
     render(displayData);
@@ -594,25 +595,79 @@ async function loadMonitoring() {
     filterInput.addEventListener('input', applyFilter);
     filterKelasEl.addEventListener('change', applyFilter);
   } catch (err) {
-    tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Gagal memuat: ${escapeHtml(err.message)}</p></div></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Gagal memuat: ${escapeHtml(err.message)}</p></div></td></tr>`;
+  }
+}
+
+async function editMonitoring(id) {
+  const { data, error } = await supabaseClient.from('profiles').select('*').eq('id', id).single();
+  if (error || !data) { showToast('Gagal memuat data siswa', 'error'); return; }
+
+  const namaBaru = prompt('Nama lengkap siswa:', data.full_name || '');
+  if (namaBaru === null) return;
+  if (!namaBaru.trim()) { showToast('Nama tidak boleh kosong', 'error'); return; }
+
+  const kelasBaru = prompt('Kelas (TP 1 / TP 2 / TP 3):', data.kelas || 'TP 1');
+  if (kelasBaru === null) return;
+  const kelasValid = ['TP 1', 'TP 2', 'TP 3'];
+  if (!kelasValid.includes(kelasBaru.trim())) { showToast('Kelas harus TP 1, TP 2, atau TP 3', 'error'); return; }
+
+  try {
+    const { error: updErr } = await supabaseClient.from('profiles')
+      .update({ full_name: namaBaru.trim(), kelas: kelasBaru.trim() })
+      .eq('id', id);
+    if (updErr) throw updErr;
+    showToast('Data siswa berhasil diupdate! ✅', 'success');
+    loadMonitoring();
+  } catch (err) {
+    showToast('Gagal update: ' + err.message, 'error');
+  }
+}
+
+async function hapusMonitoring(id) {
+  if (!confirm('Yakin ingin menghapus siswa ini dari daftar monitoring? (Data login tetap ada di database)')) return;
+  try {
+    const { error } = await supabaseClient.from('profiles').delete().eq('id', id);
+    if (error) throw error;
+    showToast('Siswa berhasil dihapus dari monitoring! 🗑️', 'success');
+    loadMonitoring();
+    loadStatistik();
+  } catch (err) {
+    showToast('Gagal menghapus: ' + err.message, 'error');
   }
 }
 
 function openModalKehadiran() {
   document.getElementById('kehadiran-tanggal').value = new Date().toISOString().split('T')[0];
+  document.getElementById('kehadiran-modal-title').innerHTML = '<i class="fas fa-clipboard-user"></i> Catat Kehadiran';
+  document.getElementById('form-kehadiran').reset();
+  delete document.getElementById('form-kehadiran').dataset.editId;
   document.getElementById('modal-kehadiran').classList.add('show');
+}
+
+function closeModalKehadiran() {
+  document.getElementById('modal-kehadiran').classList.remove('show');
+  document.getElementById('form-kehadiran').reset();
+  delete document.getElementById('form-kehadiran').dataset.editId;
 }
 
 async function handleKehadiranSubmit(e) {
   e.preventDefault();
   const form = e.target;
   const data = Object.fromEntries(new FormData(form));
+  const editId = form.dataset.editId;
+
   try {
-    const { error } = await supabaseClient.from('kehadiran').insert([data]);
-    if (error) throw error;
-    showToast('Kehadiran berhasil dicatat! ✅', 'success');
-    form.reset();
-    document.getElementById('modal-kehadiran').classList.remove('show');
+    if (editId) {
+      const { error } = await supabaseClient.from('kehadiran').update(data).eq('id', editId);
+      if (error) throw error;
+      showToast('Kehadiran berhasil diupdate! ✅', 'success');
+    } else {
+      const { error } = await supabaseClient.from('kehadiran').insert([data]);
+      if (error) throw error;
+      showToast('Kehadiran berhasil dicatat! ✅', 'success');
+    }
+    closeModalKehadiran();
     loadKehadiran();
   } catch (err) {
     showToast('Gagal menyimpan: ' + err.message, 'error');
@@ -648,7 +703,8 @@ async function loadKehadiran() {
             <td><span class="badge ${statusBadge}">${escapeHtml(k.status || '-')}</span></td>
             <td>${escapeHtml(k.keterangan || '-')}</td>
             <td style="text-align:right;">
-              <button class="btn-row-action danger" onclick="hapusKehadiran('${k.id}')"><i class="fas fa-trash"></i></button>
+              <button class="btn-row-action" onclick="editKehadiran('${k.id}')" title="Edit"><i class="fas fa-pen"></i></button>
+              <button class="btn-row-action danger" onclick="hapusKehadiran('${k.id}')" title="Hapus"><i class="fas fa-trash"></i></button>
             </td>
           </tr>`;
       }).join('');
@@ -671,6 +727,20 @@ async function loadKehadiran() {
   } catch (err) {
     tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Gagal memuat: ${escapeHtml(err.message)}</p></div></td></tr>`;
   }
+}
+
+async function editKehadiran(id) {
+  const { data, error } = await supabaseClient.from('kehadiran').select('*').eq('id', id).single();
+  if (error || !data) { showToast('Gagal memuat data', 'error'); return; }
+
+  document.getElementById('kehadiran-modal-title').innerHTML = '<i class="fas fa-pen"></i> Edit Kehadiran';
+  document.getElementById('modal-kehadiran').classList.add('show');
+  document.querySelector('#form-kehadiran [name="tanggal"]').value = data.tanggal || '';
+  document.querySelector('#form-kehadiran [name="nama_siswa"]').value = data.nama_siswa || '';
+  document.querySelector('#form-kehadiran [name="kelas"]').value = data.kelas || 'TP 1';
+  document.querySelector('#form-kehadiran [name="status"]').value = data.status || 'hadir';
+  document.querySelector('#form-kehadiran [name="keterangan"]').value = data.keterangan || '';
+  document.getElementById('form-kehadiran').dataset.editId = id;
 }
 
 async function hapusKehadiran(id) {
@@ -749,6 +819,7 @@ function renderJawaban() {
           </div>
           <div style="display:flex;gap:.5rem;align-items:center;">
             ${badge}
+            <button class="btn-row-action" onclick="editJawaban('${j.id}')" title="Edit Jawaban"><i class="fas fa-pen"></i></button>
             <button class="btn-row-action danger" onclick="hapusJawaban('${j.id}')" title="Hapus Jawaban"><i class="fas fa-trash"></i></button>
           </div>
         </div>
@@ -767,6 +838,44 @@ function renderJawaban() {
   }).join('');
 }
 
+async function editJawaban(id) {
+  const { data, error } = await supabaseClient.from('jawaban_siswa').select('*').eq('id', id).single();
+  if (error || !data) { showToast('Gagal memuat data', 'error'); return; }
+
+  const judulBaru = prompt('Judul tugas:', data.judul_tugas || '');
+  if (judulBaru === null) return;
+  if (!judulBaru.trim()) { showToast('Judul tidak boleh kosong', 'error'); return; }
+
+  const tipeBaru = prompt('Tipe tugas (tugas/latihan/evaluasi/praktik):', data.tipe || 'tugas');
+  if (tipeBaru === null) return;
+
+  const nilaiBaru = prompt('Nilai (0-100):', data.nilai || 0);
+  if (nilaiBaru === null) return;
+  const n = parseInt(nilaiBaru);
+  if (isNaN(n) || n < 0 || n > 100) { showToast('Nilai harus 0-100', 'error'); return; }
+
+  const komentarBaru = prompt('Komentar guru:', data.komentar_guru || '');
+  if (komentarBaru === null) return;
+
+  try {
+    const { error: updErr } = await supabaseClient.from('jawaban_siswa')
+      .update({
+        judul_tugas: judulBaru.trim(),
+        tipe: tipeBaru.trim(),
+        nilai: n,
+        komentar_guru: komentarBaru,
+        status: 'dinilai'
+      })
+      .eq('id', id);
+    if (updErr) throw updErr;
+    showToast('Jawaban berhasil diupdate! ✅', 'success');
+    loadJawaban();
+    loadDaftarNilai();
+  } catch (err) {
+    showToast('Gagal update: ' + err.message, 'error');
+  }
+}
+
 async function hapusJawaban(id) {
   if (!confirm('Yakin ingin menghapus jawaban siswa ini? Tindakan ini tidak dapat dibatalkan.')) return;
   try {
@@ -775,6 +884,7 @@ async function hapusJawaban(id) {
     showToast('Jawaban berhasil dihapus! 🗑️', 'success');
     loadJawaban();
     loadStatistik();
+    loadDaftarNilai();
   } catch (err) {
     showToast('Gagal menghapus: ' + err.message, 'error');
   }
@@ -830,7 +940,9 @@ async function loadDaftarNilai() {
             <td><span class="badge ${p.cls}">${p.label}</span></td>
             <td>${n.created_at ? new Date(n.created_at).toLocaleDateString('id-ID') : '-'}</td>
             <td style="text-align:right;">
-              ${n.file_url ? `<a href="${escapeHtml(n.file_url)}" target="_blank" class="btn-row-action" title="Lihat File"><i class="fas fa-download"></i></a>` : '-'}
+              ${n.file_url ? `<a href="${escapeHtml(n.file_url)}" target="_blank" class="btn-row-action" title="Lihat File"><i class="fas fa-download"></i></a>` : ''}
+              <button class="btn-row-action" onclick="editNilaiDaftar('${n.id}')" title="Edit Nilai"><i class="fas fa-pen"></i></button>
+              <button class="btn-row-action danger" onclick="hapusNilaiDaftar('${n.id}')" title="Hapus"><i class="fas fa-trash"></i></button>
             </td>
           </tr>`;
       }).join('');
@@ -852,6 +964,45 @@ async function loadDaftarNilai() {
     filterKelasEl.addEventListener('change', applyFilter);
   } catch (err) {
     tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Gagal memuat: ${escapeHtml(err.message)}</p></div></td></tr>`;
+  }
+}
+
+async function editNilaiDaftar(id) {
+  const { data, error } = await supabaseClient.from('jawaban_siswa').select('*').eq('id', id).single();
+  if (error || !data) { showToast('Gagal memuat data', 'error'); return; }
+
+  const nilaiBaru = prompt('Masukkan nilai baru (0-100):', data.nilai || 0);
+  if (nilaiBaru === null) return;
+  const n = parseInt(nilaiBaru);
+  if (isNaN(n) || n < 0 || n > 100) { showToast('Nilai harus 0-100', 'error'); return; }
+
+  const komentarBaru = prompt('Masukkan komentar:', data.komentar_guru || '');
+  if (komentarBaru === null) return;
+
+  try {
+    const { error: updErr } = await supabaseClient.from('jawaban_siswa')
+      .update({ nilai: n, komentar_guru: komentarBaru })
+      .eq('id', id);
+    if (updErr) throw updErr;
+    showToast('Nilai berhasil diupdate! ✅', 'success');
+    loadDaftarNilai();
+    loadJawaban();
+  } catch (err) {
+    showToast('Gagal update: ' + err.message, 'error');
+  }
+}
+
+async function hapusNilaiDaftar(id) {
+  if (!confirm('Yakin ingin menghapus nilai ini? Tindakan ini tidak dapat dibatalkan.')) return;
+  try {
+    const { error } = await supabaseClient.from('jawaban_siswa').delete().eq('id', id);
+    if (error) throw error;
+    showToast('Nilai berhasil dihapus! 🗑️', 'success');
+    loadDaftarNilai();
+    loadJawaban();
+    loadStatistik();
+  } catch (err) {
+    showToast('Gagal menghapus: ' + err.message, 'error');
   }
 }
 
@@ -1160,14 +1311,21 @@ window.switchTab = switchTab;
 window.editItem = editItem;
 window.hapusItem = hapusItem;
 window.loadMonitoring = loadMonitoring;
+window.editMonitoring = editMonitoring;
+window.hapusMonitoring = hapusMonitoring;
 window.loadKehadiran = loadKehadiran;
 window.openModalKehadiran = openModalKehadiran;
+window.closeModalKehadiran = closeModalKehadiran;
 window.handleKehadiranSubmit = handleKehadiranSubmit;
+window.editKehadiran = editKehadiran;
 window.hapusKehadiran = hapusKehadiran;
 window.loadJawaban = loadJawaban;
+window.editJawaban = editJawaban;
 window.hapusJawaban = hapusJawaban;
 window.simpanNilai = simpanNilai;
 window.loadDaftarNilai = loadDaftarNilai;
+window.editNilaiDaftar = editNilaiDaftar;
+window.hapusNilaiDaftar = hapusNilaiDaftar;
 window.openZoom = openZoom;
 window.closeZoom = closeZoom;
 window.logout = logout;
