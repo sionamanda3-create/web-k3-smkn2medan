@@ -99,7 +99,7 @@ table.data-table tbody tr:hover{background:#faf5ff}
 .badge.mudah{background:#dcfce7;color:#15803d}
 .badge.sedang{background:#fef3c7;color:#92400e}
 .badge.sulit{background:#fee2e2;color:#b91c1c}
-.btn-row-action{width:34px;height:34px;border-radius:8px;border:1.5px solid var(--gray-200);background:#fff;color:var(--gray-600);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;font-size:.85rem;margin-right:.25rem}
+.btn-row-action{width:34px;height:34px;border-radius:8px;border:1.5px solid var(--gray-200);background:#fff;color:var(--gray-600);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;font-size:.85rem;margin-right:.25rem;text-decoration:none}
 .btn-row-action:hover{background:var(--primary);border-color:var(--primary);color:#fff;transform:translateY(-2px)}
 .btn-row-action.danger:hover{background:var(--danger);border-color:var(--danger)}
 .empty-state{padding:3rem 1rem;text-align:center;color:var(--gray-500)}
@@ -119,6 +119,23 @@ table.data-table tbody tr:hover{background:#faf5ff}
 .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(124,58,237,.1)}
 .form-group textarea{min-height:100px;resize:vertical}
 .form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+
+/* FILE DROP (untuk upload materi) */
+.file-drop{border:2px dashed #cbd5e1;border-radius:12px;padding:1.5rem;text-align:center;cursor:pointer;transition:all .3s;background:#f9fafb}
+.file-drop:hover,.file-drop.dragover{border-color:var(--primary);background:#faf5ff}
+.file-drop.has-file{border-color:var(--success);background:#f0fdf4;border-style:solid}
+.file-drop i{font-size:2rem;color:#94a3b8;margin-bottom:.5rem;display:block}
+.file-drop.has-file i{color:var(--success)}
+.file-drop .file-label{font-size:.88rem;font-weight:700;color:#374151}
+.file-drop .file-hint{font-size:.72rem;color:#64748b;margin-top:.2rem}
+.file-preview{display:none;align-items:center;gap:.7rem;margin-top:.7rem;padding:.8rem 1rem;background:#fff;border:1.5px solid var(--gray-200);border-radius:10px;font-size:.85rem}
+.file-preview.show{display:flex}
+.file-preview .f-icon{width:40px;height:40px;border-radius:8px;background:#dbeafe;color:#1e40af;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.file-preview .f-name{flex:1;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.file-preview .f-size{color:var(--gray-500);font-size:.75rem;flex-shrink:0}
+.file-preview .f-remove{background:none;border:none;color:var(--danger);cursor:pointer;font-size:1rem;padding:.3rem;flex-shrink:0}
+
+/* TOAST */
 .toast{position:fixed;top:1.5rem;right:1.5rem;background:#fff;padding:1rem 1.3rem;border-radius:10px;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:.75rem;font-size:.88rem;font-weight:500;z-index:9999;transform:translateX(400px);transition:transform .4s;max-width:340px}
 .toast.show{transform:translateX(0)}
 .toast.error{border-left:4px solid var(--danger)}
@@ -127,6 +144,8 @@ table.data-table tbody tr:hover{background:#faf5ff}
 .toast.success i{color:var(--success)}
 .toast.info{border-left:4px solid var(--primary)}
 .toast.info i{color:var(--primary)}
+
+/* JAWABAN ITEM (untuk tugas & nilai) */
 .jawaban-item{padding:1.4rem 1.6rem;border-bottom:1px solid var(--gray-100);transition:all .3s}
 .jawaban-item:hover{background:#faf5ff}
 .jawaban-item:last-child{border-bottom:none}
@@ -144,6 +163,7 @@ table.data-table tbody tr:hover{background:#faf5ff}
 .file-actions{display:flex;gap:.5rem;flex-wrap:wrap}
 .preview-img{max-width:100%;max-height:400px;border-radius:8px;margin-top:.7rem;cursor:zoom-in;display:block;margin-left:auto;margin-right:auto;box-shadow:var(--shadow-md)}
 .catatan-box{background:#fff7ed;padding:.9rem 1.1rem;border-radius:8px;border-left:3px solid var(--orange);font-size:.85rem;color:#9a3412;margin-bottom:1rem;line-height:1.6}
+.jawaban-box{background:#eff6ff;padding:1rem 1.2rem;border-radius:10px;border-left:3px solid var(--primary);font-size:.88rem;color:#1e3a8a;line-height:1.7;margin-bottom:1rem}
 .nilai-form{background:linear-gradient(135deg,#fff7ed,#ffedd5);border:1.5px solid #fed7aa;border-radius:10px;padding:1rem 1.2rem}
 .nilai-form h5{font-size:.82rem;font-weight:800;color:#ea580c;margin-bottom:.7rem;display:flex;align-items:center;gap:.4rem}
 .nilai-form-row{display:grid;grid-template-columns:120px 1fr auto;gap:.7rem;align-items:center}
@@ -190,7 +210,7 @@ table.data-table tbody tr:hover{background:#faf5ff}
     <div class="welcome-content">
       <p class="welcome-greeting" id="greeting">Selamat datang kembali,</p>
       <h1>Halo, <span class="highlight" id="welcome-name">Guru</span>! 👋</h1>
-      <p>Kelola materi, video, soal kuis, dan nilai siswa. Berikan soal kepada siswa dan pantau perkembangan belajar mereka.</p>
+      <p>Kelola materi (upload file), video, soal kuis, dan nilai siswa. Pantau tugas yang dikirim siswa.</p>
       <div class="welcome-meta">
         <div class="meta-badge"><i class="fas fa-calendar-day"></i><span id="current-date">-</span></div>
         <div class="meta-badge"><i class="fas fa-clock"></i><span id="current-time">-</span></div>
@@ -236,8 +256,8 @@ table.data-table tbody tr:hover{background:#faf5ff}
 
     <div id="tab-materi" class="tab-content active">
       <div class="table-wrapper"><table class="data-table">
-        <thead><tr><th>Judul</th><th>Deskripsi</th><th>Status</th><th style="text-align:right;">Aksi</th></tr></thead>
-        <tbody id="tbody-materi"><tr><td colspan="4"><div class="empty-state"><i class="fas fa-inbox"></i><p>Memuat data...</p></div></td></tr></tbody>
+        <thead><tr><th>Judul</th><th>Deskripsi</th><th>File</th><th>Status</th><th style="text-align:right;">Aksi</th></tr></thead>
+        <tbody id="tbody-materi"><tr><td colspan="5"><div class="empty-state"><i class="fas fa-inbox"></i><p>Memuat data...</p></div></td></tr></tbody>
       </table></div>
     </div>
 
@@ -303,7 +323,7 @@ table.data-table tbody tr:hover{background:#faf5ff}
       <div class="modal-body" id="modal-body"></div>
       <div class="modal-footer">
         <button type="button" class="btn-toolbar ghost" onclick="closeModal()">Batal</button>
-        <button type="submit" class="btn-toolbar primary"><i class="fas fa-save"></i> Simpan</button>
+        <button type="submit" class="btn-toolbar primary" id="btn-save-modal"><i class="fas fa-save"></i> Simpan</button>
       </div>
     </form>
   </div>
@@ -317,9 +337,14 @@ const SUPABASE_URL = 'https://ddnhwcxfktcsyngupdex.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_ogAtXLGklIivo88I41J8ZA_9CWzS8D3';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+const BUCKET_MATERI = 'materi-k3';
+const MAX_SIZE = 20 * 1024 * 1024;
+const ALLOWED_EXT = ['jpg','jpeg','png','gif','webp','pdf','doc','docx','xls','xlsx','ppt','pptx','txt','zip','rar'];
+
 let currentGuru = null;
 let currentModalType = null;
 let semuaJawaban = [];
+let selectedMateriFile = null;
 
 function showToast(message, type = 'info') {
   const toast = document.getElementById('toast');
@@ -397,12 +422,13 @@ function switchTab(tab) {
 async function loadKonten(type) {
   const tbody = document.getElementById('tbody-' + type);
   if (!tbody) return;
-  tbody.innerHTML = `<tr><td colspan="4"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat data...</p></div></td></tr>`;
+  const colCount = type === 'materi' ? 5 : 4;
+  tbody.innerHTML = `<tr><td colspan="${colCount}"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat data...</p></div></td></tr>`;
   try {
     const { data, error } = await supabaseClient.from(type).select('*').order('created_at', { ascending: false });
     if (error) throw error;
     if (!data || data.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="4"><div class="empty-state"><i class="fas fa-inbox"></i><p>Belum ada data ${type}.</p></div></td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="${colCount}"><div class="empty-state"><i class="fas fa-inbox"></i><p>Belum ada data ${type}.</p></div></td></tr>`;
       return;
     }
     if (type === 'materi') {
@@ -410,6 +436,7 @@ async function loadKonten(type) {
         <tr>
           <td><strong>${escapeHtml(m.judul || '-')}</strong></td>
           <td>${escapeHtml((m.deskripsi || '-').substring(0, 60))}${(m.deskripsi || '').length > 60 ? '...' : ''}</td>
+          <td>${m.file_url ? `<a href="${escapeHtml(m.file_url)}" target="_blank" class="btn-row-action" title="Download"><i class="fas ${getFileIcon(m.file_name)}"></i></a>` : '<span style="color:#9ca3af;font-size:.78rem;">-</span>'}</td>
           <td><span class="badge ${m.status === 'aktif' ? 'aktif' : 'draft'}">${m.status || 'draft'}</span></td>
           <td style="text-align:right;">
             <button class="btn-row-action" onclick="editItem('materi', '${m.id}')"><i class="fas fa-pen"></i></button>
@@ -440,7 +467,7 @@ async function loadKonten(type) {
         </tr>`).join('');
     }
   } catch (err) {
-    tbody.innerHTML = `<tr><td colspan="4"><div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Gagal memuat: ${escapeHtml(err.message)}</p></div></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="${colCount}"><div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Gagal memuat: ${escapeHtml(err.message)}</p></div></td></tr>`;
   }
 }
 
@@ -449,16 +476,21 @@ async function loadMonitoring() {
   tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat data...</p></div></td></tr>';
   try {
     const { data, error } = await supabaseClient.from('profiles')
-      .select('id, full_name, kelas, last_sign_in_at, login_count, email')
-      .eq('role', 'siswa').order('last_sign_in_at', { ascending: false });
+      .select('*')
+      .order('last_sign_in_at', { ascending: false, nullsFirst: false });
     if (error) throw error;
     if (!data || data.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-inbox"></i><p>Belum ada siswa yang login.</p></div></td></tr>';
+      tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-inbox"></i><p>Belum ada siswa terdaftar.</p></div></td></tr>';
       return;
     }
-    const kelasSet = new Set(data.map(s => s.kelas).filter(Boolean));
+    // Filter yang role-nya siswa (atau semua kalau role kosong)
+    const siswaOnly = data.filter(s => !s.role || s.role === 'siswa');
+    const displayData = siswaOnly.length > 0 ? siswaOnly : data;
+
+    const kelasSet = new Set(displayData.map(s => s.kelas).filter(Boolean));
     const filterKelas = document.getElementById('filter-monitoring-kelas');
     filterKelas.innerHTML = '<option value="">Semua Kelas</option>' + [...kelasSet].map(k => `<option value="${escapeHtml(k)}">${escapeHtml(k)}</option>`).join('');
+
     const render = list => {
       if (list.length === 0) {
         tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-inbox"></i><p>Tidak ada data yang cocok.</p></div></td></tr>';
@@ -466,20 +498,28 @@ async function loadMonitoring() {
       }
       tbody.innerHTML = list.map(s => `
         <tr>
-          <td><div class="cell-user"><div class="cell-avatar">${escapeHtml((s.full_name || '?').charAt(0).toUpperCase())}</div><div><div class="cell-name">${escapeHtml(s.full_name || '-')}</div><div class="cell-email">${escapeHtml(s.email || '-')}</div></div></div></td>
+          <td>
+            <div class="cell-user">
+              <div class="cell-avatar">${escapeHtml((s.full_name || s.email || '?').charAt(0).toUpperCase())}</div>
+              <div>
+                <div class="cell-name">${escapeHtml(s.full_name || '(Tanpa Nama)')}</div>
+                <div class="cell-email">${escapeHtml(s.email || '-')}</div>
+              </div>
+            </div>
+          </td>
           <td><span class="badge kelas">${escapeHtml(s.kelas || '-')}</span></td>
           <td>${s.last_sign_in_at ? new Date(s.last_sign_in_at).toLocaleString('id-ID') : '-'}</td>
           <td><strong>${s.login_count || 0}x</strong></td>
           <td><span class="badge aktif">Aktif</span></td>
         </tr>`).join('');
     };
-    render(data);
+    render(displayData);
     const filterInput = document.getElementById('filter-monitoring');
     const filterKelasEl = document.getElementById('filter-monitoring-kelas');
     const applyFilter = () => {
       const q = filterInput.value.toLowerCase();
       const kls = filterKelasEl.value;
-      render(data.filter(s => ((s.full_name || '').toLowerCase().includes(q) || (s.email || '').toLowerCase().includes(q)) && (!kls || s.kelas === kls)));
+      render(displayData.filter(s => ((s.full_name || '').toLowerCase().includes(q) || (s.email || '').toLowerCase().includes(q)) && (!kls || s.kelas === kls)));
     };
     filterInput.addEventListener('input', applyFilter);
     filterKelasEl.addEventListener('change', applyFilter);
@@ -512,6 +552,8 @@ function renderJawaban() {
     const isDinilai = j.status === 'dinilai';
     const initial = (j.nama_siswa || '?').charAt(0).toUpperCase();
     const badge = isDinilai ? `<span class="badge aktif">✅ Dinilai: ${j.nilai || 0}</span>` : `<span class="badge warning">⏳ Menunggu</span>`;
+
+    // File box
     let fileBoxHTML = '';
     if (j.file_url) {
       const isImg = isImage(j.file_name);
@@ -520,26 +562,41 @@ function renderJawaban() {
         <div class="file-box">
           <div class="file-box-header">
             <div class="file-icon-big"><i class="fas ${getFileIcon(j.file_name)}"></i></div>
-            <div class="file-meta"><h5>${escapeHtml(j.file_name || 'File Tugas')}</h5><p>Ukuran: ${formatSize(j.file_size)} • Format: ${escapeHtml(j.file_type || '-').toUpperCase()}</p></div>
-            <div class="file-actions"><a href="${escapeHtml(j.file_url)}" target="_blank" download class="btn-toolbar primary" style="padding:.5rem 1rem;font-size:.78rem;"><i class="fas fa-download"></i> Download</a></div>
+            <div class="file-meta">
+              <h5>${escapeHtml(j.file_name || 'File Tugas')}</h5>
+              <p>Ukuran: ${formatSize(j.file_size)} • Format: ${escapeHtml(j.file_type || '-').toUpperCase()}</p>
+            </div>
+            <div class="file-actions">
+              <a href="${escapeHtml(j.file_url)}" target="_blank" download class="btn-toolbar primary" style="padding:.5rem 1rem;font-size:.78rem;"><i class="fas fa-download"></i> Download</a>
+            </div>
           </div>
           ${previewHTML}
         </div>`;
     }
+
+    // Jawaban teks
+    const jawabanHTML = j.jawaban ? `<div class="jawaban-box"><b><i class="fas fa-comment-dots"></i> Jawaban Siswa:</b><br>${escapeHtml(j.jawaban).replace(/\n/g, '<br>')}</div>` : '';
+
     const catatanHTML = j.catatan ? `<div class="catatan-box"><b><i class="fas fa-comment"></i> Catatan Siswa:</b><br>${escapeHtml(j.catatan)}</div>` : '';
+
     return `
       <div class="jawaban-item">
         <div class="jawaban-header">
           <div class="jawaban-siswa">
             <div class="jawaban-avatar">${initial}</div>
             <div>
-              <h4>${escapeHtml(j.nama_siswa)} — ${escapeHtml(j.judul_tugas)}</h4>
-              <p><span><i class="fas fa-school"></i> ${escapeHtml(j.kelas)}</span><span><i class="fas fa-tag"></i> ${escapeHtml(j.tipe)}</span><span><i class="fas fa-clock"></i> ${waktu}</span></p>
+              <h4>${escapeHtml(j.nama_siswa || '(Tanpa Nama)')} — ${escapeHtml(j.judul_tugas || 'Tugas')}</h4>
+              <p>
+                <span><i class="fas fa-school"></i> ${escapeHtml(j.kelas || '-')}</span>
+                <span><i class="fas fa-tag"></i> ${escapeHtml(j.tipe || '-')}</span>
+                <span><i class="fas fa-clock"></i> ${waktu}</span>
+              </p>
             </div>
           </div>
           ${badge}
         </div>
         ${catatanHTML}
+        ${jawabanHTML}
         ${fileBoxHTML}
         <div class="nilai-form" style="margin-top:1rem;">
           <h5><i class="fas fa-star"></i> Beri Nilai</h5>
@@ -572,28 +629,36 @@ async function loadNilai() {
   const tbody = document.getElementById('tbody-nilai');
   tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Memuat data...</p></div></td></tr>';
   try {
-    const { data, error } = await supabaseClient.from('nilai').select('*').order('created_at', { ascending: false });
+    // Ambil dari jawaban_siswa yang sudah dinilai
+    const { data, error } = await supabaseClient.from('jawaban_siswa')
+      .select('*')
+      .eq('status', 'dinilai')
+      .order('created_at', { ascending: false });
     if (error) throw error;
     if (!data || data.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-inbox"></i><p>Belum ada data nilai siswa.</p></div></td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><i class="fas fa-inbox"></i><p>Belum ada nilai siswa yang tersimpan.</p></div></td></tr>';
       return;
     }
     tbody.innerHTML = data.map(n => `
       <tr>
         <td><strong>${escapeHtml(n.nama_siswa || '-')}</strong></td>
         <td><span class="badge kelas">${escapeHtml(n.kelas || '-')}</span></td>
-        <td>${escapeHtml(n.materi || '-')}</td>
+        <td>${escapeHtml(n.judul_tugas || '-')}</td>
         <td><strong style="color:${n.nilai >= 75 ? 'var(--success)' : 'var(--danger)'};">${n.nilai || 0}</strong></td>
         <td>${n.created_at ? new Date(n.created_at).toLocaleDateString('id-ID') : '-'}</td>
-        <td style="text-align:right;">${n.file_url ? `<a href="${escapeHtml(n.file_url)}" target="_blank" class="btn-row-action"><i class="fas fa-download"></i></a>` : '-'}</td>
+        <td style="text-align:right;">
+          ${n.file_url ? `<a href="${escapeHtml(n.file_url)}" target="_blank" class="btn-row-action" title="Lihat File"><i class="fas fa-download"></i></a>` : '-'}
+        </td>
       </tr>`).join('');
   } catch (err) {
     tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>${escapeHtml(err.message)}</p></div></td></tr>`;
   }
 }
 
+// ============ MODAL ============
 function openModal(type, data = null) {
   currentModalType = type;
+  selectedMateriFile = null;
   const title = document.getElementById('modal-title');
   const body = document.getElementById('modal-body');
   const isEdit = !!data;
@@ -604,7 +669,23 @@ function openModal(type, data = null) {
     body.innerHTML = `
       <div class="form-group"><label>Judul Materi</label><input type="text" name="judul" value="${escapeHtml(data?.judul || '')}" required></div>
       <div class="form-group"><label>Deskripsi</label><textarea name="deskripsi" required>${escapeHtml(data?.deskripsi || '')}</textarea></div>
+      <div class="form-group">
+        <label>Upload File Materi (JPG/PDF/Word/PPT, maks 20MB)</label>
+        <div class="file-drop" id="materiFileDrop">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <div class="file-label">${data?.file_name ? '✓ ' + escapeHtml(data.file_name) : 'Klik atau seret file ke sini'}</div>
+          <div class="file-hint">JPG, PNG, PDF, Word, Excel, PPT (maks. 20 MB)</div>
+        </div>
+        <input type="file" id="materiFileInput" style="display:none;" accept=".jpg,.jpeg,.png,.gif,.webp,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.zip,.rar">
+        <div class="file-preview" id="materiFilePreview">
+          <div class="f-icon" id="materiFIcon"><i class="fas fa-file"></i></div>
+          <span class="f-name" id="materiFName"></span>
+          <span class="f-size" id="materiFSize"></span>
+          <button type="button" class="f-remove" id="materiFRemove"><i class="fas fa-times"></i></button>
+        </div>
+      </div>
       <div class="form-group"><label>Status</label><select name="status"><option value="aktif" ${data?.status === 'aktif' ? 'selected' : ''}>Aktif</option><option value="draft" ${data?.status === 'draft' ? 'selected' : ''}>Draft</option></select></div>`;
+    setupMateriFileDrop();
   } else if (type === 'soal') {
     body.innerHTML = `
       <div class="form-group"><label>Pertanyaan</label><textarea name="pertanyaan" required>${escapeHtml(data?.pertanyaan || '')}</textarea></div>
@@ -617,27 +698,106 @@ function openModal(type, data = null) {
   } else if (type === 'video') {
     body.innerHTML = `
       <div class="form-group"><label>Judul Video</label><input type="text" name="judul" value="${escapeHtml(data?.judul || '')}" required></div>
-      <div class="form-group"><label>URL Video</label><input type="url" name="url" value="${escapeHtml(data?.url || '')}" required></div>
+      <div class="form-group"><label>URL Video</label><input type="url" name="url" value="${escapeHtml(data?.url || '')}" required placeholder="https://youtube.com/watch?v=..."></div>
       <div class="form-group"><label>Durasi</label><input type="text" name="durasi" value="${escapeHtml(data?.durasi || '')}" placeholder="contoh: 05:30"></div>`;
   }
 
   document.getElementById('modal-form').dataset.editId = data?.id || '';
+  document.getElementById('modal-form').dataset.oldFileUrl = data?.file_url || '';
+  document.getElementById('modal-form').dataset.oldFileName = data?.file_name || '';
+  document.getElementById('modal-form').dataset.oldFileType = data?.file_type || '';
   document.getElementById('modal-overlay').classList.add('show');
+}
+
+function setupMateriFileDrop() {
+  const drop = document.getElementById('materiFileDrop');
+  const input = document.getElementById('materiFileInput');
+  const preview = document.getElementById('materiFilePreview');
+  const fIcon = document.getElementById('materiFIcon');
+  const fName = document.getElementById('materiFName');
+  const fSize = document.getElementById('materiFSize');
+  const fRemove = document.getElementById('materiFRemove');
+
+  drop.addEventListener('click', () => input.click());
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('dragover'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('dragover'));
+  drop.addEventListener('drop', e => {
+    e.preventDefault(); drop.classList.remove('dragover');
+    if (e.dataTransfer.files.length) { input.files = e.dataTransfer.files; input.dispatchEvent(new Event('change')); }
+  });
+  input.addEventListener('change', () => {
+    const file = input.files[0];
+    if (!file) return reset();
+    if (file.size > MAX_SIZE) { showToast('File terlalu besar! Maksimal 20 MB.', 'error'); return reset(); }
+    const ext = file.name.split('.').pop().toLowerCase();
+    if (!ALLOWED_EXT.includes(ext)) { showToast('Tipe file tidak diizinkan!', 'error'); return reset(); }
+    selectedMateriFile = file;
+    drop.classList.add('has-file');
+    drop.querySelector('.file-label').textContent = '✓ ' + file.name;
+    drop.querySelector('.file-hint').textContent = 'Klik untuk ganti file';
+    fIcon.innerHTML = `<i class="fas ${getFileIcon(file.name)}"></i>`;
+    fName.textContent = file.name;
+    fSize.textContent = formatSize(file.size);
+    preview.classList.add('show');
+  });
+  fRemove.addEventListener('click', e => { e.stopPropagation(); reset(); });
+
+  function reset() {
+    input.value = ''; selectedMateriFile = null;
+    drop.classList.remove('has-file');
+    drop.querySelector('.file-label').textContent = 'Klik atau seret file ke sini';
+    drop.querySelector('.file-hint').textContent = 'JPG, PNG, PDF, Word, Excel, PPT (maks. 20 MB)';
+    preview.classList.remove('show');
+  }
+}
+
+async function uploadMateriFile(file) {
+  const ext = file.name.split('.').pop().toLowerCase();
+  const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${ext}`;
+  const filePath = `materi/${fileName}`;
+  const { error: uploadError } = await supabaseClient.storage.from(BUCKET_MATERI).upload(filePath, file, { cacheControl: '3600', upsert: false });
+  if (uploadError) throw uploadError;
+  const { data: urlData } = supabaseClient.storage.from(BUCKET_MATERI).getPublicUrl(filePath);
+  return { url: urlData.publicUrl, name: file.name, size: file.size, type: ext };
 }
 
 function closeModal() {
   document.getElementById('modal-overlay').classList.remove('show');
   document.getElementById('modal-form').reset();
   currentModalType = null;
+  selectedMateriFile = null;
 }
 
 async function handleModalSubmit(e) {
   e.preventDefault();
   const form = e.target;
+  const btn = document.getElementById('btn-save-modal');
   const formData = new FormData(form);
   const data = Object.fromEntries(formData.entries());
   const editId = form.dataset.editId;
+  const oldFileUrl = form.dataset.oldFileUrl || '';
+  const oldFileName = form.dataset.oldFileName || '';
+  const oldFileType = form.dataset.oldFileType || '';
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+
   try {
+    // Upload file materi kalau ada
+    if (currentModalType === 'materi') {
+      if (selectedMateriFile) {
+        const fileInfo = await uploadMateriFile(selectedMateriFile);
+        data.file_url = fileInfo.url;
+        data.file_name = fileInfo.name;
+        data.file_type = fileInfo.type;
+        data.file_size = fileInfo.size;
+      } else if (editId && oldFileUrl) {
+        data.file_url = oldFileUrl;
+        data.file_name = oldFileName;
+        data.file_type = oldFileType;
+      }
+    }
+
     let result;
     if (editId) {
       result = await supabaseClient.from(currentModalType).update(data).eq('id', editId);
@@ -645,11 +805,18 @@ async function handleModalSubmit(e) {
       result = await supabaseClient.from(currentModalType).insert([data]);
     }
     if (result.error) throw result.error;
+
     showToast(editId ? 'Berhasil diperbarui!' : 'Berhasil ditambahkan!', 'success');
     closeModal();
     loadKonten(currentModalType);
     loadStatistik();
-  } catch (err) { showToast('Gagal menyimpan: ' + err.message, 'error'); }
+  } catch (err) {
+    console.error(err);
+    showToast('Gagal menyimpan: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-save"></i> Simpan';
+  }
 }
 
 async function editItem(type, id) {
