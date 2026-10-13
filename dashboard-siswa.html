@@ -144,6 +144,8 @@
     .menu-label { font-size: 0.88rem; font-weight: 700; color: var(--gray-800); transition: all 0.3s; }
     .menu-desc { font-size: 0.72rem; color: var(--gray-500); font-weight: 500; transition: all 0.3s; }
     .menu-item:hover .menu-desc { color: rgba(255,255,255,0.85); }
+
+    /* KIRIM TUGAS */
     .kirim-card {
       background: linear-gradient(135deg, #fff7ed, #ffedd5);
       border: 2px solid #fed7aa; border-radius: 16px;
@@ -155,16 +157,66 @@
     }
     .form-group { margin-bottom: 15px; }
     .form-group label { display: block; font-size: 13px; font-weight: 700; color: #374151; margin-bottom: 6px; }
-    .form-group input, .form-group select, .form-group textarea {
+    .form-group label .req { color: var(--danger); }
+    .form-group input[type="text"], .form-group select, .form-group textarea {
       width: 100%; padding: 12px 14px;
       border: 2px solid #e5e7eb; border-radius: 10px;
       font-family: inherit; font-size: 14px; color: #1f2937;
       outline: none; transition: all 0.3s;
     }
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    .form-group input[type="text"]:focus, .form-group select:focus, .form-group textarea:focus {
       border-color: var(--orange); box-shadow: 0 0 0 4px rgba(234,88,12,0.1);
     }
-    .form-group textarea { min-height: 140px; resize: vertical; line-height: 1.6; }
+    .form-group textarea { min-height: 80px; resize: vertical; line-height: 1.6; }
+
+    /* FILE DROP */
+    .file-drop {
+      border: 2px dashed #cbd5e1; border-radius: 12px;
+      padding: 2rem 1.5rem; text-align: center;
+      cursor: pointer; transition: all 0.3s;
+      background: white;
+    }
+    .file-drop:hover, .file-drop.dragover {
+      border-color: var(--orange); background: #fff7ed;
+    }
+    .file-drop.has-file {
+      border-color: var(--success); background: #f0fdf4;
+      border-style: solid;
+    }
+    .file-drop i { font-size: 2.5rem; color: #94a3b8; margin-bottom: 0.7rem; display: block; }
+    .file-drop.has-file i { color: var(--success); }
+    .file-drop .file-label { font-size: 0.95rem; font-weight: 700; color: #374151; }
+    .file-drop .file-hint { font-size: 0.75rem; color: #64748b; margin-top: 0.3rem; }
+    .file-preview {
+      display: none; align-items: center; gap: 0.7rem;
+      margin-top: 0.8rem; padding: 0.9rem 1rem;
+      background: white; border: 1.5px solid var(--gray-200);
+      border-radius: 10px; font-size: 0.85rem;
+    }
+    .file-preview.show { display: flex; }
+    .file-preview .f-icon {
+      width: 40px; height: 40px; border-radius: 8px;
+      background: #dbeafe; color: #1e40af;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .file-preview .f-name { flex: 1; font-weight: 600; color: var(--gray-800); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .file-preview .f-size { color: var(--gray-500); font-size: 0.75rem; flex-shrink: 0; }
+    .file-preview .f-remove {
+      background: none; border: none; color: var(--danger);
+      cursor: pointer; font-size: 1rem; padding: 0.3rem; flex-shrink: 0;
+    }
+    .progress-bar {
+      display: none; height: 8px; background: #e5e7eb;
+      border-radius: 999px; overflow: hidden; margin-top: 0.7rem;
+    }
+    .progress-bar.show { display: block; }
+    .progress-bar .progress-fill {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--orange), var(--orange-light));
+      transition: width 0.3s ease;
+    }
+
     .btn-kirim {
       width: 100%; padding: 14px; border: none; border-radius: 10px;
       background: linear-gradient(135deg, var(--orange), var(--orange-light));
@@ -175,6 +227,8 @@
     }
     .btn-kirim:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(234,88,12,0.4); }
     .btn-kirim:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* RIWAYAT */
     .riwayat-list { display: grid; gap: 12px; margin-top: 1rem; }
     .riwayat-item {
       background: #fff; padding: 16px; border-radius: 12px;
@@ -183,28 +237,24 @@
       display: flex; justify-content: space-between; align-items: center;
       gap: 12px; flex-wrap: wrap;
     }
+    .riwayat-info { flex: 1; min-width: 200px; }
     .riwayat-info h4 { font-size: 14px; font-weight: 700; color: #0d47a1; margin-bottom: 4px; }
     .riwayat-info p { font-size: 12px; color: #64748b; }
-    .riwayat-status { padding: 6px 12px; border-radius: 999px; font-size: 11px; font-weight: 800; text-transform: uppercase; }
+    .riwayat-file {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: #dbeafe; color: #1e40af;
+      padding: 4px 10px; border-radius: 6px;
+      font-size: 11px; font-weight: 700;
+      margin-top: 6px; text-decoration: none;
+    }
+    .riwayat-file:hover { background: #bfdbfe; }
+    .riwayat-status {
+      padding: 6px 12px; border-radius: 999px;
+      font-size: 11px; font-weight: 800; text-transform: uppercase;
+    }
     .riwayat-status.menunggu { background: #fef3c7; color: #92400e; }
     .riwayat-status.dinilai { background: #dcfce7; color: #15803d; }
-    .activity-card {
-      background: var(--white); border-radius: 12px; padding: 1.4rem;
-      box-shadow: var(--shadow-sm); border: 1px solid var(--gray-100);
-      margin-top: 1rem;
-    }
-    .activity-list { display: flex; flex-direction: column; gap: 0.6rem; }
-    .activity-item { display: flex; align-items: center; gap: 0.9rem; padding: 0.75rem; border-radius: 10px; }
-    .activity-icon {
-      width: 38px; height: 38px; border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem; flex-shrink: 0;
-    }
-    .activity-title { font-size: 0.86rem; font-weight: 600; color: var(--gray-800); margin-bottom: 0.1rem; }
-    .activity-time { font-size: 0.72rem; color: var(--gray-500); }
-    .activity-badge { font-size: 0.7rem; padding: 0.25rem 0.6rem; border-radius: 999px; font-weight: 700; }
-    .activity-badge.done { background: #dcfce7; color: #15803d; }
-    .activity-badge.pending { background: #fed7aa; color: #c2410c; }
+
     .toast {
       position: fixed; top: 1.5rem; right: 1.5rem;
       background: white; padding: 1rem 1.3rem;
@@ -336,19 +386,20 @@
     </a>
   </section>
 
+  <!-- KIRIM TUGAS -->
   <div class="section-header">
-    <h2><i class="fas fa-paper-plane"></i> Kirim Tugas ke Guru</h2>
+    <h2><i class="fas fa-cloud-upload-alt"></i> Kirim Tugas ke Guru</h2>
   </div>
 
   <div class="kirim-card">
-    <h2><i class="fas fa-edit"></i> Form Pengiriman Tugas</h2>
+    <h2><i class="fas fa-file-upload"></i> Upload File Tugas</h2>
     <form id="formKirim" onsubmit="event.preventDefault(); kirimTugas();">
       <div class="form-group">
-        <label><i class="fas fa-book"></i> Judul Tugas / Latihan</label>
+        <label><i class="fas fa-book"></i> Judul Tugas <span class="req">*</span></label>
         <input type="text" id="judulTugas" placeholder="Contoh: Tugas 1 - Penerapan K3" required>
       </div>
       <div class="form-group">
-        <label><i class="fas fa-tag"></i> Tipe Tugas</label>
+        <label><i class="fas fa-tag"></i> Tipe Tugas <span class="req">*</span></label>
         <select id="tipeTugas" required>
           <option value="tugas">Tugas</option>
           <option value="latihan">Latihan</option>
@@ -357,8 +408,25 @@
         </select>
       </div>
       <div class="form-group">
-        <label><i class="fas fa-pen"></i> Jawaban / Isi Tugas</label>
-        <textarea id="jawabanTugas" placeholder="Tulis jawabanmu di sini..." required></textarea>
+        <label>File Tugas <span class="req">*</span></label>
+        <div class="file-drop" id="fileDrop">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <div class="file-label">Klik atau seret file ke sini</div>
+          <div class="file-hint">Format: JPG, PNG, PDF, Word, Excel, PPT, ZIP (maks. 20 MB)</div>
+        </div>
+        <input type="file" id="fileInput" style="display:none;"
+               accept=".jpg,.jpeg,.png,.gif,.webp,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.zip,.rar">
+        <div class="file-preview" id="filePreview">
+          <div class="f-icon" id="fIcon"><i class="fas fa-file"></i></div>
+          <span class="f-name" id="fName"></span>
+          <span class="f-size" id="fSize"></span>
+          <button type="button" class="f-remove" id="fRemove"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+      <div class="form-group">
+        <label><i class="fas fa-comment"></i> Catatan (opsional)</label>
+        <textarea id="catatanTugas" placeholder="Catatan tambahan untuk guru..." style="min-height:70px;"></textarea>
       </div>
       <button type="submit" class="btn-kirim" id="btnKirim">
         <i class="fas fa-paper-plane"></i> Kirim ke Guru
@@ -366,21 +434,13 @@
     </form>
   </div>
 
+  <!-- RIWAYAT -->
   <div class="section-header">
     <h2><i class="fas fa-history"></i> Riwayat Pengiriman</h2>
   </div>
   <div class="riwayat-list" id="riwayatList">
     <p style="text-align:center; color:#64748b; padding:20px;">Memuat riwayat...</p>
   </div>
-
-  <div class="section-header">
-    <h2><i class="fas fa-clock-rotate-left"></i> Aktivitas Terbaru</h2>
-  </div>
-  <section class="activity-card">
-    <div class="activity-list" id="activity-list">
-      <p style="text-align:center; color:#64748b; padding:20px;">Memuat aktivitas...</p>
-    </div>
-  </section>
 
   <footer class="footer">© 2026 SMK Negeri 2 Medan — Media Pembelajaran K3</footer>
 </main>
@@ -390,10 +450,15 @@
   const SUPABASE_URL = 'https://ddnhwcxfktcsyngupdex.supabase.co';
   const SUPABASE_ANON_KEY = 'sb_publishable_ogAtXLGklIivo88I41J8ZA_9CWzS8D3';
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const BUCKET = 'tugas-siswa';
+  const MAX_SIZE = 20 * 1024 * 1024; // 20 MB
+  const ALLOWED_EXT = ['jpg','jpeg','png','gif','webp','pdf','doc','docx','xls','xlsx','ppt','pptx','txt','zip','rar'];
 </script>
 
 <script>
   let currentSiswa = null;
+  let selectedFile = null;
 
   function showToast(message, type = 'info') {
     const toast = document.getElementById('toast');
@@ -423,196 +488,19 @@
     catch (e) { localStorage.removeItem('siswa_session'); window.location.href = 'index.html'; return null; }
   }
 
-  async function kirimTugas() {
-    if (!currentSiswa) return showToast('Silakan login', 'error');
-
-    const judul = document.getElementById('judulTugas').value.trim();
-    const tipe = document.getElementById('tipeTugas').value;
-    const jawaban = document.getElementById('jawabanTugas').value.trim();
-
-    if (!judul) return showToast('Judul tugas wajib diisi', 'error');
-    if (!jawaban || jawaban.length < 20) return showToast('Jawaban minimal 20 karakter', 'error');
-
-    const btn = document.getElementById('btnKirim');
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
-
-    try {
-      const { error } = await supabaseClient.from('jawaban_siswa').insert([{
-        siswa_id: currentSiswa.id || currentSiswa.username || 'unknown',
-        nama_siswa: currentSiswa.nama,
-        kelas: currentSiswa.kelas,
-        judul_tugas: judul,
-        tipe: tipe,
-        jawaban: jawaban,
-        status: 'menunggu',
-        created_at: new Date().toISOString()
-      }]);
-
-      if (error) throw error;
-
-      try {
-        await supabaseClient.from('aktivitas').insert([{
-          siswa_id: currentSiswa.id,
-          tipe: 'tugas',
-          judul: judul,
-          status: 'selesai',
-          created_at: new Date().toISOString()
-        }]);
-      } catch (e) { console.warn(e); }
-
-      showToast('Tugas berhasil dikirim! 🎉', 'success');
-      document.getElementById('formKirim').reset();
-      loadRiwayat();
-      loadStatistik();
-      loadAktivitas();
-
-    } catch (err) {
-      showToast('Gagal kirim: ' + err.message, 'error');
-    } finally {
-      btn.disabled = false;
-      btn.innerHTML = '<i class="fas fa-paper-plane"></i> Kirim ke Guru';
-    }
+  function formatSize(bytes) {
+    if (!bytes) return '-';
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / 1024 / 1024).toFixed(2) + ' MB';
   }
 
-  async function loadRiwayat() {
-    const list = document.getElementById('riwayatList');
-    if (!currentSiswa) return;
-
-    try {
-      const { data, error } = await supabaseClient
-        .from('jawaban_siswa')
-        .select('*')
-        .eq('nama_siswa', currentSiswa.nama)
-        .eq('kelas', currentSiswa.kelas)
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-
-      if (!data || data.length === 0) {
-        list.innerHTML = '<p style="text-align:center; color:#64748b; padding:20px;">Belum ada tugas yang dikirim.</p>';
-        return;
-      }
-
-      list.innerHTML = data.map(d => {
-        const waktu = new Date(d.created_at).toLocaleString('id-ID', {
-          day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
-        });
-        const statusClass = d.status === 'dinilai' ? 'dinilai' : 'menunggu';
-        const statusText = d.status === 'dinilai' ? `✅ Dinilai: ${d.nilai}` : '⏳ Menunggu';
-
-        return `
-          <div class="riwayat-item">
-            <div class="riwayat-info">
-              <h4>${d.judul_tugas}</h4>
-              <p><i class="fas fa-clock"></i> ${waktu} • Tipe: ${d.tipe}</p>
-              ${d.komentar_guru ? `<p style="margin-top:6px; color:#ea580c;"><i class="fas fa-comment"></i> ${d.komentar_guru}</p>` : ''}
-            </div>
-            <div class="riwayat-status ${statusClass}">${statusText}</div>
-          </div>`;
-      }).join('');
-
-    } catch (err) {
-      list.innerHTML = '<p style="text-align:center; color:#dc2626; padding:20px;">Gagal memuat riwayat.</p>';
-    }
-  }
-
-  async function loadStatistik() {
-    if (!currentSiswa) return;
-    try {
-      const { count: totalMateri } = await supabaseClient.from('materi').select('*', { count: 'exact', head: true }).eq('status', 'aktif');
-      const { count: materiDibaca } = await supabaseClient.from('aktivitas').select('*', { count: 'exact', head: true }).eq('siswa_id', currentSiswa.id).eq('tipe', 'materi').eq('status', 'selesai');
-      const { count: kuisSelesai } = await supabaseClient.from('aktivitas').select('*', { count: 'exact', head: true }).eq('siswa_id', currentSiswa.id).eq('tipe', 'kuis').eq('status', 'selesai');
-      const { count: tugasDikirim } = await supabaseClient.from('jawaban_siswa').select('*', { count: 'exact', head: true }).eq('nama_siswa', currentSiswa.nama).eq('kelas', currentSiswa.kelas);
-
-      const { data: nilaiData } = await supabaseClient.from('nilai').select('nilai').eq('nama_siswa', currentSiswa.nama).eq('kelas', currentSiswa.kelas);
-      let rataNilai = 0;
-      if (nilaiData && nilaiData.length > 0) {
-        rataNilai = nilaiData.reduce((a, b) => a + (b.nilai || 0), 0) / nilaiData.length;
-      }
-
-      document.getElementById('stat-materi').textContent = `${materiDibaca || 0} / ${totalMateri || 0}`;
-      document.getElementById('stat-kuis').textContent = kuisSelesai || 0;
-      document.getElementById('stat-nilai').textContent = rataNilai > 0 ? Math.round(rataNilai) + '%' : '—';
-      document.getElementById('stat-tugas').textContent = tugasDikirim || 0;
-    } catch (err) { console.error(err); }
-  }
-
-  async function loadAktivitas() {
-    if (!currentSiswa) return;
-    const container = document.getElementById('activity-list');
-    try {
-      const { data, error } = await supabaseClient
-        .from('aktivitas')
-        .select('*')
-        .eq('siswa_id', currentSiswa.id)
-        .order('created_at', { ascending: false })
-        .limit(5);
-
-      if (error) throw error;
-
-      if (!data || data.length === 0) {
-        container.innerHTML = '<p style="text-align:center; color:#64748b; padding:20px;">Belum ada aktivitas.</p>';
-        return;
-      }
-
-      const icons = {
-        materi:  { icon: 'fa-book', bg: '#dbeafe', color: '#1e40af' },
-        video:   { icon: 'fa-video', bg: '#fee2e2', color: '#dc2626' },
-        latihan: { icon: 'fa-pen-to-square', bg: '#dcfce7', color: '#16a34a' },
-        kuis:    { icon: 'fa-clipboard-question', bg: '#fed7aa', color: '#ea580c' },
-        tujuan:  { icon: 'fa-bullseye', bg: '#e9d5ff', color: '#7c3aed' },
-        tugas:   { icon: 'fa-paper-plane', bg: '#fef3c7', color: '#92400e' }
-      };
-
-      container.innerHTML = data.map(a => {
-        const meta = icons[a.tipe] || icons.materi;
-        const waktu = a.created_at ? new Date(a.created_at).toLocaleString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '-';
-        return `
-          <div class="activity-item">
-            <div class="activity-icon" style="background:${meta.bg};color:${meta.color};"><i class="fas ${meta.icon}"></i></div>
-            <div style="flex:1;">
-              <div class="activity-title">${a.judul || a.tipe}</div>
-              <div class="activity-time">${waktu}</div>
-            </div>
-            <span class="activity-badge ${a.status === 'selesai' ? 'done' : 'pending'}">${a.status === 'selesai' ? 'Selesai' : 'Proses'}</span>
-          </div>`;
-      }).join('');
-    } catch (err) { console.error(err); }
-  }
-
-  function logout() {
-    if (!confirm('Yakin ingin keluar?')) return;
-    localStorage.removeItem('siswa_session');
-    window.location.href = 'index.html';
-  }
-
-  document.addEventListener('DOMContentLoaded', async () => {
-    currentSiswa = cekSession();
-    if (!currentSiswa) return;
-
-    const initial = (currentSiswa.nama || 'S').charAt(0).toUpperCase();
-    document.getElementById('user-avatar').textContent = initial;
-    document.getElementById('user-name').textContent = currentSiswa.nama || 'Siswa';
-    document.getElementById('user-kelas').textContent = currentSiswa.kelas || '-';
-    document.getElementById('welcome-name').textContent = (currentSiswa.nama || 'Siswa').split(' ')[0];
-    document.getElementById('greeting').textContent = getGreeting();
-
-    const now = new Date();
-    document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', {
-      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
-    });
-
-    document.getElementById('logout-btn').addEventListener('click', logout);
-
-    await loadStatistik();
-    await loadAktivitas();
-    await loadRiwayat();
-  });
-
-  window.kirimTugas = kirimTugas;
-  window.logout = logout;
-</script>
-
-</body>
-</html>
+  function getFileIcon(filename) {
+    const ext = (filename || '').split('.').pop().toLowerCase();
+    const map = {
+      jpg:'fa-file-image', jpeg:'fa-file-image', png:'fa-file-image',
+      gif:'fa-file-image', webp:'fa-file-image',
+      pdf:'fa-file-pdf', doc:'fa-file-word', docx:'fa-file-word',
+      xls:'fa-file-excel', xlsx:'fa-file-excel',
+      ppt:'fa-file-powerpoint', pptx:'fa-file-powerpoint',
+      txt:'fa-file-lines', zip:'
