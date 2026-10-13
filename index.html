@@ -204,12 +204,6 @@
               <option value="X TP 1">X TP 1</option>
               <option value="X TP 2">X TP 2</option>
               <option value="X TP 3">X TP 3</option>
-              <option value="XI TP 1">XI TP 1</option>
-              <option value="XI TP 2">XI TP 2</option>
-              <option value="XI TP 3">XI TP 3</option>
-              <option value="XII TP 1">XII TP 1</option>
-              <option value="XII TP 2">XII TP 2</option>
-              <option value="XII TP 3">XII TP 3</option>
             </select>
             <i class="fas fa-school field-icon"></i>
           </div>
@@ -392,7 +386,6 @@
         btn.disabled = true;
 
         try {
-          // 1. Cek apakah email sudah terdaftar di tabel `guru`
           const { data: existing, error: checkErr } = await supabaseClient
             .from('guru').select('*').eq('email', email).maybeSingle();
 
@@ -401,7 +394,6 @@
           let guruData;
 
           if (existing) {
-            // Cek password
             if (existing.password !== password) {
               showToast('Password salah untuk email ini!', 'error');
               btn.classList.remove('loading');
@@ -409,7 +401,6 @@
               return;
             }
 
-            // Update login count
             const { data: updated, error: updErr } = await supabaseClient
               .from('guru')
               .update({
@@ -422,7 +413,6 @@
             guruData = updated;
             console.log('✅ Guru existing login:', guruData);
           } else {
-            // AUTO-REGISTER guru baru
             const namaDefault = email.split('@')[0]
               .replace(/[._]/g, ' ')
               .split(' ')
@@ -444,7 +434,6 @@
             console.log('✅ Guru baru terdaftar:', guruData);
           }
 
-          // Simpan session guru
           localStorage.setItem('guru_session', JSON.stringify({
             id: guruData.id,
             email: guruData.email,
